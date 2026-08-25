@@ -1,0 +1,21 @@
+# Put this stream block at the top level of /etc/nginx/nginx.conf (beside the
+# http block), or include the server from an existing top-level stream block.
+stream {
+    upstream forge_lobby_relay {
+        server 127.0.0.1:36744;
+    }
+
+    server {
+        listen 443 ssl;
+        listen [::]:443 ssl;
+        proxy_pass forge_lobby_relay;
+        proxy_connect_timeout 10s;
+        proxy_timeout 2h;
+
+        ssl_certificate /etc/letsencrypt/live/play.mtg-forge-kaorou.vip/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/play.mtg-forge-kaorou.vip/privkey.pem;
+        ssl_protocols TLSv1.2 TLSv1.3;
+        ssl_session_cache shared:FORGE_RELAY:10m;
+        ssl_session_timeout 10m;
+    }
+}

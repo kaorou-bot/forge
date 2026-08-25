@@ -1,0 +1,22 @@
+[Unit]
+Description=Forge Chinese Community Lobby Relay
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=forge-relay
+Group=forge-relay
+WorkingDirectory=/opt/forge-relay
+ExecStart=/usr/bin/java -Xms128m -Xmx512m -Dforge.relay.bind=127.0.0.1 -Dforge.relay.port=36744 -Dforge.relay.health.bind=127.0.0.1 -Dforge.relay.health.port=36745 -jar /opt/forge-relay/forge-lobby-relay.jar
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/forge-relay
+LimitNOFILE=16384
+
+[Install]
+WantedBy=multi-user.target

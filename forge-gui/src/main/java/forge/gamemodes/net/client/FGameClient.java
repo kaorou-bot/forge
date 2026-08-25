@@ -39,6 +39,7 @@ public class FGameClient implements IToServer, IHasForgeLog {
     private final ReplyPool replies = new ReplyPool();
     private volatile boolean disconnectSimulated;
     private Channel channel;
+    private AutoCloseable externalTransport;
 
     public FGameClient(String username, IGuiGame clientGui, String hostname, int port) {
         this.username = username;
@@ -99,7 +100,21 @@ public class FGameClient implements IToServer, IHasForgeLog {
     public void close() {
         if (channel != null)
             channel.close();
+        if (externalTransport != null) {
+            try {
+                externalTransport.close();
+            } catch (Exception e) {
+                netLog.warn("Unable to close external network transport: {}", e.getMessage());
+            } finally {
+                externalTransport = null;
+            }
+        }
         NetworkLogConfig.deactivateNetworkLogging();
+    }
+
+    /** Close this transport together with the Forge connection (for example a relay proxy). */
+    public void setExternalTransport(AutoCloseable externalTransport) {
+        this.externalTransport = externalTransport;
     }
 
     @Override

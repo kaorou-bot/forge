@@ -14,6 +14,8 @@ import forge.net.analysis.AnalysisResult;
 import forge.net.analysis.GameLogMetrics;
 import forge.net.analysis.NetworkLogAnalyzer;
 import forge.util.collect.FCollectionView;
+import forge.relay.RelayServer;
+import forge.relay.client.RelayEndpoint;
 
 import org.testng.Assert;
 import org.testng.SkipException;
@@ -176,6 +178,32 @@ public class NetworkPlayIntegrationTest implements IHasForgeLog {
 
         netLog.info("Test PASSED: {} turns, {} setGameView updates, 0 send errors",
                 result.turnCount, result.clientSetGameViewCount);
+    }
+
+    @Test(timeOut = 90000, description = "Complete Forge protocol through central relay")
+    public void testTrueNetworkTrafficThroughRelay() throws Exception {
+        Deck deck1 = TestDeckLoader.createMinimalDeck("Mountain", 10);
+        Deck deck2 = TestDeckLoader.createMinimalDeck("Forest", 10);
+
+        try (RelayServer relay = new RelayServer("127.0.0.1", 0)) {
+            relay.start();
+            UnifiedNetworkHarness.GameResult result = new UnifiedNetworkHarness()
+                    .playerCount(2)
+                    .remoteClients(1)
+                    .decks(deck1, deck2)
+                    .viaRelay(new RelayEndpoint("127.0.0.1", relay.port()))
+                    .gameTimeout(60000)
+                    .execute();
+
+            Assert.assertTrue(result.gameStarted,
+                    "Relayed game should start: " + result.toSummary());
+            Assert.assertTrue(result.deltaPacketsReceived > 0,
+                    "Relayed client should receive Forge delta packets");
+            Assert.assertTrue(result.clientOpenViewCalled,
+                    "Relayed client should receive openView");
+            Assert.assertEquals(result.sendErrors, 0,
+                    "Relayed game should not add server send errors");
+        }
     }
 
     @Test(timeOut = 150000, description = "UnifiedNetworkHarness local mode test")

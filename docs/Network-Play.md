@@ -18,11 +18,18 @@
 > **Network play is a work-in-progress.** You will encounter bugs. When they appear, they will likely be mid-game and require restarting both the client and host. Please report bugs and issues to help improve stability.
 
 > [!TIP]
-> The **[Forge Discord](https://discord.gg/nsAhGwD)** has a dedicated network play channel. You can use it to find opponents and folks there will be happy to help you with any issues!
+> The Chinese community build is maintained independently. For opponents,
+> troubleshooting, and feedback, join QQ group **813597628**.
 
 ---
 
 # Requirements
+
+In the Chinese community build's default lobby/relay mode, both players only
+need outbound access to the relay over TLS on TCP 443. No inbound firewall rule,
+public IPv4 address, UPnP, or router port forwarding is required. The detailed
+network/port requirements in the table and later sections apply to the optional
+desktop direct-IP diagnostic fallback.
 
 | Requirement | Details |
 |---|---|
@@ -39,6 +46,22 @@
 ---
 
 # Quick Start
+
+1. Confirm every player is running the same Chinese community build.
+2. Open the online play screen:
+   - Mobile: choose **Classic Mode**, then **Play Online**.
+   - Desktop: choose **Online Multiplayer**, then **Lobby**.
+3. The host selects **Create Lobby Room**, enters a room name, and optionally
+   sets a password.
+4. Guests select **Browse Lobby**, choose the room, and enter its password if
+   required. No player needs to exchange an IP address.
+5. Players choose decks and settings, then mark themselves ready.
+6. The host starts the match.
+
+The central lobby is a room browser rather than ranked matchmaking. Arrange
+games and request support in QQ group **813597628**.
+
+## Direct-IP fallback (desktop advanced/diagnostic)
 
 > [!TIP]
 > **There is no built-in matchmaking.** Network play is designed for playing against people you know and manually sharing connection details.

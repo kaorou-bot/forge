@@ -156,6 +156,7 @@ public final class FServerManager implements IHasForgeLog {
     private IDraftEventHandler draftHandler;
     private boolean UPnPMapped = false;
     private int port;
+    private AutoCloseable externalTransport;
     private static final Localizer localizer = Localizer.getInstance();
     private final Thread shutdownHook = new Thread(() -> {
         if (isHosting()) {
@@ -225,8 +226,19 @@ public final class FServerManager implements IHasForgeLog {
     }
 
     public void startServer(final int port) {
+        startServer(port, true);
+    }
+
+    /** Start a loopback-only Forge server intended to be reached through the central relay. */
+    public void startRelayServer(final int port) {
+        startServer(port, false);
+    }
+
+    private void startServer(final int port, final boolean directHosting) {
         this.port = port;
-        String UPnPOption = FModel.getNetPreferences().getPref(ForgeNetPreferences.FNetPref.UPnP);
+        String UPnPOption = directHosting
+                ? FModel.getNetPreferences().getPref(ForgeNetPreferences.FNetPref.UPnP)
+                : "NEVER";
         boolean startUPnP;
         if (UPnPOption.equalsIgnoreCase("ASK")) {
             startUPnP = callUPnPDialog();
@@ -259,7 +271,9 @@ public final class FServerManager implements IHasForgeLog {
                     });
 
             // Bind and start to accept incoming connections.
-            final ChannelFuture ch = b.bind(port).sync().channel().closeFuture();
+            final ChannelFuture ch = (directHosting
+                    ? b.bind(port)
+                    : b.bind("127.0.0.1", port)).sync().channel().closeFuture();
             new Thread(() -> {
                 try {
                     ch.sync();
@@ -316,6 +330,16 @@ public final class FServerManager implements IHasForgeLog {
         clients.clear();
         afkSlots.clear();
 
+        if (externalTransport != null) {
+            try {
+                externalTransport.close();
+            } catch (Exception e) {
+                netLog.warn("Unable to close external network transport: {}", e.getMessage());
+            } finally {
+                externalTransport = null;
+            }
+        }
+
         try {
             bossGroup.shutdownGracefully().sync();
             workerGroup.shutdownGracefully().sync();
@@ -339,6 +363,18 @@ public final class FServerManager implements IHasForgeLog {
 
     public boolean isHosting() {
         return isHosting;
+    }
+
+    /** Close this transport together with the hosted Forge server. */
+    public void setExternalTransport(final AutoCloseable transport) {
+        if (externalTransport != null && externalTransport != transport) {
+            try {
+                externalTransport.close();
+            } catch (Exception e) {
+                netLog.warn("Unable to replace external network transport: {}", e.getMessage());
+            }
+        }
+        externalTransport = transport;
     }
 
     public boolean isUPnPMapped() {

@@ -56,8 +56,13 @@ public class LoadingOverlay extends FOverlay {
         final LoadingOverlay loader = new LoadingOverlay(caption0, true);
         loader.show();
         FThreads.invokeInBackgroundThread(() -> {
-            task.run();
-            FThreads.invokeInEdtLater(loader::hide);
+            try {
+                task.run();
+            } finally {
+                // Never strand the user behind a modal overlay if a background
+                // network or loading task fails unexpectedly.
+                FThreads.invokeInEdtLater(loader::hide);
+            }
         });
     }
 

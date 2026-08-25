@@ -12,6 +12,7 @@ import forge.gamemodes.net.server.FServerManager;
 import forge.gamemodes.net.server.ServerGameLobby;
 import forge.localinstance.properties.ForgeNetPreferences;
 import forge.gui.GuiBase;
+import forge.gui.FThreads;
 import forge.gui.interfaces.IGuiGame;
 import forge.gui.interfaces.ILobbyView;
 import forge.gui.util.SOptionPane;
@@ -23,11 +24,21 @@ import forge.model.FModel;
 import forge.player.GamePlayerUtil;
 import forge.util.Localizer;
 import forge.util.URLValidator;
+import forge.relay.RelayProtocol;
+import forge.relay.client.RelayEndpoint;
+import forge.relay.client.RelayGuestProxy;
+import forge.relay.client.RelayHostSession;
+import forge.relay.client.RelayLobbyClient;
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.IOException;
 import java.util.List;
 
 public class NetConnectUtil {
+    private static final String DEFAULT_RELAY_HOST = "play.mtg-forge-kaorou.vip";
+    private static final int DEFAULT_RELAY_PORT = 443;
+    private static final String RELAY_COMPATIBILITY_VERSION = "forge-cn-net-1";
+
     private NetConnectUtil() { }
 
     /**
@@ -53,13 +64,23 @@ public class NetConnectUtil {
     }
 
     public static ChatMessage host(final IOnlineLobby onlineLobby, final IOnlineChatInterface chatInterface) {
+        return host(onlineLobby, chatInterface, false);
+    }
+
+    private static ChatMessage host(final IOnlineLobby onlineLobby,
+                                    final IOnlineChatInterface chatInterface,
+                                    final boolean relayOnly) {
         final int port = FModel.getNetPreferences().getPrefInt(ForgeNetPreferences.FNetPref.NET_PORT);
         final FServerManager server = FServerManager.getInstance();
         final ServerGameLobby lobby = new ServerGameLobby();
         final ILobbyView view = onlineLobby.setLobby(lobby);
 
         NetworkLogConfig.activateNetworkLogging();
-        server.startServer(port);
+        if (relayOnly) {
+            server.startRelayServer(port);
+        } else {
+            server.startServer(port);
+        }
         server.setLobby(lobby);
 
         lobby.setListener(new IUpdateable() {
@@ -82,7 +103,8 @@ public class NetConnectUtil {
             }
             @Override
             public void message(final String source, final String message, final ChatMessage.MessageType type) {
-                chatInterface.addMessage(new ChatMessage(source, message, type));
+                FThreads.invokeInEdtLater(() ->
+                        chatInterface.addMessage(new ChatMessage(source, message, type)));
             }
             @Override
             public void close() {
@@ -116,6 +138,60 @@ public class NetConnectUtil {
         server.broadcast(new MessageEvent(server.formatAfkTimeoutMessage()));
 
         return new ChatMessage(null, Localizer.getInstance().getMessage("lblHostingPortOnN", String.valueOf(port)));
+    }
+
+    public static RelayEndpoint getRelayEndpoint() {
+        final String host = System.getProperty("forge.relay.host", DEFAULT_RELAY_HOST);
+        final int port = Integer.getInteger("forge.relay.port", DEFAULT_RELAY_PORT);
+        final boolean tlsDefault = !("127.0.0.1".equals(host) || "localhost".equalsIgnoreCase(host)
+                || "::1".equals(host));
+        final boolean tls = Boolean.parseBoolean(System.getProperty(
+                "forge.relay.tls", Boolean.toString(tlsDefault)));
+        return new RelayEndpoint(host, port, tls);
+    }
+
+    public static String getRelayCompatibilityVersion() {
+        return RELAY_COMPATIBILITY_VERSION;
+    }
+
+    public static List<RelayProtocol.RoomSnapshot> listRelayRooms() throws IOException {
+        return RelayLobbyClient.listRooms(getRelayEndpoint(), getRelayCompatibilityVersion());
+    }
+
+    public static ChatMessage hostRelay(final IOnlineLobby onlineLobby,
+                                        final IOnlineChatInterface chatInterface,
+                                        final String roomName, final String format,
+                                        final String password, final int maxPlayers) throws IOException {
+        ensurePlayerName();
+        final FServerManager server = FServerManager.getInstance();
+        // Relay setup is invoked from a worker thread because registration and TLS can block.
+        // Only the lobby/view initialization belongs on the UI thread.
+        try {
+            FThreads.invokeInEdtAndWait(() -> host(onlineLobby, chatInterface, true));
+        } catch (RuntimeException e) {
+            if (server.isHosting()) {
+                server.stopServer();
+            }
+            throw new IOException("Unable to initialize the local lobby: "
+                    + rootCauseMessage(e), e);
+        }
+        final int localPort = FModel.getNetPreferences().getPrefInt(ForgeNetPreferences.FNetPref.NET_PORT);
+        try {
+            final RelayHostSession relay = RelayHostSession.open(
+                    getRelayEndpoint(), localPort, getRelayCompatibilityVersion(), roomName,
+                    FModel.getPreferences().getPref(FPref.PLAYER_NAME), format, password,
+                    maxPlayers, error -> FThreads.invokeInEdtLater(() ->
+                            onlineLobby.closeConn(Localizer.getInstance().getMessageorUseDefault(
+                                    "lblRelayConnectionLost", "与中央大厅的连接已断开：%s", error.getMessage()))));
+            server.setExternalTransport(relay);
+            return new ChatMessage(null, Localizer.getInstance().getMessageorUseDefault(
+                    "lblRelayRoomCreated", "已创建大厅房间：%s（房间号 %s）", roomName, relay.roomId()));
+        } catch (IOException e) {
+            if (server.isHosting()) {
+                server.stopServer();
+            }
+            throw e;
+        }
     }
 
     public static void copyHostedServerUrl() {
@@ -163,6 +239,12 @@ public class NetConnectUtil {
     }
 
     public static ChatMessage join(final String url, final IOnlineLobby onlineLobby, final IOnlineChatInterface chatInterface) {
+        return join(url, onlineLobby, chatInterface, null);
+    }
+
+    private static ChatMessage join(final String url, final IOnlineLobby onlineLobby,
+                                    final IOnlineChatInterface chatInterface,
+                                    final AutoCloseable externalTransport) {
         final IGuiGame gui = GuiBase.getInterface().getNewGuiGame();
         String hostname;
         int port;
@@ -176,7 +258,21 @@ public class NetConnectUtil {
         port = hostPort.port();
         if (port == -1) port = Integer.valueOf(ForgeNetPreferences.FNetPref.NET_PORT.getDefault());
 
-        final FGameClient client = new FGameClient(FModel.getPreferences().getPref(FPref.PLAYER_NAME), gui, hostname, port);
+        final FGameClient client = prepareJoin(hostname, port, gui, onlineLobby,
+                chatInterface, externalTransport, url);
+
+        return connectPreparedClient(hostname, port, client, onlineLobby, chatInterface);
+    }
+
+    private static FGameClient prepareJoin(final String hostname, final int port,
+                                           final IGuiGame gui,
+                                           final IOnlineLobby onlineLobby,
+                                           final IOnlineChatInterface chatInterface,
+                                           final AutoCloseable externalTransport,
+                                           final String displayUrl) {
+        final FGameClient client = new FGameClient(
+                FModel.getPreferences().getPref(FPref.PLAYER_NAME), gui, hostname, port);
+        client.setExternalTransport(externalTransport);
         onlineLobby.setClient(client);
         chatInterface.setGameClient(client);
         final ClientGameLobby lobby = new ClientGameLobby();
@@ -188,16 +284,21 @@ public class NetConnectUtil {
         client.addLobbyListener(new ILobbyListener() {
             @Override
             public void message(final String source, final String message, final ChatMessage.MessageType type) {
-                chatInterface.addMessage(new ChatMessage(source, message, type));
+                FThreads.invokeInEdtLater(() ->
+                        chatInterface.addMessage(new ChatMessage(source, message, type)));
             }
             @Override
             public void update(final GameLobbyData state, final int slot) {
-                lobby.setLocalPlayer(slot);
-                lobby.setData(state);
+                FThreads.invokeInEdtLater(() -> {
+                    lobby.setLocalPlayer(slot);
+                    lobby.setData(state);
+                });
             }
             @Override
             public void close() {
-                onlineLobby.closeConn(Localizer.getInstance().getMessage("lblYourConnectionToHostWasInterrupted", url));
+                FThreads.invokeInEdtLater(() -> onlineLobby.closeConn(
+                        Localizer.getInstance().getMessage(
+                                "lblYourConnectionToHostWasInterrupted", displayUrl)));
             }
             @Override
             public ClientGameLobby getLobby() {
@@ -207,6 +308,13 @@ public class NetConnectUtil {
         client.setDraftHandler(view.getDraftHandler());
         view.setPlayerChangeListener((index, event) -> client.send(event));
 
+        return client;
+    }
+
+    private static ChatMessage connectPreparedClient(final String hostname, final int port,
+                                                      final FGameClient client,
+                                                      final IOnlineLobby onlineLobby,
+                                                      final IOnlineChatInterface chatInterface) {
         NetworkLogConfig.activateNetworkLogging();
         try {
             client.connect();
@@ -214,10 +322,52 @@ public class NetConnectUtil {
         catch (Exception ex) {
             // Return error with details for GUI display
             String errorDetail = getConnectionErrorMessage(ex, hostname, port);
+            client.close();
+            FThreads.invokeInEdtAndWait(() -> {
+                onlineLobby.setClient(null);
+                chatInterface.setGameClient(null);
+            });
             return new ChatMessage(null, ForgeConstants.CONN_ERROR_PREFIX + errorDetail);
         }
 
         return new ChatMessage(null, Localizer.getInstance().getMessage("lblConnectedIPPort", hostname, String.valueOf(port)));
+    }
+
+    public static ChatMessage joinRelay(final RelayProtocol.RoomSnapshot room, final String password,
+                                        final IOnlineLobby onlineLobby,
+                                        final IOnlineChatInterface chatInterface) throws IOException {
+        ensurePlayerName();
+        final RelayGuestProxy proxy = RelayGuestProxy.open(
+                getRelayEndpoint(), getRelayCompatibilityVersion(), room.roomId(), password);
+        boolean success = false;
+        try {
+            final String localUrl = "127.0.0.1:" + proxy.localPort();
+            final FGameClient[] client = new FGameClient[1];
+            // Build and install libGDX lobby widgets on the UI thread, then perform the
+            // blocking loopback Netty connect on this worker thread.
+            try {
+                FThreads.invokeInEdtAndWait(() -> {
+                    final IGuiGame gui = GuiBase.getInterface().getNewGuiGame();
+                    client[0] = prepareJoin("127.0.0.1", proxy.localPort(), gui,
+                            onlineLobby, chatInterface, proxy, localUrl);
+                });
+            } catch (RuntimeException e) {
+                throw new IOException("Unable to initialize the local lobby: "
+                        + rootCauseMessage(e), e);
+            }
+            final ChatMessage result = connectPreparedClient(
+                    "127.0.0.1", proxy.localPort(), client[0],
+                    onlineLobby, chatInterface);
+            final String message = result.getMessage();
+            success = !ForgeConstants.CLOSE_CONN_COMMAND.equals(message)
+                    && !ForgeConstants.INVALID_HOST_COMMAND.equals(message)
+                    && (message == null || !message.startsWith(ForgeConstants.CONN_ERROR_PREFIX));
+            return result;
+        } finally {
+            if (!success) {
+                proxy.close();
+            }
+        }
     }
 
     /**
@@ -255,4 +405,16 @@ public class NetConnectUtil {
 
         return sb.toString();
     }
+
+    private static String rootCauseMessage(final Throwable throwable) {
+        Throwable cause = throwable;
+        while (cause.getCause() != null && cause.getCause() != cause) {
+            cause = cause.getCause();
+        }
+        final String message = cause.getMessage();
+        return message == null || message.isBlank()
+                ? cause.getClass().getSimpleName()
+                : message;
+    }
+
 }

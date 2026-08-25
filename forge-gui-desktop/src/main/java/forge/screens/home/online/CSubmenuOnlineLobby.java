@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 import java.net.BindException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -42,6 +43,7 @@ import forge.toolbox.FLabel;
 import forge.toolbox.FOptionPane;
 import forge.toolbox.FSkin;
 import forge.util.Localizer;
+import forge.relay.RelayProtocol;
 
 public enum CSubmenuOnlineLobby implements ICDoc, IMenuProvider {
     SINGLETON_INSTANCE;
@@ -75,6 +77,156 @@ public enum CSubmenuOnlineLobby implements ICDoc, IMenuProvider {
         if (url == null) { return; }
 
         FThreads.invokeInBackgroundThread(() -> join(url));
+    }
+
+    void hostRelayGame() {
+        NetConnectUtil.ensurePlayerName();
+        final Localizer localizer = Localizer.getInstance();
+        final String roomName = SOptionPane.showInputDialog(
+                localizer.getMessageorUseDefault("lblRelayRoomNamePrompt", "请输入大厅房间名称"),
+                localizer.getMessageorUseDefault("lblCreateRelayRoom", "创建大厅房间"));
+        if (roomName == null || roomName.isBlank()) {
+            return;
+        }
+        final String password = SOptionPane.showInputDialog(
+                localizer.getMessageorUseDefault("lblRelayPasswordOptionalPrompt", "房间密码（可留空）"),
+                localizer.getMessageorUseDefault("lblCreateRelayRoom", "创建大厅房间"));
+        if (password == null) {
+            return;
+        }
+
+        FThreads.invokeInBackgroundThread(() -> hostRelay(roomName.trim(), password));
+    }
+
+    void browseRelayRooms() {
+        SwingUtilities.invokeLater(() -> {
+            SOverlayUtils.startGameOverlay(Localizer.getInstance().getMessageorUseDefault(
+                    "lblLoadingRelayRooms", "正在读取大厅房间……"));
+            SOverlayUtils.showOverlay();
+        });
+        FThreads.invokeInBackgroundThread(() -> {
+            try {
+                final List<RelayProtocol.RoomSnapshot> rooms = NetConnectUtil.listRelayRooms();
+                SwingUtilities.invokeLater(() -> showRelayRoomPicker(rooms));
+            } catch (IOException e) {
+                SwingUtilities.invokeLater(() -> {
+                    SOverlayUtils.hideOverlay();
+                    FOptionPane.showErrorDialog(
+                            Localizer.getInstance().getMessageorUseDefault(
+                                    "lblRelayUnavailable", "无法连接中央大厅：%s", e.getMessage()),
+                            Localizer.getInstance().getMessage("lblConnectionError"));
+                });
+            }
+        });
+    }
+
+    private void hostRelay(final String roomName, final String password) {
+        SwingUtilities.invokeLater(() -> {
+            SOverlayUtils.startGameOverlay(Localizer.getInstance().getMessageorUseDefault(
+                    "lblCreatingRelayRoom", "正在创建大厅房间……"));
+            SOverlayUtils.showOverlay();
+        });
+        try {
+            final ChatMessage result = NetConnectUtil.hostRelay(
+                    VSubmenuOnlineLobby.SINGLETON_INSTANCE, FNetOverlay.SINGLETON_INSTANCE,
+                    roomName, "Constructed", password, 8);
+            SwingUtilities.invokeLater(() -> {
+                SOverlayUtils.hideOverlay();
+                FNetOverlay.SINGLETON_INSTANCE.show(result);
+                if (CHomeUI.SINGLETON_INSTANCE.getCurrentDocID() == EDocID.HOME_NETWORK) {
+                    VSubmenuOnlineLobby.SINGLETON_INSTANCE.populate();
+                }
+            });
+        } catch (IOException e) {
+            SwingUtilities.invokeLater(() -> {
+                SOverlayUtils.hideOverlay();
+                VSubmenuOnlineLobby.SINGLETON_INSTANCE.closeConn("");
+                FOptionPane.showErrorDialog(
+                        Localizer.getInstance().getMessageorUseDefault(
+                                "lblRelayRoomCreateFailed", "创建大厅房间失败：%s", e.getMessage()),
+                        Localizer.getInstance().getMessage("lblConnectionError"));
+            });
+        }
+    }
+
+    private void showRelayRoomPicker(final List<RelayProtocol.RoomSnapshot> rooms) {
+        SOverlayUtils.hideOverlay();
+        final Localizer localizer = Localizer.getInstance();
+        if (rooms.isEmpty()) {
+            FOptionPane.showMessageDialog(localizer.getMessageorUseDefault(
+                    "lblNoRelayRooms", "当前没有可加入的大厅房间。"));
+            return;
+        }
+
+        final List<String> labels = rooms.stream().map(CSubmenuOnlineLobby::relayRoomLabel).toList();
+        final String selected = SOptionPane.showInputDialog(
+                localizer.getMessageorUseDefault("lblSelectRelayRoom", "请选择要加入的房间"),
+                localizer.getMessageorUseDefault("lblBrowseRelayRooms", "浏览大厅"),
+                null, labels.get(0), labels, false);
+        if (selected == null) {
+            return;
+        }
+        final int index = labels.indexOf(selected);
+        if (index < 0) {
+            return;
+        }
+        final RelayProtocol.RoomSnapshot room = rooms.get(index);
+        String password = "";
+        if (room.passwordProtected()) {
+            password = SOptionPane.showInputDialog(
+                    localizer.getMessageorUseDefault("lblRelayPasswordPrompt", "请输入房间密码"),
+                    localizer.getMessageorUseDefault("lblJoinRelayRoom", "加入大厅房间"));
+            if (password == null) {
+                return;
+            }
+        }
+        final String finalPassword = password;
+        FThreads.invokeInBackgroundThread(() -> joinRelay(room, finalPassword));
+    }
+
+    private void joinRelay(final RelayProtocol.RoomSnapshot room, final String password) {
+        SwingUtilities.invokeLater(() -> {
+            SOverlayUtils.startGameOverlay(Localizer.getInstance().getMessage("lblConnectingToServer"));
+            SOverlayUtils.showOverlay();
+        });
+        try {
+            final ChatMessage result = NetConnectUtil.joinRelay(room, password,
+                    VSubmenuOnlineLobby.SINGLETON_INSTANCE, FNetOverlay.SINGLETON_INSTANCE);
+            SwingUtilities.invokeLater(() -> handleRelayJoinResult(result, room.name()));
+        } catch (IOException e) {
+            SwingUtilities.invokeLater(() -> {
+                SOverlayUtils.hideOverlay();
+                FOptionPane.showErrorDialog(
+                        Localizer.getInstance().getMessageorUseDefault(
+                                "lblRelayJoinFailed", "加入大厅房间失败：%s", e.getMessage()),
+                        Localizer.getInstance().getMessage("lblConnectionError"));
+            });
+        }
+    }
+
+    private void handleRelayJoinResult(final ChatMessage result, final String roomName) {
+        SOverlayUtils.hideOverlay();
+        final String message = result.getMessage();
+        if (Objects.equals(message, ForgeConstants.CLOSE_CONN_COMMAND)
+                || (message != null && message.startsWith(ForgeConstants.CONN_ERROR_PREFIX))) {
+            final String detail = message != null && message.startsWith(ForgeConstants.CONN_ERROR_PREFIX)
+                    ? message.substring(ForgeConstants.CONN_ERROR_PREFIX.length())
+                    : Localizer.getInstance().getMessageorUseDefault(
+                            "lblRelayJoinFailedShort", "无法加入房间 %s", roomName);
+            FOptionPane.showErrorDialog(detail, Localizer.getInstance().getMessage("lblConnectionError"));
+            return;
+        }
+        FNetOverlay.SINGLETON_INSTANCE.show(result);
+        if (CHomeUI.SINGLETON_INSTANCE.getCurrentDocID() == EDocID.HOME_NETWORK) {
+            VSubmenuOnlineLobby.SINGLETON_INSTANCE.populate();
+        }
+    }
+
+    private static String relayRoomLabel(final RelayProtocol.RoomSnapshot room) {
+        final String lock = room.passwordProtected() ? "[密码] " : "";
+        final String format = room.format().isBlank() ? "" : " · " + room.format();
+        return String.format("%s%s · %s · %d/%d%s", lock, room.name(), room.ownerName(),
+                room.players(), room.maxPlayers(), format);
     }
 
     private void host() {

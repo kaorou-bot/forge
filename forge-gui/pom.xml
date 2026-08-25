@@ -17,6 +17,11 @@
     <dependencies>
         <dependency>
             <groupId>forge</groupId>
+            <artifactId>forge-relay-client</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>forge</groupId>
             <artifactId>forge-core</artifactId>
             <version>${project.version}</version>
         </dependency>
