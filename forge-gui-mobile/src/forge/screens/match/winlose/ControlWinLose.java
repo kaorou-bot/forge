@@ -1,9 +1,13 @@
 package forge.screens.match.winlose;
 
+import java.util.Collection;
+
 import forge.Forge;
 import forge.assets.FSkin;
 import forge.game.GameView;
 import forge.game.player.PlayerView;
+import forge.gamemodes.match.NextGameDecision;
+import forge.interfaces.IGameController;
 import forge.screens.match.MatchController;
 
 /** 
@@ -46,6 +50,9 @@ public class ControlWinLose {
 
     /** Action performed when "continue" button is pressed in default win/lose UI. */
     public void actionOnContinue() {
+        if (sendNetworkDecision(NextGameDecision.CONTINUE)) {
+            return;
+        }
         view.hide();
         saveOptions();
 
@@ -55,6 +62,9 @@ public class ControlWinLose {
 
     /** Action performed when "restart" button is pressed in default win/lose UI. */
     public void actionOnRestart() {
+        if (sendNetworkDecision(NextGameDecision.NEW)) {
+            return;
+        }
         view.hide();
         saveOptions();
         try { MatchController.getHostedMatch().restartMatch();
@@ -63,6 +73,10 @@ public class ControlWinLose {
 
     /** Action performed when "quit" button is pressed in default win/lose UI. */
     public void actionOnQuit() {
+        if (sendNetworkDecision(NextGameDecision.QUIT)) {
+            Forge.setCursor(FSkin.getCursor().get(0), "0");
+            return;
+        }
         boolean openHomeScreen = false;
         // Reset other stuff
         saveOptions();
@@ -78,6 +92,39 @@ public class ControlWinLose {
             Forge.openHomeScreen(Forge.lastButtonIndex, Forge.getCurrentScreen());
         //reset cursor
         Forge.setCursor(FSkin.getCursor().get(0), "0");
+    }
+
+    /**
+     * Network matches do not have a local {@link forge.gamemodes.match.HostedMatch}
+     * on a joining client. Send the post-game choice through its network game
+     * controller so the host can finish the match and return every client to the
+     * lobby. The old mobile path swallowed the resulting null dereference, which
+     * made the win/lose buttons appear to do nothing after an online game.
+     */
+    private boolean sendNetworkDecision(final NextGameDecision decision) {
+        if (!MatchController.instance.isNetGame()) {
+            return false;
+        }
+
+        final Collection<IGameController> controllers =
+                MatchController.instance.getOriginalGameControllers();
+        if (controllers.isEmpty()) {
+            final IGameController spectator = MatchController.instance.getGameController();
+            if (spectator == null) {
+                return false;
+            }
+            view.hide();
+            saveOptions();
+            spectator.nextGameDecision(decision);
+            return true;
+        }
+
+        view.hide();
+        saveOptions();
+        for (final IGameController controller : controllers) {
+            controller.nextGameDecision(decision);
+        }
+        return true;
     }
 
     /**
