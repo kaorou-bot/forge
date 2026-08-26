@@ -1,6 +1,7 @@
 package forge.gamemodes.net;
 
 import forge.gamemodes.match.AbstractGuiGame;
+import forge.gamemodes.match.GameLobby;
 import forge.gamemodes.match.GameLobby.GameLobbyData;
 import forge.gamemodes.match.LobbySlotType;
 import forge.gamemodes.net.client.ClientGameLobby;
@@ -64,15 +65,15 @@ public class NetConnectUtil {
     }
 
     public static ChatMessage host(final IOnlineLobby onlineLobby, final IOnlineChatInterface chatInterface) {
-        return host(onlineLobby, chatInterface, false);
+        return host(onlineLobby, chatInterface, false, GameLobby.MIN_PLAYERS);
     }
 
     private static ChatMessage host(final IOnlineLobby onlineLobby,
                                     final IOnlineChatInterface chatInterface,
-                                    final boolean relayOnly) {
+                                    final boolean relayOnly, final int playerLimit) {
         final int port = FModel.getNetPreferences().getPrefInt(ForgeNetPreferences.FNetPref.NET_PORT);
         final FServerManager server = FServerManager.getInstance();
-        final ServerGameLobby lobby = new ServerGameLobby();
+        final ServerGameLobby lobby = new ServerGameLobby(playerLimit, relayOnly);
         final ILobbyView view = onlineLobby.setLobby(lobby);
 
         NetworkLogConfig.activateNetworkLogging();
@@ -167,7 +168,8 @@ public class NetConnectUtil {
         // Relay setup is invoked from a worker thread because registration and TLS can block.
         // Only the lobby/view initialization belongs on the UI thread.
         try {
-            FThreads.invokeInEdtAndWait(() -> host(onlineLobby, chatInterface, true));
+            FThreads.invokeInEdtAndWait(() -> host(
+                    onlineLobby, chatInterface, true, maxPlayers));
         } catch (RuntimeException e) {
             if (server.isHosting()) {
                 server.stopServer();
@@ -296,9 +298,12 @@ public class NetConnectUtil {
             }
             @Override
             public void close() {
-                FThreads.invokeInEdtLater(() -> onlineLobby.closeConn(
-                        Localizer.getInstance().getMessage(
-                                "lblYourConnectionToHostWasInterrupted", displayUrl)));
+                FThreads.invokeInEdtLater(() -> {
+                    onlineLobby.setClient(null);
+                    chatInterface.setGameClient(null);
+                    onlineLobby.closeConn(Localizer.getInstance().getMessage(
+                            "lblYourConnectionToHostWasInterrupted", displayUrl));
+                });
             }
             @Override
             public ClientGameLobby getLobby() {

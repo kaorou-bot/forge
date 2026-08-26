@@ -211,3 +211,25 @@ After this change, both directions were verified on an Android 14 device:
 Do not diagnose a room-list success as proof that persistent control messages
 work. When this class of failure returns, log each protocol stage and compare
 both sides of the TLS edge before changing timeouts or UI code.
+
+## Multiplayer capacity and post-match mobile cleanup (2026-08-26)
+
+Relay rooms are no longer hard-coded to eight slots. The owner chooses a fixed
+capacity from two through eight when creating a room, and that capacity is used
+when constructing `ServerGameLobby`. Real relay integration tests cover three,
+four, and eight players in addition to the normal two-player path. Keep the
+capacity fixed for the lifetime of a room; changing slot count after clients
+have synchronized can invalidate lobby indices and remote-controller mappings.
+
+Android also needs explicit UI cleanup when the host ends a match. A remote
+guest receives `afterGameEnd` without necessarily pressing its own win/lose
+button. The old path navigated back while leaving `ViewWinLose` registered in
+the global `FOverlay` stack. It was no longer drawn on the lobby screen, but
+`FDropDown.getContainer()` still selected that stale top overlay, so the lobby
+menu was inserted into an invisible container and appeared unresponsive.
+
+The shared match-exit path now hides all match overlays, clears the stored
+win/lose view, and only then removes the match screen. Apply this cleanup both
+when the local Android player chooses Quit and when a host-generated
+`afterGameEnd` callback arrives. Do not treat this symptom as a relay disconnect:
+the control connection and room remain healthy throughout the failure.

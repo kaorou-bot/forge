@@ -69,6 +69,7 @@ import forge.screens.match.winlose.ViewWinLose;
 import forge.sound.MusicPlaylist;
 import forge.sound.SoundSystem;
 import forge.toolbox.FCardPanel;
+import forge.toolbox.FOverlay;
 import forge.toolbox.FScrollPane;
 
 public class MatchScreen extends FScreen {
@@ -310,6 +311,18 @@ public class MatchScreen extends FScreen {
 
     public ViewWinLose getViewWinLose() {
         return viewWinLose;
+    }
+
+    /**
+     * Remove every modal surface owned by the finished match before returning
+     * to the lobby. A remote player can receive afterGameEnd without pressing a
+     * button on ViewWinLose. If that overlay remains in the global stack, the
+     * lobby popup menu is attached to the invisible match overlay and appears
+     * to stop responding.
+     */
+    public void clearMatchOverlays() {
+        FOverlay.hideAll();
+        viewWinLose = null;
     }
 
     public VPlayerPanel getBottomPlayerPanel() {

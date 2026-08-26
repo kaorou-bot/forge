@@ -59,7 +59,9 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class UnifiedNetworkHarness implements IHasForgeLog {
 
-    private static final String[] PLAYER_NAMES = {"Alice (Host AI)", "Bob (Remote)", "Charlie (Remote)", "Diana (Remote)"};
+    private static final String[] PLAYER_NAMES = {
+            "Alice (Host AI)", "Bob (Remote)", "Charlie (Remote)", "Diana (Remote)",
+            "Eve (Remote)", "Frank (Remote)", "Grace (Remote)", "Heidi (Remote)"};
 
     private static final long DEFAULT_CONNECTION_TIMEOUT_MS = 30000;
     private static final long DEFAULT_GAME_TIMEOUT_MS = 300000; // 5 minutes
@@ -86,8 +88,8 @@ public class UnifiedNetworkHarness implements IHasForgeLog {
     private final AtomicBoolean serverRunning = new AtomicBoolean(false);
 
     public UnifiedNetworkHarness playerCount(int count) {
-        if (count < 2 || count > 4) {
-            throw new IllegalArgumentException("Player count must be 2-4, got: " + count);
+        if (count < 2 || count > 8) {
+            throw new IllegalArgumentException("Player count must be 2-8, got: " + count);
         }
         this.playerCount = count;
         return this;
@@ -194,13 +196,8 @@ public class UnifiedNetworkHarness implements IHasForgeLog {
             logServerInstanceBanner("LocalAI", playerCount, port);
 
             // 2. Create lobby
-            lobby = new ServerGameLobby();
+            lobby = new ServerGameLobby(playerCount);
             server.setLobby(lobby);
-
-            // Add slots for multiplayer
-            for (int i = 2; i < playerCount; i++) {
-                lobby.addSlot();
-            }
 
             // Apply Commander variant if enabled
             if (commander) {
@@ -290,14 +287,9 @@ public class UnifiedNetworkHarness implements IHasForgeLog {
             logServerInstanceBanner("RemoteNetwork", playerCount, port);
 
             // 2. Create lobby
-            lobby = new ServerGameLobby();
+            lobby = new ServerGameLobby(playerCount);
             server.setLobby(lobby);
             setupLobbyListener();
-
-            // Add slots for multiplayer
-            for (int i = 2; i < playerCount; i++) {
-                lobby.addSlot();
-            }
 
             // Apply Commander variant if enabled
             if (commander) {

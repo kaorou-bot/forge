@@ -116,6 +116,7 @@ public class ControlWinLose {
             view.hide();
             saveOptions();
             spectator.nextGameDecision(decision);
+            leaveNetworkMatchScreen(decision);
             return true;
         }
 
@@ -124,7 +125,21 @@ public class ControlWinLose {
         for (final IGameController controller : controllers) {
             controller.nextGameDecision(decision);
         }
+        leaveNetworkMatchScreen(decision);
         return true;
+    }
+
+    /**
+     * A relay response can be delayed while a multiplayer match is being torn
+     * down. Do not keep Android trapped behind the hidden win/lose overlay:
+     * return to the lobby immediately after sending QUIT. The later
+     * afterGameEnd callback checks the active screen and will not navigate a
+     * second time.
+     */
+    private static void leaveNetworkMatchScreen(final NextGameDecision decision) {
+        if (decision == NextGameDecision.QUIT) {
+            MatchController.returnToLobbyAfterNetworkMatch();
+        }
     }
 
     /**

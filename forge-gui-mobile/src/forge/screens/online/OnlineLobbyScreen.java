@@ -18,18 +18,21 @@ import forge.gui.FThreads;
 import forge.gui.interfaces.ILobbyView;
 import forge.gui.util.SOptionPane;
 import forge.localinstance.properties.ForgeConstants;
-import forge.localinstance.skin.FSkinProp;
 import forge.screens.LoadingOverlay;
 import forge.screens.constructed.LobbyScreen;
+import forge.screens.match.MatchController;
 import forge.screens.online.OnlineMenu.OnlineScreen;
 import forge.toolbox.FButton;
 import forge.toolbox.FLabel;
+import forge.toolbox.FOptionPane;
+import forge.toolbox.FOverlay;
 import forge.util.Utils;
 import forge.relay.RelayProtocol;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class OnlineLobbyScreen extends LobbyScreen implements IOnlineLobby {
 
@@ -90,31 +93,74 @@ public class OnlineLobbyScreen extends LobbyScreen implements IOnlineLobby {
         OnlineLobbyScreen.gameLobby = gameLobby;
     }
 
-    private static FGameClient fGameClient;
+    private static volatile FGameClient fGameClient;
+    private static final AtomicBoolean intentionalDisconnect = new AtomicBoolean(false);
 
     public static FGameClient getfGameClient() {
         return fGameClient;
     }
 
     public static void closeClient() {
-        getfGameClient().close();
+        final FGameClient client = fGameClient;
         fGameClient = null;
+        if (client != null) {
+            client.close();
+        }
+    }
+
+    /**
+     * Mark a user-requested disconnect before closing any network channel. The
+     * channelInactive callback is asynchronous and must not navigate back a
+     * second time after the UI has already left the lobby.
+     */
+    public static void beginIntentionalDisconnect() {
+        intentionalDisconnect.set(true);
+        clearGameLobby();
+    }
+
+    /**
+     * Network shutdown may wait for Netty event loops and the relay transport,
+     * so callers must run this method on a background thread.
+     */
+    public static void shutdownConnection() {
+        final FServerManager server = FServerManager.getInstance();
+        try {
+            if (server != null && server.isHosting()) {
+                server.unsetReady();
+                server.stopServer();
+            }
+        } finally {
+            closeClient();
+        }
     }
 
     @Override
     public void closeConn(String msg) {
         clearGameLobby();
-        Forge.back();
-        if (msg.length() > 0) {
-            FThreads.invokeInBackgroundThread(() -> {
-                final boolean callBackAlwaysTrue = SOptionPane.showOptionDialog(msg, Forge.getLocalizer().getMessage("lblError"), FSkinProp.ICO_WARNING, List.of(Forge.getLocalizer().getMessage("lblOK")), 1) == 0;
-                if (callBackAlwaysTrue) { //to activate online menu popup when player press play online
-                    if(FServerManager.getInstance() != null)
-                        FServerManager.getInstance().stopServer();
-                    if(getfGameClient() != null)
-                        closeClient();
-                }
-            });
+        fGameClient = null;
+        if (intentionalDisconnect.get()) {
+            return;
+        }
+
+        // A host can disappear while this client is still on the match screen
+        // or while a win/lose/loading overlay is active. Those overlays keep
+        // intercepting touches after a blind Forge.back(), making the lobby
+        // menu appear dead. Reset the transient UI first, then put the client
+        // on the known online-lobby screen.
+        FOverlay.hideAll();
+        if (Forge.getCurrentScreen() == MatchController.getView()) {
+            Forge.back(true);
+        }
+        if (Forge.getCurrentScreen() != this) {
+            Forge.openScreen(this, true);
+        }
+        revalidate();
+        OnlineScreen.Lobby.update();
+
+        if (msg != null && !msg.isEmpty()) {
+            FOptionPane.showMessageDialog(msg,
+                    Forge.getLocalizer().getMessage("lblError"),
+                    FOptionPane.WARNING_ICON);
         }
     }
 
@@ -127,6 +173,9 @@ public class OnlineLobbyScreen extends LobbyScreen implements IOnlineLobby {
     @Override
     public void setClient(FGameClient client) {
         fGameClient = client;
+        if (client != null) {
+            intentionalDisconnect.set(false);
+        }
     }
 
     @Override
@@ -201,6 +250,17 @@ public class OnlineLobbyScreen extends LobbyScreen implements IOnlineLobby {
             if (roomName == null || roomName.isBlank()) {
                 return;
             }
+            final List<String> playerLimits = List.of("2", "3", "4", "5", "6", "7", "8");
+            final String selectedPlayerLimit = SOptionPane.showInputDialog(
+                    Forge.getLocalizer().getMessageorUseDefault(
+                            "lblRelayPlayerLimitPrompt", "Maximum players (2-8)"),
+                    Forge.getLocalizer().getMessageorUseDefault(
+                            "lblCreateRelayRoom", "Create Lobby Room"),
+                    null, playerLimits.get(0), playerLimits, false);
+            if (selectedPlayerLimit == null) {
+                return;
+            }
+            final int maxPlayers = Integer.parseInt(selectedPlayerLimit);
             final String password = SOptionPane.showInputDialog(
                     Forge.getLocalizer().getMessageorUseDefault(
                             "lblRelayPasswordOptionalPrompt", "Password (optional)"),
@@ -209,7 +269,8 @@ public class OnlineLobbyScreen extends LobbyScreen implements IOnlineLobby {
             if (password == null) {
                 return;
             }
-            FThreads.invokeInEdtLater(() -> startRelayHost(roomName.trim(), password));
+            FThreads.invokeInEdtLater(() ->
+                    startRelayHost(roomName.trim(), password, maxPlayers));
         });
     }
 
@@ -232,7 +293,8 @@ public class OnlineLobbyScreen extends LobbyScreen implements IOnlineLobby {
         });
     }
 
-    private void startRelayHost(final String roomName, final String password) {
+    private void startRelayHost(final String roomName, final String password,
+                                final int maxPlayers) {
         setGameLobby(getLobby());
         revalidate();
         final IOnlineChatInterface chatInterface =
@@ -245,7 +307,7 @@ public class OnlineLobbyScreen extends LobbyScreen implements IOnlineLobby {
                     try {
                         final ChatMessage result = NetConnectUtil.hostRelay(
                                 OnlineLobbyScreen.this, chatInterface, roomName,
-                                "Constructed", password, 8);
+                                "Constructed", password, maxPlayers);
                         FThreads.invokeInEdtLater(() -> {
                             chatInterface.addMessage(result);
                             OnlineScreen.Lobby.update();

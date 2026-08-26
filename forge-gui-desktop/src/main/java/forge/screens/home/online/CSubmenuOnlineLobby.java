@@ -88,6 +88,15 @@ public enum CSubmenuOnlineLobby implements ICDoc, IMenuProvider {
         if (roomName == null || roomName.isBlank()) {
             return;
         }
+        final List<String> playerLimits = List.of("2", "3", "4", "5", "6", "7", "8");
+        final String selectedPlayerLimit = SOptionPane.showInputDialog(
+                localizer.getMessageorUseDefault("lblRelayPlayerLimitPrompt", "Maximum players (2-8)"),
+                localizer.getMessageorUseDefault("lblCreateRelayRoom", "Create Lobby Room"),
+                null, playerLimits.get(0), playerLimits, false);
+        if (selectedPlayerLimit == null) {
+            return;
+        }
+        final int maxPlayers = Integer.parseInt(selectedPlayerLimit);
         final String password = SOptionPane.showInputDialog(
                 localizer.getMessageorUseDefault("lblRelayPasswordOptionalPrompt", "房间密码（可留空）"),
                 localizer.getMessageorUseDefault("lblCreateRelayRoom", "创建大厅房间"));
@@ -95,7 +104,7 @@ public enum CSubmenuOnlineLobby implements ICDoc, IMenuProvider {
             return;
         }
 
-        FThreads.invokeInBackgroundThread(() -> hostRelay(roomName.trim(), password));
+        FThreads.invokeInBackgroundThread(() -> hostRelay(roomName.trim(), password, maxPlayers));
     }
 
     void browseRelayRooms() {
@@ -120,7 +129,7 @@ public enum CSubmenuOnlineLobby implements ICDoc, IMenuProvider {
         });
     }
 
-    private void hostRelay(final String roomName, final String password) {
+    private void hostRelay(final String roomName, final String password, final int maxPlayers) {
         SwingUtilities.invokeLater(() -> {
             SOverlayUtils.startGameOverlay(Localizer.getInstance().getMessageorUseDefault(
                     "lblCreatingRelayRoom", "正在创建大厅房间……"));
@@ -129,7 +138,7 @@ public enum CSubmenuOnlineLobby implements ICDoc, IMenuProvider {
         try {
             final ChatMessage result = NetConnectUtil.hostRelay(
                     VSubmenuOnlineLobby.SINGLETON_INSTANCE, FNetOverlay.SINGLETON_INSTANCE,
-                    roomName, "Constructed", password, 8);
+                    roomName, "Constructed", password, maxPlayers);
             SwingUtilities.invokeLater(() -> {
                 SOverlayUtils.hideOverlay();
                 FNetOverlay.SINGLETON_INSTANCE.show(result);
