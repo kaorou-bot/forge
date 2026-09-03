@@ -20,11 +20,15 @@ import forge.gamemodes.net.server.FServerManager;
 import forge.gamemodes.net.server.RemoteClient;
 import forge.gamemodes.net.server.ServerGameLobby;
 import forge.interfaces.ILobbyListener;
+import forge.relay.client.RelayEndpoint;
+import forge.relay.client.RelayGuestProxy;
+import forge.relay.client.RelayHostSession;
 
 import forge.net.analysis.GameLogMetrics;
 import forge.net.analysis.NetworkLogAnalyzer;
 
 import java.io.File;
+import java.net.InetAddress;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -55,7 +59,9 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class UnifiedNetworkHarness implements IHasForgeLog {
 
-    private static final String[] PLAYER_NAMES = {"Alice (Host AI)", "Bob (Remote)", "Charlie (Remote)", "Diana (Remote)"};
+    private static final String[] PLAYER_NAMES = {
+            "Alice (Host AI)", "Bob (Remote)", "Charlie (Remote)", "Diana (Remote)",
+            "Eve (Remote)", "Frank (Remote)", "Grace (Remote)", "Heidi (Remote)"};
 
     private static final long DEFAULT_CONNECTION_TIMEOUT_MS = 30000;
     private static final long DEFAULT_GAME_TIMEOUT_MS = 300000; // 5 minutes
@@ -74,12 +80,16 @@ public class UnifiedNetworkHarness implements IHasForgeLog {
     private FServerManager server;
     private ServerGameLobby lobby;
     private List<HeadlessNetworkClient> remoteClients = new ArrayList<>();
+    private final List<RelayGuestProxy> relayGuestProxies = new ArrayList<>();
     private ExecutorService clientExecutor;
+    private RelayEndpoint relayEndpoint;
+    private RelayHostSession relayHostSession;
+    private static final String RELAY_TEST_COMPATIBILITY = "forge-relay-integration-1";
     private final AtomicBoolean serverRunning = new AtomicBoolean(false);
 
     public UnifiedNetworkHarness playerCount(int count) {
-        if (count < 2 || count > 4) {
-            throw new IllegalArgumentException("Player count must be 2-4, got: " + count);
+        if (count < 2 || count > 8) {
+            throw new IllegalArgumentException("Player count must be 2-8, got: " + count);
         }
         this.playerCount = count;
         return this;
@@ -107,6 +117,12 @@ public class UnifiedNetworkHarness implements IHasForgeLog {
 
     public UnifiedNetworkHarness connectionTimeout(long timeoutMs) {
         this.connectionTimeoutMs = timeoutMs;
+        return this;
+    }
+
+    /** Route every remote client through the central relay instead of direct TCP. */
+    public UnifiedNetworkHarness viaRelay(RelayEndpoint endpoint) {
+        this.relayEndpoint = endpoint;
         return this;
     }
 
@@ -180,13 +196,8 @@ public class UnifiedNetworkHarness implements IHasForgeLog {
             logServerInstanceBanner("LocalAI", playerCount, port);
 
             // 2. Create lobby
-            lobby = new ServerGameLobby();
+            lobby = new ServerGameLobby(playerCount);
             server.setLobby(lobby);
-
-            // Add slots for multiplayer
-            for (int i = 2; i < playerCount; i++) {
-                lobby.addSlot();
-            }
 
             // Apply Commander variant if enabled
             if (commander) {
@@ -267,19 +278,18 @@ public class UnifiedNetworkHarness implements IHasForgeLog {
 
             // 1. Start server
             server = FServerManager.getInstance();
-            server.startServer(port);
+            if (relayEndpoint == null) {
+                server.startServer(port);
+            } else {
+                server.startRelayServer(port);
+            }
             serverRunning.set(true);
             logServerInstanceBanner("RemoteNetwork", playerCount, port);
 
             // 2. Create lobby
-            lobby = new ServerGameLobby();
+            lobby = new ServerGameLobby(playerCount);
             server.setLobby(lobby);
             setupLobbyListener();
-
-            // Add slots for multiplayer
-            for (int i = 2; i < playerCount; i++) {
-                lobby.addSlot();
-            }
 
             // Apply Commander variant if enabled
             if (commander) {
@@ -320,6 +330,13 @@ public class UnifiedNetworkHarness implements IHasForgeLog {
                     netLog.info("Slot {}: {} (AI) with {}",
                             i, PLAYER_NAMES[i], deck.getName());
                 }
+            }
+
+            if (relayEndpoint != null) {
+                relayHostSession = RelayHostSession.open(relayEndpoint, port,
+                        RELAY_TEST_COMPATIBILITY, "Forge protocol test", "Test host",
+                        result.gameFormat, "test-password", playerCount,
+                        error -> netLog.error(error, "Relay host session failed"));
             }
 
             // Brief pause for server initialization
@@ -430,7 +447,18 @@ public class UnifiedNetworkHarness implements IHasForgeLog {
             long staggerDelay = 500L + (clientIndex * 3000L);
             Thread.sleep(staggerDelay);
 
-            client = new HeadlessNetworkClient(clientName, "localhost", port);
+            String clientHost = "localhost";
+            int clientPort = port;
+            if (relayEndpoint != null) {
+                RelayGuestProxy proxy = RelayGuestProxy.open(relayEndpoint,
+                        RELAY_TEST_COMPATIBILITY, relayHostSession.roomId(), "test-password");
+                synchronized (relayGuestProxies) {
+                    relayGuestProxies.add(proxy);
+                }
+                clientHost = InetAddress.getLoopbackAddress().getHostAddress();
+                clientPort = proxy.localPort();
+            }
+            client = new HeadlessNetworkClient(clientName, clientHost, clientPort);
             synchronized (remoteClients) {
                 remoteClients.add(client);
             }
@@ -645,6 +673,7 @@ public class UnifiedNetworkHarness implements IHasForgeLog {
                 result.clientSetGameViewCount = first.getSetGameViewCount();
             }
         }
+
         // Collect send errors from server
         if (server != null) {
             result.sendErrors = server.getTotalSendErrors();
@@ -696,6 +725,18 @@ public class UnifiedNetworkHarness implements IHasForgeLog {
                 }
             }
             remoteClients.clear();
+        }
+
+        synchronized (relayGuestProxies) {
+            for (RelayGuestProxy proxy : relayGuestProxies) {
+                proxy.close();
+            }
+            relayGuestProxies.clear();
+        }
+
+        if (relayHostSession != null) {
+            relayHostSession.close();
+            relayHostSession = null;
         }
 
         // Shutdown client executor

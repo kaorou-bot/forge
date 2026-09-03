@@ -116,13 +116,15 @@ public enum VSubmenuOnlineLobby implements IVSubmenu<CSubmenuOnlineLobby>, IOnli
                     }).build();
             lblGuideLink.setCursor(java.awt.Cursor.getPredefinedCursor(java.awt.Cursor.HAND_CURSOR));
 
-            final FButton btnHost = new FButton(localizer.getMessage("lblHostGame"));
+            final FButton btnHost = new FButton(localizer.getMessageorUseDefault(
+                    "lblCreateRelayRoom", "创建大厅房间"));
             btnHost.setFont(FSkin.getRelativeFont(18));
-            btnHost.addActionListener(e -> getLayoutControl().hostGame());
+            btnHost.addActionListener(e -> getLayoutControl().hostRelayGame());
 
-            final FButton btnJoin = new FButton(localizer.getMessage("lblJoinGame"));
+            final FButton btnJoin = new FButton(localizer.getMessageorUseDefault(
+                    "lblBrowseRelayRooms", "浏览大厅"));
             btnJoin.setFont(FSkin.getRelativeFont(18));
-            btnJoin.addActionListener(e -> getLayoutControl().joinGame());
+            btnJoin.addActionListener(e -> getLayoutControl().browseRelayRooms());
 
             final JPanel buttonPanel = new JPanel(new MigLayout("insets 0, gap 20, ax center"));
             buttonPanel.setOpaque(false);

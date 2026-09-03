@@ -158,7 +158,12 @@ public class SpellAbilityProperty {
             if (root instanceof WrappedAbility wa) {
                 root = wa.getWrappedAbility();
             }
-            if (!sa.getRootAbility().equals(root)) {
+            SpellAbility causeRoot = sa.getRootAbility();
+            if (causeRoot instanceof WrappedAbility wa) {
+                causeRoot = wa.getWrappedAbility();
+            }
+            if (!Objects.requireNonNullElse(causeRoot.getOriginalAbility(), causeRoot)
+                    .equals(Objects.requireNonNullElse(root.getOriginalAbility(), root))) {
                 return false;
             }
         } else if (property.equals("LastChapter")) {

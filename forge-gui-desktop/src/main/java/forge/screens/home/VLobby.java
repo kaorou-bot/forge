@@ -248,7 +248,7 @@ public class VLobby implements ILobbyView {
         playersFrame.setOpaque(false);
         playersFrame.add(playersScroll, "w 100%, h 100%-35px");
 
-        if (lobby.hasControl()) {
+        if (lobby.hasControl() && !lobby.isPlayerCountFixed()) {
             addPlayerBtn.setFocusable(true);
             addPlayerBtn.setCommand(lobby::addSlot);
             playersFrame.add(addPlayerBtn, "height 30px!, growx, pushx");

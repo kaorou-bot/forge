@@ -721,8 +721,6 @@ public enum VSubmenuPreferences implements IVSubmenu<CSubmenuPreferences> {
     }
 
     /** @return {@link javax.swing.JCheckBox} */
-
-    /** @return {@link javax.swing.JCheckBox} */
     public final JCheckBox getCbCheckSnapshot() {
         return cbCheckSnapshot;
     }

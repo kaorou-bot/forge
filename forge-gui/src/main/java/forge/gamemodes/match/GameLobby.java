@@ -34,7 +34,8 @@ import java.io.Serializable;
 import java.util.*;
 
 public abstract class GameLobby implements IHasGameType {
-    private final static int MAX_PLAYERS = 8;
+    public static final int MIN_PLAYERS = 2;
+    public static final int MAX_PLAYERS = 8;
 
     private GameLobbyData data = new GameLobbyData();
     private GameType currentGameType = GameType.Constructed;
@@ -162,6 +163,9 @@ public abstract class GameLobby implements IHasGameType {
     public abstract boolean mayEdit(int index);
     public abstract boolean mayControl(int index);
     public abstract boolean mayRemove(int index);
+    public boolean isPlayerCountFixed() {
+        return false;
+    }
     protected abstract IGuiGame getGui(int index);
     protected abstract void onGameStarted();
 

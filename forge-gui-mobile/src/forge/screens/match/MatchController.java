@@ -588,10 +588,26 @@ public class MatchController extends NetworkGuiGame {
     @Override
     public void afterGameEnd() {
         super.afterGameEnd();
-        Forge.back(true);
+        returnToLobbyAfterNetworkMatch();
         if (Forge.disposeTextures)
             ImageCache.getInstance().disposeTextures();
         //view = null;
+    }
+
+    /**
+     * Close the finished match without leaving a stale win/lose overlay in the
+     * global overlay stack. This is used both when this client chooses Quit and
+     * when the host ends the game first.
+     */
+    public static void returnToLobbyAfterNetworkMatch() {
+        final MatchScreen matchView = view;
+        if (matchView == null) {
+            return;
+        }
+        matchView.clearMatchOverlays();
+        if (Forge.getCurrentScreen() == matchView) {
+            Forge.back(true);
+        }
     }
 
     public void resetPlayerPanels() {

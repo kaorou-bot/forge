@@ -5,7 +5,7 @@ import static forge.screens.online.OnlineLobbyScreen.getGameLobby;
 import forge.Forge;
 import forge.assets.FImage;
 import forge.assets.FSkinImage;
-import forge.gamemodes.net.server.FServerManager;
+import forge.gui.FThreads;
 import forge.localinstance.properties.ForgePreferences;
 import forge.localinstance.properties.ForgePreferences.FPref;
 import forge.menu.FMenuItem;
@@ -32,18 +32,12 @@ public class OnlineMenu extends FPopupMenu {
                             Forge.getLocalizer().getMessage("lblLeaveLobbyDescription"),
                             Forge.getLocalizer().getMessage("lblDisconnect"), result -> {
                                 if (result) {
-                                    if (FServerManager.getInstance() != null)
-                                        if(FServerManager.getInstance().isHosting()) {
-                                            FServerManager.getInstance().unsetReady();
-                                            FServerManager.getInstance().stopServer();
-                                        }
-
-                                    if (OnlineLobbyScreen.getfGameClient() != null)
-                                        OnlineLobbyScreen.closeClient();
-
+                                    OnlineLobbyScreen.beginIntentionalDisconnect();
                                     Forge.back();
                                     screen = null;
-                                    OnlineLobbyScreen.clearGameLobby();
+                                    update();
+                                    FThreads.invokeInBackgroundThread(
+                                            OnlineLobbyScreen::shutdownConnection);
                                 }
                             });
                     return;

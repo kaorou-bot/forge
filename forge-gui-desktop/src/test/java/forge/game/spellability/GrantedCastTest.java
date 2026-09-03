@@ -4,15 +4,26 @@ import org.testng.annotations.Test;
 
 import forge.ai.AITest;
 import forge.game.Game;
+import forge.game.GameEntity;
 import forge.game.ability.AbilityFactory;
 import forge.game.ability.AbilityUtils;
 import forge.game.card.Card;
 import forge.game.card.CounterEnumType;
 import forge.game.phase.PhaseType;
 import forge.game.player.Player;
+import forge.game.player.DelayedReveal;
 import forge.game.zone.ZoneType;
+import forge.net.HeadlessNetworkGuiGame;
+import forge.player.LobbyPlayerHuman;
+import forge.player.PlayerControllerHuman;
+import forge.util.collect.FCollectionView;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
 
 /**
  * A grant clears the restriction zone, so it is the grant that has to reach another player's
@@ -83,6 +94,53 @@ public class GrantedCastTest extends AITest {
 
         assertEquals("Weftwalking still offers me the free cast of my own card", 2, playable(mine));
         assertEquals("but not of a card I do not own", 0, playable(theirs));
+    }
+
+    @Test
+    public void stackedUginUltimatePreservesHumanMultiSelectionForItsEffect() {
+        newGame();
+        Card battlefieldUgin = addCard("Ugin, Eye of the Storms", me);
+        addCardToZone("Ugin, Eye of the Storms", me, ZoneType.Library);
+        addCardToZone("Kozilek's Command", me, ZoneType.Library);
+
+        PlayerControllerHuman human = new PlayerControllerHuman(game, me, new LobbyPlayerHuman("human")) {
+            @Override
+            public <T extends GameEntity> List<T> chooseEntitiesForEffect(final FCollectionView<T> optionList,
+                    final int min, final int max, final DelayedReveal delayedReveal, final SpellAbility sa,
+                    final String title, final Player targetedPlayer, final Map<String, Object> params) {
+                final List<T> selected = new ArrayList<>();
+                for (T entity : optionList) {
+                    selected.add(entity);
+                }
+                return selected;
+            }
+        };
+        HeadlessNetworkGuiGame gui = new HeadlessNetworkGuiGame();
+        gui.setGameView(game.getView());
+        gui.setOriginalGameController(me.getView(), human);
+        human.setGui(gui);
+        me.dangerouslySetController(human);
+
+        SpellAbility ultimate = null;
+        for (SpellAbility ability : battlefieldUgin.getSpellAbilities()) {
+            if (ability.hasParam("Ultimate")) {
+                ultimate = ability;
+                break;
+            }
+        }
+        assertFalse("Ugin's ultimate must be present", ultimate == null);
+        ultimate.setActivatingPlayer(me);
+        game.getStack().add(ultimate);
+        game.getStack().resolveStack();
+
+        assertEquals("the human multi-selection moves both cards to exile", 2,
+                me.getCardsIn(ZoneType.Exile).size());
+        for (Card exiled : me.getCardsIn(ZoneType.Exile)) {
+            assertEquals("every card selected through the human stack path receives permission", 1,
+                    exiled.mayPlay(me).size());
+            assertEquals("every selected card exposes a free-cast ability", 1,
+                    exiled.getAllPossibleAbilities(me, true).size());
+        }
     }
 
     private void newGame() {

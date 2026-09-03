@@ -8,12 +8,16 @@ import forge.util.IHasForgeLog;
 import forge.gamemodes.net.NetworkLogConfig;
 import forge.gamemodes.net.server.DeltaSyncManager;
 import forge.gamemodes.net.server.RemoteClientGuiGame;
+import forge.gamemodes.net.server.ServerGameLobby;
+import forge.gamemodes.match.LobbySlotType;
 import forge.localinstance.properties.ForgeConstants;
 import forge.deck.Deck;
 import forge.net.analysis.AnalysisResult;
 import forge.net.analysis.GameLogMetrics;
 import forge.net.analysis.NetworkLogAnalyzer;
 import forge.util.collect.FCollectionView;
+import forge.relay.RelayServer;
+import forge.relay.client.RelayEndpoint;
 
 import org.testng.Assert;
 import org.testng.SkipException;
@@ -176,6 +180,75 @@ public class NetworkPlayIntegrationTest implements IHasForgeLog {
 
         netLog.info("Test PASSED: {} turns, {} setGameView updates, 0 send errors",
                 result.turnCount, result.clientSetGameViewCount);
+    }
+
+    @Test
+    public void testNetworkLobbyCreatesEveryAdvertisedSeat() {
+        for (int playerLimit = 2; playerLimit <= 8; playerLimit++) {
+            ServerGameLobby lobby = new ServerGameLobby(playerLimit);
+            Assert.assertEquals(lobby.getNumberOfSlots(), playerLimit);
+            Assert.assertEquals(lobby.getSlot(0).getType(), LobbySlotType.LOCAL);
+            for (int index = 1; index < playerLimit; index++) {
+                Assert.assertEquals(lobby.getSlot(index).getType(), LobbySlotType.OPEN);
+                Assert.assertEquals(lobby.connectPlayer("Guest " + index, index, index), index);
+            }
+            Assert.assertEquals(lobby.connectPlayer("Overflow", 0, 0), -1,
+                    "Lobby must reject a player beyond its advertised capacity");
+        }
+    }
+
+    @Test(timeOut = 90000, description = "Complete Forge protocol through central relay")
+    public void testTrueNetworkTrafficThroughRelay() throws Exception {
+        Deck deck1 = TestDeckLoader.createMinimalDeck("Mountain", 10);
+        Deck deck2 = TestDeckLoader.createMinimalDeck("Forest", 10);
+
+        try (RelayServer relay = new RelayServer("127.0.0.1", 0)) {
+            relay.start();
+            UnifiedNetworkHarness.GameResult result = new UnifiedNetworkHarness()
+                    .playerCount(2)
+                    .remoteClients(1)
+                    .decks(deck1, deck2)
+                    .viaRelay(new RelayEndpoint("127.0.0.1", relay.port()))
+                    .gameTimeout(60000)
+                    .execute();
+
+            Assert.assertTrue(result.gameStarted,
+                    "Relayed game should start: " + result.toSummary());
+            Assert.assertTrue(result.deltaPacketsReceived > 0,
+                    "Relayed client should receive Forge delta packets");
+            Assert.assertTrue(result.clientOpenViewCalled,
+                    "Relayed client should receive openView");
+            Assert.assertEquals(result.sendErrors, 0,
+                    "Relayed game should not add server send errors");
+        }
+    }
+
+    @Test(timeOut = 300000, description = "3, 4, and 8 player Forge traffic through central relay")
+    public void testMultiplayerTrafficThroughRelay() throws Exception {
+        try (RelayServer relay = new RelayServer("127.0.0.1", 0)) {
+            relay.start();
+            for (int playerCount : new int[]{3, 4, 8}) {
+                List<Deck> decks = new ArrayList<>();
+                for (int index = 0; index < playerCount; index++) {
+                    decks.add(TestDeckLoader.createMinimalDeck(
+                            index % 2 == 0 ? "Mountain" : "Forest", 10));
+                }
+                UnifiedNetworkHarness.GameResult result = new UnifiedNetworkHarness()
+                        .playerCount(playerCount)
+                        .remoteClients(playerCount - 1)
+                        .decks(decks)
+                        .viaRelay(new RelayEndpoint("127.0.0.1", relay.port()))
+                        .gameTimeout(90000)
+                        .execute();
+
+                Assert.assertTrue(result.gameStarted,
+                        playerCount + "-player relayed game should start: " + result.toSummary());
+                Assert.assertTrue(result.deltaPacketsReceived > 0,
+                        playerCount + "-player clients should receive Forge delta packets");
+                Assert.assertEquals(result.sendErrors, 0,
+                        playerCount + "-player game should not add server send errors");
+            }
+        }
     }
 
     @Test(timeOut = 150000, description = "UnifiedNetworkHarness local mode test")

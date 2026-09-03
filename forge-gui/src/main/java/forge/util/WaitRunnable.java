@@ -2,27 +2,39 @@ package forge.util;
 
 import forge.gui.FThreads;
 
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicReference;
+
 public abstract class WaitRunnable implements Runnable {
-    public class Lock {
-    }
-
-    private final Lock lock = new Lock();
-
     public final void invokeAndWait() {
         FThreads.assertExecutedByEdt(false); //not supported if on UI thread
+        final CountDownLatch finished = new CountDownLatch(1);
+        final AtomicReference<Throwable> failure = new AtomicReference<>();
         FThreads.invokeInEdtLater(() -> {
-            WaitRunnable.this.run();
-            synchronized(lock) {
-                lock.notify();
+            try {
+                WaitRunnable.this.run();
+            } catch (Throwable throwable) {
+                failure.set(throwable);
+            } finally {
+                finished.countDown();
             }
         });
         try {
-            synchronized(lock) {
-                lock.wait();
-            }
+            finished.await();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new IllegalStateException("Interrupted while waiting for the UI thread", e);
         }
-        catch (InterruptedException e) {
-            e.printStackTrace();
+
+        final Throwable throwable = failure.get();
+        if (throwable instanceof RuntimeException runtimeException) {
+            throw runtimeException;
+        }
+        if (throwable instanceof Error error) {
+            throw error;
+        }
+        if (throwable != null) {
+            throw new IllegalStateException("UI task failed", throwable);
         }
     }
 }

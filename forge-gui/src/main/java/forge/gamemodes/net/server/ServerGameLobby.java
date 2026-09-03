@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Set;
 
 public final class ServerGameLobby extends GameLobby implements IHasForgeLog {
+    private final boolean playerCountFixed;
     private static final int DRAFT_POD_SIZE = 8;
 
     /** Returned by {@link #startDraftEvent} with the info the UI needs for overlay/log setup. */
@@ -55,8 +56,30 @@ public final class ServerGameLobby extends GameLobby implements IHasForgeLog {
     }
 
     public ServerGameLobby() {
+        this(GameLobby.MIN_PLAYERS, false);
+    }
+
+    /**
+     * Create a network lobby with the requested number of seats. The relay room
+     * limit and the Forge lobby must agree: advertising eight players while only
+     * creating the historical two slots makes every client after the first guest
+     * fail registration because there is no OPEN slot to claim.
+     */
+    public ServerGameLobby(final int playerLimit) {
+        this(playerLimit, true);
+    }
+
+    public ServerGameLobby(final int playerLimit, final boolean playerCountFixed) {
+        if (playerLimit < GameLobby.MIN_PLAYERS || playerLimit > GameLobby.MAX_PLAYERS) {
+            throw new IllegalArgumentException("Player limit must be between "
+                    + GameLobby.MIN_PLAYERS + " and " + GameLobby.MAX_PLAYERS);
+        }
+        this.playerCountFixed = playerCountFixed;
         addSlot(new LobbySlot(LobbySlotType.LOCAL, localName(), localAvatarIndices()[0], localSleeveIndices()[0],0, true, false, Collections.emptySet()));
-        addSlot(new LobbySlot(LobbySlotType.OPEN, null, -1, -1, 1, false, false, Collections.emptySet()));
+        for (int index = 1; index < playerLimit; index++) {
+            addSlot(new LobbySlot(LobbySlotType.OPEN, null, -1, -1, index,
+                    false, false, Collections.emptySet()));
+        }
     }
 
     /**
@@ -117,7 +140,12 @@ public final class ServerGameLobby extends GameLobby implements IHasForgeLog {
 
     @Override
     public boolean mayRemove(final int index) {
-        return index >= 2;
+        return !playerCountFixed && index >= 2;
+    }
+
+    @Override
+    public boolean isPlayerCountFixed() {
+        return playerCountFixed;
     }
 
     @Override

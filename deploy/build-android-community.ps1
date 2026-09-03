@@ -125,7 +125,10 @@ try {
 
     Write-Step 'Incrementally compile, generate Android resources, and run ProGuard'
     Write-Host '[Android Maven intermediates] The legacy plugin may fail at D8; this script validates and resumes from its outputs.'
-    $androidMavenArguments = @('-pl', 'forge-gui-android', '-am', '-Pandroid-debug', '-DskipTests', '-Dcheckstyle.skip=true', 'package')
+    # Use install rather than package so a brand-new revision is available to the
+    # later dependency:build-classpath invocation. Previous builds could appear to
+    # work only because the same revision was already cached in the local repository.
+    $androidMavenArguments = @('-pl', 'forge-gui-android', '-am', '-Pandroid-debug', '-DskipTests', '-Dcheckstyle.skip=true', 'install')
     & $Maven @androidMavenArguments
     $androidMavenExitCode = $LASTEXITCODE
     $manifest = Join-Path $targetDirectory 'AndroidManifest.xml'
