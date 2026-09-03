@@ -408,7 +408,7 @@ public class FSkinFont {
         String[] translationFilePaths = { ForgeConstants.LANG_DIR + "cardnames-" + langCode + ".txt",
                 ForgeConstants.LANG_DIR + langCode + ".properties" };
         for (String translationFilePath : translationFilePaths) {
-            FileHandle translationFileHandle = Assets.getFileHandle(translationFilePath);
+            FileHandle translationFileHandle = Forge.getAssets().getFileHandle(translationFilePath);
             // Skip if file doesn't exist (e.g., cardnames-en-US.txt doesn't exist because English is the base language)
             if (!translationFileHandle.exists()) {
                 continue;
@@ -469,7 +469,7 @@ public class FSkinFont {
             // an upgrade cannot reuse an older bitmap-font cache with missing glyphs.
             fontName += Forge.locale + "-community3";
         }
-        FileHandle fontFile = Assets.getFileHandle(ForgeConstants.FONTS_DIR + fontName + ".fnt");
+        FileHandle fontFile = Forge.getAssets().getFileHandle(ForgeConstants.FONTS_DIR + fontName + ".fnt");
         final boolean[] found = {false};
         if (fontFile != null && fontFile.exists()) {
             FThreads.invokeInEdtNowOrLater(() -> { //font must be initialized on UI thread
