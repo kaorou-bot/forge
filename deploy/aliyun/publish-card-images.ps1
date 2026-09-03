@@ -21,7 +21,7 @@ if (-not (Test-Path -LiteralPath $source -PathType Container)) {
 # Incremental and non-destructive: existing cloud objects are never deleted.
 if (-not $SkipImageSync) {
     & $Ossutil sync ($source.TrimEnd('\') + '\') "oss://$Bucket/cards/" --force --checksum `
-        --exclude '_*' --exclude '*.csv' --exclude '*.json' --exclude '*.log'
+        --exclude '_*' --exclude '*.csv' --exclude '*.json' --exclude '*.log' --exclude '*.zip'
     if ($LASTEXITCODE -ne 0) {
         throw "Card image sync failed with exit code $LASTEXITCODE"
     }
