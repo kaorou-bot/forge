@@ -241,6 +241,7 @@ public final class ForgeConstants {
     }
 
     // data that is only in the profile dirs
+    public static final String CACHE_CDN_UUID_DIR         = CACHE_DIR + "cdn_uuid" + PATH_SEPARATOR;
     public static final String USER_QUEST_DIR             = USER_DIR + "quest" + PATH_SEPARATOR;
     public static final String USER_QUEST_WORLD_DIR       = USER_QUEST_DIR + "world" + PATH_SEPARATOR;
     public static final String USER_CONQUEST_DIR          = USER_DIR + "conquest" + PATH_SEPARATOR;
@@ -347,6 +348,7 @@ public final class ForgeConstants {
     public static final String URL_PRICE_DOWNLOAD = GITHUB_ASSETS_BASE + "all-prices.txt";
     private static final String URL_SCRYFALL = "https://api.scryfall.com";
     public static final String URL_PIC_SCRYFALL_DOWNLOAD = URL_SCRYFALL + "/cards/";
+    public static final String URL_SCRYFALL_CDN = "https://cards.scryfall.io/";
 
     /**
      * Builds a hosted card-image URL. The community mirror stores normalized
@@ -413,6 +415,22 @@ public final class ForgeConstants {
                 localizer.getMessage("lblAlways"), "ALWAYS",
                 localizer.getMessage("lblNever"), "NEVER"
         );
+    }
+
+    public static Map<String, String> getScryfallCardLanguageMapping() {
+        final java.util.LinkedHashMap<String, String> map = new java.util.LinkedHashMap<>();
+        map.put("English", "en");
+        map.put("Spanish", "es");
+        map.put("French", "fr");
+        map.put("German", "de");
+        map.put("Italian", "it");
+        map.put("Portuguese", "pt");
+        map.put("Japanese", "ja");
+        map.put("Korean", "ko");
+        map.put("Russian", "ru");
+        map.put("Chinese Simplified", "zhs");
+        map.put("Chinese Traditional", "zht");
+        return map;
     }
 
     public enum CounterDisplayLocation {
