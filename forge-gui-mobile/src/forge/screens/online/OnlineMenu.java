@@ -5,6 +5,7 @@ import static forge.screens.online.OnlineLobbyScreen.getGameLobby;
 import forge.Forge;
 import forge.assets.FImage;
 import forge.assets.FSkinImage;
+import forge.gamemodes.net.server.FServerManager;
 import forge.gui.FThreads;
 import forge.localinstance.properties.ForgePreferences;
 import forge.localinstance.properties.ForgePreferences.FPref;
@@ -16,30 +17,22 @@ import forge.toolbox.FOptionPane;
 
 public class OnlineMenu extends FPopupMenu {
     public enum OnlineScreen {
-        Lobby("lblPlayOnline", FSkinImage.FAVICON, OnlineLobbyScreen.class),
-        Chat("lblChat", FSkinImage.QUEST_NOTES, OnlineChatScreen.class),
-        Disconnect("lblDisconnect", FSkinImage.DELETE, null);
+        Lobby("lblPlayOnline", FSkinImage.FAVICON, OnlineLobbyScreen.class, null),
+        Chat("lblChat", FSkinImage.QUEST_NOTES, OnlineChatScreen.class, null),
+        ServerUrl("lblServerURL", FSkinImage.INFORMATION, null, ServerAddressesDialog::show),
+        Disconnect("lblDisconnect", FSkinImage.DELETE, null, OnlineMenu::handleDisconnect);
 
         private final FMenuItem item;
         private final Class<? extends FScreen> screenClass;
+        private final Runnable customAction;
         private FScreen screen;
 
-        OnlineScreen(final String caption0, final FImage icon0, final Class<? extends FScreen> screenClass0) {
+        OnlineScreen(final String caption0, final FImage icon0, final Class<? extends FScreen> screenClass0, final Runnable customAction0) {
             screenClass = screenClass0;
+            customAction = customAction0;
             item = new FMenuItem(Forge.getLocalizer().getMessage(caption0), icon0, e -> {
-                if(screenClass == null) {
-                    FOptionPane.showConfirmDialog(
-                            Forge.getLocalizer().getMessage("lblLeaveLobbyDescription"),
-                            Forge.getLocalizer().getMessage("lblDisconnect"), result -> {
-                                if (result) {
-                                    OnlineLobbyScreen.beginIntentionalDisconnect();
-                                    Forge.back();
-                                    screen = null;
-                                    update();
-                                    FThreads.invokeInBackgroundThread(
-                                            OnlineLobbyScreen::shutdownConnection);
-                                }
-                            });
+                if (customAction != null) {
+                    customAction.run();
                     return;
                 }
                 Forge.back(); //remove current screen from chain
@@ -79,6 +72,7 @@ public class OnlineMenu extends FPopupMenu {
 
         public void update(){
             Disconnect.item.setEnabled(getGameLobby() != null);
+            ServerUrl.item.setEnabled(FServerManager.getInstance() != null && FServerManager.getInstance().isHosting());
         }
     }
 
@@ -113,6 +107,21 @@ public class OnlineMenu extends FPopupMenu {
     }
 
     private OnlineMenu() {
+    }
+
+    private static void handleDisconnect() {
+        FOptionPane.showConfirmDialog(
+                Forge.getLocalizer().getMessage("lblLeaveLobbyDescription"),
+                Forge.getLocalizer().getMessage("lblDisconnect"), result -> {
+                    if (result) {
+                        OnlineLobbyScreen.beginIntentionalDisconnect();
+                        Forge.back();
+                        OnlineScreen.Disconnect.screen = null;
+                        OnlineScreen.Disconnect.update();
+                        FThreads.invokeInBackgroundThread(
+                                OnlineLobbyScreen::shutdownConnection);
+                    }
+                });
     }
 
     @Override
