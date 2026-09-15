@@ -300,6 +300,10 @@ public class AssetsDownloader {
                     if (!canIgnoreDownload) {
                         Forge.isMobileAdventureMode = Forge.advStartup;
                         Forge.exitAnimation(false); //exit if can't ignore download
+                    } else {
+                        // A failed connectivity or manifest check must not block startup when
+                        // a complete, previously installed resource set is available locally.
+                        run(runnable);
                     }
                 }
             }
