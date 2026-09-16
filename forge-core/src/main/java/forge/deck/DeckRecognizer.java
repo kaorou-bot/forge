@@ -27,6 +27,7 @@ import forge.card.MagicColor;
 import forge.item.IPaperCard;
 import forge.item.PaperCard;
 import forge.util.Localizer;
+import forge.util.CardTranslation;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Locale;
@@ -507,7 +508,7 @@ public class DeckRecognizer {
 
     // "?" is part of several card names, e.g. "Continue?", "When Will You Learn?" and
     // "Which of You Burns Brightest?", none of which could be imported before.
-    public static final String REX_CARD_NAME = String.format("(\\[)?(?<%s>[a-zA-Z0-9à-ÿÀ-Ÿ&',\\.:!\\?\\+\\\"\\/\\-\\s]+)(\\])?", REGRP_CARD);
+    public static final String REX_CARD_NAME = String.format("(\\[)?(?<%s>[\\p{L}\\p{M}0-9à-ÿÀ-Ÿ&',\\.:!\\?\\+\\\"\\/\\-\\s_，。：！？·‧、…／（）「」『』“”‘’—～]+)(\\])?", REGRP_CARD);
     public static final String REX_SET_CODE = String.format("(?<%s>[a-zA-Z0-9_]{2,7})", REGRP_SET);
     /**
      * One segment of a collector number: either it contains a digit, or it is uppercase
@@ -730,7 +731,7 @@ public class DeckRecognizer {
             String cardName = getRexGroup(matcher, REGRP_CARD);
             if (cardName == null)
                 continue;
-            cardName = cardName.trim();
+            cardName = resolveImportCardName(cardName.trim());
             //Avoid hit the DB - check whether cardName is contained in the DB
             if (!data.isMTGCard(cardName)){
                 // check the case for double-sided cards
@@ -803,20 +804,45 @@ public class DeckRecognizer {
     }
 
     private String checkDoubleSidedCard(final String cardName){
+        if (cardName == null)
+            return null;
         if (!cardName.contains("//"))
             return null;
         String cardRequest = cardName.trim();
         String[] sides = cardRequest.split("//");
         if (sides.length != 2)
             return null;
-        String leftSide = sides[0].trim();
-        String rightSide = sides[1].trim();
+        String leftSide = resolveImportCardName(sides[0].trim());
+        String rightSide = resolveImportCardName(sides[1].trim());
         StaticData data = StaticData.instance();
         if (data.isMTGCard(leftSide))
             return leftSide;
         if (data.isMTGCard(rightSide))
             return rightSide;
         return null;
+    }
+
+    private String resolveImportCardName(String name) {
+        StaticData data = StaticData.instance();
+        if (data.isMTGCard(name)) {
+            return name;
+        }
+        boolean foil = name.endsWith("+");
+        String lookup = foil ? name.substring(0, name.length() - 1).trim() : name;
+        Set<String> matches = new HashSet<>();
+        for (String englishName : CardTranslation.getEnglishNamesForChineseName(lookup)) {
+            for (CardDb db : data.getAvailableDatabases().values()) {
+                forge.card.CardRules rules = db.getRules(englishName, true);
+                if (rules != null && data.isMTGCard(rules.getName())) {
+                    matches.add(rules.getName());
+                }
+            }
+        }
+        // Never silently choose a different card when two cards share a translation.
+        if (matches.size() == 1) {
+            return matches.iterator().next() + (foil ? "+" : "");
+        }
+        return name;
     }
 
     private Token checkAndSetCardToken(final PaperCard pc, final CardEdition edition, final int cardCount,

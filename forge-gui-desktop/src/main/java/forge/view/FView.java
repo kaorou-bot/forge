@@ -29,7 +29,6 @@ import com.google.common.collect.Lists;
 import forge.Singletons;
 import forge.gui.ImportDialog;
 import forge.gui.SOverlayUtils;
-import forge.gui.download.CdnUuidCache;
 import forge.gui.util.SOptionPane;
 import forge.gui.framework.DragCell;
 import forge.gui.framework.EDocID;
@@ -43,7 +42,6 @@ import forge.localinstance.skin.FSkinProp;
 import forge.screens.bazaar.VBazaarUI;
 import forge.screens.deckeditor.VDeckEditorUI;
 import forge.screens.home.VHomeUI;
-import forge.screens.home.settings.DialogDownloadCardImages;
 import forge.sound.MusicPlaylist;
 import forge.sound.SoundSystem;
 import forge.toolbox.CardFaceSymbols;
@@ -237,17 +235,6 @@ public enum FView {
 
                     SwingUtilities.invokeLater(btnOk::requestFocusInWindow);
                 }).show();
-			} else if (CdnUuidCache.shouldPromptForBulkSync()) {
-				// First run (or cache cleared): offer the one-time bulk CDN sync so later card
-				// image downloads resolve instantly instead of one Scryfall set at a time. Skipped
-				// alongside the (rare) legacy-migration prompt above to avoid stacking dialogs.
-				final boolean startBulkSync = SOptionPane.showConfirmDialog(
-						Localizer.getInstance().getMessage("lblFirstRunBulkCdnPrompt"),
-						"Forge", "Download Now", "Not Now", true);
-				CdnUuidCache.markBulkSyncPromptAnswered();
-				if (startBulkSync) {
-					new DialogDownloadCardImages().showAndAutoStartBulkSync();
-				}
 			}
 		}
 

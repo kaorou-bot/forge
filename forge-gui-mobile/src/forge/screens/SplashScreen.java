@@ -226,7 +226,6 @@ public class SplashScreen extends FContainer {
                 else
                     Forge.openHomeDefault();
                 Forge.clearSplashScreen();
-                Forge.maybePromptForBulkCdnSync();
             }
         }
     }

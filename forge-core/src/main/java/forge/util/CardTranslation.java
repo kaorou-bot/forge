@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.Normalizer;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
@@ -25,6 +26,37 @@ public class CardTranslation {
     private static final List <String> knownEffectNames = Arrays.asList("The Ring", "The Monarch", "The Initiative", "City's Blessing", "Keyword Effects");
     private static final Pattern TRANSLATION_INVARIANT = Pattern.compile("\\{[^}]{1,6}\\}|[+-]\\d+/[+-]\\d+");
     private static String languageSelected = "en-US";
+    private static Map<String, Set<String>> chineseImportNames = Collections.emptyMap();
+
+    /** Chinese deck imports remain available even when the interface is in English. */
+    public static Set<String> getEnglishNamesForChineseName(String name) {
+        return chineseImportNames.getOrDefault(normalizeImportName(name), Collections.emptySet());
+    }
+
+    private static String normalizeImportName(String name) {
+        return Normalizer.normalize(name, Normalizer.Form.NFKC).trim();
+    }
+
+    private static void loadChineseImportNames(String languagesDirectory) {
+        Map<String, Set<String>> names = new HashMap<>();
+        try (java.io.BufferedReader reader = Files.newBufferedReader(
+                Paths.get(languagesDirectory, "cardnames-zh-CN.txt"), StandardCharsets.UTF_8)) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] fields = line.split("\\|", 4);
+                if (fields.length < 2 || fields[0].isBlank() || fields[1].isBlank()) {
+                    continue;
+                }
+                names.computeIfAbsent(normalizeImportName(fields[1]), key -> new HashSet<>())
+                        .add(fields[0].trim());
+            }
+        } catch (IOException e) {
+            // Missing translations must not prevent English deck imports or startup.
+            System.err.println("Chinese deck-name index unavailable: " + e.getMessage());
+        }
+        names.replaceAll((key, value) -> Collections.unmodifiableSet(value));
+        chineseImportNames = Collections.unmodifiableMap(names);
+    }
 
     private static void readTranslationFile(String language, String languagesDirectory) {
         String filename = "cardnames-" + language + ".txt";
@@ -275,6 +307,7 @@ public class CardTranslation {
 
     public static void preloadTranslation(String language, String languagesDirectory) {
         languageSelected = language;
+        loadChineseImportNames(languagesDirectory);
 
         if (needsTranslation()) {
             translatednames = new HashMap<>();
