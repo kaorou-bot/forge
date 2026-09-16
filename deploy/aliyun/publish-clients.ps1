@@ -17,8 +17,13 @@ param(
     [Parameter(Mandatory = $true)]
     [string]$AndroidApk,
 
-    [Parameter(Mandatory = $true)]
-    [string]$DesktopPackage,
+    [string]$DesktopPackage = '',
+
+    [string]$DesktopInstaller = '',
+
+    [string]$DesktopPatch = '',
+
+    [string]$PatchFromVersion = '',
 
     [Parameter(Mandatory = $true)]
     [string]$Ossutil
@@ -64,11 +69,23 @@ function Read-Properties([string]$Path) {
 }
 
 $android = Resolve-Artifact $AndroidApk 'Android APK'
-$desktop = Resolve-Artifact $DesktopPackage 'Desktop package'
+if ([string]::IsNullOrWhiteSpace($DesktopInstaller) -eq [string]::IsNullOrWhiteSpace($DesktopPackage)) {
+    throw 'Pass exactly one of DesktopPackage (legacy ZIP) or DesktopInstaller (EXE).'
+}
+$desktop = Resolve-Artifact $(if ($DesktopInstaller) { $DesktopInstaller } else { $DesktopPackage }) 'Desktop package'
+$patch = $null
+if ($DesktopPatch) {
+    if (-not $DesktopInstaller -or -not $PatchFromVersion) {
+        throw 'DesktopPatch requires DesktopInstaller and PatchFromVersion.'
+    }
+    $patch = Resolve-Artifact $DesktopPatch 'Desktop patch'
+}
 $androidName = "forge-android-$ObjectVersion.apk"
-$desktopName = "forge-windows-$ObjectVersion.zip"
+$desktopName = if ($DesktopInstaller) { "forge-windows-$ObjectVersion-setup.exe" } else { "forge-windows-$ObjectVersion.zip" }
 $androidObject = "forge/android/$ObjectVersion/$androidName"
 $desktopObject = "forge/desktop/$ObjectVersion/$desktopName"
+$patchName = "forge-windows-$ObjectVersion-patch.exe"
+$patchObject = "forge/desktop/$ObjectVersion/$patchName"
 $manifestObject = "oss://$Bucket/forge/manifest-v1.properties"
 $immutableCache = 'public,max-age=31536000,immutable'
 $tempDirectory = Join-Path ([IO.Path]::GetTempPath()) ('forge-release-' + [Guid]::NewGuid().ToString('N'))
@@ -79,6 +96,9 @@ New-Item -ItemType Directory -Path $tempDirectory | Out-Null
 try {
     Invoke-Ossutil @('cp', $manifestObject, $oldManifest, '--force')
     $old = Read-Properties $oldManifest
+    if ($old['version'] -eq $ManifestVersion) {
+        throw "Refusing to overwrite an already published release version: $ManifestVersion"
+    }
     foreach ($required in @('assets.version', 'assets.url', 'assets.size', 'assets.sha256')) {
         if (-not $old.Contains($required) -or [string]::IsNullOrWhiteSpace($old[$required])) {
             throw "Existing manifest is missing $required; refusing to publish an incomplete release."
@@ -89,8 +109,13 @@ try {
     # operation so clients can never observe paths that have not finished uploading.
     Invoke-Ossutil @('cp', $android.File.FullName, "oss://$Bucket/$androidObject", '--force',
         '--cache-control', $immutableCache, '--content-type', 'application/vnd.android.package-archive')
+    $desktopContentType = if ($DesktopInstaller) { 'application/vnd.microsoft.portable-executable' } else { 'application/zip' }
     Invoke-Ossutil @('cp', $desktop.File.FullName, "oss://$Bucket/$desktopObject", '--force',
-        '--cache-control', $immutableCache, '--content-type', 'application/zip')
+        '--cache-control', $immutableCache, '--content-type', $desktopContentType)
+    if ($patch) {
+        Invoke-Ossutil @('cp', $patch.File.FullName, "oss://$Bucket/$patchObject", '--force',
+            '--cache-control', $immutableCache, '--content-type', 'application/vnd.microsoft.portable-executable')
+    }
 
     $manifest = @(
         'schema=1'
@@ -108,7 +133,17 @@ try {
         "assets.url=$($old['assets.url'])"
         "assets.size=$($old['assets.size'])"
         "assets.sha256=$($old['assets.sha256'])"
-    ) -join "`n"
+    )
+    if ($patch) {
+        $manifest += @(
+            "desktop.patch.from=$PatchFromVersion"
+            "desktop.patch.version=$DesktopVersion"
+            "desktop.patch.url=desktop/$ObjectVersion/$patchName"
+            "desktop.patch.size=$($patch.Size)"
+            "desktop.patch.sha256=$($patch.Sha256)"
+        )
+    }
+    $manifest = $manifest -join "`n"
     [IO.File]::WriteAllText($newManifest, $manifest + "`n", [Text.UTF8Encoding]::new($false))
     Invoke-Ossutil @('cp', $newManifest, $manifestObject, '--force', '--cache-control',
         'no-cache,max-age=60', '--content-type', 'text/plain; charset=utf-8')
@@ -116,6 +151,7 @@ try {
     Write-Output "Published version: $ManifestVersion"
     Write-Output "Android object: oss://$Bucket/$androidObject"
     Write-Output "Desktop object: oss://$Bucket/$desktopObject"
+    if ($patch) { Write-Output "Desktop patch: oss://$Bucket/$patchObject" }
     Write-Output "Manifest: $manifestObject"
 } finally {
     Remove-Item -LiteralPath $tempDirectory -Recurse -Force -ErrorAction SilentlyContinue

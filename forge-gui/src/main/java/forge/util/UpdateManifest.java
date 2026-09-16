@@ -53,6 +53,8 @@ public final class UpdateManifest {
     private final String publishedAt;
     private final Artifact android;
     private final Artifact desktop;
+    private final Artifact desktopPatch;
+    private final String desktopPatchFrom;
     private final Artifact assets;
 
     private UpdateManifest(final String sourceUrl0, final Properties properties) throws IOException {
@@ -65,6 +67,8 @@ public final class UpdateManifest {
         publishedAt = properties.getProperty("publishedAt", "").trim();
         android = readArtifact(properties, "android", version);
         desktop = readArtifact(properties, "desktop", version);
+        desktopPatch = readArtifact(properties, "desktop.patch", version);
+        desktopPatchFrom = properties.getProperty("desktop.patch.from", "").trim();
         assets = readArtifact(properties, "assets", version);
     }
 
@@ -92,6 +96,14 @@ public final class UpdateManifest {
 
     public Artifact desktop() {
         return desktop;
+    }
+
+    public Artifact desktopPatch() {
+        return desktopPatch;
+    }
+
+    public String desktopPatchFrom() {
+        return desktopPatchFrom;
     }
 
     public Artifact assets() {

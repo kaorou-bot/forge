@@ -141,6 +141,8 @@ try {
     $releaseNotes = Join-Path $repositoryRoot `
         'forge-gui\src\main\resources\forge-community-release-notes-zh-CN.txt'
     Copy-Item -LiteralPath $releaseNotes -Destination (Join-Path $packageDirectory '更新说明.txt')
+    [IO.File]::WriteAllText((Join-Path $packageDirectory 'forge-community-version.txt'),
+        $displayVersion + "`n", [Text.UTF8Encoding]::new($false))
 
     Write-Step 'Create a dedicated Java 21 JRE with jlink'
     $runtimeDirectory = Join-Path $packageDirectory 'runtime'

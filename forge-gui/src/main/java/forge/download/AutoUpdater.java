@@ -4,6 +4,7 @@ import forge.gui.GuiBase;
 import forge.gui.download.GuiDownloadZipService;
 import forge.gui.util.SOptionPane;
 import forge.localinstance.properties.ForgePreferences;
+import forge.localinstance.properties.ForgeConstants;
 import forge.model.FModel;
 import forge.util.*;
 import org.apache.commons.lang3.StringUtils;
@@ -12,6 +13,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.net.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -42,6 +45,11 @@ public class AutoUpdater {
     private String packageFilename;
     private long packageSize;
     private String packageSha256 = "";
+    private String fullPackageUrl;
+    private String fullPackageFilename;
+    private long fullPackageSize;
+    private String fullPackageSha256 = "";
+    private boolean patchSelected;
     private String buildDate = "";
     private Date snapsBuildDate;
 
@@ -140,10 +148,26 @@ public class AutoUpdater {
                 return false;
             }
             version = artifact.version().isEmpty() ? manifest.version() : artifact.version();
-            packageUrl = manifest.resolveUrl(artifact);
+            fullPackageUrl = manifest.resolveUrl(artifact);
+            fullPackageFilename = new File(new URL(fullPackageUrl).getPath()).getName();
+            fullPackageSize = artifact.size();
+            fullPackageSha256 = artifact.sha256();
+            UpdateManifest.Artifact selected = artifact;
+            final UpdateManifest.Artifact patch = manifest.desktopPatch();
+            final Path marker = Path.of(ForgeConstants.ASSETS_DIR, "forge-community-version.txt");
+            final Path uninstaller = Path.of(ForgeConstants.ASSETS_DIR, "unins000.exe");
+            if (System.getProperty("os.name", "").toLowerCase().contains("windows")
+                    && patch.isPresent() && buildVersion.equals(manifest.desktopPatchFrom())
+                    && Files.isRegularFile(marker) && Files.isRegularFile(uninstaller)
+                    && Files.isWritable(marker.toAbsolutePath().getParent())
+                    && buildVersion.equals(Files.readString(marker).trim())) {
+                selected = patch;
+            }
+            patchSelected = selected == patch;
+            packageUrl = manifest.resolveUrl(selected);
             packageFilename = new File(new URL(packageUrl).getPath()).getName();
-            packageSize = artifact.size();
-            packageSha256 = artifact.sha256();
+            packageSize = selected.size();
+            packageSha256 = selected.sha256();
             return !buildVersion.equals(version);
         } catch (IOException e) {
             SOptionPane.showOptionDialog(e.getMessage(), localizer.getMessage("lblError"), null, List.of("Ok"));
@@ -218,6 +242,13 @@ public class AutoUpdater {
                     @Override
                     public void downloadAndUnzip() {
                         packagePath = download(packageFilename);
+                        if (packagePath == null && patchSelected) {
+                            // A missing or corrupted delta is not a release blocker.
+                            packagePath = new GuiDownloadZipService("Auto Updater",
+                                    localizer.getMessage("lblNewVersionDownloading"), fullPackageUrl,
+                                    System.getProperty("user.home") + "/Downloads/", null, progressBar,
+                                    true, fullPackageSize, fullPackageSha256).download(fullPackageFilename);
+                        }
                         if (packagePath != null) {
                             restartAndUpdate(packagePath);
                         }
@@ -239,6 +270,8 @@ public class AutoUpdater {
                     if (installer.exists()) {
                         if (packagePath.endsWith(".jar")) {
                             installer.setExecutable(true, false);
+                            desktop.open(installer);
+                        } else if (packagePath.toLowerCase().endsWith(".exe")) {
                             desktop.open(installer);
                         } else {
                             desktop.open(installer.getParentFile());
