@@ -44,7 +44,7 @@ public class CardTranslation {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] fields = line.split("\\|", 4);
-                if (fields.length < 2 || fields[0].isBlank() || fields[1].isBlank()) {
+                if (fields.length < 2 || StringUtils.isBlank(fields[0]) || StringUtils.isBlank(fields[1])) {
                     continue;
                 }
                 names.computeIfAbsent(normalizeImportName(fields[1]), key -> new HashSet<>())
