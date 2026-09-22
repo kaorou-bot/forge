@@ -320,4 +320,5 @@ OSS Bucket 私有时，RAM 发布账号可能有上传权限却没有读取对�
 - 首次上传曾遇Bucket ACL的403，未发布指向不可用地址的客户端。管理员部署后，逐张公网读取全部图片并验证大小、SHA-256和JPEG头，2,954/2,954通过，含15条Unicode背面标记路径。
 - 新增镜像优先级、原来源保留、缺少旧映射、特殊字符编码、异画编号不合并测试；连同既有启动与导入测试共102项通过。
 - APK配置在`assets/update-mirror/forge-update.properties`，桌面配置在主JAR内。必须发布新客户端才生效，单独更新安卓资源包不会改变下载路由；本次保留现有资源包。
+- 安卓并不通过桌面classpath读取该配置；新增配置键时必须同时在`forge-gui-android/.../Main.configureUpdateMirror()`中将其传入系统属性。tokens对应`tokens.baseUrl` → `forge.tokens.url`，不能只检查APK里存在properties文件就宣称路由生效。
 - 部署脚本：`deploy/aliyun/publish-token-images.ps1`与`verify-token-cdn.ps1`；权限和路径详见同目录`Tokens-20260922-交接.md`。联机大厅无需修改或重启。

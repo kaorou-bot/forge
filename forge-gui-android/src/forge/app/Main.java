@@ -499,6 +499,7 @@ public class Main extends AndroidApplication {
             properties.load(reader);
             setSystemPropertyIfConfigured("forge.update.url", properties.getProperty("update.baseUrl"));
             setSystemPropertyIfConfigured("forge.images.url", properties.getProperty("images.baseUrl"));
+            setSystemPropertyIfConfigured("forge.tokens.url", properties.getProperty("tokens.baseUrl"));
         } catch (IOException e) {
             android.util.Log.w("ForgeUpdate", "No packaged update mirror configuration", e);
         }
