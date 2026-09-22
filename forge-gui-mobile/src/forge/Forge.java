@@ -25,6 +25,7 @@ import forge.adventure.scene.*;
 import forge.adventure.stage.MapStage;
 import forge.adventure.stage.WorldStage;
 import forge.adventure.util.Config;
+import forge.adventure.util.JSONStringLoader;
 import forge.adventure.world.WorldSave;
 import forge.animation.ForgeAnimation;
 import forge.assets.Assets;
@@ -38,7 +39,6 @@ import forge.gamemodes.limited.BoosterDraft;
 import forge.gui.FThreads;
 import forge.gui.GuiBase;
 import forge.gui.error.BugReporter;
-import forge.gui.util.SOptionPane;
 import forge.interfaces.IDeviceAdapter;
 import forge.localinstance.properties.ForgeConstants;
 import forge.localinstance.properties.ForgePreferences;
@@ -1044,8 +1044,10 @@ public class Forge implements ApplicationListener {
             safeDispose(scene);
         }*/
         // biomeImage (WorldMap) should be disposed
-        if (invokeWorldSave)
+        if (invokeWorldSave) {
             WorldSave.dispose();
+            JSONStringLoader.clearCache();
+        }
         try {
             SoundSystem.instance.dispose();
         } catch (Exception e) {

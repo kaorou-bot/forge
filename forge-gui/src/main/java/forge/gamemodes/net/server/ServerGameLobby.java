@@ -88,9 +88,15 @@ public final class ServerGameLobby extends GameLobby implements IHasForgeLog {
                     + GameLobby.MIN_PLAYERS + " and " + GameLobby.MAX_PLAYERS);
         }
         this.playerCountFixed = playerCountFixed;
-        addSlot(new LobbySlot(LobbySlotType.LOCAL, localName(), localAvatarIndices()[0], localSleeveIndices()[0],0, true, false, Collections.emptySet()));
+        final int[] avatarIndices = localAvatarIndices();
+        final int[] sleeveIndices = localSleeveIndices();
+        addSlot(new LobbySlot(LobbySlotType.LOCAL, localName(), avatarIndices[0], sleeveIndices[0], 0, true, false, Collections.emptySet()));
         for (int index = 1; index < playerLimit; index++) {
-            addSlot(new LobbySlot(LobbySlotType.OPEN, null, -1, -1, index,
+            // Preserve the relay's variable seat count while keeping the upstream
+            // behavior of seeding the normal guest slot with its selected art.
+            final int avatarIndex = index < avatarIndices.length ? avatarIndices[index] : -1;
+            final int sleeveIndex = index < sleeveIndices.length ? sleeveIndices[index] : -1;
+            addSlot(new LobbySlot(LobbySlotType.OPEN, null, avatarIndex, sleeveIndex, index,
                     false, false, Collections.emptySet()));
         }
     }

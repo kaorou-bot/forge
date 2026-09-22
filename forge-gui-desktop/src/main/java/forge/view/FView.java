@@ -29,7 +29,6 @@ import com.google.common.collect.Lists;
 import forge.Singletons;
 import forge.gui.ImportDialog;
 import forge.gui.SOverlayUtils;
-import forge.gui.util.SOptionPane;
 import forge.gui.framework.DragCell;
 import forge.gui.framework.EDocID;
 import forge.gui.framework.FScreen;
@@ -54,7 +53,6 @@ import forge.toolbox.FProgressBar;
 import forge.toolbox.FScrollPane;
 import forge.toolbox.FSkin;
 import forge.toolbox.FSkin.SkinnedLayeredPane;
-import forge.util.Localizer;
 import forge.util.BuildInfo;
 import net.miginfocom.swing.MigLayout;
 
