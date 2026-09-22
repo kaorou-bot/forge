@@ -1,6 +1,10 @@
 package forge.assets;
 
 import java.io.IOException;
+import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -12,6 +16,7 @@ import forge.util.BuildInfo;
 import forge.util.DateUtil;
 import forge.util.ForgeUpdateConfig;
 import forge.util.UpdateManifest;
+import forge.util.AndroidStartupFiles;
 import org.apache.commons.lang3.StringUtils;
 
 import com.badlogic.gdx.Gdx;
@@ -25,10 +30,8 @@ import forge.localinstance.properties.ForgePreferences.FPref;
 import forge.model.FModel;
 import forge.util.FileUtil;
 
-import static forge.localinstance.properties.ForgeConstants.ADV_TEXTURE_BG_FILE;
 import static forge.localinstance.properties.ForgeConstants.ASSETS_DIR;
 import static forge.localinstance.properties.ForgeConstants.GITHUB_SNAPSHOT_URL;
-import static forge.localinstance.properties.ForgeConstants.DEFAULT_SKINS_DIR;
 import static forge.localinstance.properties.ForgeConstants.GITHUB_COMMITS_ATOM;
 import static forge.localinstance.properties.ForgeConstants.GITHUB_FORGE_URL;
 import static forge.localinstance.properties.ForgeConstants.GITHUB_RELEASES_ATOM;
@@ -50,8 +53,6 @@ public class AssetsDownloader {
     public static void checkForUpdates(boolean exited, Runnable runnable) {
         if (exited)
             return;
-        installBundledLocalizationOverrides();
-        refreshFontsIfBundledCjkChanged(installBundledCjkFont());
         if (GuiBase.isAndroid()) {
             Forge.getLocalizer().initialize(Forge.locale, LANG_DIR);
         }
@@ -91,11 +92,9 @@ public class AssetsDownloader {
         // desktop and mobile-dev uses maven-metadata.xml on earlier releases
         final String versionText = isSnapshots ? snapsURL + "version.txt" : releaseURL + "maven-metadata.xml";
         FileHandle assetsDir = Gdx.files.absolute(ASSETS_DIR);
-        FileHandle resDir = Gdx.files.absolute(RES_DIR);
         FileHandle buildTxtFileHandle = GuiBase.isAndroid() ? Gdx.files.internal("build.txt") : Gdx.files.classpath("build.txt");
         final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         boolean verifyUpdatable = false;
-        boolean mandatory = false;
         Date snapsTimestamp = null, buildTimeStamp = null;
 
         String message;
@@ -230,63 +229,27 @@ public class AssetsDownloader {
             run(runnable);
             return;
         }
-        // Android assets fallback
-        String build = "";
-
-        //see if assets need updating
-        FileHandle advBG = Gdx.files.absolute(DEFAULT_SKINS_DIR).child(ADV_TEXTURE_BG_FILE);
-        if (!advBG.exists()) {
-            FileHandle deleteVersion = assetsDir.child("version.txt");
-            if (deleteVersion.exists())
-                deleteVersion.delete();
-            FileHandle deleteBuild = resDir.child("build.txt");
-            if (deleteBuild.exists())
-                deleteBuild.delete();
+        // Installed resources are usable offline independently of the APK version,
+        // optional adventure artwork and the in-memory skin list.
+        final boolean localResourcesUsable = AndroidStartupFiles.hasUsableResources(Paths.get(ASSETS_DIR));
+        if (!connectedToInternet && localResourcesUsable) {
+            System.out.println("[startup] Using local resources without an update connection");
+            run(runnable);
+            return;
         }
-
         FileHandle versionFile = assetsDir.child("version.txt");
-        if (!versionFile.exists()) {
-            try {
-                versionFile.file().createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-                Forge.isMobileAdventureMode = Forge.advStartup;
-                Forge.exitAnimation(false); //can't continue if this fails
-                return;
-            }
-        }
         final UpdateManifest.Artifact mirrorAssets = mirrorManifest == null ? null : mirrorManifest.assets();
         final String resourceVersion = mirrorAssets != null && mirrorAssets.isPresent()
-                ? mirrorAssets.version() : versionString;
-        if (versionFile.exists() && resourceVersion.equals(FileUtil.readFileToString(versionFile.file())) && FSkin.getSkinDir() != null) {
+                ? mirrorAssets.version() : "";
+        if (localResourcesUsable && (resourceVersion.isEmpty()
+                || resourceVersion.equals(FileUtil.readFileToString(versionFile.file())))) {
             run(runnable);
-            return; //if version matches what had been previously saved and FSkin isn't requesting assets download, no need to download assets
-        }
-
-        FileHandle resBuildDate = resDir.child("build.txt");
-        if (buildTxtFileHandle.exists() && resBuildDate.exists()) {
-            String buildString = buildTxtFileHandle.readString();
-            String target = resBuildDate.readString();
-            try {
-                Date buildDate = format.parse(buildString);
-                Date targetDate = format.parse(target);
-                // if res folder has same build date then continue loading assets
-                if (buildDate.equals(targetDate) && resourceVersion.equals(FileUtil.readFileToString(versionFile.file()))) {
-                    run(runnable);
-                    return;
-                }
-                mandatory = true;
-                build += "\n" + Forge.getLocalizer().getMessage("lblInstalledResourcesDate", target) + "\n";
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            return;
         }
 
         Forge.getSplashScreen().prepareForDialogs(); //ensure colors set up for showing message dialogs
 
-        boolean canIgnoreDownload = resDir.exists() && FSkin.getAllSkins() != null && !FileUtil.readFileToString(versionFile.file()).isEmpty(); //don't allow ignoring download if resource files haven't been previously loaded
-        if (mandatory && connectedToInternet)
-            canIgnoreDownload = false;
+        boolean canIgnoreDownload = localResourcesUsable;
 
         if (!connectedToInternet) {
             message = Forge.getLocalizer().getMessage("lblUpdatedResourcesUnavailable") + "\n\n";
@@ -327,7 +290,7 @@ public class AssetsDownloader {
             options = getDownloadExitOptions();
         }
 
-        switch (SOptionPane.showOptionDialog(message + build, "", null, options)) {
+        switch (SOptionPane.showOptionDialog(message, "", null, options)) {
             case 1:
                 if (!canIgnoreDownload) {
                     Forge.isMobileAdventureMode = Forge.advStartup;
@@ -364,9 +327,35 @@ public class AssetsDownloader {
             assetSize = 0;
             assetSha256 = "";
         }
-        new GuiDownloadZipService("", Forge.getLocalizer().getMessage("lblResourceFiles"), assetURL,
+        GuiDownloadZipService downloader = new GuiDownloadZipService("", Forge.getLocalizer().getMessage("lblResourceFiles"), assetURL,
                 ASSETS_DIR, RES_DIR, Forge.getSplashScreen().getProgressBar(), allowDeletion,
-                assetSize, assetSha256).downloadAndUnzip();
+                assetSize, assetSha256);
+        String archive = downloader.download("temp.zip");
+        boolean installed = false;
+        if (archive != null) {
+            try {
+                // Written only after a verified download, before any old resource is touched.
+                writeAtomically(assetsDir.child(AndroidStartupFiles.INSTALLING), resourceVersion);
+                downloader.extract(archive);
+                if (downloader.wasExtractionSuccessful() && AndroidStartupFiles.hasCoreResources(Paths.get(ASSETS_DIR))) {
+                    writeAtomically(versionFile, resourceVersion);
+                    Files.delete(Paths.get(ASSETS_DIR, AndroidStartupFiles.INSTALLING));
+                    installed = true;
+                }
+            } catch (IOException e) { e.printStackTrace(); }
+        }
+        if (!installed) {
+            SOptionPane.showOptionDialog(Forge.getLocalizer().getMessage("lblCouldNotDownloadUpdate"),
+                    Forge.getLocalizer().getMessage("lblUpdateFailed"), null,
+                    ImmutableList.of(Forge.getLocalizer().getMessage("lblOK")));
+            if (AndroidStartupFiles.hasUsableResources(Paths.get(ASSETS_DIR))) {
+                run(runnable);
+            } else {
+                Forge.isMobileAdventureMode = Forge.advStartup;
+                Forge.exitAnimation(false);
+            }
+            return;
+        }
 
         if (allowDeletion)
             FSkinFont.deleteCachedFiles(); //delete cached font files in case any skin's .ttf file changed
@@ -377,19 +366,6 @@ public class AssetsDownloader {
             FSkin.loadLight(FSkin.getName(), Forge.getSplashScreen());
         });
 
-        //save version string to file once assets finish downloading
-        //so they don't need to be re-downloaded until you upgrade again
-        if (connectedToInternet) {
-            if (versionFile.exists())
-                FileUtil.writeFile(versionFile.file(), resourceVersion);
-        }
-        //final check if temp.zip exists then extraction is not complete...
-        FileHandle check = assetsDir.child("temp.zip");
-        if (check.exists()) {
-            if (versionFile.exists())
-                versionFile.delete();
-            check.delete();
-        }
         // auto restart after update
         Forge.isMobileAdventureMode = Forge.advStartup;
         Forge.exitAnimation(true);
@@ -397,8 +373,6 @@ public class AssetsDownloader {
 
     private static void run(Runnable toRun) {
         if (toRun != null) {
-            installBundledLocalizationOverrides();
-            refreshFontsIfBundledCjkChanged(installBundledCjkFont());
             if (!GuiBase.isAndroid()) {
                 Forge.getSplashScreen().getProgressBar().setDescription(Forge.getLocalizer().getMessage("lblLoadingGameResources"));
             }
@@ -420,7 +394,7 @@ public class AssetsDownloader {
         for (String fileName : ImmutableList.of("en-US.properties", "zh-CN.properties", "cardnames-zh-CN.txt")) {
             FileHandle bundledFile = Gdx.files.internal("localization/" + fileName);
             if (bundledFile.exists()) {
-                bundledFile.copyTo(destination.child(fileName));
+                installAtomically(bundledFile, destination.child(fileName));
             }
         }
     }
@@ -444,13 +418,12 @@ public class AssetsDownloader {
         if (!installMarker.exists()) {
             fontConfigurationChanged = true;
         }
-        if (!installedFont.exists() || installedFont.length() != bundledFont.length()) {
-            bundledFont.copyTo(installedFont);
+        if (installAtomically(bundledFont, installedFont)) {
             fontConfigurationChanged = true;
         }
         FileHandle bundledLicense = Gdx.files.internal("bundled-font/OFL.txt");
         if (bundledLicense.exists()) {
-            bundledLicense.copyTo(fontDirectory.child("SourceHanSansCN-OFL.txt"));
+            installAtomically(bundledLicense, fontDirectory.child("SourceHanSansCN-OFL.txt"));
         }
         if (FModel.getPreferences().getPref(FPref.UI_CJK_FONT).isEmpty()) {
             FileUtil.ensureDirectoryExists(USER_PREFS_DIR);
@@ -465,19 +438,32 @@ public class AssetsDownloader {
                     marker.delete();
                 }
             }
-            installMarker.writeString("SourceHanSansCN " + bundledFont.length(), false, "UTF-8");
+            try { writeAtomically(installMarker, "SourceHanSansCN " + bundledFont.length()); }
+            catch (IOException e) { e.printStackTrace(); }
         }
         return fontConfigurationChanged;
     }
 
-    private static void refreshFontsIfBundledCjkChanged(boolean fontConfigurationChanged) {
-        if (!fontConfigurationChanged) {
-            return;
+    /** Called on the GL thread before loading the splash skin, not during rendering. */
+    public static void prepareBundledFiles() {
+        installBundledLocalizationOverrides();
+        if (installBundledCjkFont()) {
+            // No live font/texture objects yet: do not instantiate Assets here.
+            FSkinFont.deleteCachedFiles();
         }
-        // A splash font may have been generated before the bundled CJK font was
-        // unpacked. Remove that fallback cache and immediately rebuild the live
-        // font objects so the first session also renders Chinese correctly.
-        FSkinFont.deleteCachedFiles();
-        FSkinFont.updateAll();
+    }
+
+    private static boolean installAtomically(FileHandle source, FileHandle target) {
+        try { return AndroidStartupFiles.install(source::read, target.file().toPath()); }
+        catch (IOException e) {
+            System.err.println("[startup] Could not install " + target + ": " + e);
+            if (!target.exists() || target.length() == 0) { throw new IllegalStateException("Missing startup file: " + target, e); }
+            return false; // Keep the previous complete file when the filesystem is unavailable/full.
+        }
+    }
+
+    private static void writeAtomically(FileHandle target, String value) throws IOException {
+        byte[] bytes = value.getBytes(StandardCharsets.UTF_8);
+        AndroidStartupFiles.install(() -> new ByteArrayInputStream(bytes), target.file().toPath());
     }
 }

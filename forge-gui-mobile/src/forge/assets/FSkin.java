@@ -125,6 +125,26 @@ public class FSkin {
      *            the skin name
      */
     public static void loadLight(String skinName, final SplashScreen splashScreen) {
+        try {
+            loadLightInternal(skinName, splashScreen);
+        } catch (Exception e) {
+            System.err.println("[startup] Skin initialization failed; using bundled splash: " + e);
+            e.printStackTrace();
+            useFallbackDir();
+            if (splashScreen != null) { loadBundledSplash(splashScreen); }
+        }
+    }
+
+    private static void loadBundledSplash(SplashScreen splashScreen) {
+        FileHandle fallback = GuiBase.isMobile() ? Gdx.files.internal("fallback_skin/bg_splash.png")
+                : Gdx.files.classpath("fallback_skin/bg_splash.png");
+        Texture texture = Forge.getAssets().getTexture(fallback);
+        splashScreen.setSplashTexture(new TextureRegion(texture, 0, 0,
+                texture.getWidth(), Math.max(1, texture.getHeight() - 100)));
+        loaded = true;
+    }
+
+    private static void loadLightInternal(String skinName, final SplashScreen splashScreen) {
         preferredName = skinName.toLowerCase().replace(' ', '_');
 
         //reset hd buttons/icons
@@ -215,6 +235,8 @@ public class FSkin {
             if (!f.exists()) {
                 if (!skinName.equals("default")) {
                     FSkin.loadLight("default", splashScreen);
+                } else {
+                    loadBundledSplash(splashScreen);
                 }
                 return;
             }
@@ -260,7 +282,8 @@ public class FSkin {
                 FProgressBar.SEL_FORE_COLOR = new Color(pxSplash.getPixel(75, h - 25));
             }
             catch (final Exception e) {
-                //e.printStackTrace();
+                System.err.println("[startup] Could not load selected splash; using bundled splash: " + e);
+                loadBundledSplash(splashScreen);
             }
             loaded = true;
         }

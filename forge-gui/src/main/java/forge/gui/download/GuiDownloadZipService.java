@@ -26,6 +26,9 @@ public class GuiDownloadZipService extends GuiDownloadService {
     private final long expectedSize;
     private final String expectedSha256;
     private int filesExtracted;
+    private boolean extractionSuccessful;
+
+    public boolean wasExtractionSuccessful() { return extractionSuccessful; }
     private boolean allowDeletion;
 
     public GuiDownloadZipService(final String name0, final String desc0, final String sourceUrl0, final String destFolder0, final String deleteFolder0, final IProgressBar progressBar0) {
@@ -167,6 +170,8 @@ public class GuiDownloadZipService extends GuiDownloadService {
     }
 
     public void extract(String zipFilename) {
+        extractionSuccessful = false;
+        filesExtracted = 0;
         //if assets.zip downloaded successfully, unzip into destination folder
         try {
             GuiBase.getInterface().preventSystemSleep(true); //prevent system from going into sleep mode while unzipping
@@ -245,7 +250,8 @@ public class GuiDownloadZipService extends GuiDownloadService {
             }
 
             zipFile.close();
-            new File(zipFilename).delete();
+            extractionSuccessful = !cancel && failedCount == 0 && filesExtracted > 0;
+            if (extractionSuccessful) { new File(zipFilename).delete(); }
         }
         catch (final Exception e) {
             e.printStackTrace();

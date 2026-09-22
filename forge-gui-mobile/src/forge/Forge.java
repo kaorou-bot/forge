@@ -194,6 +194,12 @@ public class Forge implements ApplicationListener {
 
         ((GuiMobile) GuiBase.getInterface()).captureGlThread();
 
+        // Install complete bundled files before splash/font loading. A killed copy
+        // must not leave truncated language/font files for the next cold start.
+        System.out.println("[startup] Preparing bundled language and font files");
+        AssetsDownloader.prepareBundledFiles();
+        System.out.println("[startup] Bundled files ready; initializing graphics");
+
         if (!GuiBase.isAndroid() || (androidVersion > 25 && totalDeviceRAM > 3400)) {
             allowCardBG = true;
         }
@@ -234,6 +240,7 @@ public class Forge implements ApplicationListener {
         }
         if (!initialized)
             FSkin.loadLight(skinName, getSplashScreen());
+        System.out.println("[startup] Splash skin ready");
 
         textureFiltering = getForgePreferences().getPrefBoolean(FPref.UI_LIBGDX_TEXTURE_FILTERING);
         showFPS = getForgePreferences().getPrefBoolean(FPref.UI_SHOW_FPS);
