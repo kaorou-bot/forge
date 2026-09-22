@@ -2,6 +2,14 @@
 
 本文记录 `kaorou-bot/forge` 的 `zh-cn-community-release` 分支在 Windows 上维护、构建、测试和发布到阿里云的实际经验。目标是让后续维护者能够复现当前版本，并避免已经发生过的更新循环、黑屏、中文缺字、输入法失效和 Windows 启动器失配等问题。
 
+## 最新发布约定（2026-09-22）
+
+用户在 cn0922r4 发布过程中要求：**之后不再制作增量包**。后续桌面发布仅提供完整安装包和内置 JRE 的便携 ZIP。
+
+- 运行 `deploy/build-desktop-installer.ps1` 时不再传入 `PreviousPackageDirectory`、`PreviousVersion`、`PreviousBuildId`，避免旧版全目录哈希比对和增量压缩。
+- 后续更新清单只使用新的完整安装包作为 `desktop.url`，移除遗留的全部 `desktop.patch.*` 字段，不能沿用旧增量地址。Android 是否更新由实际改动决定，不因桌面发版而重复发布。
+- 下文关于增量包的描述是历史记录，不再作为后续发布的默认流程。已经开始构建的 cn0922r4 按当次流程收尾；不删除已发布的历史文件。
+
 ## 1. 项目边界与仓库
 
 - 上游仓库：`https://github.com/Card-Forge/forge.git`
