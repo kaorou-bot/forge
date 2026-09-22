@@ -303,14 +303,9 @@ public abstract class ImageFetcher {
                     || destFile.exists())
                 return;
 
-            // token-images.txt lets mods route specific tokens to hosted URLs.
-            for (org.apache.commons.lang3.tuple.Pair<String, String> pair :
-                    FileUtil.readNameUrlFile(ForgeConstants.IMAGE_LIST_TOKENS_FILE)) {
-                if (filename.equalsIgnoreCase(pair.getLeft())) {
-                    downloadUrls.add(pair.getRight());
-                    break;
-                }
-            }
+            // Community mirror first, then the original explicit source and Scryfall.
+            downloadUrls.addAll(getTokenImageSources(filename,
+                    FileUtil.readNameUrlFile(ForgeConstants.IMAGE_LIST_TOKENS_FILE)));
 
             if (tempdata.length < 2) {
                 if (!"planechase".equals(tempdata[0]))
@@ -417,6 +412,22 @@ public abstract class ImageFetcher {
         }
         FileUtil.ensureDirectoryExists(ForgeConstants.CACHE_SLEEVE_PICS_DIR);
         setupObserver(destFile.getAbsolutePath(), callback, downloadUrls);
+    }
+
+    static List<String> getTokenImageSources(final String filename,
+            final Iterable<org.apache.commons.lang3.tuple.Pair<String, String>> mappings) {
+        final List<String> urls = new ArrayList<>();
+        final String mirror = ForgeUpdateConfig.getTokenImageDownloadUrl(filename);
+        if (!mirror.isEmpty()) {
+            urls.add(mirror);
+        }
+        for (org.apache.commons.lang3.tuple.Pair<String, String> pair : mappings) {
+            if (filename.equalsIgnoreCase(pair.getLeft())) {
+                if (!urls.contains(pair.getRight())) { urls.add(pair.getRight()); }
+                break;
+            }
+        }
+        return urls;
     }
 
     private void setupObserver(final String destPath, final Callback callback, final ArrayList<String> downloadUrls) {

@@ -2,6 +2,8 @@ package forge.util;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
 /**
@@ -22,6 +24,22 @@ public final class ForgeUpdateConfig {
 
     public static String getCardImageBaseUrl() {
         return configuredUrl("forge.images.url", "FORGE_IMAGE_URL", "images.baseUrl");
+    }
+
+    /** Tokens have their own cache names and must never use the cards/ mirror. */
+    public static String getTokenImageDownloadUrl(final String relativePath) {
+        final String base = configuredUrl("forge.tokens.url", "FORGE_TOKEN_IMAGE_URL", "tokens.baseUrl");
+        if (base.isEmpty() || relativePath == null || relativePath.isEmpty()) {
+            return "";
+        }
+        // Preserve path separators, collector numbers and the Unicode back-face marker.
+        return base + URLEncoder.encode(relativePath, StandardCharsets.UTF_8)
+                .replace("+", "%20").replace("%2F", "/");
+    }
+
+    public static boolean isTokenImageMirrorUrl(final String url) {
+        final String base = configuredUrl("forge.tokens.url", "FORGE_TOKEN_IMAGE_URL", "tokens.baseUrl");
+        return !base.isEmpty() && url != null && url.startsWith(base);
     }
 
     public static boolean isCardImageMirrorEnabled() {

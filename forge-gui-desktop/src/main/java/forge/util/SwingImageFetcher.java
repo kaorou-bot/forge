@@ -132,7 +132,7 @@ public class SwingImageFetcher extends ImageFetcher {
                     }
                 } catch (IOException e) {
                     System.err.println("Failed to download card [" + destPath + "] image: " + e.getMessage());
-                    if (urlToDownload.contains("tokens")) {
+                    if (urlToDownload.contains("tokens") && !ForgeUpdateConfig.isTokenImageMirrorUrl(urlToDownload)) {
                         int setIndex = urlToDownload.lastIndexOf('_');
                         int typeIndex = urlToDownload.lastIndexOf('.');
                         String setlessFilename = urlToDownload.substring(0, setIndex);
