@@ -41,7 +41,13 @@ public class CostPutCounter extends CostPartWithList {
     // Put Counter doesn't really have a "Valid" portion of the cost
     private final CounterType counter;
 
-    private final GameEntityCounterTable counterTable = new GameEntityCounterTable();
+    // Host-only payment bookkeeping; optional costs cross the wire for remote choices.
+    private transient GameEntityCounterTable counterTable = new GameEntityCounterTable();
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+        in.defaultReadObject();
+        counterTable = new GameEntityCounterTable();
+    }
 
     public final CounterType getCounter() {
         return this.counter;

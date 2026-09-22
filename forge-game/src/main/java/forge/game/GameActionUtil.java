@@ -535,7 +535,12 @@ public final class GameActionUtil {
     }
 
     public static SpellAbility addOptionalCosts(final SpellAbility sa, List<OptionalCostValue> list) {
-        if (sa == null || list.isEmpty()) {
+        // A missing reply means the choice failed or was cancelled, not "pay no extra costs".
+        // The caller must abort this cast; an explicitly empty selection still uses the base spell.
+        if (sa == null || list == null) {
+            return null;
+        }
+        if (list.isEmpty()) {
             return sa;
         }
         final SpellAbility result = sa.copy();
