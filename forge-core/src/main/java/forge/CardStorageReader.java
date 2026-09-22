@@ -20,7 +20,6 @@ package forge;
 import com.google.common.io.Files;
 import forge.card.CardRules;
 import forge.card.ICardFace;
-import forge.util.BuildInfo;
 import forge.util.FileUtil;
 import forge.util.Localizer;
 import forge.util.ThreadUtil;
@@ -57,7 +56,6 @@ public class CardStorageReader {
     }
 
     private static final String CARD_FILE_DOT_EXTENSION = ".txt";
-    private static final String UPCOMING = "upcoming";
 
     /** Default charset when loading from files. */
     public static final String DEFAULT_CHARSET_NAME = "UTF-8";
@@ -398,11 +396,8 @@ public class CardStorageReader {
                 continue;
             }
 
-            if (filename.equalsIgnoreCase(CardStorageReader.UPCOMING) && !BuildInfo.isDevelopmentVersion()) {
-                // If upcoming folder exits, only load these cards on development builds
-                continue;
-            }
-
+            // Load every bundled card, including upcoming sets, just as getZipEntries() does.
+            // Filtering by build version silently truncates release desktop booster pools.
             collectCardFiles(accumulator, entry);
         }
         return accumulator;

@@ -322,3 +322,22 @@ OSS Bucket 私有时，RAM 发布账号可能有上传权限却没有读取对�
 - APK配置在`assets/update-mirror/forge-update.properties`，桌面配置在主JAR内。必须发布新客户端才生效，单独更新安卓资源包不会改变下载路由；本次保留现有资源包。
 - 安卓并不通过桌面classpath读取该配置；新增配置键时必须同时在`forge-gui-android/.../Main.configureUpdateMirror()`中将其传入系统属性。tokens对应`tokens.baseUrl` → `forge.tokens.url`，不能只检查APK里存在properties文件就宣称路由生效。
 - 部署脚本：`deploy/aliyun/publish-token-images.ps1`与`verify-token-cdn.ps1`；权限和路径详见同目录`Tokens-20260922-交接.md`。联机大厅无需修改或重启。
+
+## 2026-09-22：桌面正式版 FRA 现开牌池缺失
+
+- 新卡脚本和 FRA 系列定义已经包含在桌面包中，问题不是资源漏上传。`CardStorageReader.collectCardFiles()` 原先在非开发版本跳过 `upcoming`；安卓从 `cardsfolder.zip` 读取，没有对应过滤，导致同一资源两端牌池不同。
+- 旧正式 JAR 实测：`upcoming` 加载路径为 0，FRA 主系列 71 张普通牌中只有 Unsummon、Last Gasp、Blazing Crescendo 的脚本可加载，另外 68 张被跳过。
+- 修复目录扫描，加载所有随包提供的新卡，与 ZIP 路径一致；保留隐藏目录过滤，不修改全局 `BuildInfo.isDevelopmentVersion()`，也不改变版本号、图片、翻译或联机服务。
+- `ReleaseUpcomingCardsTest` 强制非开发条件，覆盖全量 FRA 普通牌、延迟加载新杰斯、六包现开（每包 14 张及新普通牌）。三项测试在修复前全部失败，修复后与延迟加载、中文导入、tokens、启动和更新清单测试合计 109 项通过。
+- Maven 的 `target/classes` 没有正式 JAR 的 Implementation-Version，通常被识别为 GIT；不能只跑默认开发模式测试。打包后还需使用实际发布 JAR，在非开发模式下检查牌池和生成六包现开。
+- 本次实际新构建的正式格式 JAR 验证通过：开发模式为 false，71 张 FRA 普通牌全部存在，六包共 84 张、该次抽样 71 个不同牌名。验证使用既有 cn0922r3 资源，进一步确认不需要重新下载卡牌资源即可修复加载问题。
+- 独立桌面测试包输出至 `dist/desktop-cn0922r3-fra-fix/`，用包内 JRE 和资源重复验证亦通过（71 张普通牌、六包 84 张、该次抽样 69 个不同牌名），ZIP 完整性检查通过。测试包沿用 cn0922r3 标识，未作为新版本部署；后续正式发布必须递增版本并使用新路径。
+- 修复只对之后重新生成的牌池生效，不会把之前已经保存的异常现开套牌自动重抽。测试包和线上 cn0922r3 包必须分目录保存，不覆盖已经发布的同版本对象。
+
+### 用户验收后发布 cn0922r4
+
+- 用户确认桌面 FRA 测试正常，授权递增版本、提交推送并发布。桌面显示版本为 `2.0.15-汉化-09.22.4`，构建标识 `2.0.15-cn0922r4`；提供完整 EXE、内置 JRE 的 ZIP，以及仅适用于 `2.0.15-汉化-09.22.3` 的增量 EXE。
+- 正式版本重新执行 109 项测试，零失败；使用新包自带 JRE 验证 71 张 FRA 普通牌和六包共 84 张牌，ZIP 完整性检查通过。中文卡牌翻译与固定独立发布分支逐字比较一致，仍为 38,219 条。
+- 本次仅发布桌面：必须原样保留清单全部 `android.*` 和 `assets.*` 字段，尤其不能将 `android.version` 改为 cn0922r4，否则会诱发重复更新。原 APK cn0922r3 和资源版本 `2.0.15-cn.assets.20260922` 不变。POM 为下一次 Android 构建预留更高 versionCode，不代表本次已发布新 APK。
+- 不使用强制要求同步 Android 的 `publish-clients.ps1` 直接发布本次桌面热修复。备份线上清单，先上传新版本目录中的不可变制品并从 CDN 完整下载比对大小与 SHA-256，切换前再次核对清单未被其他任务修改，最后只更新桌面相关字段及整体发布元数据。
+- 不修改、重启联机大厅或中继服务。Git 仅推送自己的 `origin/zh-cn-community-release`，不向上游发起 PR。
