@@ -194,4 +194,6 @@ Java 扩展应在 Swing EDT 上组合传入组件，保留其身份、事件和�
 mvn -pl forge-gui-desktop -am test -Dtest=MatchUiLayoutTest,MatchSceneLayoutTest,HandDropTest -Dsurefire.failIfNoSpecifiedTests=false
 ```
 
+上面的命令仅用于界面专项回归。提交前还应在仓库根目录运行 `mvn -B clean test`，保留 Checkstyle 检查和完整测试集；推送后检查 GitHub Actions 中 Java 17、Java 21 两项结果。专项测试通过不能替代完整构建通过。
+
 发布前还应实际验收：多人战场的卡牌密集显示、攻击/阻挡/目标连线、网络对战、区域标签、控制权变化，以及高 DPI 和小窗口下的可读性。通过布局单元测试不等于这些交互已经全部验收。
