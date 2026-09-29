@@ -90,9 +90,13 @@ public record MatchSceneLayout(Map<String, MatchUiLayout.Bounds> widgets, MatchS
                 || id.equals("REPORT_MESSAGE") && widgets.containsKey("PROMPT_MESSAGE");
     }
     List<MatchUiLayout.Bounds> protectedAreas(List<MatchUiLayout.Region> regions) {
+        return protectedAreas(regions, true);
+    }
+    private List<MatchUiLayout.Bounds> protectedAreas(List<MatchUiLayout.Region> regions, boolean includePreview) {
         final var protectedBounds = new java.util.ArrayList<MatchUiLayout.Bounds>();
         regions.stream().filter(r -> r.documents().stream().anyMatch(s ->
-                s.equals("hands") || s.startsWith("HAND_") || s.equals("REPORT_MESSAGE")))
+                s.equals("hands") || s.startsWith("HAND_") || s.equals("REPORT_MESSAGE")
+                || includePreview && (s.equals("CARD_PICTURE") || s.equals("CARD_DETAIL"))))
                 .map(MatchUiLayout.Region::bounds).forEach(protectedBounds::add);
         widgets.entrySet().stream().filter(e -> e.getKey().startsWith("PROMPT_"))
                 .map(Map.Entry::getValue).forEach(protectedBounds::add);
@@ -107,7 +111,9 @@ public record MatchSceneLayout(Map<String, MatchUiLayout.Bounds> widgets, MatchS
                 throw new IllegalArgumentException("Replaced document also assigned a fixed region");
             }
         }
-        for (var area : protectedAreas(regions)) {
+        // Earlier v3 packages may place the stack over previews. Relocate them at runtime
+        // instead of making previously importable packages invalid.
+        for (var area : protectedAreas(regions, false)) {
             for (var panel : floating.values()) {
                 if (panel.bounds().overlaps(area)) {
                     throw new IllegalArgumentException("Floating panels must not cover hands or response controls");

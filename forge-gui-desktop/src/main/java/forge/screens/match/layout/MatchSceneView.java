@@ -18,16 +18,25 @@ final class MatchSceneView {
     private final Map<String, MatchFloatingPanel> floating = new LinkedHashMap<>();
     private final java.util.List<MatchUiLayout.Bounds> protectedAreas;
     private final JPanel background = new JPanel() {
+        private java.awt.image.BufferedImage scaled;
         @Override public boolean contains(int x, int y) { return false; }
         @Override protected void paintComponent(java.awt.Graphics g) {
             if (definition.appearance() != null && definition.appearance().background() != null) {
-                g.drawImage(definition.appearance().background(), 0, 0, getWidth(), getHeight(), null);
+                if (getWidth() <= 0 || getHeight() <= 0) { return; }
+                if (scaled == null || scaled.getWidth() != getWidth() || scaled.getHeight() != getHeight()) {
+                    scaled = new java.awt.image.BufferedImage(getWidth(), getHeight(), java.awt.image.BufferedImage.TYPE_INT_ARGB);
+                    final var graphics = scaled.createGraphics();
+                    try { graphics.drawImage(definition.appearance().background(), 0, 0, getWidth(), getHeight(), null); }
+                    finally { graphics.dispose(); }
+                }
+                g.drawImage(scaled, 0, 0, null);
             }
         }
     };
     private final java.util.List<Runnable> restorers = new java.util.ArrayList<>();
     private final JPanel phases = new JPanel(new java.awt.BorderLayout());
     private final JPanel layer = new JPanel(null) {
+        @Override public boolean isOptimizedDrawingEnabled() { return false; }
         @Override public boolean contains(int x, int y) {
             for (Component child : getComponents()) {
                 if (child.isVisible() && child.contains(x - child.getX(), y - child.getY())) { return true; }
@@ -55,7 +64,7 @@ final class MatchSceneView {
                     .filter(f -> f.getDocumentID().name().equals(id.substring(0, dot))).findFirst().orElseThrow();
             final var widget = id.equals("PHASES_ACTIVE") ? new MatchWidgetRegistry.Widget(phases)
                     : MatchWidgetRegistry.create(definition.renderers().getOrDefault(id, type),
-                            new MatchWidgetRegistry.Context(match, field, type));
+                            new MatchWidgetRegistry.Context(match, field, type, definition.appearance()));
             widgets.put(id, widget);
             owners.put(id, field);
             final var shell = new MatchSkinPanel(definition.appearance() == null ? null : definition.appearance().style(id));
@@ -100,6 +109,8 @@ final class MatchSceneView {
     void resize() {
         if (!match.isCurrentScreen()) { return; }
         final JPanel host = FView.SINGLETON_INSTANCE.getPnlContent();
+        if (layer.getParent() == host && layer.getWidth() == host.getWidth() && layer.getHeight() == host.getHeight()
+                && host.getComponentZOrder(layer) == 0) { return; }
         if (definition.appearance() != null && definition.appearance().background() != null) {
             if (background.getParent() != host) { host.add(background); }
             host.setComponentZOrder(background, host.getComponentCount() - 1);

@@ -52,7 +52,18 @@ public final class DragCell extends JPanel implements ILocalRepaint {
     // Tab handling layout stuff
     private final List<IVDoc<? extends ICDoc>> allDocs = new ArrayList<>();
     private final JLabel lblHandle = new DragHandle();
-    private final JLabel lblOverflow = new JLabel();
+    private final JLabel lblOverflow = new JLabel() {
+        @Override public boolean isOpaque() {
+            return getClientProperty(forge.screens.match.layout.MatchSkinTheme.STYLE_PROPERTY) == null && super.isOpaque();
+        }
+        @Override protected void paintComponent(Graphics g) {
+            if (getClientProperty(forge.screens.match.layout.MatchSkinTheme.STYLE_PROPERTY)
+                    instanceof forge.screens.match.layout.MatchSkinTheme.Style style) {
+                style.paint((java.awt.Graphics2D) g, getWidth(), getHeight(), false, false);
+            }
+            super.paintComponent(g);
+        }
+    };
     private IVDoc<? extends ICDoc> docSelected = null;
 
     public DragCell() {
@@ -100,7 +111,11 @@ public final class DragCell extends JPanel implements ILocalRepaint {
     public void setSceneTheme(forge.screens.match.layout.MatchSkinTheme theme) { sceneTheme = theme; }
     private void applySceneSurface() {
         restoreSurface = sceneSurface.apply(pnlBody);
-        if (sceneTheme != null) { restoreTheme = sceneTheme.apply(pnlBody, "document"); }
+        if (sceneTheme != null) {
+            final Runnable body = sceneTheme.apply(pnlBody, "document");
+            final Runnable tabs = sceneTheme.apply(pnlHead, "tab");
+            restoreTheme = () -> { tabs.run(); body.run(); };
+        }
     }
     private java.util.function.Function<String, forge.screens.match.layout.MatchSurfaceStyle> surfaceResolver;
     public boolean isSceneMode() { return sceneMode; }

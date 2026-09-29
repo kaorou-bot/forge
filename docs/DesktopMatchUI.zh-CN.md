@@ -231,6 +231,10 @@ v3 在 v2 场景接口上增加条件显示、悬浮文档和外观资源；v1/v
 REPORT_DEPENDENCIES、DEV_MODE；默认条件 ALWAYS。浮层仍在游戏窗口内部，复用原组件及交互。
 浮动文档不能同时指定在固定区域；浮动堆叠拥有标题，因此不再声明 STACK_STATUS。
 初始和拖动位置不能遮挡手牌、REPORT_MESSAGE 区域。窗口缩放时约束在可见范围内。
+悬浮面板还会自动避让固定的 CARD_PICTURE/CARD_DETAIL 区域；旧 v3 包若将堆叠放在预览上，
+主程序会寻找最近的可用位置，无需重新导入。皮肤应留出足够容纳浮层的非预览空间；
+若整个布局无处容纳该尺寸，则保留原位置，制作者应减小 floating.bounds。
+拖动事件按帧合并，仅重绘移动前后的区域；背景缩放结果按窗口尺寸缓存。
 
 `scene.appearance` 属性：
 
@@ -241,7 +245,12 @@ REPORT_DEPENDENCIES、DEV_MODE；默认条件 ALWAYS。浮层仍在游戏窗口�
 | text | 全局文字颜色 |
 | styles | 按精确控件 ID 或类别匹配的样式 |
 
-样式类别包含 default、zone、avatar、life、phase、button、text（堆叠等文本区域）、floating。
+样式类别包含 default、zone、avatar、life、phase、button、text（堆叠等文本区域）、floating、
+tab（卡图、卡牌详情、日志等文档标签及溢出按钮）、actions（对战操作窗口背景）。
+tab 未声明时回退到 button；actions 未声明时回退到 floating。标签选中态使用 highlight，
+切换布局时恢复原皮肤。ACTIONS_MENU 控件打开可拖动、可调整大小的非模态独立窗口；
+窗口按钮复用原操作和可用状态，执行后收起，Escape 或关闭按钮也可收起。
+其按钮使用 button 样式；窗口随场景释放，不保留跨对局的控制器引用。
 每个样式可配置 fill、border、highlight（#RRGGBB 或 #RRGGBBAA）、
 radius（0–80）、padding（0–32）、fontSize（8–64）和 image（包内图片路径）。
 背景、边框与标题的开关仍由 `scene.surface` 和 `scene.styles` 决定。
@@ -253,3 +262,9 @@ radius（0–80）、padding（0–32）、fontSize（8–64）和 image（包�
 
 自动化回归增加 MatchSkinPackageTest：真实资源包及中文字体加载、手牌独立可见、
 法术力/堆叠状态变化、浮层遮挡拒绝、字体颜色与动态子组件恢复、导入失败回滚和路径越界拒绝。
+
+2026-09-30 补充验收：增加标签选中样式及还原、800/1280/2048 宽度下的预览避让测试。
+在独立 Windows 测试对局中检查了标签切换、操作窗口打开及查看套牌命令、拖动手牌出地、
+非空堆叠出现和拖向预览边界、移动后背景恢复、堆叠清空隐藏、法术力池出现、经典布局往返。
+拖动优化包含重叠组件重绘、固定按下坐标、16 ms 事件合并、背景缓存及避免重复布局；
+当前未进行不同显卡、高 DPI 和高负载下的帧时间基准测试。

@@ -233,7 +233,7 @@
     "floating": {
       "REPORT_STACK": {
         "bounds": [
-          0.79,
+          0.61,
           0.15,
           0.205,
           0.46
@@ -297,6 +297,21 @@
           "highlight": "#91C8CB",
           "radius": 14,
           "padding": 10,
+          "fontSize": 16
+        },
+        "tab": {
+          "fill": "#182733",
+          "border": "#907346",
+          "highlight": "#A87839",
+          "radius": 7,
+          "padding": 2,
+          "fontSize": 13
+        },
+        "actions": {
+          "fill": "#101D29",
+          "border": "#D2AA62",
+          "radius": 14,
+          "padding": 16,
           "fontSize": 16
         },
         "text": {

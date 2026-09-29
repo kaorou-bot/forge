@@ -79,6 +79,59 @@ public class MatchSkinPackageTest {
                 new Rectangle(0, 350, 200, 250));
     }
 
+    @Test public void floatingStackAvoidsPreviewOnLoadDragAndResize() throws Exception {
+        final Path skin = Path.of("../skins/dusk-sanctum").toAbsolutePath().normalize();
+        try (var reader = Files.newBufferedReader(skin.resolve("match-ui.json"))) {
+            final var layout = MatchUiLayout.read(reader, skin);
+            final var protectedBounds = layout.scene().protectedAreas(layout.regions());
+            Assert.assertTrue(protectedBounds.contains(layout.regions().stream()
+                    .filter(r -> r.documents().contains("CARD_DETAIL")).findFirst().orElseThrow().bounds()));
+            for (int width : List.of(800, 1280, 2048)) {
+                final int height = width * 9 / 16;
+                final var obstacles = protectedBounds.stream().map(b -> new Rectangle((int) (b.x() * width),
+                        (int) (b.y() * height), (int) (b.w() * width), (int) (b.h() * height))).toList();
+                // Old package position overlaps preview; a drag may also point outside the viewport.
+                for (int x : List.of((int) (width * .79), width, -200)) {
+                    final var resolved = MatchFloatingPanel.avoid(new Rectangle(x, (int) (height * .15),
+                            (int) (width * .205), (int) (height * .46)), width, height, obstacles);
+                    Assert.assertNotNull(resolved);
+                    Assert.assertTrue(new Rectangle(0, 0, width, height).contains(resolved));
+                    Assert.assertTrue(obstacles.stream().noneMatch(resolved::intersects));
+                    Assert.assertEquals(MatchFloatingPanel.avoid(resolved, width, height, obstacles), resolved,
+                            "Repeated refresh must not make a resting panel jump");
+                }
+            }
+        }
+    }
+
+    @Test public void documentTabsUsePackageColorsAndRestoreOnDetach() throws Exception {
+        javax.swing.SwingUtilities.invokeAndWait(() -> {
+            final var theme = MatchSkinTheme.read(JsonParser.parseString("""
+                    {"styles":{"tab":{"fill":"#112233","highlight":"#AA7733","radius":0,"fontSize":13}}}
+                    """).getAsJsonObject(), null);
+            final var head = new javax.swing.JPanel();
+            final var tab = new javax.swing.JLabel("");
+            tab.setSize(100, 24);
+            head.add(tab);
+            final var oldFont = tab.getFont();
+            final var restore = theme.apply(head, "tab");
+            final var bitmap = new java.awt.image.BufferedImage(100, 24, java.awt.image.BufferedImage.TYPE_INT_ARGB);
+            final var graphics = bitmap.createGraphics();
+            try {
+                final var style = (MatchSkinTheme.Style) tab.getClientProperty(MatchSkinTheme.STYLE_PROPERTY);
+                style.paint(graphics, 100, 24, false, false);
+                final int inactive = bitmap.getRGB(50, 5);
+                style.paint(graphics, 100, 24, true, false);
+                Assert.assertNotEquals(bitmap.getRGB(50, 5), inactive, "Selection uses the package highlight");
+            } finally { graphics.dispose(); }
+            head.remove(tab);
+            Assert.assertNull(tab.getClientProperty(MatchSkinTheme.STYLE_PROPERTY));
+            Assert.assertEquals(tab.getFont(), oldFont);
+            restore.run();
+            Assert.assertEquals(head.getContainerListeners().length, 0);
+        });
+    }
+
     @Test public void themeRestoresExistingAndNewChildren() throws Exception {
         javax.swing.SwingUtilities.invokeAndWait(() -> {
             final var theme = MatchSkinTheme.read(JsonParser.parseString("""

@@ -66,7 +66,9 @@ public final class MatchSkinTheme {
     public Style style(String id) {
         if (styles.containsKey(id)) { return styles.get(id); }
         final String type = id.substring(id.indexOf('.') + 1);
-        final String category = type.startsWith("ZONE_") ? "zone" : type.startsWith("AVATAR") ? "avatar"
+        final String category = type.equals("actions") ? "floating"
+                : type.equals("tab") ? "button"
+                : type.startsWith("ZONE_") ? "zone" : type.startsWith("AVATAR") ? "avatar"
                 : type.equals("LIFE") ? "life" : type.equals("PHASES_ACTIVE") ? "phase"
                 : type.startsWith("ACTION") || type.equals("OTHER_ZONES")
                         || type.equals("PROMPT_OK") || type.equals("PROMPT_CANCEL") ? "button" : "default";

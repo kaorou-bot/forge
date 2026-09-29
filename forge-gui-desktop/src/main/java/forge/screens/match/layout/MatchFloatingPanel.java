@@ -21,6 +21,8 @@ final class MatchFloatingPanel extends JPanel {
     private final Runnable restore;
     private final String id;
     private Point position;
+    private Rectangle pending;
+    private final javax.swing.Timer dragTimer = new javax.swing.Timer(16, e -> flushDrag());
     private List<Rectangle> protectedAreas = List.of();
 
     MatchFloatingPanel(String id, MatchFloatingSpec spec, MatchSceneLayout scene) {
@@ -41,32 +43,73 @@ final class MatchFloatingPanel extends JPanel {
         cell.addDoc(EDocID.valueOf(id).getDoc());
         shell.add(cell, BorderLayout.CENTER);
         restore = theme == null ? () -> { } : theme.apply(title, "floating");
+        dragTimer.setRepeats(false);
+        title.setCursor(java.awt.Cursor.getPredefinedCursor(spec.draggable()
+                ? java.awt.Cursor.MOVE_CURSOR : java.awt.Cursor.DEFAULT_CURSOR));
         final MouseAdapter drag = new MouseAdapter() {
             private Point origin;
+            private Point start;
             @Override public void mousePressed(MouseEvent e) {
                 if (spec.draggable() && SwingUtilities.isLeftMouseButton(e)) {
-                    origin = SwingUtilities.convertPoint(title, e.getPoint(), getParent());
+                    origin = e.getLocationOnScreen();
+                    start = getLocation();
                 }
             }
-            @Override public void mouseReleased(MouseEvent e) { origin = null; }
+            @Override public void mouseReleased(MouseEvent e) {
+                if (origin != null) { mouseDragged(e); flushDrag(); }
+                origin = null;
+            }
             @Override public void mouseDragged(MouseEvent e) {
                 if (origin == null) { return; }
-                final Point next = SwingUtilities.convertPoint(title, e.getPoint(), getParent());
-                final Rectangle candidate = constrained(new Rectangle(getX() + next.x - origin.x,
-                        getY() + next.y - origin.y, getWidth(), getHeight()), getParent().getWidth(), getParent().getHeight());
-                if (protectedAreas.stream().noneMatch(candidate::intersects)) {
-                    setBounds(candidate);
-                    position = candidate.getLocation();
-                    origin = next;
-                }
+                final Point next = e.getLocationOnScreen();
+                pending = avoid(new Rectangle(start.x + next.x - origin.x,
+                        start.y + next.y - origin.y, getWidth(), getHeight()),
+                        getParent().getWidth(), getParent().getHeight(), protectedAreas);
+                if (!dragTimer.isRunning()) { dragTimer.start(); }
             }
         };
         title.addMouseListener(drag);
         title.addMouseMotionListener(drag);
     }
+    private void flushDrag() {
+        dragTimer.stop();
+        if (pending == null) { return; }
+        final Rectangle old = getBounds();
+        final Rectangle next = pending;
+        pending = null;
+        if (old.equals(next)) { return; }
+        setLocation(next.x, next.y);
+        position = next.getLocation();
+        // Transparent overlapping Swing children require both exposed and covered pixels.
+        if (getParent() != null) {
+            final Rectangle dirty = old.union(next);
+            getParent().repaint(dirty.x, dirty.y, dirty.width, dirty.height);
+        }
+    }
     static Rectangle constrained(Rectangle r, int width, int height) {
         return new Rectangle(Math.max(0, Math.min(r.x, width - r.width)),
                 Math.max(0, Math.min(r.y, height - r.height)), Math.min(width, r.width), Math.min(height, r.height));
+    }
+    /** Closest valid edge-aligned location; null if the skin leaves no space of this size. */
+    static Rectangle avoid(Rectangle wanted, int width, int height, List<Rectangle> obstacles) {
+        final Rectangle base = constrained(wanted, width, height);
+        if (obstacles.stream().noneMatch(base::intersects)) { return base; }
+        final var xs = new java.util.LinkedHashSet<Integer>(List.of(base.x, 0, width - base.width));
+        final var ys = new java.util.LinkedHashSet<Integer>(List.of(base.y, 0, height - base.height));
+        for (Rectangle obstacle : obstacles) {
+            xs.add(obstacle.x - base.width); xs.add(obstacle.x + obstacle.width);
+            ys.add(obstacle.y - base.height); ys.add(obstacle.y + obstacle.height);
+        }
+        Rectangle best = null;
+        double distance = Double.POSITIVE_INFINITY;
+        for (int x : xs) { for (int y : ys) {
+            final Rectangle candidate = constrained(new Rectangle(x, y, base.width, base.height), width, height);
+            final double d = Point.distanceSq(base.x, base.y, candidate.x, candidate.y);
+            if (d < distance && obstacles.stream().noneMatch(candidate::intersects)) {
+                best = candidate; distance = d;
+            }
+        } }
+        return best;
     }
     void place(int width, int height, List<Rectangle> protectedAreas) {
         this.protectedAreas = protectedAreas;
@@ -75,9 +118,13 @@ final class MatchFloatingPanel extends JPanel {
                 Math.max(1, (int) (b.w() * width)), Math.max(1, (int) (b.h() * height)));
         final Rectangle wanted = position == null ? initial : constrained(new Rectangle(position.x, position.y,
                 initial.width, initial.height), width, height);
-        if (protectedAreas.stream().anyMatch(wanted::intersects)) { position = null; setBounds(initial); }
-        else { setBounds(wanted); }
-        validate();
+        final Rectangle placed = avoid(wanted, width, height, protectedAreas);
+        // Validated layouts always reserve response/hand space. Keep the requested bounds
+        // if a third-party layout leaves no room to also protect its preview.
+        final Rectangle next = placed == null ? constrained(initial, width, height) : placed;
+        final boolean resized = getWidth() != next.width || getHeight() != next.height;
+        if (!getBounds().equals(next)) { setBounds(next); }
+        if (resized) { validate(); }
     }
     void refresh(forge.game.GameView game) {
         setVisible(spec.visibleWhen().test(game, null));
@@ -85,6 +132,8 @@ final class MatchFloatingPanel extends JPanel {
                 + (game == null ? 0 : game.getStack().size()) : EDocID.valueOf(id).getDoc().getTabLabel().getText());
     }
     void dispose() {
+        dragTimer.stop();
+        pending = null;
         restore.run();
         cell.releaseSceneSurface();
         EDocID.valueOf(id).getDoc().setParentCell(null);

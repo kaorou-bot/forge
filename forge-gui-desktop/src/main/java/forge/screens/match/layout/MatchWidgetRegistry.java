@@ -17,7 +17,9 @@ import javax.swing.JPopupMenu;
 
 /** Trusted renderer extension point. Factories operate on the EDT and must preserve visibility rules. */
 public final class MatchWidgetRegistry {
-    public record Context(CMatchUI match, VField field, String type) { }
+    public record Context(CMatchUI match, VField field, String type, MatchSkinTheme theme) {
+        public Context(CMatchUI match, VField field, String type) { this(match, field, type, null); }
+    }
     public record Widget(JComponent component, Runnable refresh, Runnable dispose) {
         public Widget(JComponent component) { this(component, component::repaint, () -> { }); }
     }
@@ -83,21 +85,7 @@ public final class MatchWidgetRegistry {
                 }, () -> { });
             });
         }
-        register("ACTIONS_MENU", c -> {
-            final var dock = c.match().getCDock().getView();
-            final FLabel button = button(Localizer.getInstance().getMessage("lblDesktopMatchUiActions"));
-            button.setCommand((Runnable) () -> {
-                final JPopupMenu menu = new JPopupMenu();
-                for (DockButtonId id : DockButtonId.values()) {
-                    final JMenuItem item = new JMenuItem(dock.getActionLabel(id));
-                    item.setEnabled(dock.getButton(id).isEnabled());
-                    item.addActionListener(e -> dock.performAction(id));
-                    menu.add(item);
-                }
-                menu.show(button, 0, -menu.getPreferredSize().height);
-            });
-            return new Widget(button);
-        });
+        register("ACTIONS_MENU", c -> new MatchActionsWindow(c).widget());
     }
 
     private MatchWidgetRegistry() { }

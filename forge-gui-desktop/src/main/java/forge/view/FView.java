@@ -75,7 +75,12 @@ public enum FView {
 	// The status bar to display at the bottom of the frame
 	private FNavigationBar navigationBar;
 	// The content panel is placed in the layered pane.
-	private final JPanel pnlContent = new JPanel();
+	private final JPanel pnlContent = new JPanel() {
+		@Override public boolean isOptimizedDrawingEnabled() {
+			// Match scenes place transparent controls and floating documents over the card cells.
+			return false;
+		}
+	};
 	// An insets panel neatly maintains a space from the edges of the window and
 	// whatever layout is happening, without having to explicitly define a margin each time.
 	private FPanel pnlInsets;
