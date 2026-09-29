@@ -23,8 +23,11 @@ public class MatchSceneLayoutTest {
                 "REPORT_LOG", "REPORT_DEPENDENCIES", "REPORT_MESSAGE", "BUTTON_DOCK", "CARD_PICTURE", "CARD_DETAIL"));
         Assert.assertTrue(layout.scene().supports(docs));
         final var actual = layout.arrange(docs).stream().flatMap(c -> c.documents().stream()).toList();
-        Assert.assertEquals(actual.size(), docs.size());
-        Assert.assertEquals(new HashSet<>(actual), new HashSet<>(docs));
+        Assert.assertEquals(actual.size(), docs.size() - 1);
+        final var represented = new HashSet<>(actual);
+        docs.stream().filter(layout.scene()::replacesDocument).forEach(represented::add);
+        Assert.assertEquals(represented, new HashSet<>(docs));
+        Assert.assertFalse(actual.contains("BUTTON_DOCK"), "The new action controls replace the old dock");
         Assert.assertTrue(layout.arrange(docs).stream().anyMatch(cell -> cell.documents().equals(List.of("HAND_0"))),
                 "The local hand must keep its own visible document");
         Assert.assertNotNull(layout.cards().hand());
@@ -62,6 +65,87 @@ public class MatchSceneLayoutTest {
                 json.replace("PHASES_ACTIVE", "PRIVATE_HAND"))));
         Assert.expectThrows(IllegalArgumentException.class, () -> MatchUiLayout.read(new StringReader(
                 json.replace("\"version\":2", "\"version\":1"))));
+    }
+
+    @Test public void granularWidgetsReplaceCompositesAndRequireUsablePlayerControls() throws Exception {
+        final var scene = tabletop().scene();
+        Assert.assertFalse(scene.widgets().containsKey("FIELD_0.DETAILS"));
+        Assert.assertFalse(scene.widgets().containsKey("FIELD_0.AVATAR"));
+        Assert.assertTrue(scene.widgets().containsKey("STACK_STATUS"));
+        final var widgets = new java.util.HashMap<>(scene.widgets());
+        final var avatar = widgets.get("FIELD_0.AVATAR_IMAGE");
+        widgets.put("FIELD_0.AVATAR", avatar);
+        Assert.expectThrows(IllegalArgumentException.class, () -> new MatchSceneLayout(widgets));
+        widgets.remove("FIELD_0.AVATAR");
+        widgets.put("FIELD_0.DETAILS", avatar);
+        Assert.expectThrows(IllegalArgumentException.class, () -> new MatchSceneLayout(widgets));
+        widgets.remove("FIELD_0.DETAILS");
+        widgets.remove("FIELD_0.MANA");
+        Assert.assertFalse(new MatchSceneLayout(widgets).supports(List.of("FIELD_0", "FIELD_1", "HAND_0")));
+        for (String color : List.of("W", "U", "B", "R", "G", "C")) { widgets.put("FIELD_0.MANA_" + color, avatar); }
+        Assert.assertTrue(new MatchSceneLayout(widgets).supports(List.of("FIELD_0", "FIELD_1", "HAND_0")));
+        widgets.remove("FIELD_0.OTHER_ZONES");
+        Assert.assertFalse(new MatchSceneLayout(widgets).supports(List.of("FIELD_0", "FIELD_1", "HAND_0")));
+    }
+
+    @Test public void zoneRendererAndSurfaceConfigurationAreValidated() throws Exception {
+        final var scene = tabletop().scene();
+        final var alternate = new MatchSceneLayout(scene.widgets(), MatchSurfaceStyle.CLEAR, java.util.Map.of(),
+                java.util.Map.of("FIELD_0.ZONE_EXILE", "ZONE_BUTTON"));
+        Assert.assertEquals(alternate.renderers().get("FIELD_0.ZONE_EXILE"), "ZONE_BUTTON");
+        Assert.expectThrows(IllegalArgumentException.class, () -> new MatchSceneLayout(scene.widgets(),
+                MatchSurfaceStyle.CLEAR, java.util.Map.of(), java.util.Map.of("FIELD_0.LIFE", "ZONE_BUTTON")));
+        Assert.expectThrows(IllegalArgumentException.class, () -> MatchSurfaceStyle.read(
+                com.google.gson.JsonParser.parseString("{\"background\":\"false\"}").getAsJsonObject()));
+        final var visible = new MatchSurfaceStyle(true, true, true);
+        final var styled = new MatchSceneLayout(scene.widgets(), MatchSurfaceStyle.CLEAR,
+                java.util.Map.of("hands", visible), java.util.Map.of());
+        Assert.assertEquals(styled.styleFor("HAND_0"), visible);
+        Assert.assertEquals(styled.styleFor("REPORT_STACK"), MatchSurfaceStyle.CLEAR);
+    }
+
+    @Test public void transparentSurfacesPreserveControlsAndRestoreTheirOriginalDecoration() throws Exception {
+        javax.swing.SwingUtilities.invokeAndWait(() -> {
+            final var root = new javax.swing.JPanel(new java.awt.BorderLayout());
+            final var nested = new javax.swing.JPanel();
+            final var button = new javax.swing.JButton("Choose");
+            final var originalButtonBorder = button.getBorder();
+            final var originalBorder = javax.swing.BorderFactory.createLineBorder(java.awt.Color.RED, 3);
+            nested.setBorder(originalBorder);
+            nested.add(button);
+            final var scroll = new javax.swing.JScrollPane(nested);
+            scroll.setViewportBorder(originalBorder);
+            root.add(scroll);
+            final Runnable restore = MatchSurfaceStyle.CLEAR.apply(root);
+            Assert.assertFalse(root.isOpaque());
+            Assert.assertFalse(nested.isOpaque());
+            Assert.assertFalse(scroll.getViewport().isOpaque());
+            Assert.assertNull(nested.getBorder());
+            Assert.assertNull(scroll.getViewportBorder());
+            Assert.assertSame(button.getBorder(), originalButtonBorder);
+            restore.run();
+            Assert.assertTrue(nested.isOpaque());
+            Assert.assertSame(nested.getBorder(), originalBorder);
+            Assert.assertSame(scroll.getViewportBorder(), originalBorder);
+        });
+    }
+
+    @Test public void transparentFPanelActuallyStopsPaintingItsOldBox() throws Exception {
+        javax.swing.SwingUtilities.invokeAndWait(() -> {
+            final var panel = new forge.toolbox.FPanel();
+            panel.setSize(80, 60);
+            final boolean originalBorder = panel.isBorderToggle();
+            final boolean originalBackground = panel.isBackgroundToggle();
+            final Runnable restore = MatchSurfaceStyle.CLEAR.apply(panel);
+            final var pixels = new java.awt.image.BufferedImage(80, 60, java.awt.image.BufferedImage.TYPE_INT_ARGB);
+            final var graphics = pixels.createGraphics();
+            try { panel.paint(graphics); } finally { graphics.dispose(); }
+            Assert.assertEquals(pixels.getRGB(40, 30) >>> 24, 0, "The panel must not fill its old rectangle");
+            Assert.assertEquals(pixels.getRGB(0, 0) >>> 24, 0, "The panel must not draw its old border");
+            restore.run();
+            Assert.assertEquals(panel.isBorderToggle(), originalBorder);
+            Assert.assertEquals(panel.isBackgroundToggle(), originalBackground);
+        });
     }
 
     @Test public void rotatedHandsFitAndHitTestsFollowVisibleGeometry() {

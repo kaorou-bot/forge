@@ -69,11 +69,13 @@ public record MatchUiLayout(String id, List<Region> regions, MatchFieldLayout fi
     public List<Cell> arrange(final List<String> available) {
         if (isClassic()) { return List.of(); }
         final Set<String> used = new HashSet<>();
+        if (scene != null) { available.stream().filter(scene::replacesDocument).forEach(used::add); }
         final List<Cell> result = new ArrayList<>();
         for (Region region : regions) {
             final Set<String> selected = new LinkedHashSet<>();
             for (String selector : region.documents()) {
                 for (String doc : available) {
+                    if (scene != null && scene.replacesDocument(doc)) { continue; }
                     final boolean matches = switch (selector) {
                         case "fields" -> doc.startsWith("FIELD_");
                         case "opponents" -> doc.startsWith("FIELD_") && !doc.equals("FIELD_0");
@@ -188,7 +190,7 @@ public record MatchUiLayout(String id, List<Region> regions, MatchFieldLayout fi
         }
     }
 
-    private static boolean isSelector(String value) {
+    static boolean isSelector(String value) {
         return Set.of("fields", "opponents", "hands", "remaining", "CARD_PICTURE", "CARD_DETAIL",
                 "REPORT_MESSAGE", "REPORT_STACK", "REPORT_COMBAT", "REPORT_DEPENDENCIES", "REPORT_LOG",
                 "DEV_MODE", "BUTTON_DOCK").contains(value)

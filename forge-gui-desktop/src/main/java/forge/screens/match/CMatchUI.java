@@ -640,6 +640,7 @@ public final class CMatchUI
         for (final PlayerView p : manaPoolUpdate) {
             getFieldViewFor(p).updateManaPool();
         }
+        refreshDesktopScene();
     }
 
     // Player's lives and poison counters
@@ -648,6 +649,11 @@ public final class CMatchUI
         for (final PlayerView p : livesUpdate) {
             getFieldViewFor(p).updateDetails();
         }
+        refreshDesktopScene();
+    }
+
+    public void refreshDesktopScene() {
+        FThreads.invokeInEdtNowOrLater(() -> view.getDesktopUi().refreshExistingScene());
     }
 
     @Override
@@ -1720,7 +1726,7 @@ public final class CMatchUI
         addFullControlEntry(menu, "lblAllowPaymentStartWithMissingResources", FullControlFlag.AllowPaymentStartWithMissingResources, controlFlags);
         addFullControlEntry(menu, "lblLayerTimestampOrder", FullControlFlag.LayerTimestampOrder, controlFlags);
 
-        menu.show(view.getControl().getFieldViewFor(pv).getAvatarArea(), e.getX(), e.getY());
+        menu.show(e.getComponent(), e.getX(), e.getY());
     }
 
     private void addFullControlEntry(JPopupMenu menu, String label, FullControlFlag flag, Set<FullControlFlag> controlFlags) {

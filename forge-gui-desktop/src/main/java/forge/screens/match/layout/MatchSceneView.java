@@ -13,7 +13,8 @@ import javax.swing.JPanel;
 final class MatchSceneView {
     private final CMatchUI match;
     private final MatchSceneLayout definition;
-    private final Map<String, JComponent> widgets = new LinkedHashMap<>();
+    private final Map<String, MatchWidgetRegistry.Widget> widgets = new LinkedHashMap<>();
+    private final java.util.List<Runnable> restorers = new java.util.ArrayList<>();
     private final JPanel phases = new JPanel(new java.awt.BorderLayout());
     private final JPanel layer = new JPanel(null) {
         @Override public boolean contains(int x, int y) {
@@ -29,23 +30,28 @@ final class MatchSceneView {
         this.definition = definition;
         layer.setOpaque(false);
         phases.setOpaque(false);
-        widgets.put("PHASES_ACTIVE", phases);
         for (VField field : match.getFieldViews()) {
             final String id = field.getDocumentID().name();
-            widgets.put(id + ".AVATAR", field.getAvatarArea());
-            widgets.put(id + ".DETAILS", field.getDetailsPanel());
-            if (definition.widgets().containsKey(id + ".ZONES")) {
-                widgets.put(id + ".ZONES", new SceneZoneView(match, field.getPlayer(), false));
-            }
-            if (definition.widgets().containsKey(id + ".HAND_BACKS")) {
-                widgets.put(id + ".HAND_BACKS", new SceneZoneView(match, field.getPlayer(), true));
-            }
+            field.setSceneAvatar(definition.widgets().containsKey(id + ".AVATAR_IMAGE"));
             field.getPhaseIndicator().setHorizontal(true);
         }
-        definition.widgets().keySet().forEach(id -> layer.add(widgets.get(id)));
+        for (String id : definition.widgets().keySet()) {
+            final int dot = id.indexOf('.');
+            final String type = dot < 0 ? id : id.substring(dot + 1);
+            final VField field = dot < 0 ? null : match.getFieldViews().stream()
+                    .filter(f -> f.getDocumentID().name().equals(id.substring(0, dot))).findFirst().orElseThrow();
+            final var widget = id.equals("PHASES_ACTIVE") ? new MatchWidgetRegistry.Widget(phases)
+                    : MatchWidgetRegistry.create(definition.renderers().getOrDefault(id, type),
+                            new MatchWidgetRegistry.Context(match, field, type));
+            widgets.put(id, widget);
+            layer.add(widget.component());
+            restorers.add(definition.styleFor(id).apply(widget.component()));
+        }
     }
 
     void refresh() {
+        if (!match.isCurrentScreen()) { return; }
+        widgets.values().forEach(widget -> widget.refresh().run());
         final var game = match.getGameView();
         VField active = game == null || game.getPlayerTurn() == null ? null : match.getFieldViewFor(game.getPlayerTurn());
         if (active == null && !match.getFieldViews().isEmpty()) { active = match.getFieldViews().get(0); }
@@ -60,6 +66,7 @@ final class MatchSceneView {
     }
 
     void resize() {
+        if (!match.isCurrentScreen()) { return; }
         final JPanel host = FView.SINGLETON_INSTANCE.getPnlContent();
         if (layer.getParent() != host) { host.add(layer); }
         host.setComponentZOrder(layer, 0);
@@ -67,7 +74,7 @@ final class MatchSceneView {
         definition.widgets().forEach((id, bounds) -> {
             final int x = (int) Math.round(bounds.x() * host.getWidth());
             final int y = (int) Math.round(bounds.y() * host.getHeight());
-            widgets.get(id).setBounds(x, y, (int) Math.round((bounds.x() + bounds.w()) * host.getWidth()) - x,
+            widgets.get(id).component().setBounds(x, y, (int) Math.round((bounds.x() + bounds.w()) * host.getWidth()) - x,
                     (int) Math.round((bounds.y() + bounds.h()) * host.getHeight()) - y);
         });
         layer.validate();
@@ -75,9 +82,16 @@ final class MatchSceneView {
 
     void dispose() {
         if (layer.getParent() != null) { layer.getParent().remove(layer); }
-        for (VField field : match.getFieldViews()) { field.getPhaseIndicator().setHorizontal(false); }
+        restorers.forEach(Runnable::run);
+        restorers.clear();
+        widgets.values().forEach(widget -> widget.dispose().run());
         phases.removeAll();
         layer.removeAll();
         widgets.clear();
+        for (VField field : match.getFieldViews()) {
+            field.getPhaseIndicator().setHorizontal(false);
+            field.getDetailsPanel().restoreDefaultComposition();
+            field.setSceneAvatar(false);
+        }
     }
 }

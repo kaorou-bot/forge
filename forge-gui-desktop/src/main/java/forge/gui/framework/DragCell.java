@@ -93,10 +93,29 @@ public final class DragCell extends JPanel implements ILocalRepaint {
      * Primarily used to toggle visibility of tabs.
      */
     private boolean sceneMode;
+    private forge.screens.match.layout.MatchSurfaceStyle sceneSurface = forge.screens.match.layout.MatchSurfaceStyle.CLEAR;
+    private Runnable restoreSurface;
+    private java.util.function.Function<String, forge.screens.match.layout.MatchSurfaceStyle> surfaceResolver;
     public boolean isSceneMode() { return sceneMode; }
+    public void setSceneSurfaceResolver(java.util.function.Function<String, forge.screens.match.layout.MatchSurfaceStyle> resolver) {
+        surfaceResolver = resolver;
+    }
+
+    public void releaseSceneSurface() {
+        if (restoreSurface != null) { restoreSurface.run(); restoreSurface = null; }
+    }
+
+    public void setSceneSurface(forge.screens.match.layout.MatchSurfaceStyle style) {
+        releaseSceneSurface();
+        sceneSurface = style;
+        if (sceneMode) { restoreSurface = sceneSurface.apply(pnlBody); }
+        doCellLayout(showGameTabs());
+    }
 
     public void setSceneMode(boolean value) {
+        releaseSceneSurface();
         sceneMode = value;
+        if (value) { restoreSurface = sceneSurface.apply(pnlBody); }
         lblHandle.setVisible(!value);
         doCellLayout(showGameTabs());
     }
@@ -105,7 +124,7 @@ public final class DragCell extends JPanel implements ILocalRepaint {
         this.removeAll();
         if (sceneMode) {
             // Keep tabs for utility documents; scene fields/hands have no draggable chrome.
-            final int head = allDocs.size() > 1 ? SLayoutConstants.HEAD_H : 0;
+            final int head = allDocs.size() > 1 || sceneSurface.title() ? SLayoutConstants.HEAD_H : 0;
             lblHandle.setVisible(false);
             this.add(pnlHead, "w 100%!, h " + head + "px!, wrap");
             this.add(pnlBody, "w 100%!, h 100% - " + head + "px!");
@@ -327,6 +346,7 @@ public final class DragCell extends JPanel implements ILocalRepaint {
             return;
         }
 
+        releaseSceneSurface();
         docSelected = null;
         pnlBody.removeAll();
 
@@ -337,6 +357,11 @@ public final class DragCell extends JPanel implements ILocalRepaint {
                 doc.getTabLabel().priorityOne();
                 doc.getTabLabel().setSelected(true);
                 doc.populate();
+                if (sceneMode) {
+                    if (surfaceResolver != null) { sceneSurface = surfaceResolver.apply(doc.getDocumentID().name()); }
+                    restoreSurface = sceneSurface.apply(pnlBody);
+                    doCellLayout(showGameTabs());
+                }
                 doc.getLayoutControl().update();
             }
             else {

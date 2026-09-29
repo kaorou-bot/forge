@@ -128,6 +128,24 @@ public class PlayerDetailsPanel extends JPanel {
         return zoneLabels.get(ZoneType.Library);
     }
 
+    /** Live mana controls may be mounted independently; their controller listeners stay attached. */
+    public JComponent getManaComponent(String color) {
+        return manaLabels.stream().filter(label -> label.color.equals(color)).findFirst().orElseThrow();
+    }
+
+    public JComponent createManaRow() {
+        final JPanel row = new JPanel(new java.awt.GridLayout(1, 6, 4, 0));
+        row.setOpaque(false);
+        manaLabels.forEach(row::add);
+        return row;
+    }
+
+    public void restoreDefaultComposition() {
+        removeAll();
+        populateDetails();
+        revalidate();
+    }
+
     /**
      * Handles observer update of player Zones - hand, graveyard, etc.
      */

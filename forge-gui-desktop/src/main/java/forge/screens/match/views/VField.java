@@ -91,6 +91,22 @@ public class VField implements IVDoc<CField> {
     private final FLabel lblRad        = new FLabel.Builder().fontAlign(SwingConstants.CENTER).fontStyle(Font.BOLD).icon(FSkin.getImage(FSkinProp.IMG_RAD)).iconInBackground().build();
 
     private final PhaseIndicator phaseIndicator = new PhaseIndicator();
+    private boolean sceneAvatar;
+
+    public FLabel getAvatarImageComponent() { return lblAvatar; }
+    public FLabel getLifeComponent() { return lblLife; }
+    public javax.swing.JComponent getAvatarTargetComponent() { return sceneAvatar ? lblAvatar : avatarArea; }
+
+    public void setSceneAvatar(boolean value) {
+        sceneAvatar = value;
+        if (!value) {
+            lblAvatar.setBorder((Border) null);
+            avatarArea.removeAll();
+            avatarArea.add(lblAvatar, "w 100%-6px!, h 100%-23px!, wrap, gap 3 3 3 0");
+            avatarArea.add(lblLife, "w 100%!, h 20px!, wrap");
+        }
+        updateDetails();
+    }
 
     private final Border borderAvatarSimple = new LineBorder(new Color(0, 0, 0, 0), 1);
     private final Border borderAvatarHighlighted = new LineBorder(Color.red, 2);
@@ -346,6 +362,12 @@ public class VField implements IVDoc<CField> {
             lblLife.setForeground(FSkin.getColor(FSkin.Colors.CLR_TEXT));
         } else {
             lblLife.setForeground(Color.RED);
+        }
+
+        if (sceneAvatar) {
+            lblAvatar.setToolTipText(getPlayerDetailsHtml());
+            lblAvatar.setBorder(isHighlighted() ? borderAvatarHighlighted : null);
+            return; // Independent status widgets own the counters; do not reparent life into the old composite.
         }
 
         // Update poison and/or energy counters, poison counters take precedence

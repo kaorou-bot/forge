@@ -117,9 +117,14 @@ public final class DesktopMatchUi {
         if (sceneView != null) { sceneView.resize(); }
     }
 
+    public void refreshExistingScene() {
+        if (sceneView != null) { sceneView.refresh(); }
+    }
+
     /** Resolve and validate everything before SLayoutIO removes the current cells. */
     public void prepare(List<String> documents) {
         if (sceneView != null) { sceneView.dispose(); sceneView = null; }
+        for (DragCell cell : FView.SINGLETON_INSTANCE.getDragCells()) { cell.releaseSceneSurface(); }
         try {
             final Provider provider = PROVIDERS.get(selection());
             if (provider == null) { throw new IllegalArgumentException("Unknown provider: " + selection()); }
@@ -161,6 +166,9 @@ public final class DesktopMatchUi {
         for (MatchUiLayout.Cell definition : cells) {
             final DragCell cell = new DragCell();
             cell.setSceneMode(isScene());
+            if (isScene()) { cell.setSceneSurfaceResolver(layout.scene()::styleFor); }
+            if (isScene()) { cell.setSceneSurface(layout.scene().styleFor(definition.documents().isEmpty()
+                    ? "remaining" : definition.documents().get(0))); }
             final var b = definition.bounds();
             cell.setRoughBounds(new RectangleOfDouble(b.x(), b.y(), b.w(), b.h()));
             view.addDragCell(cell);
@@ -184,6 +192,7 @@ public final class DesktopMatchUi {
             }
         }
         for (String id : documents) {
+            if (isScene() && layout.scene().replacesDocument(id)) { continue; }
             if (!present.contains(EDocID.valueOf(id).getDoc())) {
                 install();
                 return;
