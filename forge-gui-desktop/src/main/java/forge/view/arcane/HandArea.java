@@ -55,6 +55,30 @@ public class HandArea extends CardArea {
     }
 
     @Override
+    public void doLayout() {
+        final var strategy = getMatchUI().getCardPresentation().hand();
+        if (strategy == null) {
+            for (CardPanel panel : getCardPanels()) { panel.setPresentationAngle(0); }
+            super.doLayout();
+            return;
+        }
+        final var extent = getScrollPane().getViewport().getExtentSize();
+        if (extent.width <= 0 || extent.height <= 0) { return; }
+        final var placements = strategy.arrange(getCardPanels().size(), extent.width, extent.height, getCardWidthMax());
+        if (placements.size() != getCardPanels().size()) {
+            throw new IllegalArgumentException("Hand layout must return one placement per card");
+        }
+        for (int i = 0; i < placements.size(); i++) {
+            final CardPanel panel = getCardPanels().get(i);
+            final var p = placements.get(i);
+            panel.setPresentationAngle(p.angle());
+            if (panel != getMouseDragPanel()) { panel.setCardBounds(p.x(), p.y(), p.width(), p.height()); }
+            if (panel.getParent() == this) { setComponentZOrder(panel, 0); }
+        }
+        if (!extent.equals(getPreferredSize())) { setPreferredSize(extent); revalidate(); }
+    }
+
+    @Override
     protected boolean cardPanelDraggable(final CardPanel panel) {
         return panel.getCard() != null;
     }

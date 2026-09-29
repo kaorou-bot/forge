@@ -38,6 +38,7 @@ public final class DesktopMatchUi {
                 }
             }
         });
+        register("tabletop", "lblDesktopMatchUiTabletop", () -> readBuiltin("tabletop"));
         register("skin", "lblDesktopMatchUiSkin", () -> {
             final Path file = FSkin.getSkinDirectory().toPath().resolve("match-ui.json");
             if (!Files.exists(file)) { return MatchUiLayout.classic(); }
@@ -45,6 +46,13 @@ public final class DesktopMatchUi {
                 return MatchUiLayout.read(reader);
             }
         });
+    }
+
+    private static MatchUiLayout readBuiltin(String name) throws IOException {
+        try (var stream = DesktopMatchUi.class.getResourceAsStream("/match-ui/" + name + ".json")) {
+            if (stream == null) { throw new IOException("Missing built-in layout: " + name); }
+            try (var reader = new InputStreamReader(stream, StandardCharsets.UTF_8)) { return MatchUiLayout.read(reader); }
+        }
     }
 
     /** Trusted Java extensions may register additional providers; JSON never loads executable code. */
@@ -92,20 +100,37 @@ public final class DesktopMatchUi {
     private List<MatchUiLayout.Cell> cells = List.of();
     private Path savedLayout;
     private String lastError;
+    private MatchSceneView sceneView;
 
     public MatchUiLayout layout() { return layout; }
     public Path savedLayout() { return savedLayout; }
     public boolean isCustom() { return !layout.isClassic(); }
+    public boolean isScene() { return layout.scene() != null; }
+
+    public void refreshScene(forge.screens.match.CMatchUI match) {
+        if (!isScene() || !match.isCurrentScreen()) { return; }
+        if (sceneView == null) { sceneView = new MatchSceneView(match, layout.scene()); }
+        sceneView.refresh();
+    }
+
+    public void resizeScene() {
+        if (sceneView != null) { sceneView.resize(); }
+    }
 
     /** Resolve and validate everything before SLayoutIO removes the current cells. */
     public void prepare(List<String> documents) {
+        if (sceneView != null) { sceneView.dispose(); sceneView = null; }
         try {
             final Provider provider = PROVIDERS.get(selection());
             if (provider == null) { throw new IllegalArgumentException("Unknown provider: " + selection()); }
-            final MatchUiLayout candidate = provider.implementation().load();
+            MatchUiLayout candidate = provider.implementation().load();
+            // A two-player skin must not hide extra players or controlled hands.
+            if (candidate.scene() != null && !candidate.scene().supports(documents)) {
+                candidate = readBuiltin("arena");
+            }
             final List<MatchUiLayout.Cell> plan = candidate.arrange(documents);
             final String identity = selection() + "\n" + FSkin.getSkinDirectory() + "\n"
-                    + candidate.id() + "\n" + candidate.regions() + "\n" + documents;
+                    + candidate.id() + "\n" + candidate.regions() + "\n" + candidate.scene() + "\n" + documents;
             final Path saved = candidate.isClassic() ? null : Path.of(ForgeConstants.USER_PREFS_DIR,
                     "match-ui-" + digest(identity) + ".xml");
             layout = candidate;
@@ -135,6 +160,7 @@ public final class DesktopMatchUi {
         view.removeAllDragCells();
         for (MatchUiLayout.Cell definition : cells) {
             final DragCell cell = new DragCell();
+            cell.setSceneMode(isScene());
             final var b = definition.bounds();
             cell.setRoughBounds(new RectangleOfDouble(b.x(), b.y(), b.w(), b.h()));
             view.addDragCell(cell);

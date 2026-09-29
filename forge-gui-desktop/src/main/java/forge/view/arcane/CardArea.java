@@ -75,6 +75,15 @@ public class CardArea extends CardPanelContainer implements CardPanelMouseListen
 
     @Override
     public final CardPanel getCardPanel(final int x, final int y) {
+        if (this instanceof HandArea && getMatchUI().getCardPresentation().hand() != null) {
+            // Swing paints index zero last. Hit test in precisely the same order.
+            for (java.awt.Component child : getComponents()) {
+                if (child instanceof CardPanel panel && panel.containsPresentedCard(x, y)) {
+                    return panel.isDisplayEnabled() ? panel : null;
+                }
+            }
+            return null;
+        }
         final List<CardPanel> panels = isVertical ? Lists.reverse(getCardPanels()) : getCardPanels();
         for (final CardPanel panel : panels) {
             final int panelX = panel == this.getMouseDragPanel() ? this.mouseDragStartX : panel.getCardX();

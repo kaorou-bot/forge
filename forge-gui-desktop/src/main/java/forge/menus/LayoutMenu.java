@@ -64,7 +64,9 @@ public final class LayoutMenu {
         menu.setMnemonic(KeyEvent.VK_L);
 
         if (!isHome) {
-            menu.add(getMenu_FileOptions());
+            final JMenu files = getMenu_FileOptions();
+            files.setEnabled(!(currentScreen != null && currentScreen.getView() instanceof VMatchUI match && match.getDesktopUi().isScene()));
+            menu.add(files);
             menu.add(getMenuItem_RevertLayout());
             menu.add(getMenuItem_ResetMatchLayout());
         }

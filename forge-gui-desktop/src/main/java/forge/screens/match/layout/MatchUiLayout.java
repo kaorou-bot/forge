@@ -13,7 +13,11 @@ import java.util.Map;
 import java.util.Set;
 
 /** Validated, renderer-independent desktop layout description. Coordinates are relative to the host. */
-public record MatchUiLayout(String id, List<Region> regions, MatchFieldLayout fieldLayout) {
+public record MatchUiLayout(String id, List<Region> regions, MatchFieldLayout fieldLayout,
+        MatchSceneLayout scene, MatchCardPresentation cards) {
+    public MatchUiLayout(String id, List<Region> regions, MatchFieldLayout fieldLayout) {
+        this(id, regions, fieldLayout, null, MatchCardPresentation.CLASSIC);
+    }
     public record Bounds(double x, double y, double w, double h) {
         public Bounds {
             if (!Double.isFinite(x) || !Double.isFinite(y) || !Double.isFinite(w) || !Double.isFinite(h)
@@ -45,13 +49,14 @@ public record MatchUiLayout(String id, List<Region> regions, MatchFieldLayout fi
     }
 
     public MatchUiLayout {
-        if (id == null || !id.matches("[a-z][a-z0-9-]{0,63}") || fieldLayout == null) {
+        if (id == null || !id.matches("[a-z][a-z0-9-]{0,63}") || fieldLayout == null || cards == null) {
             throw new IllegalArgumentException("Invalid layout id or field layout");
         }
         regions = List.copyOf(regions);
         if (!regions.isEmpty()) {
-            validateBounds(regions.stream().map(Region::bounds).toList(), true);
+            validateBounds(regions.stream().map(Region::bounds).toList(), scene == null);
         }
+        if (scene != null) { scene.validate(regions); }
     }
 
     public static MatchUiLayout classic() {
@@ -107,6 +112,10 @@ public record MatchUiLayout(String id, List<Region> regions, MatchFieldLayout fi
             throw new IllegalArgumentException("Layout omits documents: " + missing);
         }
         for (Cell cell : result) {
+            if (scene != null && cell.documents().size() > 1
+                    && cell.documents().stream().anyMatch(id -> id.startsWith("HAND_") || id.startsWith("FIELD_"))) {
+                throw new IllegalArgumentException("Scene hands and battlefields must remain visible in separate cells");
+            }
             if (cell.documents().contains("REPORT_MESSAGE") && cell.documents().size() != 1) {
                 throw new IllegalArgumentException("REPORT_MESSAGE must have its own cell so actions remain accessible");
             }
@@ -116,10 +125,12 @@ public record MatchUiLayout(String id, List<Region> regions, MatchFieldLayout fi
 
     public static MatchUiLayout read(final Reader reader) {
         final JsonObject root = JsonParser.parseReader(reader).getAsJsonObject();
-        keys(root, Set.of("version", "id", "regions", "field"));
-        if (!root.has("version") || !root.get("version").getAsString().equals("1")) {
-            throw new IllegalArgumentException("Unsupported match UI version (expected 1)");
+        final String version = root.has("version") ? root.get("version").getAsString() : "";
+        if (!Set.of("1", "2").contains(version)) {
+            throw new IllegalArgumentException("Unsupported match UI version (expected 1 or 2)");
         }
+        keys(root, version.equals("1") ? Set.of("version", "id", "regions", "field")
+                : Set.of("version", "id", "regions", "field", "scene", "cards"));
         final List<Region> regions = new ArrayList<>();
         for (JsonElement element : root.getAsJsonArray("regions")) {
             final JsonObject region = element.getAsJsonObject();
@@ -141,10 +152,15 @@ public record MatchUiLayout(String id, List<Region> regions, MatchFieldLayout fi
             validateBounds(new ArrayList<>(parts.values()), false);
             field = MatchFieldLayout.relative(parts);
         }
-        return new MatchUiLayout(root.get("id").getAsString(), regions, field);
+        final MatchSceneLayout scene = root.has("scene") ? MatchSceneLayout.read(root.getAsJsonObject("scene")) : null;
+        if (scene != null && root.has("field")) {
+            throw new IllegalArgumentException("scene replaces field; do not specify both");
+        }
+        return new MatchUiLayout(root.get("id").getAsString(), regions, field, scene,
+                root.has("cards") ? MatchCardPresentation.read(root.getAsJsonObject("cards")) : MatchCardPresentation.CLASSIC);
     }
 
-    private static Bounds bounds(JsonElement element) {
+    static Bounds bounds(JsonElement element) {
         final var array = element.getAsJsonArray();
         if (array.size() != 4) { throw new IllegalArgumentException("bounds must be [x,y,width,height]"); }
         return new Bounds(array.get(0).getAsDouble(), array.get(1).getAsDouble(),
@@ -166,7 +182,7 @@ public record MatchUiLayout(String id, List<Region> regions, MatchFieldLayout fi
         }
     }
 
-    private static void keys(JsonObject object, Set<String> allowed) {
+    static void keys(JsonObject object, Set<String> allowed) {
         for (String key : object.keySet()) {
             if (!allowed.contains(key)) { throw new IllegalArgumentException("Unknown layout property: " + key); }
         }

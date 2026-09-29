@@ -92,8 +92,26 @@ public final class DragCell extends JPanel implements ILocalRepaint {
      * <p>
      * Primarily used to toggle visibility of tabs.
      */
+    private boolean sceneMode;
+    public boolean isSceneMode() { return sceneMode; }
+
+    public void setSceneMode(boolean value) {
+        sceneMode = value;
+        lblHandle.setVisible(!value);
+        doCellLayout(showGameTabs());
+    }
+
     public void doCellLayout(final boolean showTabs) {
         this.removeAll();
+        if (sceneMode) {
+            // Keep tabs for utility documents; scene fields/hands have no draggable chrome.
+            final int head = allDocs.size() > 1 ? SLayoutConstants.HEAD_H : 0;
+            lblHandle.setVisible(false);
+            this.add(pnlHead, "w 100%!, h " + head + "px!, wrap");
+            this.add(pnlBody, "w 100%!, h 100% - " + head + "px!");
+            revalidate();
+            return;
+        }
         final int borderT = SLayoutConstants.BORDER_T;
         final int headH = ((showTabs || allDocs.size() > 1) ? SLayoutConstants.HEAD_H : 0);
         this.add(pnlHead,

@@ -105,6 +105,8 @@ public final class SRearrangingUtil {
             docsToMove.addAll(cellSrc.getDocs());
         }
 
+        if (cellSrc.isSceneMode()) { return; }
+
         // Reset and show preview panel
         pnlPreview.setVisible(true);
         pnlPreview.setBounds(0, 0, 0, 0);
@@ -119,6 +121,7 @@ public final class SRearrangingUtil {
      *  @param e &emsp; {@link java.awt.event.MouseEvent}
      */
     private static void rearrange(final MouseEvent e) {
+        if (cellSrc == null || cellSrc.isSceneMode()) { return; }
         // nestingMargin controls the thickness of the "zones" bordering
         // the center body.
         final int nestingMargin = 30;
@@ -216,6 +219,7 @@ public final class SRearrangingUtil {
      * transfer docs and remove + resize cells as necessary.
      */
     private static void endRearrange() {
+        if (cellSrc == null || cellSrc.isSceneMode()) { return; }
         // Resize preview panel in preparation for next event.
         MouseUtil.resetCursor();
         pnlPreview.setVisible(false);

@@ -202,7 +202,12 @@ public final class CMatchUI
         return this.screen;
     }
     public forge.screens.match.layout.MatchFieldLayout getFieldLayout() {
-        return view.getDesktopUi().layout().fieldLayout();
+        return view.getDesktopUi().isScene() ? forge.screens.match.layout.MatchFieldLayout.BATTLEFIELD_ONLY
+                : view.getDesktopUi().layout().fieldLayout();
+    }
+
+    public forge.screens.match.layout.MatchCardPresentation getCardPresentation() {
+        return view.getDesktopUi().layout().cards();
     }
 
     public boolean isCurrentScreen() {
@@ -529,6 +534,7 @@ public final class CMatchUI
 
     @Override
     public void updateZones(final Iterable<PlayerZoneUpdate> zonesToUpdate) {
+        view.getDesktopUi().refreshScene(this);
         for (final PlayerZoneUpdate update : zonesToUpdate) {
             final PlayerView owner = update.getPlayer();
 
@@ -912,6 +918,7 @@ public final class CMatchUI
 
     @Override
     public void updatePhase(boolean saveState) {
+        view.getDesktopUi().refreshScene(this);
         final PlayerView p = getGameView().getPlayerTurn();
         final PhaseType ph = getGameView().getPhase();
         // this should never happen, but I've seen it periodically... so, need to get to the bottom of it
@@ -935,6 +942,7 @@ public final class CMatchUI
 
     @Override
     public void updateTurn(final PlayerView player) {
+        view.getDesktopUi().refreshScene(this);
         final VField nextField = getFieldViewFor(player);
         SDisplayUtil.showTab(nextField);
         cPrompt.updateText();

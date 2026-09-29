@@ -284,6 +284,8 @@ public final class SLayoutIO {
     }
 
     private synchronized static void save(final File f0) {
+        if (Singletons.getControl().getCurrentScreen().getView() instanceof VMatchUI match
+                && match.getDesktopUi().isScene()) { return; }
         final String fWriteTo;
         FileLocation file = Singletons.getControl().getCurrentScreen().getLayoutFile();
 
@@ -413,8 +415,8 @@ public final class SLayoutIO {
         }
         view.removeAllDragCells();
 
-        if (match != null && match.getDesktopUi().isCustom() && f == null
-                && !new File(getLayoutPreferencePath(screen)).exists()) {
+        if (match != null && match.getDesktopUi().isCustom()
+                && (match.getDesktopUi().isScene() || f == null && !new File(getLayoutPreferencePath(screen)).exists())) {
             match.getDesktopUi().install();
             return;
         }

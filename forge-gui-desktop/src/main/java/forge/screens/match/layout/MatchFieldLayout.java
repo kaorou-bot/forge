@@ -16,6 +16,11 @@ public interface MatchFieldLayout {
 
     void populate(JPanel host, Map<Part, JComponent> parts);
 
+    MatchFieldLayout BATTLEFIELD_ONLY = (host, parts) -> {
+        host.setLayout(new java.awt.BorderLayout());
+        host.add(parts.get(Part.BATTLEFIELD), java.awt.BorderLayout.CENTER);
+    };
+
     MatchFieldLayout CLASSIC = (host, parts) -> {
         host.setLayout(new MigLayout("insets 0, gap 0"));
         host.add(parts.get(Part.AVATAR), "w 10%!, h 35%!");

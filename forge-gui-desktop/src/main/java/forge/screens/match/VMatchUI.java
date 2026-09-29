@@ -168,6 +168,7 @@ public class VMatchUI implements IVTopLevelUI {
     public void populate() {
         if (desktopUi.isCustom()) {
             desktopUi.ensureDocuments(getDesktopDocuments());
+            desktopUi.refreshScene(control);
             if (getBtnOK().isEnabled()) {
                 getBtnOK().requestFocusInWindow();
             } else if (getBtnCancel().isEnabled()) {
