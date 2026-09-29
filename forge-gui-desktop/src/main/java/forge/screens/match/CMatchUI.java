@@ -334,7 +334,7 @@ public final class CMatchUI
     public CDock getCDock() {
         return cDock;
     }
-    CPrompt getCPrompt() {
+    public CPrompt getCPrompt() {
         return cPrompt;
     }
     /** True if either prompt input button (OK/Cancel) is currently enabled. */

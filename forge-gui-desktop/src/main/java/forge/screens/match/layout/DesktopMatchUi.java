@@ -28,6 +28,7 @@ public final class DesktopMatchUi {
     public record Provider(String id, String label, MatchUiLayoutProvider implementation) { }
     private static final Map<String, Provider> PROVIDERS = new LinkedHashMap<>();
     private static String selection;
+    private static String packageName;
     static {
         register("classic", "lblDesktopMatchUiClassic", MatchUiLayout::classic);
         register("arena", "lblDesktopMatchUiArena", () -> {
@@ -39,11 +40,12 @@ public final class DesktopMatchUi {
             }
         });
         register("tabletop", "lblDesktopMatchUiTabletop", () -> readBuiltin("tabletop"));
+        register("package", "lblDesktopMatchUiPackage", () -> MatchSkinPackages.load(packageName));
         register("skin", "lblDesktopMatchUiSkin", () -> {
             final Path file = FSkin.getSkinDirectory().toPath().resolve("match-ui.json");
             if (!Files.exists(file)) { return MatchUiLayout.classic(); }
             try (var reader = Files.newBufferedReader(file, StandardCharsets.UTF_8)) {
-                return MatchUiLayout.read(reader);
+                return MatchUiLayout.read(reader, file.getParent());
             }
         });
     }
@@ -81,19 +83,29 @@ public final class DesktopMatchUi {
                 }
             }
             selection = settings.getProperty("provider", "classic");
+            packageName = settings.getProperty("package");
         }
         return selection;
     }
 
     public static void select(String id) throws IOException {
+        selection();
         if (!PROVIDERS.containsKey(id)) { throw new IllegalArgumentException("Unknown provider: " + id); }
         final Properties settings = new Properties();
         settings.setProperty("provider", id);
+        if (packageName != null) { settings.setProperty("package", packageName); }
         Files.createDirectories(settingsFile().getParent());
         try (var writer = Files.newBufferedWriter(settingsFile(), StandardCharsets.UTF_8)) {
             settings.store(writer, "Desktop match UI (does not affect mobile)");
         }
         selection = id;
+    }
+    public static void selectPackage(String name) throws IOException {
+        MatchSkinPackages.load(name);
+        selection();
+        final String previous = packageName;
+        packageName = name;
+        try { select("package"); } catch (IOException e) { packageName = previous; throw e; }
     }
 
     private MatchUiLayout layout = MatchUiLayout.classic();
@@ -101,6 +113,7 @@ public final class DesktopMatchUi {
     private Path savedLayout;
     private String lastError;
     private MatchSceneView sceneView;
+    private boolean creatingScene;
 
     public MatchUiLayout layout() { return layout; }
     public Path savedLayout() { return savedLayout; }
@@ -108,8 +121,13 @@ public final class DesktopMatchUi {
     public boolean isScene() { return layout.scene() != null; }
 
     public void refreshScene(forge.screens.match.CMatchUI match) {
-        if (!isScene() || !match.isCurrentScreen()) { return; }
-        if (sceneView == null) { sceneView = new MatchSceneView(match, layout.scene()); }
+        if (!isScene() || !match.isCurrentScreen() || creatingScene) { return; }
+        if (sceneView == null) {
+            // Populating a floating document calls its controller, which can request another scene refresh.
+            creatingScene = true;
+            try { sceneView = new MatchSceneView(match, layout); }
+            finally { creatingScene = false; }
+        }
         sceneView.refresh();
     }
 
@@ -166,6 +184,7 @@ public final class DesktopMatchUi {
         for (MatchUiLayout.Cell definition : cells) {
             final DragCell cell = new DragCell();
             cell.setSceneMode(isScene());
+            if (isScene()) { cell.setSceneTheme(layout.scene().appearance()); }
             if (isScene()) { cell.setSceneSurfaceResolver(layout.scene()::styleFor); }
             if (isScene()) { cell.setSceneSurface(layout.scene().styleFor(definition.documents().isEmpty()
                     ? "remaining" : definition.documents().get(0))); }

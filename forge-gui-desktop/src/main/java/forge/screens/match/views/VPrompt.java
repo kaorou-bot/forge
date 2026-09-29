@@ -193,6 +193,9 @@ public class VPrompt implements IVDoc<CPrompt> {
         return this.btnCancel;
     }
 
+    /** The live prompt viewport can be positioned independently by a match scene. */
+    public FScrollPane getMessageScroller() { return messageScroller; }
+
     /** @return {@link javax.swing.JTextArea} */
     public FHtmlViewer getTarMessage() {
         return this.tarMessage;

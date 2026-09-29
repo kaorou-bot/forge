@@ -13,6 +13,18 @@ final class MatchSceneView {
     private final CMatchUI match;
     private final MatchSceneLayout definition;
     private final Map<String, MatchWidgetRegistry.Widget> widgets = new LinkedHashMap<>();
+    private final Map<String, MatchSkinPanel> shells = new LinkedHashMap<>();
+    private final Map<String, VField> owners = new LinkedHashMap<>();
+    private final Map<String, MatchFloatingPanel> floating = new LinkedHashMap<>();
+    private final java.util.List<MatchUiLayout.Bounds> protectedAreas;
+    private final JPanel background = new JPanel() {
+        @Override public boolean contains(int x, int y) { return false; }
+        @Override protected void paintComponent(java.awt.Graphics g) {
+            if (definition.appearance() != null && definition.appearance().background() != null) {
+                g.drawImage(definition.appearance().background(), 0, 0, getWidth(), getHeight(), null);
+            }
+        }
+    };
     private final java.util.List<Runnable> restorers = new java.util.ArrayList<>();
     private final JPanel phases = new JPanel(new java.awt.BorderLayout());
     private final JPanel layer = new JPanel(null) {
@@ -24,9 +36,11 @@ final class MatchSceneView {
         }
     };
 
-    MatchSceneView(CMatchUI match, MatchSceneLayout definition) {
+    MatchSceneView(CMatchUI match, MatchUiLayout layout) {
         this.match = match;
-        this.definition = definition;
+        this.definition = layout.scene();
+        protectedAreas = definition.protectedAreas(layout.regions());
+        background.setOpaque(false);
         layer.setOpaque(false);
         phases.setOpaque(false);
         for (VField field : match.getFieldViews()) {
@@ -43,15 +57,34 @@ final class MatchSceneView {
                     : MatchWidgetRegistry.create(definition.renderers().getOrDefault(id, type),
                             new MatchWidgetRegistry.Context(match, field, type));
             widgets.put(id, widget);
-            layer.add(widget.component());
+            owners.put(id, field);
+            final var shell = new MatchSkinPanel(definition.appearance() == null ? null : definition.appearance().style(id));
+            shells.put(id, shell);
+            shell.add(widget.component());
+            layer.add(shell);
             restorers.add(definition.styleFor(id).apply(widget.component()));
+            if (definition.appearance() != null) { restorers.add(definition.appearance().apply(widget.component(), id)); }
         }
+        definition.floating().forEach((id, spec) -> {
+            final var panel = new MatchFloatingPanel(id, spec, definition);
+            floating.put(id, panel);
+            layer.add(panel);
+            layer.setComponentZOrder(panel, 0);
+        });
     }
 
     void refresh() {
         if (!match.isCurrentScreen()) { return; }
         widgets.values().forEach(widget -> widget.refresh().run());
         final var game = match.getGameView();
+        shells.forEach((id, shell) -> {
+            final var owner = owners.get(id);
+            final var player = owner == null ? null : owner.getPlayer();
+            shell.setVisible(definition.visibility().getOrDefault(id, MatchVisibility.ALWAYS).test(game, player));
+            shell.setActive(MatchVisibility.PLAYER_ACTIVE.test(game, player)
+                    && (id.endsWith(".AVATAR_IMAGE") || id.endsWith(".LIFE")));
+        });
+        floating.values().forEach(panel -> panel.refresh(game));
         VField active = game == null || game.getPlayerTurn() == null ? null : match.getFieldViewFor(game.getPlayerTurn());
         if (active == null && !match.getFieldViews().isEmpty()) { active = match.getFieldViews().get(0); }
         if (active != null && active.getPhaseIndicator().getParent() != phases) {
@@ -67,26 +100,40 @@ final class MatchSceneView {
     void resize() {
         if (!match.isCurrentScreen()) { return; }
         final JPanel host = FView.SINGLETON_INSTANCE.getPnlContent();
+        if (definition.appearance() != null && definition.appearance().background() != null) {
+            if (background.getParent() != host) { host.add(background); }
+            host.setComponentZOrder(background, host.getComponentCount() - 1);
+            background.setBounds(0, 0, host.getWidth(), host.getHeight());
+        }
         if (layer.getParent() != host) { host.add(layer); }
         host.setComponentZOrder(layer, 0);
         layer.setBounds(0, 0, host.getWidth(), host.getHeight());
         definition.widgets().forEach((id, bounds) -> {
             final int x = (int) Math.round(bounds.x() * host.getWidth());
             final int y = (int) Math.round(bounds.y() * host.getHeight());
-            widgets.get(id).component().setBounds(x, y, (int) Math.round((bounds.x() + bounds.w()) * host.getWidth()) - x,
+            shells.get(id).setBounds(x, y, (int) Math.round((bounds.x() + bounds.w()) * host.getWidth()) - x,
                     (int) Math.round((bounds.y() + bounds.h()) * host.getHeight()) - y);
         });
+        final var protectedPixels = protectedAreas.stream().map(b -> new java.awt.Rectangle(
+                (int) (b.x() * host.getWidth()), (int) (b.y() * host.getHeight()),
+                (int) (b.w() * host.getWidth()), (int) (b.h() * host.getHeight()))).toList();
+        floating.values().forEach(panel -> panel.place(host.getWidth(), host.getHeight(), protectedPixels));
         layer.validate();
     }
 
     void dispose() {
         if (layer.getParent() != null) { layer.getParent().remove(layer); }
-        restorers.forEach(Runnable::run);
+        if (background.getParent() != null) { background.getParent().remove(background); }
+        floating.values().forEach(MatchFloatingPanel::dispose);
+        floating.clear();
+        for (int i = restorers.size() - 1; i >= 0; i--) { restorers.get(i).run(); }
         restorers.clear();
         widgets.values().forEach(widget -> widget.dispose().run());
         phases.removeAll();
         layer.removeAll();
         widgets.clear();
+        shells.clear();
+        owners.clear();
         for (VField field : match.getFieldViews()) {
             field.getPhaseIndicator().setHorizontal(false);
             field.getDetailsPanel().restoreDefaultComposition();

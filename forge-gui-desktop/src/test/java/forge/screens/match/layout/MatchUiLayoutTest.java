@@ -79,6 +79,7 @@ public class MatchUiLayoutTest {
                 new double[]{0, 0, Double.POSITIVE_INFINITY, 1})) {
             Assert.expectThrows(IllegalArgumentException.class, () -> new MatchUiLayout.Bounds(b[0], b[1], b[2], b[3]));
         }
+        Assert.expectThrows(IllegalArgumentException.class, () -> read("{\"version\":4}"));
         Assert.expectThrows(IllegalArgumentException.class, () -> read("{\"version\":3}"));
         Assert.expectThrows(IllegalArgumentException.class, () -> read("{\"version\":1,\"script\":\"execute\"}"));
         Assert.expectThrows(RuntimeException.class, () -> read("{\"version\":1}"));

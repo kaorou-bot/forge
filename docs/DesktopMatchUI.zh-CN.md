@@ -197,3 +197,59 @@ mvn -pl forge-gui-desktop -am test -Dtest=MatchUiLayoutTest,MatchSceneLayoutTest
 上面的命令仅用于界面专项回归。提交前还应在仓库根目录运行 `mvn -B clean test`，保留 Checkstyle 检查和完整测试集；推送后检查 GitHub Actions 中 Java 17、Java 21 两项结果。专项测试通过不能替代完整构建通过。
 
 发布前还应实际验收：多人战场的卡牌密集显示、攻击/阻挡/目标连线、网络对战、区域标签、控制权变化，以及高 DPI 和小窗口下的可读性。通过布局单元测试不等于这些交互已经全部验收。
+
+## v3：独立资源包
+
+v3 在 v2 场景接口上增加条件显示、悬浮文档和外观资源；v1/v2 配置保持兼容。
+主程序负责游戏状态、事件与组件生命周期，资源包只提供 JSON、图片、字体，不加载 Java 类或脚本。
+首次需要升级到支持 v3 的桌面程序；之后在支持的接口范围内更换布局和美术资源无需重新编译。
+
+新增全局控件 PROMPT_MESSAGE、PROMPT_OK、PROMPT_CANCEL、PROMPT_CONTEXT（可选）。
+前三者必须成套声明，替代 REPORT_MESSAGE 文档并保留其原事件处理与键盘操作；
+这样提示文字和响应按钮可以各自定位。不要再在固定区域显式分配 REPORT_MESSAGE。
+这些控件始终显示，并作为悬浮窗口不能遮挡的区域。独立模式下优先权提醒通过按钮焦点高亮显示。
+
+完整示例为 `skins/dusk-sanctum/`。将其内容打包为 ZIP（根目录直接是 match-ui.json），
+在对局的布局菜单中选择「对战界面 → 导入对战皮肤包」即可安装并启用。
+安装到用户偏好目录下的 `desktop-match-skins/<id>-<唯一后缀>/`，不覆盖其他皮肤或经典布局。
+失败导入会清理临时目录；无效配置在应用时回退经典布局。
+
+`scene.visibility` 将控件 ID 映射到声明式条件：
+
+| 条件 | 适用控件 | 行为 |
+| --- | --- | --- |
+| ALWAYS | 全部 | 始终显示，默认值 |
+| MANA_NONEMPTY | MANA、MANA_W/U/B/R/G/C | 所属玩家六类法术力总数大于零时显示 |
+| STACK_NONEMPTY | STACK_STATUS | 游戏堆叠非空时显示 |
+
+生命、阶段和必要操作不能通过条件配置隐藏。PLAYER_ACTIVE 是主程序内部的活动玩家装饰状态，
+不作为可隐藏关键控件的配置条件。条件刷新复用现有游戏更新通知，不读取不可见手牌。
+
+`scene.floating` 将文档 ID 映射到
+`{"bounds":[x,y,w,h],"visibleWhen":"STACK_NONEMPTY","draggable":true}`。
+支持 REPORT_STACK、CARD_PICTURE、CARD_DETAIL、REPORT_LOG、REPORT_COMBAT、
+REPORT_DEPENDENCIES、DEV_MODE；默认条件 ALWAYS。浮层仍在游戏窗口内部，复用原组件及交互。
+浮动文档不能同时指定在固定区域；浮动堆叠拥有标题，因此不再声明 STACK_STATUS。
+初始和拖动位置不能遮挡手牌、REPORT_MESSAGE 区域。窗口缩放时约束在可见范围内。
+
+`scene.appearance` 属性：
+
+| 属性 | 内容 |
+| --- | --- |
+| background | 包内背景图片相对路径 |
+| font | 包内 TTF/OTF 字体相对路径；缺省使用系统无衬线字体 |
+| text | 全局文字颜色 |
+| styles | 按精确控件 ID 或类别匹配的样式 |
+
+样式类别包含 default、zone、avatar、life、phase、button、text（堆叠等文本区域）、floating。
+每个样式可配置 fill、border、highlight（#RRGGBB 或 #RRGGBBAA）、
+radius（0–80）、padding（0–32）、fontSize（8–64）和 image（包内图片路径）。
+背景、边框与标题的开关仍由 `scene.surface` 和 `scene.styles` 决定。
+真实卡牌面不受主题文字样式覆盖。控件保留原点击逻辑，切换布局时恢复旧字体、颜色和皮肤绑定。
+
+资源限制：ZIP 最多 256 项，单文件不超过 24 MB，解压总计不超过 64 MB，JSON 不超过 1 MB。
+只允许 JSON、PNG/JPG/JPEG、TTF/OTF、TXT/MD；禁止越界路径。单图最多 16 MP，全部解码图片最多 32 MP，
+相同图片复用缓存。字体许可证须随包保留。
+
+自动化回归增加 MatchSkinPackageTest：真实资源包及中文字体加载、手牌独立可见、
+法术力/堆叠状态变化、浮层遮挡拒绝、字体颜色与动态子组件恢复、导入失败回滚和路径越界拒绝。

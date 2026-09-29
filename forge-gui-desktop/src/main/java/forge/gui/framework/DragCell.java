@@ -95,6 +95,13 @@ public final class DragCell extends JPanel implements ILocalRepaint {
     private boolean sceneMode;
     private forge.screens.match.layout.MatchSurfaceStyle sceneSurface = forge.screens.match.layout.MatchSurfaceStyle.CLEAR;
     private Runnable restoreSurface;
+    private forge.screens.match.layout.MatchSkinTheme sceneTheme;
+    private Runnable restoreTheme;
+    public void setSceneTheme(forge.screens.match.layout.MatchSkinTheme theme) { sceneTheme = theme; }
+    private void applySceneSurface() {
+        restoreSurface = sceneSurface.apply(pnlBody);
+        if (sceneTheme != null) { restoreTheme = sceneTheme.apply(pnlBody, "document"); }
+    }
     private java.util.function.Function<String, forge.screens.match.layout.MatchSurfaceStyle> surfaceResolver;
     public boolean isSceneMode() { return sceneMode; }
     public void setSceneSurfaceResolver(java.util.function.Function<String, forge.screens.match.layout.MatchSurfaceStyle> resolver) {
@@ -102,20 +109,21 @@ public final class DragCell extends JPanel implements ILocalRepaint {
     }
 
     public void releaseSceneSurface() {
+        if (restoreTheme != null) { restoreTheme.run(); restoreTheme = null; }
         if (restoreSurface != null) { restoreSurface.run(); restoreSurface = null; }
     }
 
     public void setSceneSurface(forge.screens.match.layout.MatchSurfaceStyle style) {
         releaseSceneSurface();
         sceneSurface = style;
-        if (sceneMode) { restoreSurface = sceneSurface.apply(pnlBody); }
+        if (sceneMode) { applySceneSurface(); }
         doCellLayout(showGameTabs());
     }
 
     public void setSceneMode(boolean value) {
         releaseSceneSurface();
         sceneMode = value;
-        if (value) { restoreSurface = sceneSurface.apply(pnlBody); }
+        if (value) { applySceneSurface(); }
         lblHandle.setVisible(!value);
         doCellLayout(showGameTabs());
     }
@@ -359,7 +367,7 @@ public final class DragCell extends JPanel implements ILocalRepaint {
                 doc.populate();
                 if (sceneMode) {
                     if (surfaceResolver != null) { sceneSurface = surfaceResolver.apply(doc.getDocumentID().name()); }
-                    restoreSurface = sceneSurface.apply(pnlBody);
+                    applySceneSurface();
                     doCellLayout(showGameTabs());
                 }
                 doc.getLayoutControl().update();

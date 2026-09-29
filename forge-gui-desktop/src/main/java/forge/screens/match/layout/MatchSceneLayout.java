@@ -8,7 +8,12 @@ import java.util.Set;
 
 /** Independent live widgets and reversible surface decoration in screen coordinates. */
 public record MatchSceneLayout(Map<String, MatchUiLayout.Bounds> widgets, MatchSurfaceStyle surface,
-        Map<String, MatchSurfaceStyle> styles, Map<String, String> renderers) {
+        Map<String, MatchSurfaceStyle> styles, Map<String, String> renderers,
+        Map<String, MatchVisibility> visibility, Map<String, MatchFloatingSpec> floating, MatchSkinTheme appearance) {
+    public MatchSceneLayout(Map<String, MatchUiLayout.Bounds> widgets, MatchSurfaceStyle surface,
+            Map<String, MatchSurfaceStyle> styles, Map<String, String> renderers) {
+        this(widgets, surface, styles, renderers, Map.of(), Map.of(), null);
+    }
     public MatchSceneLayout(Map<String, MatchUiLayout.Bounds> widgets) {
         this(widgets, MatchSurfaceStyle.CLEAR, Map.of(), Map.of());
     }
@@ -16,12 +21,35 @@ public record MatchSceneLayout(Map<String, MatchUiLayout.Bounds> widgets, MatchS
         widgets = Map.copyOf(widgets);
         styles = Map.copyOf(styles);
         renderers = Map.copyOf(renderers);
+        visibility = Map.copyOf(visibility);
+        floating = Map.copyOf(floating);
+        for (var entry : visibility.entrySet()) {
+            if (!widgets.containsKey(entry.getKey())) { throw new IllegalArgumentException("Unknown conditional widget: " + entry.getKey()); }
+            final String type = entry.getKey().substring(entry.getKey().indexOf('.') + 1);
+            // Required action, player-selection and phase controls must remain reachable.
+            if (entry.getValue() != MatchVisibility.ALWAYS
+                    && !(entry.getValue() == MatchVisibility.MANA_NONEMPTY && (type.equals("MANA") || type.startsWith("MANA_")))
+                    && !(entry.getValue() == MatchVisibility.STACK_NONEMPTY && type.equals("STACK_STATUS"))) {
+                throw new IllegalArgumentException("Unsupported visibility condition for " + entry.getKey());
+            }
+        }
+        for (String id : floating.keySet()) {
+            if (!MatchFloatingSpec.DOCUMENTS.contains(id)) { throw new IllegalArgumentException("Document cannot float: " + id); }
+        }
+        if (floating.containsKey("REPORT_STACK") && widgets.containsKey("STACK_STATUS")) {
+            throw new IllegalArgumentException("Floating stack owns its title; omit STACK_STATUS");
+        }
         if (!widgets.containsKey("PHASES_ACTIVE")) { throw new IllegalArgumentException("scene needs PHASES_ACTIVE"); }
+        if (widgets.keySet().stream().anyMatch(id -> id.startsWith("PROMPT_"))
+                && !widgets.keySet().containsAll(Set.of("PROMPT_MESSAGE", "PROMPT_OK", "PROMPT_CANCEL"))) {
+            throw new IllegalArgumentException("Independent prompt needs message, OK and cancel controls");
+        }
         for (String id : widgets.keySet()) {
             if (id.equals("PHASES_ACTIVE")) { continue; }
             final boolean player = id.matches("FIELD_[0-7]\\.[A-Z][A-Z0-9_]*");
             final String type = player ? id.substring(id.indexOf('.') + 1) : id;
-            final boolean global = type.equals("STACK_STATUS") || type.equals("ACTIONS_MENU") || type.startsWith("ACTION_");
+            final boolean global = type.equals("STACK_STATUS") || type.equals("ACTIONS_MENU") || type.startsWith("ACTION_")
+                    || type.startsWith("PROMPT_");
             if (!MatchWidgetRegistry.contains(type) || (!type.startsWith("CUSTOM_") && player == global)
                     || type.equals("ZONE_PILE") || type.equals("ZONE_BUTTON")) {
                 throw new IllegalArgumentException("Unknown or incorrectly scoped scene widget: " + id);
@@ -57,11 +85,35 @@ public record MatchSceneLayout(Map<String, MatchUiLayout.Bounds> widgets, MatchS
         }
         return styles.getOrDefault(id.startsWith("HAND_") ? "hands" : id.startsWith("FIELD_") ? "fields" : "remaining", surface);
     }
-    public boolean replacesDocument(String id) { return id.equals("BUTTON_DOCK") && widgets.containsKey("ACTIONS_MENU"); }
+    public boolean replacesDocument(String id) {
+        return floating.containsKey(id) || id.equals("BUTTON_DOCK") && widgets.containsKey("ACTIONS_MENU")
+                || id.equals("REPORT_MESSAGE") && widgets.containsKey("PROMPT_MESSAGE");
+    }
+    List<MatchUiLayout.Bounds> protectedAreas(List<MatchUiLayout.Region> regions) {
+        final var protectedBounds = new java.util.ArrayList<MatchUiLayout.Bounds>();
+        regions.stream().filter(r -> r.documents().stream().anyMatch(s ->
+                s.equals("hands") || s.startsWith("HAND_") || s.equals("REPORT_MESSAGE")))
+                .map(MatchUiLayout.Region::bounds).forEach(protectedBounds::add);
+        widgets.entrySet().stream().filter(e -> e.getKey().startsWith("PROMPT_"))
+                .map(Map.Entry::getValue).forEach(protectedBounds::add);
+        return List.copyOf(protectedBounds);
+    }
     void validate(List<MatchUiLayout.Region> regions) {
         if (regions.isEmpty()) { throw new IllegalArgumentException("scene needs document regions"); }
         final var all = new java.util.ArrayList<>(widgets.values());
         for (var region : regions) { all.add(region.bounds()); }
+        for (var region : regions) {
+            if (region.documents().stream().anyMatch(this::replacesDocument)) {
+                throw new IllegalArgumentException("Replaced document also assigned a fixed region");
+            }
+        }
+        for (var area : protectedAreas(regions)) {
+            for (var panel : floating.values()) {
+                if (panel.bounds().overlaps(area)) {
+                    throw new IllegalArgumentException("Floating panels must not cover hands or response controls");
+                }
+            }
+        }
         for (int i = 0; i < all.size(); i++) {
             for (int j = 0; j < i; j++) {
                 if (all.get(i).overlaps(all.get(j))) { throw new IllegalArgumentException("Interactive scene widgets and documents must not overlap"); }
@@ -83,14 +135,22 @@ public record MatchSceneLayout(Map<String, MatchUiLayout.Bounds> widgets, MatchS
         return widgets.keySet().stream().filter(id -> id.startsWith("FIELD_"))
                 .allMatch(id -> fields.contains(id.substring(0, id.indexOf('.'))));
     }
-    static MatchSceneLayout read(JsonObject json) {
-        MatchUiLayout.keys(json, Set.of("widgets", "surface", "styles", "renderers"));
+    static MatchSceneLayout read(JsonObject json) { return read(json, null, false); }
+    static MatchSceneLayout read(JsonObject json, java.nio.file.Path assets, boolean version3) {
+        MatchUiLayout.keys(json, version3 ? Set.of("widgets", "surface", "styles", "renderers", "visibility", "floating", "appearance")
+                : Set.of("widgets", "surface", "styles", "renderers"));
         final Map<String, MatchUiLayout.Bounds> widgets = new LinkedHashMap<>();
         final Map<String, MatchSurfaceStyle> styles = new LinkedHashMap<>();
         final Map<String, String> renderers = new LinkedHashMap<>();
         json.getAsJsonObject("widgets").entrySet().forEach(e -> widgets.put(e.getKey(), MatchUiLayout.bounds(e.getValue())));
         if (json.has("styles")) { json.getAsJsonObject("styles").entrySet().forEach(e -> styles.put(e.getKey(), MatchSurfaceStyle.read(e.getValue().getAsJsonObject()))); }
         if (json.has("renderers")) { json.getAsJsonObject("renderers").entrySet().forEach(e -> renderers.put(e.getKey(), e.getValue().getAsString())); }
-        return new MatchSceneLayout(widgets, json.has("surface") ? MatchSurfaceStyle.read(json.getAsJsonObject("surface")) : MatchSurfaceStyle.CLEAR, styles, renderers);
+        final Map<String, MatchVisibility> visibility = new LinkedHashMap<>();
+        final Map<String, MatchFloatingSpec> floating = new LinkedHashMap<>();
+        if (json.has("visibility")) { json.getAsJsonObject("visibility").entrySet().forEach(e -> visibility.put(e.getKey(), MatchVisibility.valueOf(e.getValue().getAsString()))); }
+        if (json.has("floating")) { json.getAsJsonObject("floating").entrySet().forEach(e -> floating.put(e.getKey(), MatchFloatingSpec.read(e.getValue().getAsJsonObject()))); }
+        return new MatchSceneLayout(widgets, json.has("surface") ? MatchSurfaceStyle.read(json.getAsJsonObject("surface")) : MatchSurfaceStyle.CLEAR,
+                styles, renderers, visibility, floating,
+                json.has("appearance") ? MatchSkinTheme.read(json.getAsJsonObject("appearance"), assets) : null);
     }
 }

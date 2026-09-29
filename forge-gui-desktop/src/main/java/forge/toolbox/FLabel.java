@@ -552,7 +552,11 @@ public class FLabel extends SkinnedLabel implements ILocalRepaint, IButton {
         }
 
         final boolean paintPressedState = pressed && hovered && isEnabled() && (opaque || selectable);
-        if (paintPressedState) {
+        if (getClientProperty(forge.screens.match.layout.MatchSkinTheme.STYLE_PROPERTY)
+                instanceof forge.screens.match.layout.MatchSkinTheme.Style style) {
+            style.paint(g2d, w, h, paintWithHover || selected, paintPressedState);
+        }
+        else if (paintPressedState) {
             paintPressed(g2d, w, h);
         }
         else if (opaque) {

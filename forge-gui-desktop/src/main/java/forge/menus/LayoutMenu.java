@@ -120,6 +120,41 @@ public final class LayoutMenu {
             menu.add(item);
         }
         menu.addSeparator();
+        final JMenu packages = new JMenu(localizer.getMessage("lblDesktopMatchUiPackages"));
+        for (String name : forge.screens.match.layout.MatchSkinPackages.installed()) {
+            final JMenuItem installed = new JMenuItem(name);
+            installed.addActionListener(e -> {
+                try {
+                    DesktopMatchUi.selectPackage(name);
+                    SLayoutIO.revertLayout();
+                } catch (java.io.IOException ex) { FOptionPane.showErrorDialog(ex.getMessage()); }
+            });
+            packages.add(installed);
+        }
+        menu.add(packages);
+        final JMenuItem importSkin = new JMenuItem(localizer.getMessage("lblDesktopMatchUiImport"));
+        importSkin.addActionListener(e -> {
+            final javax.swing.JFileChooser chooser = new javax.swing.JFileChooser();
+            chooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Forge match skin (*.zip)", "zip"));
+            if (chooser.showOpenDialog(null) != javax.swing.JFileChooser.APPROVE_OPTION) { return; }
+            importSkin.setEnabled(false);
+            new javax.swing.SwingWorker<String, Void>() {
+                @Override protected String doInBackground() throws Exception {
+                    return forge.screens.match.layout.MatchSkinPackages.install(chooser.getSelectedFile().toPath());
+                }
+                @Override protected void done() {
+                    importSkin.setEnabled(true);
+                    try {
+                        DesktopMatchUi.selectPackage(get());
+                        SLayoutIO.revertLayout();
+                    } catch (Exception ex) {
+                        final Throwable cause = ex.getCause() == null ? ex : ex.getCause();
+                        FOptionPane.showErrorDialog(cause.getMessage());
+                    }
+                }
+            }.execute();
+        });
+        menu.add(importSkin);
         final JMenuItem reload = new JMenuItem(localizer.getMessage("lblDesktopMatchUiReload"));
         reload.addActionListener(e -> SLayoutIO.revertLayout());
         menu.add(reload);

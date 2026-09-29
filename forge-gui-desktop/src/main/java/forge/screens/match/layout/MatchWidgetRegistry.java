@@ -23,6 +23,10 @@ public final class MatchWidgetRegistry {
     }
     private static final Map<String, Function<Context, Widget>> FACTORIES = new LinkedHashMap<>();
     static {
+        register("PROMPT_MESSAGE", c -> new Widget(c.match().getCPrompt().getView().getMessageScroller()));
+        register("PROMPT_OK", c -> new Widget(c.match().getCPrompt().getView().getBtnOK()));
+        register("PROMPT_CANCEL", c -> new Widget(c.match().getCPrompt().getView().getBtnCancel()));
+        register("PROMPT_CONTEXT", c -> new Widget(c.match().getCPrompt().getView().getLblGames()));
         register("AVATAR", c -> new Widget(c.field().getAvatarArea()));
         register("AVATAR_IMAGE", c -> new Widget(c.field().getAvatarImageComponent()));
         register("LIFE", c -> new Widget(c.field().getLifeComponent()));

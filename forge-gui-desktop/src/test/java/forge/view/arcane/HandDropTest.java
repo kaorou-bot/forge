@@ -23,6 +23,47 @@ import org.testng.annotations.Test;
 import static org.mockito.Mockito.*;
 
 public class HandDropTest {
+    @Test public void fastDragKeepsPressedCardWhenFirstMotionLeavesItsBounds() throws Exception {
+        SwingUtilities.invokeAndWait(() -> {
+            if (forge.gui.GuiBase.getInterface() == null) { forge.gui.GuiBase.setInterface(new forge.GuiDesktop()); }
+            try (var model = mockStatic(FModel.class);
+                    var skin = mockStatic(forge.toolbox.FSkin.class, CALLS_REAL_METHODS)) {
+                model.when(FModel::getPreferences).thenReturn(mock(ForgePreferences.class));
+                skin.when(() -> forge.toolbox.FSkin.getIcon(forge.localinstance.skin.FSkinProp.ICO_FLIPCARD))
+                        .thenReturn(mock(forge.toolbox.FSkin.SkinIcon.class));
+                final var match = mock(CMatchUI.class);
+                when(match.getCardPresentation()).thenReturn(MatchCardPresentation.CLASSIC);
+                final var card = mock(CardPanel.class);
+                final var starts = new AtomicInteger();
+                final var ends = new AtomicInteger();
+                final var hand = new CardPanelContainer(match, mock(FScrollPane.class)) {
+                    @Override public void doLayout() { }
+                    @Override public CardPanel getCardPanel(int x, int y) {
+                        return x >= 0 && x < 100 && y >= 0 && y < 140 ? card : null;
+                    }
+                    @Override protected boolean cardPanelDraggable(CardPanel p) { return true; }
+                    @Override public void mouseDragStart(CardPanel p, MouseEvent e) {
+                        Assert.assertSame(p, card);
+                        starts.incrementAndGet();
+                    }
+                    @Override public void mouseDragEnd(CardPanel p, MouseEvent e) {
+                        Assert.assertSame(p, card);
+                        ends.incrementAndGet();
+                    }
+                };
+                hand.setDragEnabled(true);
+                hand.dispatchEvent(new MouseEvent(hand, MouseEvent.MOUSE_PRESSED, 1,
+                        MouseEvent.BUTTON1_DOWN_MASK, 50, 70, 1, false, MouseEvent.BUTTON1));
+                hand.dispatchEvent(new MouseEvent(hand, MouseEvent.MOUSE_DRAGGED, 2,
+                        MouseEvent.BUTTON1_DOWN_MASK, 400, -200, 0, false, MouseEvent.NOBUTTON));
+                hand.dispatchEvent(release(hand, 400, -200, MouseEvent.BUTTON1));
+                Assert.assertEquals(starts.get(), 1);
+                Assert.assertEquals(ends.get(), 1);
+                verify(match, never()).setLastClickedCardPanel(any());
+            }
+        });
+    }
+
     private static JPanel visiblePanel() {
         return new JPanel(null) { @Override public boolean isShowing() { return true; } };
     }

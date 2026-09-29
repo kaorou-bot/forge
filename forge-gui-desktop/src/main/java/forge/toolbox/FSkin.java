@@ -1858,6 +1858,13 @@ public class FSkin {
         protected ComponentSkin() {
         }
 
+        /** Preserve dynamic skin bindings while a match theme temporarily overrides colors and fonts. */
+        public Runnable preserveAppearance() {
+            final SkinColor savedForeground = foreground, savedBackground = background;
+            final SkinFont savedFont = font;
+            return () -> { foreground = savedForeground; background = savedBackground; font = savedFont; };
+        }
+
         protected boolean update(final T comp) {
             if (appliedSkinIndex == currentSkinIndex) { return false; }
             appliedSkinIndex = currentSkinIndex;

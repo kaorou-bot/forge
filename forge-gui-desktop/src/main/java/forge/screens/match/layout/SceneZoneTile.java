@@ -53,8 +53,8 @@ final class SceneZoneTile extends JComponent {
         }
         g.setColor(new Color(0, 0, 0, 160));
         g.fillRoundRect(0, 0, getWidth(), pile ? 23 : getHeight(), 10, 10);
-        g.setColor(Color.WHITE);
-        g.setFont(g.getFont().deriveFont(14f));
+        g.setColor(getForeground() == null ? Color.WHITE : getForeground());
+        if (getFont() != null) { g.setFont(getFont()); }
         g.drawString(zone.getTranslatedName() + " · " + count, 5, pile ? 17 : (getHeight() + g.getFontMetrics().getAscent()) / 2 - 2);
     }
 }
