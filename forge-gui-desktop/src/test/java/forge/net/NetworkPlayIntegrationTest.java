@@ -282,6 +282,8 @@ public class NetworkPlayIntegrationTest implements IHasForgeLog {
                         playerCount + "-player relayed game should start: " + result.toSummary());
                 Assert.assertTrue(result.deltaPacketsReceived > 0,
                         playerCount + "-player clients should receive Forge delta packets");
+                Assert.assertEquals(result.clientsConnectedBeforeCleanup, playerCount - 1,
+                        "All clients must remain connected until metrics are collected");
                 Assert.assertEquals(result.sendErrors, 0,
                         playerCount + "-player game should not add server send errors");
             }

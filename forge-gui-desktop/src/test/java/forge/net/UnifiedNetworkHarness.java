@@ -495,9 +495,9 @@ public class UnifiedNetworkHarness implements IHasForgeLog {
             e.printStackTrace();
             attemptedLatch.countDown();
         } finally {
-            if (client != null) {
-                client.close();
-            }
+            // cleanup() owns these clients. Keep their sockets open until the
+            // coordinator has collected metrics; closing here races other
+            // clients' final updates and counts teardown broadcasts as errors.
             finishedLatch.countDown();
         }
     }
@@ -660,6 +660,9 @@ public class UnifiedNetworkHarness implements IHasForgeLog {
     private void collectRemoteClientMetrics(GameResult result) {
         synchronized (remoteClients) {
             for (HeadlessNetworkClient client : remoteClients) {
+                if (client.isConnected()) {
+                    result.clientsConnectedBeforeCleanup++;
+                }
                 result.deltaPacketsReceived += client.getDeltaPacketsReceived();
                 result.fullStateSyncsReceived += client.getFullStateSyncsReceived();
                 result.totalDeltaBytes += client.getTotalDeltaBytes();
@@ -808,6 +811,7 @@ public class UnifiedNetworkHarness implements IHasForgeLog {
 
         // Client-side state snapshot (from first remote client, for assertions)
         public int sendErrors;
+        public int clientsConnectedBeforeCleanup;
         public boolean clientOpenViewCalled;
         public int clientSetGameViewCount;
         public GameView clientGameView;
