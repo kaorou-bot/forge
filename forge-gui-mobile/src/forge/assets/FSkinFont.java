@@ -21,7 +21,6 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntSet;
 import forge.Forge;
 import forge.gui.FThreads;
-import forge.gui.GuiBase;
 import forge.localinstance.properties.ForgeConstants;
 import forge.util.FileUtil;
 import forge.util.Lang;
@@ -531,7 +530,7 @@ public class FSkinFont {
         parameter.incremental = true;
         final int pageSize = parameter.size >= 20 ? 512 : 256;
         parameter.packer = new PixmapPacker(pageSize, pageSize, Pixmap.Format.RGBA8888, 2, false);
-        parameter.minFilter = GuiBase.isIOS() ? Texture.TextureFilter.Linear : Texture.TextureFilter.Nearest;
+        parameter.minFilter = Texture.TextureFilter.Nearest;
         parameter.magFilter = parameter.minFilter;
 
         FThreads.invokeInEdtNowOrLater(() -> {
@@ -592,13 +591,7 @@ public class FSkinFont {
                                 getTextureData().consumePixmap().dispose();
                             }
                         };
-                        if (GuiBase.isIOS()) {
-                            // Linear filtering renders smoother text on Retina displays; other
-                            // platforms keep the original crisp Nearest filtering.
-                            texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-                        } else {
-                            texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
-                        }
+                        texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
                         textureRegions.addAll(new TextureRegion(texture));
                     }
 

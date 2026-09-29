@@ -8,7 +8,6 @@ import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.assets.loaders.ParticleEffectLoader;
 import com.badlogic.gdx.assets.loaders.TextureLoader.TextureParameter;
 import com.badlogic.gdx.assets.loaders.resolvers.AbsoluteFileHandleResolver;
-import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
@@ -43,41 +42,8 @@ public class Assets implements Disposable {
     public static Assets getInstance() {
         return instance == null ? instance = new Assets() : instance;
     }
-    /**
-     * Custom FileHandleResolver for iOS/Android that handles both:
-     * - Absolute paths (for writable cache/Documents files)
-     * - Relative paths (for read-only bundle resources)
-     */
-    private class HybridFileHandleResolver implements FileHandleResolver {
-        private final AbsoluteFileHandleResolver absoluteResolver = new AbsoluteFileHandleResolver();
-        private final InternalFileHandleResolver internalResolver = new InternalFileHandleResolver();
-
-        @Override
-        public FileHandle resolve(String fileName) {
-            // iOS only: bundle-internal resources must resolve via internal() (the app bundle
-            // lives behind a /var symlink that absolute() fails to realpath inside the sandbox).
-            // All other platforms keep master's absolute-resolver behavior unchanged — Android's
-            // assets are extracted to storage and were always resolved absolutely.
-            if (GuiBase.isIOS() && !fileName.startsWith("/")) {
-                return internalResolver.resolve(fileName);
-            }
-            return absoluteResolver.resolve(fileName);
-        }
-    }
-
-    /**
-     * FileHandle for a resource, mirroring {@link HybridFileHandleResolver} for direct (non-manager)
-     * use — shared by FSkin/FSkinFont. iOS must use internal() with a relative path for bundled
-     * resources (the app bundle lives behind a /var symlink that absolute() fails to realpath inside
-     * the sandbox); only paths under ASSETS_DIR (the read-only bundle) are rerouted, so writable
-     * locations (cache/Documents — downloaded skins, generated .fnt files, planechase pics) keep
-     * absolute(), which works fine in the sandbox. Every other platform keeps absolute() throughout
-     * — Android's assets are extracted to storage and are NOT reachable via internal() APK paths.
-     */
+    /** Android extracted resources and desktop resources use absolute paths. */
     FileHandle getFileHandle(String path) {
-        if (GuiBase.isIOS() && path.startsWith(ForgeConstants.ASSETS_DIR)) {
-            return Gdx.files.internal(path.substring(ForgeConstants.ASSETS_DIR.length()));
-        }
         return Gdx.files.absolute(path);
     }
 
@@ -217,7 +183,7 @@ public class Assets implements Disposable {
 
     public MemoryTrackingAssetManager manager() {
         if (manager == null) {
-            manager = new MemoryTrackingAssetManager(new HybridFileHandleResolver());
+            manager = new MemoryTrackingAssetManager(new AbsoluteFileHandleResolver());
         }
         return manager;
     }

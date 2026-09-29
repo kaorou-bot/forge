@@ -27,7 +27,6 @@
 - GitHub account
 - Libgdx (optional: familiarity with this library is helpful for mobile platform development)
 - Android SDK (optional: for Android releases)
-- RoboVM (optional: for iOS releases) (TBD: Current status of support by libgdx)
 
 ## Project Quick Setup
 
@@ -97,7 +96,6 @@ The platform-specific projects are:
 
 - forge-gui-android
 - forge-gui-desktop
-- forge-gui-ios
 - forge-gui-mobile
 - forge-gui-mobile-dev
 
@@ -126,10 +124,6 @@ Libgdx-based backend targeting Android. Requires Android SDK and relies on forge
 Java Swing based GUI targeting desktop machines.
 
 Screen layout and game logic revolving around the GUI is found here. For example, the overlay arrows (when enabled) that indicate attackers and blockers, or the targets of the stack are defined and drawn by this.
-
-#### forge-gui-ios
-
-Libgdx-based backend targeting iOS. Relies on forge-gui-mobile for GUI logic.
 
 #### forge-gui-mobile
 

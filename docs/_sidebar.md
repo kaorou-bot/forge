@@ -48,7 +48,7 @@
   - [IntelliJ Setup](Development/IntelliJ-setup/IntelliJ-setup.md)
   - [Snapshots & Releases](Development/Snapshots-and-Releases.md)
   - [Android Builds](Development/Android-Builds.md)
-  - [iOS Builds](Development/iOS-Builds.md)
+  - [Community platform policy](Development/Upstream-Platform-Policy.zh-CN.md)
   - [Dev Mode](Development/DevMode.md)
   - [Ownership](Development/ownership.md)
   - [Docker Container](docker-setup.md)

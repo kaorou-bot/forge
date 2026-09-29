@@ -8,7 +8,6 @@ import org.tinylog.Logger;
 public class GuiBase {
     private static IGuiBase guiInterface;
     private static boolean isAndroidport = false;
-    private static boolean isIOSport = false;
     private static String adventureDirectory = null;
     private static int androidAPI = 0;
     private static String downloadsDir = "";
@@ -26,11 +25,8 @@ public class GuiBase {
         return downloadsDir;
     }
 
-    public static void setIsIOS(boolean value) { isIOSport = value; }
-    public static boolean isIOS() { return isIOSport; }
-
-    /** @return true on mobile ports (Android or iOS), false on desktop. */
-    public static boolean isMobile() { return isAndroidport || isIOSport; }
+    /** @return true on Android, false on desktop (including the mobile UI wrapper). */
+    public static boolean isMobile() { return isAndroidport; }
 
     public static void setAdventureDirectory(String directory) { adventureDirectory = directory; }
     public static String getAdventureDirectory() { return adventureDirectory; }

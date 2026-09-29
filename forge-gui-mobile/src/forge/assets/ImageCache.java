@@ -23,7 +23,6 @@ import java.util.HashSet;
 import java.util.Queue;
 import java.util.Set;
 
-import com.badlogic.gdx.assets.loaders.TextureLoader.TextureParameter;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.graphics.glutils.FileTextureData;
@@ -46,7 +45,6 @@ import forge.Forge;
 import forge.ImageKeys;
 import forge.card.CardEdition;
 import forge.card.CardRenderer;
-import forge.gui.GuiBase;
 import forge.deck.Deck;
 import forge.game.card.CardView;
 import forge.game.player.IHasIcon;
@@ -90,14 +88,6 @@ public class ImageCache {
     private void initCache(int capacity) {
         //override maxCardCapacity
         maxCardCapacity = capacity;
-        // iOS: every card texture is now a manager-owned image whose whole lifecycle the AssetManager owns
-        // (see CardTextureData). Keep the old downloaded ceiling (48 on <=~4GB devices, else 120) as the unified
-        // resident cap so the card set doesn't balloon toward cacheSize (300) — decoded cards are hundreds of MB
-        // of native memory and the main per-turn ratchet over a long game.
-        if (GuiBase.isIOS()) {
-            boolean lowRam = Forge.totalDeviceRAM > 0 && Forge.totalDeviceRAM <= 4500;
-            maxCardCapacity = lowRam ? 48 : 120;
-        }
         //init q
         q = EvictingQueue.create(maxCardCapacity);
         //init syncQ for threadsafe use
@@ -398,10 +388,10 @@ public class ImageCache {
                     radius = 25;
                 else
                     radius = 22;
-                // Downloaded images from Scryfall (in Documents/cache) are always fullborder; also check path.
-                boolean isFullBorder = isDownloadedCardImage(fileName) || fileName.contains(".fullborder.") || fileName.contains("tokens");
+                // Full-border images and tokens are identified by their path.
+                boolean isFullBorder = fileName.contains(".fullborder.") || fileName.contains("tokens");
                 // Store under the SAME derivation the lookups use (getTextureKey), so store==lookup by
-                // construction — on iOS both equal fileName, but on the Windows desktop wrapper file.getPath()
+                // construction — on the Windows desktop wrapper file.getPath()
                 // uses backslashes while FileTextureData.getFileHandle().path() uses forward slashes.
                 updateImageRecord(textureKey, isCloserToWhite(getpixelColor(check)), radius, isFullBorder);
             }
@@ -411,7 +401,7 @@ public class ImageCache {
         try {
             if (!Forge.getAssets().manager().isLoaded(fileName, Texture.class)) {
                 if (!Forge.getAssets().manager().contains(fileName)) {
-                    Forge.getAssets().manager().load(fileName, Texture.class, cardTextureParameter(fileName));
+                    Forge.getAssets().manager().load(fileName, Texture.class, Forge.getAssets().getTextureFilter());
                     counter += 1;
                 }
 
@@ -435,24 +425,6 @@ public class ImageCache {
         } catch (Exception e) {
             System.err.println("ImageCache: Safe fallback bypass triggered during lifecycle force-flush step.");
         }
-    }
-
-    // iOS downloaded images (Documents/cache) decode via CardTextureData so the AssetManager owns their
-    // whole lifecycle; every other card image uses the stock file decode. This selects a decode PARAMETER
-    // only — it caches/gets/unloads nothing.
-    private static TextureParameter cardTextureParameter(String fileName) {
-        if (isDownloadedCardImage(fileName)) {
-            TextureParameter p = new TextureParameter();
-            p.textureData = new CardTextureData(fileName);
-            p.minFilter = Texture.TextureFilter.Linear;
-            p.magFilter = Texture.TextureFilter.Linear;
-            return p;
-        }
-        return Forge.getAssets().getTextureFilter();
-    }
-
-    private static boolean isDownloadedCardImage(String absolutePath) {
-        return GuiBase.isIOS() && absolutePath.contains("/Documents/cache");
     }
 
     public void unloadCardTextures(boolean removeAll) {
@@ -526,14 +498,12 @@ public class ImageCache {
         }
     }
 
-    // The path key for a texture, derived from the manager-owned TextureData: CardTextureData for iOS
-    // downloaded cards, FileTextureData for everything loaded from a file. Both resolve to the same
+    // The path key for a texture, derived from manager-owned FileTextureData. This resolves to the same
     // absolute path loadAsset keyed updateImageRecord by, so border lookups match. Non-file textures
     // fall back to toString().
     private String getTextureKey(Texture t) {
         if (t == null) return null;
         TextureData d = t.getTextureData();
-        if (d instanceof CardTextureData) return ((CardTextureData) d).getPath();
         if (d instanceof FileTextureData) return ((FileTextureData) d).getFileHandle().path();
         return t.toString();
     }

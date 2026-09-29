@@ -733,7 +733,7 @@ public class SettingsPage extends TabPage<SettingsScreen> {
                     SoundSystem.instance.changeBackgroundTrack();
                 }
             }, 7);
-        if (!GuiBase.isAndroid() && !GuiBase.isIOS()) {
+        if (!GuiBase.isAndroid()) {
             lstSettings.addItem(new BooleanSetting(FPref.UI_PAUSE_MUSIC_ON_FOCUS_LOSS,
                 Forge.getLocalizer().getMessage("cbPauseMusicOnFocusLoss"),
                 Forge.getLocalizer().getMessage("nlPauseMusicOnFocusLoss")), 7);

@@ -7,7 +7,6 @@ Please also try to check back a bit after your PR gets merged in case it causes 
 | - | - | - | - |
 | PC Releases | friarsol | Agetian | - update Maven dependencies<br>- maintain CI files |
 | Android Releases | | kevlahnota | |
-| iOS Releases | | | |
 | Sentry | JaminCollins | | - watch trends for rare/unusual crashes |
 
 ## Ingame Engine

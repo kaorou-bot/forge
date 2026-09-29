@@ -394,3 +394,12 @@ OSS Bucket 私有时，RAM 发布账号可能有上传权限却没有读取对�
 - cn0929r2 正式版本重新运行同组 40 项回归测试，零失败、零跳过；直连及 2/3/4/8 人中继对局均完成。日志保存于 `dist/diagnostics/cn0929r2-tests.log`。
 - 正式制品分别保存在 `dist/android-cn0929r2/`、`dist/desktop-cn0929r2/`、`dist/installers-cn0929r2/` 和 `dist/relay-cn0929r2/`。APK 签名与既有版本一致，打包的中文卡名和界面文本与源码匹配；Windows ZIP 完整性、内置 JRE 的实际 JAR 连接设置检查通过；服务端随包源码可在独立目录重新编译，独立 JAR 健康检查通过。
 - 正式 SHA-256：APK `243b04b2201000ca07e012b13c009cb3a7c298207f5a31562dc40d1c33d3961f`；Windows EXE `c1d9fe7349f38d2a88c92599a1b5620960521b169d6efd4350cae850a044de96`；Windows ZIP `9546ec37e2064a4f510f2bb0a005bf8603de8e760c3bcde3bcf2bab67dc1e58f`；服务端 ZIP `2270fb7e36156b75979aa0dd687cac3d7b451ebb97378d6b1b3c2f4e61f0d8bd`。
+
+## 2026-09-29：移除 iOS，继续同步其他上游更新
+
+- 用户明确要求继续每周二 16:00（Asia/Shanghai）同步上游，但永久排除 iOS；不是停止整个上游同步。已原位更新 `forge-2` 定时任务，保留原模型、时间和其他约束；独立牌表生成任务 `forge` 未改动。
+- 删除 `forge-gui-ios` 的源码、原生库、资源、降级桥接工具、两条 iOS GitHub 工作流、专用构建文档、POM profile，以及共享层的纯 iOS 输入/字体/图像/音频/内存回收分支。Android/桌面的原有路径不变；保留通用文本/编码容错、GL 线程安全与卡图生命周期改进。
+- 排除策略见 `Upstream-Platform-Policy.zh-CN.md`；`deploy/check-platform-scope.ps1` 和 GitHub `Community platform scope` 阻止平台代码被上游合并重新带回，`deploy/test-platform-scope.ps1` 验证模块、工作流、profile、Java 入口拦截与卡名/macOS 不误删，共 7 项通过。
+- 桌面、共享移动端编译及中文译表、套牌导入、Android 启动资源、更新清单和联机偏好共 101 项回归通过，零失败、零跳过。源码清理可从 Git 历史恢复，不触碰原始冲突工作区或其中未跟踪的开发缓存。
+- `mvn -pl forge-gui-android -am -DskipTests -Dcheckstyle.skip=true compile` 也通过，确认 Android 后端没有遗留被删除接口的引用；本次没有生成新 APK。
+- 用户授权提交推送，不重新打包、升版、改更新清单或部署服务器。线上 cn0929r2 制品保持不变。

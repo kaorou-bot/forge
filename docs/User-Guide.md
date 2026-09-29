@@ -105,8 +105,8 @@ This might be different in OSX or Linux systems (file permission related).
     * If the command file doesn't appear to do anything, you'll need to [modify the permissions to be executable.](https://support.apple.com/guide/terminal/make-a-file-executable-apdd100908f-06b3-4e63-8a87-32e71241bab4/mac) (This is a temporary bug in the build process.)
     * Additionally OSX needs to have a JRE AND a JDK installed because reasons.
 
-### Android / iOS
-* Sideload/Install "forge...apk/ipa"
+### Android
+* Sideload/Install "forge...apk"
 * Run Forge
 
 # User data migration

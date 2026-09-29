@@ -1,0 +1,15 @@
+name: Community platform scope
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  platform-scope:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test scope guard
+        shell: pwsh
+        run: ./deploy/test-platform-scope.ps1
+      - name: Check supported platform scope
+        shell: pwsh
+        run: ./deploy/check-platform-scope.ps1

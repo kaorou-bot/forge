@@ -492,20 +492,6 @@ public class Forge implements ApplicationListener {
                         }
                         safeToClose = true;
                         clearTransitionScreen();
-                        if (GuiBase.isIOS()) {
-                            // POST-LOAD memory reclaim (iOS): booting parses ~32k card rules +
-                            // builds ~100k PaperCards + loads skin assets — a large transient
-                            // allocation spike that leaves ~200MB of freed-but-unmapped bytes in
-                            // the GC heap at idle home. Two full GCs return them to iOS (the GC
-                            // needs the second pass to unmap pages the first one freed) —
-                            // device-measured: GC heap 690→492MB before a game starts. Only
-                            // unreachable garbage is collected; iOS-gated because other
-                            // platforms don't sit against a per-process memory ceiling.
-                            FThreads.invokeInBackgroundThread(() -> {
-                                System.gc();
-                                System.gc();
-                            });
-                        }
                     }, ScreenUtil.getInstance().takeScreenshot(), false, false, true, false));
                 });
             });
@@ -1293,18 +1279,7 @@ public class Forge implements ApplicationListener {
         @Override
         public boolean keyTyped(char ch) {
             if (keyInputAdapter != null) {
-                if (GuiBase.isIOS()) {
-                    // The iOS software keyboard delivers one keyTyped per tap and
-                    // routes backspace (0x08) / delete (0x7F) through keyTyped
-                    // rather than keyDown. The upstream de-dup below blocked
-                    // repeated characters (e.g. "aa" in "Kaalia") because iOS
-                    // gives no keyUp to reset it, and the printable-only filter
-                    // dropped delete entirely. Pass these straight through; the
-                    // text field handles backspace/delete.
-                    if ((ch >= ' ' && ch <= '~') || ch == '\b' || ch == '\u007F') {
-                        return keyInputAdapter.keyTyped(ch);
-                    }
-                } else if (ch >= ' ' && ch <= '~') { //only process this event if character is printable
+                if (ch >= ' ' && ch <= '~') { //only process this event if character is printable
                     //prevent firing this event more than once for the same character on the same key down, otherwise it fires too often
                     if (lastKeyTyped != ch || !keyTyped) {
                         keyTyped = true;

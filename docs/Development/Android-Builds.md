@@ -1,17 +1,18 @@
+For community releases use `deploy/build-android-community.ps1`, with versions from the root `pom.xml` and the existing signing keystore. See [community maintenance](Community-ZH-CN-Maintenance.md). The historical upstream instructions below are not the community release workflow.
+
 In order to build and sign the android release, you will need the `forge.keystore` file (which is not present in the repository).  This file will need to be placed in the `forge-gui-android` folder.  This file should **never** be committed to the repository.
 
 In preparation for the android release, update the version recorded in the following files:
 
 ```
 forge-gui-android/pom.xml
-forge-gui-ios/pom.xml
 forge-gui-mobile/src/forge/Forge.java
 ```
 
-In the first two, you're looking for `alpha-version` (~line 10 in both files) and setting the string accordingly.
-In the last one, you're looking for the declaration of `CURRENT_VERSION` (~line 37) and setting it to the same value as the previous two files.
+In the first file, you're looking for `alpha-version` and setting the string accordingly.
+In the last one, you're looking for the declaration of `CURRENT_VERSION` and setting it to the same value.
 
-Commit the changes to these three files to the repository with an appropriately descriptive commit message.
+Commit the changes to these files to the repository with an appropriately descriptive commit message.
 
 A script such as the following will compile and sign the android build:
 
