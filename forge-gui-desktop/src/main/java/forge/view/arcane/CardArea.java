@@ -324,6 +324,23 @@ public class CardArea extends CardPanelContainer implements CardPanelMouseListen
     public final void mouseDragEnd(final CardPanel dragPanel, final MouseEvent evt) {
         super.setDragged(false);
 
+        final Runnable dropAction = getDropAction(dragPanel, evt);
+        if (dropAction != null) {
+            // Finish the drag before selection can change zones or open a modal prompt.
+            final CardPanel animation = CardPanel.getDragAnimationPanel();
+            CardPanel.setDragAnimationPanel(null);
+            if (animation != null) {
+                final java.awt.Container parent = animation.getParent();
+                if (parent != null) { parent.remove(animation); parent.repaint(); }
+                animation.dispose();
+            }
+            dragPanel.setDisplayEnabled(true);
+            doLayout();
+            repaint();
+            dropAction.run();
+            return; // An external drop is not a hand-order change.
+        }
+
         super.mouseDragEnd(dragPanel, evt);
         this.doLayout();
         final JLayeredPane layeredPane = SwingUtilities.getRootPane(CardPanel.getDragAnimationPanel()).getLayeredPane();
@@ -334,6 +351,11 @@ public class CardArea extends CardPanelContainer implements CardPanelMouseListen
         final int endWidth = dragPanel.getCardWidth();
         Animation.moveCard(startX, startY, startWidth, endPos.x, endPos.y, endWidth, CardPanel.getDragAnimationPanel(),
                 dragPanel, layeredPane, 200);
+    }
+
+    /** Optional external drop operation; null keeps the existing reorder/snap-back behavior. */
+    protected Runnable getDropAction(final CardPanel dragPanel, final MouseEvent evt) {
+        return null;
     }
 
     public final float getMaxCoverage() {
