@@ -392,3 +392,5 @@ OSS Bucket 私有时，RAM 发布账号可能有上传权限却没有读取对�
 - 服务端仅发布带源码、部署配置和中文说明的 cn0929r2 ZIP，不 SSH 修改或重启现有大厅。新版本下载路径为 `forge/server/2.0.15-cn0929r2/forge-lobby-relay-2.0.15-cn0929r2.zip`。
 - 正式发布顺序：备份原清单，重新构建和校验，上传不可变制品并从公开 CDN 完整回读核对 SHA-256，提交推送民间汉化分支，最后核对原清单没有并发变化并切换客户端清单。原始冲突工作区保持不动。
 - cn0929r2 正式版本重新运行同组 40 项回归测试，零失败、零跳过；直连及 2/3/4/8 人中继对局均完成。日志保存于 `dist/diagnostics/cn0929r2-tests.log`。
+- 正式制品分别保存在 `dist/android-cn0929r2/`、`dist/desktop-cn0929r2/`、`dist/installers-cn0929r2/` 和 `dist/relay-cn0929r2/`。APK 签名与既有版本一致，打包的中文卡名和界面文本与源码匹配；Windows ZIP 完整性、内置 JRE 的实际 JAR 连接设置检查通过；服务端随包源码可在独立目录重新编译，独立 JAR 健康检查通过。
+- 正式 SHA-256：APK `243b04b2201000ca07e012b13c009cb3a7c298207f5a31562dc40d1c33d3961f`；Windows EXE `c1d9fe7349f38d2a88c92599a1b5620960521b169d6efd4350cae850a044de96`；Windows ZIP `9546ec37e2064a4f510f2bb0a005bf8603de8e760c3bcde3bcf2bab67dc1e58f`；服务端 ZIP `2270fb7e36156b75979aa0dd687cac3d7b451ebb97378d6b1b3c2f4e61f0d8bd`。
