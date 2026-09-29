@@ -18,6 +18,8 @@ import forge.util.ScreenUtil;
 import forge.util.ThreadUtil;
 import forge.util.Utils;
 
+import java.util.function.Consumer;
+
 public class LoadingOverlay extends FOverlay {
     private static final float INSETS = Utils.scale(10);
     private static final float LOGO_SIZE_FACTOR = 0.7f;
@@ -54,11 +56,16 @@ public class LoadingOverlay extends FOverlay {
     }
 
     public static void runBackgroundTask(String caption0, final Runnable task) {
+        runBackgroundTask(caption0, false, loader -> task.run());
+    }
+
+    public static void runBackgroundTask(String caption0, boolean blockInput, final Consumer<LoadingOverlay> task) {
         final LoadingOverlay loader = new LoadingOverlay(caption0, true);
+        loader.blockInput = blockInput;
         loader.show();
         FThreads.invokeInBackgroundThread(() -> {
             try {
-                task.run();
+                task.accept(loader);
             } finally {
                 // Never strand the user behind a modal overlay if a background
                 // network or loading task fails unexpectedly.
@@ -145,11 +152,19 @@ public class LoadingOverlay extends FOverlay {
         }
     }
 
+    private boolean blockInput = false; // true while an uncancelable background task is running
+
     @Override
     public boolean keyDown(int keyCode) {
-        if (match)
+        if (match || blockInput)
             return true;
         return super.keyDown(keyCode);
+    }
+
+    @Override
+    public void hide() {
+        blockInput = false;
+        super.hide();
     }
 
     private class BGAnimation extends ForgeAnimation {
