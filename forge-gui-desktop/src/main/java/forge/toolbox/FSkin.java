@@ -1134,6 +1134,11 @@ public class FSkin {
     private static int defaultFontSize = 12;
     private static boolean loaded = false;
 
+    /** Directory used by the currently loaded desktop skin, including its optional match-ui.json. */
+    public static File getSkinDirectory() {
+        return new File(preferredDir == null ? ForgeConstants.DEFAULT_SKINS_DIR : preferredDir);
+    }
+
     public static void changeSkin(final String skinName) {
         final ForgePreferences prefs = FModel.getPreferences();
         if (skinName.equals(prefs.getPref(FPref.UI_SKIN))) { return; }
@@ -1146,6 +1151,13 @@ public class FSkin {
         loaded = false; //reset this temporarily until end of loadFull()
         loadLight(skinName, false);
         loadFull(false);
+
+        if ("skin".equals(forge.screens.match.layout.DesktopMatchUi.selection())) {
+            final var screen = Singletons.getControl().getCurrentScreen();
+            if (screen != null && screen.isMatchScreen()) {
+                forge.gui.framework.SLayoutIO.revertLayout();
+            }
+        }
 
         //refresh certain components skinned via look and feel
         Singletons.getControl().getForgeMenu().refresh();

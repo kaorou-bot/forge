@@ -39,6 +39,8 @@ import forge.gui.framework.EDocID;
 import forge.gui.framework.IVDoc;
 import forge.localinstance.skin.FSkinProp;
 import forge.screens.match.CMatchUI;
+import forge.screens.match.layout.MatchFieldLayout;
+import java.util.Map;
 import forge.screens.match.controllers.CField;
 import forge.toolbox.FLabel;
 import forge.toolbox.FScrollPane;
@@ -163,12 +165,11 @@ public class VField implements IVDoc<CField> {
     @Override
     public void populate() {
         final JPanel pnl = parentCell.getBody();
-        pnl.setLayout(new MigLayout("insets 0, gap 0"));
-
-        pnl.add(avatarArea, "w 10%!, h 35%!");
-        pnl.add(phaseIndicator, "w 5%!, h 100%!, span 1 2");
-        pnl.add(scroller, "w 85%!, h 100%!, span 1 2, wrap");
-        pnl.add(detailsPanel, "w 10%!, h 64%!, gapleft 1px");
+        matchUI.getFieldLayout().populate(pnl, Map.of(
+                MatchFieldLayout.Part.AVATAR, avatarArea,
+                MatchFieldLayout.Part.PHASES, phaseIndicator,
+                MatchFieldLayout.Part.BATTLEFIELD, scroller,
+                MatchFieldLayout.Part.DETAILS, detailsPanel));
     }
 
     @Override

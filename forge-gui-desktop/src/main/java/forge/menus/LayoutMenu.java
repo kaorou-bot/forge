@@ -28,6 +28,7 @@ import forge.localinstance.properties.ForgePreferences.FPref;
 import forge.localinstance.skin.FSkinProp;
 import forge.model.FModel;
 import forge.screens.match.VMatchUI;
+import forge.screens.match.layout.DesktopMatchUi;
 import forge.screens.match.views.VField;
 import forge.screens.match.views.VHand;
 import forge.view.arcane.FloatingZone;
@@ -72,6 +73,7 @@ public final class LayoutMenu {
         }
         menu.add(getMenu_ThemeOptions());
         if (isMatch) {
+            menu.add(getMenu_DesktopMatchUi());
             menu.add(getMenuItem_ShowBackgroundImage());
         }
 
@@ -91,8 +93,34 @@ public final class LayoutMenu {
 
         if (isMatch) {
             menu.addSeparator();
-            menu.add(getMenu_SortMultiplayerFields());
+            final JMenu multiplayer = getMenu_SortMultiplayerFields();
+            multiplayer.setEnabled(!((VMatchUI) currentScreen.getView()).getDesktopUi().isCustom());
+            menu.add(multiplayer);
         }
+        return menu;
+    }
+
+    private static JMenu getMenu_DesktopMatchUi() {
+        final JMenu menu = new JMenu(localizer.getMessage("lblDesktopMatchUi"));
+        final ButtonGroup group = new ButtonGroup();
+        for (DesktopMatchUi.Provider provider : DesktopMatchUi.providers()) {
+            final JRadioButtonMenuItem item = new JRadioButtonMenuItem(localizer.getMessage(provider.label()));
+            item.setSelected(provider.id().equals(DesktopMatchUi.selection()));
+            item.addActionListener(e -> {
+                try {
+                    DesktopMatchUi.select(provider.id());
+                    SLayoutIO.revertLayout();
+                } catch (java.io.IOException ex) {
+                    FOptionPane.showErrorDialog(ex.getMessage());
+                }
+            });
+            group.add(item);
+            menu.add(item);
+        }
+        menu.addSeparator();
+        final JMenuItem reload = new JMenuItem(localizer.getMessage("lblDesktopMatchUiReload"));
+        reload.addActionListener(e -> SLayoutIO.revertLayout());
+        menu.add(reload);
         return menu;
     }
 

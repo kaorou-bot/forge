@@ -201,6 +201,10 @@ public final class CMatchUI
     FScreen getScreen() {
         return this.screen;
     }
+    public forge.screens.match.layout.MatchFieldLayout getFieldLayout() {
+        return view.getDesktopUi().layout().fieldLayout();
+    }
+
     public boolean isCurrentScreen() {
         return Singletons.getControl().getCurrentScreen() == this.screen;
     }
