@@ -20,6 +20,8 @@ import java.util.List;
 public class HeadlessGuiDesktop extends GuiDesktop implements IHasForgeLog {
 
     private static volatile HostedMatch lastMatch;
+    private static boolean deferGameStart;
+    private static Runnable pendingGameStart;
     private static boolean testingEnvironmentLogged = false;
 
     // Tests must call NetworkLogConfig.setTestMode(true) AFTER GuiBase.setInterface()
@@ -28,7 +30,16 @@ public class HeadlessGuiDesktop extends GuiDesktop implements IHasForgeLog {
     @Override
     public HostedMatch hostMatch() {
         logTestingEnvironment();
-        lastMatch = new HostedMatch();
+        lastMatch = new HostedMatch() {
+            @Override
+            protected void dispatchGameStart(final Runnable start) {
+                if (deferGameStart) {
+                    pendingGameStart = () -> super.dispatchGameStart(start);
+                } else {
+                    super.dispatchGameStart(start);
+                }
+            }
+        };
         return lastMatch;
     }
 
@@ -48,6 +59,22 @@ public class HeadlessGuiDesktop extends GuiDesktop implements IHasForgeLog {
 
     public static void clearLastMatch() {
         lastMatch = null;
+        deferGameStart = false;
+        pendingGameStart = null;
+    }
+
+    public static void deferGameStart() {
+        deferGameStart = true;
+    }
+
+    public static void resumeGameStart() {
+        final Runnable start = pendingGameStart;
+        pendingGameStart = null;
+        deferGameStart = false;
+        if (start == null) {
+            throw new IllegalStateException("No initialized game is waiting to start");
+        }
+        start.run();
     }
 
     @Override

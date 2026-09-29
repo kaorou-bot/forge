@@ -277,7 +277,7 @@ public class HostedMatch {
 
         // It's important to run match in a different thread to allow GUI inputs to be invoked from inside game. 
         // Game is set on pause while gui player takes decisions
-        game.getAction().invoke(() -> {
+        dispatchGameStart(() -> {
             // Capture the current game in a local so this lambda keeps operating on the
             // game it started even if another thread (e.g. the EDT handling a player's
             // "quit"/"continue" decision via addNextGameDecision -> endCurrentGame())
@@ -351,6 +351,11 @@ public class HostedMatch {
         gui.openView(null);
         game.subscribeToEvents(new FControlGameEventHandler(humanController));
         humanControllers.add(humanController);
+    }
+
+    /** Schedule play after the player controllers and GUI connections have been initialized. */
+    protected void dispatchGameStart(final Runnable start) {
+        game.getAction().invoke(start);
     }
 
     public Game getGame() {

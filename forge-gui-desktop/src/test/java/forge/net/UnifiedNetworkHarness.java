@@ -382,6 +382,10 @@ public class UnifiedNetworkHarness implements IHasForgeLog {
             // 6. Start game
             logLobbyState();
 
+            if (useAiForRemotePlayers) {
+                HeadlessGuiDesktop.deferGameStart();
+            }
+
             Runnable startRunnable = lobby.startGame();
             if (startRunnable == null) {
                 result.errorMessage = "startGame() returned null - deck validation likely failed";
@@ -392,10 +396,12 @@ public class UnifiedNetworkHarness implements IHasForgeLog {
             result.gameStarted = true;
             netLog.info("Game started successfully!");
 
-            // Swap remote players to AI if enabled
+            // Swap remote players before play starts. Host and clients share the EDT in this
+            // harness, so a human prompt queued during startup can otherwise deadlock an RPC.
             HostedMatch hostedMatch = HeadlessGuiDesktop.getLastMatch();
             if (useAiForRemotePlayers && hostedMatch != null && hostedMatch.getGame() != null) {
                 swapRemotePlayersToAi();
+                HeadlessGuiDesktop.resumeGameStart();
             }
 
             // 7. Wait for game completion
