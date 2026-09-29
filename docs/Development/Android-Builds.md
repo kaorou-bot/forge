@@ -4,14 +4,13 @@ In preparation for the android release, update the version recorded in the follo
 
 ```
 forge-gui-android/pom.xml
-forge-gui-ios/pom.xml
 forge-gui-mobile/src/forge/Forge.java
 ```
 
-In the first two, you're looking for `alpha-version` (~line 10 in both files) and setting the string accordingly.
-In the last one, you're looking for the declaration of `CURRENT_VERSION` (~line 37) and setting it to the same value as the previous two files.
+In the first file, you're looking for `alpha-version` and setting the string accordingly.
+In the second file, you're looking for the declaration of `CURRENT_VERSION` and setting it to the same value.
 
-Commit the changes to these three files to the repository with an appropriately descriptive commit message.
+Commit the changes to these two files to the repository with an appropriately descriptive commit message.
 
 A script such as the following will compile and sign the android build:
 

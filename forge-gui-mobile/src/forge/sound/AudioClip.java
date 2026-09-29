@@ -19,16 +19,12 @@
 package forge.sound;
 
 import com.badlogic.gdx.Gdx;
-import forge.gui.GuiBase;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 
 import java.io.File;
 
 public class AudioClip implements IAudioClip {
-    // OpenAL-backed sound effect. On iOS the factories return MusicAudioClip instead
-    // (see that class for why); isIOS() is evaluated per createClip call, never latched
-    // at class load, so it can't strand effects on the suspended OpenAL engine.
     private Sound clip;
 
     public static IAudioClip createClip(File file) {
@@ -38,7 +34,7 @@ public class AudioClip implements IAudioClip {
     public static IAudioClip createClip(String filename) {
         FileHandle fileHandle = Gdx.files.absolute(filename);
         if (!fileHandle.exists()) { return null; }
-        return GuiBase.isIOS() ? new MusicAudioClip(fileHandle) : new AudioClip(fileHandle);
+        return new AudioClip(fileHandle);
     }
 
     private AudioClip(final FileHandle fileHandle) {
