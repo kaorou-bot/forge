@@ -326,14 +326,7 @@ public final class FServerManager implements IHasForgeLog {
         if (!isHosting) {
             return;
         }
-        // Cancel all reconnect timers
-        for (final Timer timer : reconnectTimers.values()) {
-            timer.cancel();
-        }
-        reconnectTimers.clear();
-        disconnectedClients.clear();
-        clients.clear();
-        afkSlots.clear();
+        clearConnectionState();
 
         if (externalTransport != null) {
             try {
@@ -345,12 +338,12 @@ public final class FServerManager implements IHasForgeLog {
             }
         }
 
-        try {
-            bossGroup.shutdownGracefully().sync();
-            workerGroup.shutdownGracefully().sync();
-        } catch (final InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
+        bossGroup.shutdownGracefully().syncUninterruptibly();
+        workerGroup.shutdownGracefully().syncUninterruptibly();
+        // A channelInactive callback already in flight can add reconnect state
+        // after the first clear. Drain all channel callbacks before clearing it
+        // for the next hosted game, even when the caller was interrupted.
+        clearConnectionState();
         if (upnpService != null) {
             try {
                 upnpService.shutdown();
@@ -369,6 +362,16 @@ public final class FServerManager implements IHasForgeLog {
         // create new EventLoopGroups for potential restart
         bossGroup = new NioEventLoopGroup(1);
         workerGroup = new NioEventLoopGroup();
+    }
+
+    private void clearConnectionState() {
+        for (final Timer timer : reconnectTimers.values()) {
+            timer.cancel();
+        }
+        reconnectTimers.clear();
+        disconnectedClients.clear();
+        clients.clear();
+        afkSlots.clear();
     }
 
     public boolean isHosting() {

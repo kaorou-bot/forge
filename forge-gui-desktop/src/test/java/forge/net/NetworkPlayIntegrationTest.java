@@ -102,6 +102,43 @@ public class NetworkPlayIntegrationTest implements IHasForgeLog {
         }
     }
 
+    @Test(timeOut = 30000)
+    @SuppressWarnings("unchecked")
+    public void testShutdownClearsLateReconnectCallbacks() throws Exception {
+        var server = forge.gamemodes.net.server.FServerManager.getInstance();
+        var clientsField = server.getClass().getDeclaredField("disconnectedClients");
+        var timersField = server.getClass().getDeclaredField("reconnectTimers");
+        var workersField = server.getClass().getDeclaredField("workerGroup");
+        clientsField.setAccessible(true);
+        timersField.setAccessible(true);
+        workersField.setAccessible(true);
+        var clients = (java.util.Map<String, forge.gamemodes.net.server.RemoteClient>) clientsField.get(server);
+        var timers = (java.util.Map<String, java.util.Timer>) timersField.get(server);
+        var timer = new java.util.Timer(true);
+        try {
+            server.startRelayServer(0);
+            var workers = (io.netty.channel.EventLoopGroup) workersField.get(server);
+            // Deterministically finish a late disconnect after shutdown's initial
+            // clear, just as an already-running channelInactive callback can do.
+            server.setExternalTransport(() -> workers.submit(() -> {
+                clients.put("Late guest", new forge.gamemodes.net.server.RemoteClient(null));
+                timers.put("Late guest", timer);
+            }).syncUninterruptibly());
+            server.stopServer();
+            Assert.assertTrue(clients.isEmpty(), "Stopped games must not retain reconnecting players");
+            Assert.assertTrue(timers.isEmpty(), "Stopped games must not retain reconnect timers");
+            Assert.assertThrows(IllegalStateException.class,
+                    () -> timer.schedule(new java.util.TimerTask() {
+                        @Override public void run() { }
+                    }, 60000));
+        } finally {
+            timer.cancel();
+            if (server.isHosting()) {
+                server.stopServer();
+            }
+        }
+    }
+
     /**
      * Key test for delta sync validation - uses actual TCP network client.
      * Uses 10-card basic land decks for fast CI execution.
