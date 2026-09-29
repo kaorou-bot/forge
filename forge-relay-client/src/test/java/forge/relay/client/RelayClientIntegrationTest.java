@@ -68,6 +68,21 @@ public class RelayClientIntegrationTest {
         }
     }
 
+    @Test
+    public void selectedServersHaveIndependentRoomDirectories() throws Exception {
+        try (RelayServer second = new RelayServer("127.0.0.1", 0)) {
+            second.start();
+            RelayEndpoint firstAddress = RelayEndpoint.parse("tcp://127.0.0.1:" + relayServer.port());
+            RelayEndpoint secondAddress = RelayEndpoint.parse("tcp://127.0.0.1:" + second.port());
+            try (RelayHostSession host = RelayHostSession.open(firstAddress, echoServer.getLocalPort(),
+                    "isolation-test", "Server A", "Host", "Constructed", "", 2,
+                    error -> Assert.fail("Unexpected host failure", error))) {
+                Assert.assertEquals(RelayLobbyClient.listRooms(firstAddress, "isolation-test").get(0).roomId(), host.roomId());
+                Assert.assertTrue(RelayLobbyClient.listRooms(secondAddress, "isolation-test").isEmpty());
+            }
+        }
+    }
+
     private void acceptEchoConnections() {
         while (!echoServer.isClosed()) {
             try {

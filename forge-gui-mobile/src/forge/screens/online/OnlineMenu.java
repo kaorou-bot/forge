@@ -72,7 +72,8 @@ public class OnlineMenu extends FPopupMenu {
 
         public void update(){
             Disconnect.item.setEnabled(getGameLobby() != null);
-            ServerUrl.item.setEnabled(FServerManager.getInstance() != null && FServerManager.getInstance().isHosting());
+            ServerUrl.item.setEnabled(FServerManager.getInstance() != null && FServerManager.getInstance().isHosting()
+                    && !FServerManager.getInstance().isRelayHosting());
         }
     }
 

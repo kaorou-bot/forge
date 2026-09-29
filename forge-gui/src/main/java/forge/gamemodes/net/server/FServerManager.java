@@ -375,6 +375,10 @@ public final class FServerManager implements IHasForgeLog {
         return isHosting;
     }
 
+    public boolean isRelayHosting() {
+        return isHosting && externalTransport != null;
+    }
+
     /** Close this transport together with the hosted Forge server. */
     public void setExternalTransport(final AutoCloseable transport) {
         if (externalTransport != null && externalTransport != transport) {

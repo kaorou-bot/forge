@@ -19,7 +19,9 @@ dedicated authoritative game server is explicitly out of scope for this phase.
 4. Guests join by selecting a room. They never enter an IP address or configure
    port forwarding.
 5. Desktop and Android use the same lobby and relay protocol.
-6. Direct IP hosting remains available as a diagnostic fallback during rollout.
+6. Direct IP hosting/joining is an explicit mode on desktop and Android.
+7. The initial default is the existing community TLS endpoint; the server-address
+   editor saves self-hosted endpoints and restores the default on blank input.
 
 The room owner still runs `FServerManager` and the game engine. If the owner
 disconnects, the room closes and the match ends, matching current host behavior.
@@ -133,7 +135,7 @@ can later remain network-compatible without weakening protocol checks.
 - [x] Tokens, version checks, connection limits, write backpressure, and health endpoint.
 - [x] Safe operation audit logs and operation-level per-IP rate limits.
 - [ ] Per-tunnel byte counters, external metrics collection, and alert rules.
-- Direct-IP mode retained behind an Advanced action.
+- Direct-IP mode exposed in the connection selector on desktop and Android.
 
 ### Phase 2: public operation
 

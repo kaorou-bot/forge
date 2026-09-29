@@ -1,4 +1,21 @@
 # Chapters
+
+## Community build: server or direct connection
+
+Desktop and Android now expose a connection-mode selector before creating/joining
+a room. **Server lobby (relay)** is the initial default, pointing to
+`tls://play.mtg-forge-kaorou.vip:443`. Click the server-address button to save a
+self-hosted relay address; blank input restores the community default. Everyone
+must select the same server to see the same rooms. This is a TCP TLS endpoint,
+not an HTTP URL. See [self-hosting instructions](../forge-lobby-relay/deploy/README.zh-CN.md).
+
+**Direct connection (IP / LAN)** uses the host's address and port (default 36743)
+without calling the lobby service. The host must allow incoming connections; WAN
+hosting may require a public address and router mapping. Both modes use the same
+game, deck selection and disconnect flows. Change mode/server only after leaving
+the current room. Preferences are stored in the existing `preferences/server.preferences`
+under the platform's Forge user-data directory (`NET_CONNECTION_MODE`, `NET_RELAY_ADDRESS`).
+
 - [Status & Support](#status--support)
 - [Requirements](#requirements)
 - [Quick Start](#quick-start)
@@ -29,7 +46,7 @@ In the Chinese community build's default lobby/relay mode, both players only
 need outbound access to the relay over TLS on TCP 443. No inbound firewall rule,
 public IPv4 address, UPnP, or router port forwarding is required. The detailed
 network/port requirements in the table and later sections apply to the optional
-desktop direct-IP diagnostic fallback.
+direct-IP mode on desktop and Android.
 
 | Requirement | Details |
 |---|---|
@@ -61,7 +78,7 @@ desktop direct-IP diagnostic fallback.
 The central lobby is a room browser rather than ranked matchmaking. Arrange
 games and request support in QQ group **813597628**.
 
-## Direct-IP fallback (desktop advanced/diagnostic)
+## Direct-IP mode (desktop and Android)
 
 > [!TIP]
 > **There is no built-in matchmaking.** Network play is designed for playing against people you know and manually sharing connection details.

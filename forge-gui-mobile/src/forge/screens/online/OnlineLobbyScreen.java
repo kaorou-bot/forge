@@ -21,6 +21,8 @@ import forge.gamemodes.net.EventFormat;
 import forge.gamemodes.net.IOnlineChatInterface;
 import forge.gamemodes.net.IOnlineLobby;
 import forge.gamemodes.net.NetConnectUtil;
+import forge.gamemodes.net.NetworkConnectionSettings;
+import forge.localinstance.properties.ForgeNetPreferences.FNetPref;
 import forge.gamemodes.net.EventParticipant;
 import forge.gamemodes.net.NetworkEvent;
 import forge.gamemodes.net.NetworkEventView;
@@ -73,6 +75,8 @@ public class OnlineLobbyScreen extends LobbyScreen implements IOnlineLobby, IDra
     private final FLabel lblGuideLink;
     private final FButton btnHost;
     private final FButton btnJoin;
+    private final FComboBox<NetworkConnectionSettings.Mode> cmbConnection = new FComboBox<>();
+    private final FButton btnRelayAddress;
     private final FComboBox<String> cmbMode = new FComboBox<>();
     private final FButton btnSetUpEvent;
     private final FButton btnStartEvent;
@@ -126,6 +130,22 @@ public class OnlineLobbyScreen extends LobbyScreen implements IOnlineLobby, IDra
         btnJoin.setCommand(e -> activateJoin());
         add(btnJoin);
 
+        for (NetworkConnectionSettings.Mode mode : NetworkConnectionSettings.Mode.values()) cmbConnection.addItem(mode);
+        cmbConnection.setSelectedItem(NetworkConnectionSettings.mode(FModel.getNetPreferences()));
+        cmbConnection.setChangedHandler(e -> {
+            NetworkConnectionSettings.saveMode(FModel.getNetPreferences(), cmbConnection.getSelectedItem());
+            updateConnectionLabels();
+            revalidate();
+        });
+        add(cmbConnection);
+        btnRelayAddress = new FButton("");
+        btnRelayAddress.setCommand(e -> FThreads.invokeInBackgroundThread(() -> {
+            NetworkConnectionSettings.editServer(FModel.getNetPreferences());
+            FThreads.invokeInEdtLater(() -> { updateConnectionLabels(); revalidate(); });
+        }));
+        add(btnRelayAddress);
+        updateConnectionLabels();
+
         cmbMode.addItem(Forge.getLocalizer().getMessage("lblConstructed"));
         cmbMode.addItem(Forge.getLocalizer().getMessage("lblLimited"));
         currentMode = Forge.getLocalizer().getMessage("lblConstructed");
@@ -161,6 +181,18 @@ public class OnlineLobbyScreen extends LobbyScreen implements IOnlineLobby, IDra
 
     private boolean isLimitedMode() {
         return Forge.getLocalizer().getMessage("lblLimited").equals(currentMode);
+    }
+
+    private boolean useRelay() {
+        return NetworkConnectionSettings.mode(FModel.getNetPreferences()) == NetworkConnectionSettings.Mode.SERVER;
+    }
+
+    private void updateConnectionLabels() {
+        btnHost.setText(Forge.getLocalizer().getMessage(useRelay() ? "lblCreateRelayRoom" : "lblHostGame"));
+        btnJoin.setText(Forge.getLocalizer().getMessage(useRelay() ? "lblBrowseRelayRooms" : "lblJoinGame"));
+        btnRelayAddress.setText(Forge.getLocalizer().getMessage("lblRelayAddress") + ": "
+                + FModel.getNetPreferences().getPref(FNetPref.NET_RELAY_ADDRESS));
+        lblGuideText.setText(Forge.getLocalizer().getMessage(useRelay() ? "lblConnectionServerHelp" : "lblConnectionDirectHelp"));
     }
 
     private void onModeChanged() {
@@ -689,17 +721,15 @@ public class OnlineLobbyScreen extends LobbyScreen implements IOnlineLobby, IDra
             cbDeckConformance.setVisible(false);
 
             float padding = Utils.scale(10);
-            float y = startY + height * 0.15f;
+            float y = startY + padding;
 
             float labelHeight = lblTitle.getAutoSizeBounds().height + padding;
             lblTitle.setBounds(padding, y, width - 2 * padding, labelHeight);
-            lblTitle.setVisible(true);
-            y += labelHeight + padding * 2;
+            lblTitle.setVisible(false);
 
             labelHeight = lblWarning.getAutoSizeBounds().height + padding;
             lblWarning.setBounds(padding, y, width - 2 * padding, labelHeight);
-            lblWarning.setVisible(true);
-            y += labelHeight + padding;
+            lblWarning.setVisible(false);
 
             labelHeight = lblGuideText.getAutoSizeBounds().height + padding;
             lblGuideText.setBounds(padding, y, width - 2 * padding, labelHeight);
@@ -709,7 +739,16 @@ public class OnlineLobbyScreen extends LobbyScreen implements IOnlineLobby, IDra
             labelHeight = lblGuideLink.getAutoSizeBounds().height + padding;
             lblGuideLink.setBounds(padding, y, width - 2 * padding, labelHeight);
             lblGuideLink.setVisible(true);
-            y += labelHeight + padding * 4;
+            y += labelHeight + padding;
+
+            cmbConnection.setVisible(true);
+            cmbConnection.setBounds(padding, y, width - 2 * padding, Utils.AVG_FINGER_HEIGHT);
+            y += Utils.AVG_FINGER_HEIGHT + padding;
+            btnRelayAddress.setVisible(useRelay());
+            if (useRelay()) {
+                btnRelayAddress.setBounds(padding, y, width - 2 * padding, Utils.AVG_FINGER_HEIGHT);
+                y += Utils.AVG_FINGER_HEIGHT + padding;
+            }
 
             float buttonGap = padding * 2;
             float buttonWidth = width * 0.35f;
@@ -721,6 +760,8 @@ public class OnlineLobbyScreen extends LobbyScreen implements IOnlineLobby, IDra
             btnJoin.setBounds(buttonX + buttonWidth + buttonGap, y, buttonWidth, buttonHeight);
             btnJoin.setVisible(true);
         } else {
+            cmbConnection.setVisible(false);
+            btnRelayAddress.setVisible(false);
             lblTitle.setVisible(false);
             lblWarning.setVisible(false);
             lblGuideText.setVisible(false);
@@ -866,7 +907,49 @@ public class OnlineLobbyScreen extends LobbyScreen implements IOnlineLobby, IDra
         }
     }
 
+    private void activateDirect(final boolean hosting) {
+        FThreads.invokeInBackgroundThread(() -> {
+            NetConnectUtil.ensurePlayerName();
+            final String address = hosting ? null : NetConnectUtil.getJoinServerUrl();
+            if (!hosting && address == null) return;
+            FThreads.invokeInEdtLater(() -> {
+                isHost = hosting;
+                intentionalDisconnect.set(false);
+                setGameLobby(getLobby());
+                revalidate();
+                final IOnlineChatInterface chat = (IOnlineChatInterface) OnlineScreen.Chat.getScreen();
+                LoadingOverlay.runBackgroundTask(Forge.getLocalizer().getMessage(
+                        hosting ? "lblStartingServer" : "lblConnectingToServer"), () -> {
+                    try {
+                        ChatMessage result = hosting ? NetConnectUtil.host(this, chat)
+                                : NetConnectUtil.join(address, this, chat);
+                        String message = result.getMessage();
+                        if (ForgeConstants.INVALID_HOST_COMMAND.equals(message)
+                                || ForgeConstants.CLOSE_CONN_COMMAND.equals(message)
+                                || (message != null && message.startsWith(ForgeConstants.CONN_ERROR_PREFIX))) {
+                            String detail = ForgeConstants.INVALID_HOST_COMMAND.equals(message)
+                                    ? Forge.getLocalizer().getMessage("lblDetectedInvalidHostAddress", address)
+                                    : message.startsWith(ForgeConstants.CONN_ERROR_PREFIX)
+                                        ? message.substring(ForgeConstants.CONN_ERROR_PREFIX.length())
+                                        : Forge.getLocalizer().getMessage("UnableConnectToServer", address);
+                            FThreads.invokeInEdtLater(() -> resetAfterRelayFailure(detail));
+                            return;
+                        }
+                        FThreads.invokeInEdtLater(() -> {
+                            chat.addMessage(result);
+                            OnlineScreen.Lobby.update();
+                        });
+                    } catch (Exception e) {
+                        shutdownConnection();
+                        FThreads.invokeInEdtLater(() -> resetAfterRelayFailure(e.toString()));
+                    }
+                });
+            });
+        });
+    }
+
     private void activateHost() {
+        if (!useRelay()) { activateDirect(true); return; }
         NetConnectUtil.ensurePlayerName();
         FThreads.invokeInBackgroundThread(() -> {
             final String roomName = SOptionPane.showInputDialog(
@@ -902,6 +985,7 @@ public class OnlineLobbyScreen extends LobbyScreen implements IOnlineLobby, IDra
     }
 
     private void activateJoin() {
+        if (!useRelay()) { activateDirect(false); return; }
         final LoadingOverlay loader = new LoadingOverlay(
                 Forge.getLocalizer().getMessageorUseDefault(
                         "lblLoadingRelayRooms", "Loading lobby rooms..."), true);

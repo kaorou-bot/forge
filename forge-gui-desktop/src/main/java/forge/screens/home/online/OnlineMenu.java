@@ -11,6 +11,9 @@ import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
 
 import forge.gamemodes.net.NetworkLogConfig;
+import forge.gamemodes.net.NetworkConnectionSettings;
+import forge.model.FModel;
+import forge.gamemodes.net.server.FServerManager;
 import forge.gui.FDraftOverlay;
 import forge.gui.FNetOverlay;
 import forge.localinstance.properties.ForgeConstants;
@@ -61,13 +64,23 @@ public final class OnlineMenu {
 
     private static JMenuItem getMenuItem_HostGame() {
         JMenuItem menuItem = new JMenuItem(Localizer.getInstance().getMessage("lblHostGame"));
-        menuItem.addActionListener(e -> CSubmenuOnlineLobby.SINGLETON_INSTANCE.hostGame());
+        menuItem.setEnabled(!FServerManager.getInstance().isHosting() && VSubmenuOnlineLobby.SINGLETON_INSTANCE.getClient() == null);
+        menuItem.addActionListener(e -> {
+            if (NetworkConnectionSettings.mode(FModel.getNetPreferences()) == NetworkConnectionSettings.Mode.SERVER)
+                CSubmenuOnlineLobby.SINGLETON_INSTANCE.hostRelayGame();
+            else CSubmenuOnlineLobby.SINGLETON_INSTANCE.hostGame();
+        });
         return menuItem;
     }
 
     private static JMenuItem getMenuItem_JoinGame() {
         JMenuItem menuItem = new JMenuItem(Localizer.getInstance().getMessage("lblJoinGame"));
-        menuItem.addActionListener(e -> CSubmenuOnlineLobby.SINGLETON_INSTANCE.joinGame());
+        menuItem.setEnabled(!FServerManager.getInstance().isHosting() && VSubmenuOnlineLobby.SINGLETON_INSTANCE.getClient() == null);
+        menuItem.addActionListener(e -> {
+            if (NetworkConnectionSettings.mode(FModel.getNetPreferences()) == NetworkConnectionSettings.Mode.SERVER)
+                CSubmenuOnlineLobby.SINGLETON_INSTANCE.browseRelayRooms();
+            else CSubmenuOnlineLobby.SINGLETON_INSTANCE.joinGame();
+        });
         return menuItem;
     }
 

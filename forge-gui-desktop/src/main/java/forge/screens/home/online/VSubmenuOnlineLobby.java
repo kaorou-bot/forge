@@ -11,6 +11,9 @@ import javax.swing.SwingConstants;
 import forge.deckchooser.FDeckChooser;
 import forge.gamemodes.match.GameLobby;
 import forge.gamemodes.net.IOnlineLobby;
+import forge.gamemodes.net.NetworkConnectionSettings;
+import forge.model.FModel;
+import forge.toolbox.FComboBox;
 import forge.gamemodes.net.client.FGameClient;
 import forge.gamemodes.net.server.FServerManager;
 import forge.gui.FNetOverlay;
@@ -116,15 +119,29 @@ public enum VSubmenuOnlineLobby implements IVSubmenu<CSubmenuOnlineLobby>, IOnli
                     }).build();
             lblGuideLink.setCursor(java.awt.Cursor.getPredefinedCursor(java.awt.Cursor.HAND_CURSOR));
 
-            final FButton btnHost = new FButton(localizer.getMessageorUseDefault(
-                    "lblCreateRelayRoom", "创建大厅房间"));
+            final boolean relay = NetworkConnectionSettings.mode(FModel.getNetPreferences())
+                    == NetworkConnectionSettings.Mode.SERVER;
+            final FComboBox<NetworkConnectionSettings.Mode> connectionMode = new FComboBox<>();
+            for (NetworkConnectionSettings.Mode mode : NetworkConnectionSettings.Mode.values()) connectionMode.addItem(mode);
+            connectionMode.setSelectedItem(NetworkConnectionSettings.mode(FModel.getNetPreferences()));
+            connectionMode.addActionListener(e -> {
+                NetworkConnectionSettings.saveMode(FModel.getNetPreferences(),
+                        (NetworkConnectionSettings.Mode) connectionMode.getSelectedItem());
+                populate();
+            });
+            final FButton serverAddress = new FButton(localizer.getMessage("lblRelayAddress") + ": "
+                    + FModel.getNetPreferences().getPref(forge.localinstance.properties.ForgeNetPreferences.FNetPref.NET_RELAY_ADDRESS));
+            serverAddress.addActionListener(e -> {
+                NetworkConnectionSettings.editServer(FModel.getNetPreferences());
+                populate();
+            });
+            final FButton btnHost = new FButton(localizer.getMessage(relay ? "lblCreateRelayRoom" : "lblHostGame"));
             btnHost.setFont(FSkin.getRelativeFont(18));
-            btnHost.addActionListener(e -> getLayoutControl().hostRelayGame());
+            btnHost.addActionListener(e -> { if (relay) getLayoutControl().hostRelayGame(); else getLayoutControl().hostGame(); });
 
-            final FButton btnJoin = new FButton(localizer.getMessageorUseDefault(
-                    "lblBrowseRelayRooms", "浏览大厅"));
+            final FButton btnJoin = new FButton(localizer.getMessage(relay ? "lblBrowseRelayRooms" : "lblJoinGame"));
             btnJoin.setFont(FSkin.getRelativeFont(18));
-            btnJoin.addActionListener(e -> getLayoutControl().browseRelayRooms());
+            btnJoin.addActionListener(e -> { if (relay) getLayoutControl().browseRelayRooms(); else getLayoutControl().joinGame(); });
 
             final JPanel buttonPanel = new JPanel(new MigLayout("insets 0, gap 20, ax center"));
             buttonPanel.setOpaque(false);
@@ -135,6 +152,10 @@ public enum VSubmenuOnlineLobby implements IVSubmenu<CSubmenuOnlineLobby>, IOnli
             infoBox.add(lblWarning, "ax center, gap 0 0 0 15");
             infoBox.add(lblGuideText, "ax center, gap 0 0 0 0");
             infoBox.add(lblGuideLink, "ax center, gap 0 0 0 25");
+            infoBox.add(connectionMode, "growx, h 35!, gapbottom 10");
+            if (relay) infoBox.add(serverAddress, "growx, h 35!, gapbottom 10");
+            infoBox.add(new FLabel.Builder().text(localizer.getMessage(relay
+                    ? "lblConnectionServerHelp" : "lblConnectionDirectHelp")).fontSize(14).build(), "gapbottom 15");
             infoBox.add(buttonPanel, "ax center");
 
             container.setLayout(new BorderLayout());
@@ -157,7 +178,7 @@ public enum VSubmenuOnlineLobby implements IVSubmenu<CSubmenuOnlineLobby>, IOnli
         pnlTitle.setOpaque(false);
         final boolean hosting = FServerManager.getInstance().isHosting();
         pnlTitle.add(lobby.getLblTitle(), "w 95%, h 40px!, gap 0 0 15px 15px, span " + (hosting ? "3" : "2"));
-        if (hosting) {
+        if (hosting && !FServerManager.getInstance().isRelayHosting()) {
             FButton btnServerUrl = new FButton(Localizer.getInstance().getMessage("lblServerURL"));
             btnServerUrl.setFont(FSkin.getRelativeFont(14));
             pnlTitle.add(btnServerUrl, "w 150!, h 35!, gap 10 10 0 0, align right");

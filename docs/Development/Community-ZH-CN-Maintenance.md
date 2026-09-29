@@ -368,3 +368,27 @@ OSS Bucket 私有时，RAM 发布账号可能有上传权限却没有读取对�
 - 使用既有自动脚本构建两端；Windows 仅构建完整安装包与内置 JRE 的 ZIP，不传入增量包参数。新清单删除全部 `desktop.patch.*`，原样保留 `assets.*`，历史制品不删除、不覆盖。
 - 发布顺序为备份线上清单、上传新版本不可变对象、CDN 完整下载校验大小及 SHA-256、核对清单未被其他任务修改、最后切换版本清单。大厅/中继服务不修改、不重启。
 - cn0922r5 的实际桌面包使用内置 JRE 验证衰萎费用请求/回复及支付记录重置成功；FRA 71 张普通牌全量存在，六包共 84 张（本次抽样 74 个不同牌名），ZIP 完整性校验通过。Android 包的版本号、既有签名、中文翻译及 tokens 配置已核对，ProGuard 输出保留 transient 字段和反序列化初始化方法。本次未进行新的人工跨设备联机验收，不将自动测试等同于实机测试。
+
+## 2026-09-29：双连接模式及第三方自建部署包（cn0929net1 测试版）
+
+- 基于已发布 cn0929，不操作原始冲突工作区。用户选择先提供客户端测试包验收；不切换自动更新清单、不部署或重启现有大厅。Android versionCode 为 2026092902，正式发布需继续递增，不能覆盖同标识测试制品。
+- 桌面和 Android 联机页新增服务器/直连选择，与构筑/限制赛选择独立。首次默认服务器模式和 `tls://play.mtg-forge-kaorou.vip:443`，`NetworkConnectionSettings` 将选项写入现有 `USER_PREFS_DIR/server.preferences` 的 `NET_CONNECTION_MODE` 和 `NET_RELAY_ADDRESS`。切换直连不清空自建服务器地址；留空服务器输入恢复社区默认。
+- `RelayEndpoint.parse()` 不解析 DNS，拒绝路径、用户信息、查询、无效端口和公开明文中继；TLS 验证保持开启，`tcp://` 仅支持显式回环调试。已有 `forge.relay.host/port/tls` Java 启动参数保持开发覆盖优先级，一般玩家不应设置它们。
+- Android 直连与桌面共用 `NetConnectUtil`。建房绑定端口及 UPnP 提示/发现、客机 connect 在工作线程，lobby/view 创建与事件监听安装在 UI 线程，避免移动端弹窗死锁。直连房主可在菜单查看地址，服务器中继房间不再显示误导性的本机直连地址。沿用原有赛后退房清理。
+- 独立服务端使用原有协议，不增加官方服务器依赖；`deploy/build-relay-package.ps1` 只构建本地 ZIP，包含 fat JAR、中文说明、systemd、通用域名的 Nginx stream TLS 示例、本机启动脚本、许可证、精确模块源码及 SHA256SUMS，不包含任何凭据。`source/pom.xml` 保留原构建配置但只聚合协议与服务端两模块。
+- 本机 Java 21 的 AF_UNIX selector 管道连接出现 `Invalid argument: connect`，影响原有中继测试初始化，非本次功能断言失败。测试进程使用不存在的 `jdk.net.unixdomain.tmpdir` 让 JDK 回退 TCP 管道后继续验证；该参数仅在本次测试环境使用，未写入应用启动配置或部署服务。
+- 针对性验证 40 项全部通过（服务端 4、端点/客户端 16、GUI 公共/实际对局 20）；真实协议的直连与 2/3/4/8 人中继测试均完成。两端编译通过；这些自动化结果不代替安卓实机菜单、横屏布局和跨设备人工验收。
+- 服务端包在隔离目录中从随包源码重建成功，原始独立 JAR 的回环健康检查和 SHA256SUMS 检查通过。`deploy/test-relay-package.ps1` 仅启动随机回环端口的本机子进程，检查完成后关闭自身子进程。
+- 服务端公开下载：`https://update.mtg-forge-kaorou.vip/forge/server/2.0.15-cn0929net1/forge-lobby-relay-2.0.15-cn0929net1.zip`，4,562,983 字节，SHA-256 `a3a9b93ab2fe2bcba1a2184a9ede4ccc19b3d9d1c3e627fb9f71695aa0276196`，CDN 完整回读匹配。此操作只是发布 ZIP，不是部署生产进程；客户端更新清单没有改动。
+- Launch4j Maven 插件要求版本后缀只含一个 `-` 后的字母/数字/下划线，因此测试构建编号使用 `cn0929net1`，不能使用 `cn0929-net1`。含后者的早期本地构建输出不是最终交付物。
+- 最终客户端测试制品已生成：`dist/android-cn0929net1/Forge-2.0.15-cn0929net1-Android.apk`（20,405,264 字节，SHA-256 `e4a204cf715d193f19f644d7adc0984a2ca6bb1d017994224c98633c459a0227`）；APK v2/v3 签名验证成功并与既有签名一致，包内包含新增中文联机选项。
+- Windows 完整安装包：`dist/installers-cn0929net1/Forge-2.0.15-cn0929net1-Setup.exe`（228,233,797 字节，SHA-256 `022542b3ed7acb3e33b6f2ea6b08b63b7bc4f1daec3823ccdd2d0ccd12c3dd76`），Inno 编译成功。便携包：`dist/desktop-cn0929net1/Forge-2.0.15-cn0929net1-Windows.zip`（275,502,373 字节，SHA-256 `16c07adb471b44e94e4361b23a716bd17ed127e96805bf8550683edea0eab042`），ZIP 完整性及实际发布 JAR 在内置 JRE 下的连接设置检查通过。没有生成增量包。
+- 人工验收按 `docs/Development/Network-Modes-Acceptance.zh-CN.md` 进行；测试期间跳过线上正式版更新提示，避免覆盖测试包。客户端未上传发布、未切换更新清单，等待用户验收。
+
+### cn0929r2 正式发布
+
+- 用户确认 cn0929net1 测试通过并授权发布。正式构建为 `2.0.15-cn0929r2`，桌面显示版本 `2.0.15-汉化-09.29.2`，Android versionCode `2026092903`；高于测试包，不复用或覆盖测试制品。除版本与发布说明外不改变已验收功能。
+- 发布前重新核对独立 `zh-cn-card-translations` 分支，中文牌名文件一致；保留既有 `assets.*` 字段、卡图与 tokens 配置。Windows 提供完整 EXE 和内置 JRE 的 ZIP，不生成或发布增量包。
+- 服务端仅发布带源码、部署配置和中文说明的 cn0929r2 ZIP，不 SSH 修改或重启现有大厅。新版本下载路径为 `forge/server/2.0.15-cn0929r2/forge-lobby-relay-2.0.15-cn0929r2.zip`。
+- 正式发布顺序：备份原清单，重新构建和校验，上传不可变制品并从公开 CDN 完整回读核对 SHA-256，提交推送民间汉化分支，最后核对原清单没有并发变化并切换客户端清单。原始冲突工作区保持不动。
+- cn0929r2 正式版本重新运行同组 40 项回归测试，零失败、零跳过；直连及 2/3/4/8 人中继对局均完成。日志保存于 `dist/diagnostics/cn0929r2-tests.log`。

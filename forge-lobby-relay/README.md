@@ -1,5 +1,11 @@
 # Forge Lobby Relay
 
+For a distributable standalone package and Chinese self-hosting instructions, see
+[`deploy/README.zh-CN.md`](deploy/README.zh-CN.md). Build the ZIP with
+`deploy/build-relay-package.ps1` from the repository root. New community clients
+select Server or Direct mode in the online lobby and can save their own TLS relay
+address; no source-code changes are required to point to a self-hosted service.
+
 This module provides the central room registry and opaque TCP relay used by the
 Chinese community build. Desktop and Android clients can create or browse rooms
 without exposing a Forge port or exchanging IP addresses. The room owner still

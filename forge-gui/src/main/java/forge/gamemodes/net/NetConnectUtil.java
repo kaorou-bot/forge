@@ -74,15 +74,26 @@ public class NetConnectUtil {
                                     final boolean relayOnly, final int playerLimit) {
         final int port = FModel.getNetPreferences().getPrefInt(ForgeNetPreferences.FNetPref.NET_PORT);
         final FServerManager server = FServerManager.getInstance();
+        NetworkLogConfig.activateNetworkLogging();
+        // Binding, UPnP prompts and router discovery must not block the mobile render thread.
+        if (relayOnly) server.startRelayServer(port); else server.startServer(port);
+        if (!server.isHosting()) throw new IllegalStateException("Unable to start local Forge server");
+        final ChatMessage[] result = new ChatMessage[1];
+        try {
+            FThreads.invokeInEdtAndWait(() -> result[0] = initializeHost(
+                    onlineLobby, chatInterface, server, port, relayOnly, playerLimit));
+            return result[0];
+        } catch (RuntimeException e) {
+            server.stopServer();
+            throw e;
+        }
+    }
+
+    private static ChatMessage initializeHost(final IOnlineLobby onlineLobby,
+            final IOnlineChatInterface chatInterface, final FServerManager server,
+            final int port, final boolean relayOnly, final int playerLimit) {
         final ServerGameLobby lobby = new ServerGameLobby(playerLimit, relayOnly);
         final ILobbyView view = onlineLobby.setLobby(lobby);
-
-        NetworkLogConfig.activateNetworkLogging();
-        if (relayOnly) {
-            server.startRelayServer(port);
-        } else {
-            server.startServer(port);
-        }
         server.setLobby(lobby);
 
         lobby.setListener(new IUpdateable() {
@@ -143,6 +154,9 @@ public class NetConnectUtil {
     }
 
     public static RelayEndpoint getRelayEndpoint() {
+        if (System.getProperty("forge.relay.host") == null) {
+            return NetworkConnectionSettings.endpoint(FModel.getNetPreferences());
+        }
         final String host = System.getProperty("forge.relay.host", DEFAULT_RELAY_HOST);
         final int port = Integer.getInteger("forge.relay.port", DEFAULT_RELAY_PORT);
         final boolean tlsDefault = !("127.0.0.1".equals(host) || "localhost".equalsIgnoreCase(host)
@@ -169,8 +183,7 @@ public class NetConnectUtil {
         // Relay setup is invoked from a worker thread because registration and TLS can block.
         // Only the lobby/view initialization belongs on the UI thread.
         try {
-            FThreads.invokeInEdtAndWait(() -> host(
-                    onlineLobby, chatInterface, true, maxPlayers));
+            host(onlineLobby, chatInterface, true, maxPlayers);
         } catch (RuntimeException e) {
             if (server.isHosting()) {
                 server.stopServer();
@@ -251,7 +264,6 @@ public class NetConnectUtil {
     private static ChatMessage join(final String url, final IOnlineLobby onlineLobby,
                                     final IOnlineChatInterface chatInterface,
                                     final AutoCloseable externalTransport) {
-        final IGuiGame gui = GuiBase.getInterface().getNewGuiGame();
         String hostname;
         int port;
 
@@ -264,10 +276,11 @@ public class NetConnectUtil {
         port = hostPort.port();
         if (port == -1) port = Integer.valueOf(ForgeNetPreferences.FNetPref.NET_PORT.getDefault());
 
-        final FGameClient client = prepareJoin(hostname, port, gui, onlineLobby,
-                chatInterface, externalTransport, url);
-
-        return connectPreparedClient(hostname, port, client, onlineLobby, chatInterface);
+        final int connectPort = port;
+        final FGameClient[] client = new FGameClient[1];
+        FThreads.invokeInEdtAndWait(() -> client[0] = prepareJoin(hostname, connectPort,
+                GuiBase.getInterface().getNewGuiGame(), onlineLobby, chatInterface, externalTransport, url));
+        return connectPreparedClient(hostname, port, client[0], onlineLobby, chatInterface);
     }
 
     private static FGameClient prepareJoin(final String hostname, final int port,

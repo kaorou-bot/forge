@@ -26,6 +26,8 @@ public class ForgeNetPreferences extends AbstractPreferences<ForgeNetPreferences
      */
     public enum FNetPref implements AbstractPreferences.IPref {
         NET_PORT("36743"),
+        NET_CONNECTION_MODE("SERVER"),
+        NET_RELAY_ADDRESS("tls://play.mtg-forge-kaorou.vip:443"),
         UPnP("ASK"),
         NET_BANDWIDTH_LOGGING("false"),
         NET_LOG_CLEANUP_ENABLED("true"),
@@ -46,7 +48,11 @@ public class ForgeNetPreferences extends AbstractPreferences<ForgeNetPreferences
 
     /** Instantiates a ForgePreferences object. */
     public ForgeNetPreferences() {
-        super(ForgeConstants.SERVER_PREFS_FILE, FNetPref.class);
+        this(ForgeConstants.SERVER_PREFS_FILE);
+    }
+
+    public ForgeNetPreferences(String filename) {
+        super(filename, FNetPref.class);
     }
 
     @Override
