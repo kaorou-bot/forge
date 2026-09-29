@@ -2,7 +2,7 @@
 # ios-pipeline.sh — build unmodified upstream Forge for iOS (MobiVM).
 #
 # Typical merge workflow:
-#   git pull && mvn clean install -pl forge-core,forge-game,forge-gui,forge-gui-mobile,forge-ai -DskipTests
+#   git pull && mvn clean install -pl forge-core,forge-game,forge-gui,forge-gui-mobile,forge-ai -am -DskipTests
 #   pipeline/ios-pipeline.sh classpath   # check the audit report it prints
 #   pipeline/ios-pipeline.sh sim         # or: device
 #
@@ -537,10 +537,11 @@ EOF
 # CI modes audit: the full transform + link-gate WITHOUT any Apple tooling.
 audit() {
     echo "=== install forge modules the iOS classpath resolves against ==="
+    # -am builds transitive reactor dependencies too, including the relay modules.
     # '.' installs the parent POM too — required on a fresh clone, else the
     # iOS classpath resolution fails on the forge:forge:pom \${revision} parent
     (cd "$ROOT" && mvn -B -ntp -q install \
-        -pl .,forge-core,forge-game,forge-gui,forge-gui-mobile,forge-ai -DskipTests)
+        -pl .,forge-core,forge-game,forge-gui,forge-gui-mobile,forge-ai -am -DskipTests)
     classpath
     build_module
     echo "iOS COMPATIBILITY GATE PASSED"
@@ -550,10 +551,11 @@ audit() {
 # certificates/profiles required).
 ipa() {
     echo "=== install forge modules ==="
+    # Keep dependency selection consistent with audit(), including relay modules.
     # '.' installs the parent POM too — required on a fresh clone, else the
     # iOS classpath resolution fails on the forge:forge:pom \${revision} parent
     (cd "$ROOT" && mvn -B -ntp -q install \
-        -pl .,forge-core,forge-game,forge-gui,forge-gui-mobile,forge-ai -DskipTests)
+        -pl .,forge-core,forge-game,forge-gui,forge-gui-mobile,forge-ai -am -DskipTests)
     classpath
     prep_build
     echo "=== robovm:create-ipa (unsigned) ==="

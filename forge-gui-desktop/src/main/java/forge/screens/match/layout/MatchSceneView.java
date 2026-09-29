@@ -6,7 +6,6 @@ import forge.view.FView;
 import java.awt.Component;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 /** Per-match scene adapter. The transparent root intercepts input only inside live widgets. */
