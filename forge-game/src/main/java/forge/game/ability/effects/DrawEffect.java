@@ -43,17 +43,14 @@ public class DrawEffect extends SpellAbilityEffect {
         if (!tgtPlayers.isEmpty()) {
             int numCards = sa.hasParam("NumCards") ? AbilityUtils.calculateAmount(sa.getHostCard(), sa.getParam("NumCards"), sa) : 1;
 
-            sb.append(Lang.joinHomogenous(tgtPlayers));
-
-            if (tgtPlayers.size() > 1) {
-                sb.append(" each");
-            }
-            sb.append(Lang.joinVerb(tgtPlayers, " draw")).append(" ");
             //if NumCards calculation could change between getStackDescription and resolve, use NumCardsDesc to avoid
             //a "wrong" stack description
-            sb.append(sa.hasParam("NumCardsDesc") ? sa.getParam("NumCardsDesc") : numCards == 1 ? "a card" :
-                    (Lang.getNumeral(numCards) + " cards"));
-            sb.append(".");
+            final String amount = sa.hasParam("NumCardsDesc") ? sa.getParam("NumCardsDesc")
+                    : numCards == 1 ? stackText("OneCard")
+                    : stackText("Cards", Lang.getNumeral(numCards), numCards);
+            sb.append(stackText(tgtPlayers.size() > 1 ? "DrawMany"
+                            : Lang.subjectIsSingle3rdPerson(tgtPlayers.get(0).toString()) ? "Draw" : "DrawYou",
+                    stackList(tgtPlayers), amount));
         }
 
         return sb.toString();

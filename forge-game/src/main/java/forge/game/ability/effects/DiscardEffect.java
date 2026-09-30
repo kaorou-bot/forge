@@ -40,6 +40,21 @@ public class DiscardEffect extends SpellAbilityEffect {
             final Player you = sa.getActivatingPlayer();
             final boolean oneTgtP = tgtPlayers.size() == 1;
 
+            // Structured common modes; keep unusual scripted restrictions/descriptions intact.
+            if (!sa.hasParam("DiscardValid") && !sa.hasParam("AnyNumber")
+                    && !(sa.hasParam("NumCards") && sa.getParam("NumCards").equals("X")
+                    && sa.getSVar("X").equals("Remembered$Amount"))
+                    && (mode.equals("Hand") || mode.equals("Random") || mode.equals("TgtChoose"))) {
+                final int count = sa.hasParam("NumCards")
+                        ? AbilityUtils.calculateAmount(sa.getHostCard(), sa.getParam("NumCards"), sa) : 1;
+                final String cards = mode.equals("Hand")
+                        ? stackText(oneTgtP ? "TheirHand" : "TheirHands")
+                        : count == 1 ? stackText("OneCard")
+                        : stackText("Cards", Lang.getNumeral(count), count);
+                return stackText(oneTgtP ? "Discard" : "DiscardMany", stackList(tgtPlayers), cards,
+                        mode.equals("Random") ? stackText("AtRandom") : "");
+            }
+
             sb.append(tgtPs).append(" ");
 
             if (revealYouChoose) {

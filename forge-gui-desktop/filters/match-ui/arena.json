@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "id": "arena",
+  "regions": [
+    { "bounds": [0, 0, 0.78, 0.32], "documents": ["opponents"], "split": "GRID" },
+    { "bounds": [0, 0.32, 0.78, 0.32], "documents": ["FIELD_0"] },
+    { "bounds": [0, 0.64, 0.78, 0.20], "documents": ["hands"] },
+    { "bounds": [0.78, 0, 0.22, 0.40], "documents": ["REPORT_STACK"] },
+    { "bounds": [0.78, 0.40, 0.22, 0.32], "documents": ["CARD_PICTURE", "CARD_DETAIL"] },
+    { "bounds": [0, 0.84, 0.78, 0.16], "documents": ["REPORT_MESSAGE"] },
+    { "bounds": [0.78, 0.88, 0.22, 0.12], "documents": ["BUTTON_DOCK"] },
+    { "bounds": [0.78, 0.72, 0.22, 0.16], "documents": ["REPORT_LOG", "remaining"] }
+  ],
+  "field": {
+    "BATTLEFIELD": [0, 0, 0.80, 1],
+    "PHASES": [0.80, 0, 0.05, 1],
+    "AVATAR": [0.85, 0, 0.15, 0.40],
+    "DETAILS": [0.85, 0.40, 0.15, 0.60]
+  }
+}

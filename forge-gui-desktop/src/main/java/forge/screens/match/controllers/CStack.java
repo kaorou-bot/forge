@@ -43,5 +43,6 @@ public class CStack implements ICDoc {
     public void update() {
         SDisplayUtil.showTab(EDocID.REPORT_STACK.getDoc());
         view.updateStack();
+        matchUI.refreshDesktopScene();
     }
 }

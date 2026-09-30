@@ -28,6 +28,7 @@ import forge.localinstance.properties.ForgePreferences.FPref;
 import forge.localinstance.skin.FSkinProp;
 import forge.model.FModel;
 import forge.screens.match.VMatchUI;
+import forge.screens.match.layout.DesktopMatchUi;
 import forge.screens.match.views.VField;
 import forge.screens.match.views.VHand;
 import forge.view.arcane.FloatingZone;
@@ -63,7 +64,9 @@ public final class LayoutMenu {
         menu.setMnemonic(KeyEvent.VK_L);
 
         if (!isHome) {
-            menu.add(getMenu_FileOptions());
+            final JMenu files = getMenu_FileOptions();
+            files.setEnabled(!(currentScreen != null && currentScreen.getView() instanceof VMatchUI match && match.getDesktopUi().isScene()));
+            menu.add(files);
             menu.add(getMenuItem_RevertLayout());
             menu.add(getMenuItem_ResetMatchLayout());
         }
@@ -72,6 +75,7 @@ public final class LayoutMenu {
         }
         menu.add(getMenu_ThemeOptions());
         if (isMatch) {
+            menu.add(getMenu_DesktopMatchUi());
             menu.add(getMenuItem_ShowBackgroundImage());
         }
 
@@ -91,8 +95,69 @@ public final class LayoutMenu {
 
         if (isMatch) {
             menu.addSeparator();
-            menu.add(getMenu_SortMultiplayerFields());
+            final JMenu multiplayer = getMenu_SortMultiplayerFields();
+            multiplayer.setEnabled(!((VMatchUI) currentScreen.getView()).getDesktopUi().isCustom());
+            menu.add(multiplayer);
         }
+        return menu;
+    }
+
+    private static JMenu getMenu_DesktopMatchUi() {
+        final JMenu menu = new JMenu(localizer.getMessage("lblDesktopMatchUi"));
+        final ButtonGroup group = new ButtonGroup();
+        for (DesktopMatchUi.Provider provider : DesktopMatchUi.providers()) {
+            final JRadioButtonMenuItem item = new JRadioButtonMenuItem(localizer.getMessage(provider.label()));
+            item.setSelected(provider.id().equals(DesktopMatchUi.selection()));
+            item.addActionListener(e -> {
+                try {
+                    DesktopMatchUi.select(provider.id());
+                    SLayoutIO.revertLayout();
+                } catch (java.io.IOException ex) {
+                    FOptionPane.showErrorDialog(ex.getMessage());
+                }
+            });
+            group.add(item);
+            menu.add(item);
+        }
+        menu.addSeparator();
+        final JMenu packages = new JMenu(localizer.getMessage("lblDesktopMatchUiPackages"));
+        for (String name : forge.screens.match.layout.MatchSkinPackages.installed()) {
+            final JMenuItem installed = new JMenuItem(name);
+            installed.addActionListener(e -> {
+                try {
+                    DesktopMatchUi.selectPackage(name);
+                    SLayoutIO.revertLayout();
+                } catch (java.io.IOException ex) { FOptionPane.showErrorDialog(ex.getMessage()); }
+            });
+            packages.add(installed);
+        }
+        menu.add(packages);
+        final JMenuItem importSkin = new JMenuItem(localizer.getMessage("lblDesktopMatchUiImport"));
+        importSkin.addActionListener(e -> {
+            final javax.swing.JFileChooser chooser = new javax.swing.JFileChooser();
+            chooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Forge match skin (*.zip)", "zip"));
+            if (chooser.showOpenDialog(null) != javax.swing.JFileChooser.APPROVE_OPTION) { return; }
+            importSkin.setEnabled(false);
+            new javax.swing.SwingWorker<String, Void>() {
+                @Override protected String doInBackground() throws Exception {
+                    return forge.screens.match.layout.MatchSkinPackages.install(chooser.getSelectedFile().toPath());
+                }
+                @Override protected void done() {
+                    importSkin.setEnabled(true);
+                    try {
+                        DesktopMatchUi.selectPackage(get());
+                        SLayoutIO.revertLayout();
+                    } catch (Exception ex) {
+                        final Throwable cause = ex.getCause() == null ? ex : ex.getCause();
+                        FOptionPane.showErrorDialog(cause.getMessage());
+                    }
+                }
+            }.execute();
+        });
+        menu.add(importSkin);
+        final JMenuItem reload = new JMenuItem(localizer.getMessage("lblDesktopMatchUiReload"));
+        reload.addActionListener(e -> SLayoutIO.revertLayout());
+        menu.add(reload);
         return menu;
     }
 

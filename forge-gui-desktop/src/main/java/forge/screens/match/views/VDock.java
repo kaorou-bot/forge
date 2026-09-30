@@ -295,6 +295,14 @@ public class VDock implements IVDoc<CDock> {
         return buttons.get(id);
     }
 
+    /** Same command and enabled state for independent skin controls and the classic dock. */
+    public void performAction(DockButtonId id) {
+        final DockButton button = buttons.get(id);
+        if (button.isEnabled() && button.command != null) { button.command.run(); }
+    }
+
+    public String getActionLabel(DockButtonId id) { return localizer.getMessage(id.labelKey); }
+
     /**
      * Declarative table of dock buttons. Enum order is the default presentation
      * order; {@code defaultVisible} is the per-button visibility seed. New

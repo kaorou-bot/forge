@@ -185,7 +185,7 @@ public class VStack implements IVDoc<CStack> {
             item = item0;
 
             final String txt = (item.isOptionalTrigger() && controller.getMatchUI().isLocalPlayer(item.getActivatingPlayer())
-                    ? "(OPTIONAL) " : "") + item.getText();
+                    ? Localizer.getInstance().getMessage("lblStackOptional") : "") + item.getText();
 
             setText(txt);
             setOpaque(true);

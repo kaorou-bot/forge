@@ -63,6 +63,12 @@ public class FPanel extends FPanelBase implements ILocalRepaint {
     private Color   backgroundTextureOverlay = null;
     private SkinColor borderColor = FSkin.getColor(FSkin.Colors.CLR_BORDERS);
     private boolean borderToggle        = true;
+    private boolean backgroundToggle    = true;
+
+    public boolean isBorderToggle() { return borderToggle; }
+    public boolean isBackgroundToggle() { return backgroundToggle; }
+    /** Controls this panel's own background painting independently of Swing opacity. */
+    public void setBackgroundToggle(boolean value) { backgroundToggle = value; repaint(); }
     private int     cornerDiameter      = 20;
     private int     foregroundAlign     = SwingConstants.CENTER;
 
@@ -237,7 +243,10 @@ public class FPanel extends FPanelBase implements ILocalRepaint {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         // Draw background as required
-        if (foregroundStretch && foregroundImage != null) {
+        if (!backgroundToggle) {
+            // Transparent match surfaces retain their child content.
+        }
+        else if (foregroundStretch && foregroundImage != null) {
             drawForegroundStretched(g2d);
         }
         else if (this.backgroundTexture == null) {

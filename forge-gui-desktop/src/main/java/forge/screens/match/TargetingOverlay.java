@@ -391,7 +391,7 @@ public class TargetingOverlay {
     }
 
     private Point getPlayerTargetingArrowPoint(final PlayerView p, final Point locOnScreen) {
-        final JPanel avatarArea = matchUI.getFieldViewFor(p).getAvatarArea();
+        final javax.swing.JComponent avatarArea = matchUI.getFieldViewFor(p).getAvatarTargetComponent();
         if(!avatarArea.isShowing()) {
             return null;
         }
@@ -464,7 +464,7 @@ public class TargetingOverlay {
             }
             // if c is attacking a player
             if (defender instanceof PlayerView) {
-                final JPanel avatarArea = matchUI.getFieldViewFor((PlayerView)defender).getAvatarArea();
+                final javax.swing.JComponent avatarArea = matchUI.getFieldViewFor((PlayerView)defender).getAvatarTargetComponent();
                 if(avatarArea.isShowing()) {
                     Point locOnScreen = this.getPanel().getLocationOnScreen();
                     Point point = getPlayerTargetingArrowPoint((PlayerView)defender, locOnScreen);

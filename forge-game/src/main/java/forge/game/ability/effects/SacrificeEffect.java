@@ -194,18 +194,18 @@ public class SacrificeEffect extends SpellAbilityEffect {
         String num = sa.getParamOrDefault("Amount", "1");
 
         if (sa.hasParam("Optional")) { // TODO make boolean and handle verb reconjugation throughout
-            sb.append("(OPTIONAL) ");
+            sb.append(stackText("Optional"));
         }
 
         final int amount = AbilityUtils.calculateAmount(sa.getHostCard(), num, sa);
 
         if (valid.equals("Self")) {
-            sb.append("Sacrifices ").append(sa.getHostCard());
+            sb.append(stackText("SacrificeSelf", sa.getHostCard()));
         } else if (valid.equals("Card.AttachedBy")) {
             final Card toSac = sa.getHostCard().getEnchantingCard();
-            sb.append(toSac.getController()).append(" sacrifices ").append(toSac).append(".");
+            sb.append(stackText("SacrificeAttached", toSac.getController(), toSac));
         } else {
-            sb.append(Lang.joinHomogenous(tgts)).append(" ");
+            sb.append(stackList(tgts)).append(" ");
             boolean oneTgtP = tgts.size() == 1;
 
             String msg;
@@ -216,11 +216,11 @@ public class SacrificeEffect extends SpellAbilityEffect {
             }
 
             if (sa.hasParam("Destroy")) {
-                sb.append(oneTgtP ? "destroys " : " destroy ");
+                sb.append(stackText(oneTgtP ? "Destroys" : "DestroyMany"));
             } else {
-                sb.append(oneTgtP ? "sacrifices " : "sacrifice ");
+                sb.append(stackText(oneTgtP ? "Sacrifices" : "SacrificeMany"));
             }
-            sb.append(Lang.nounWithNumeralExceptOne(amount, msg)).append(".");
+            sb.append(stackCount(amount, msg)).append(".");
         }
 
         return sb.toString();

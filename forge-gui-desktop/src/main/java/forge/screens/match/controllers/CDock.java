@@ -120,6 +120,7 @@ public class CDock implements ICDoc {
     private void toggleMacroRecording() {
         matchUI.getGameController().macros().setRememberedActions();
         refreshMacroButtons();
+        matchUI.refreshDesktopScene();
         showPromptTab();
     }
 
@@ -190,6 +191,7 @@ public class CDock implements ICDoc {
         };
         targeting.setToolTipText(localizer.getMessage("lblTargetingArcs") + ": " + localizer.getMessage(stateKey));
         refreshMacroButtons();
+        matchUI.refreshDesktopScene();
     }
 
 }

@@ -33,7 +33,7 @@ public class CounterEffect extends SpellAbilityEffect {
     protected String getStackDescription(SpellAbility sa) {
         final StringBuilder sb = new StringBuilder();
 
-        sb.append("Counter");
+        sb.append(stackText("CounterPrefix"));
 
         boolean isAbility = false;
         for (final SpellAbility tgtSA : getTargetSpells(sa)) {
@@ -41,16 +41,16 @@ public class CounterEffect extends SpellAbilityEffect {
             sb.append(tgtSA.getHostCard());
             isAbility = tgtSA.isAbility();
             if (isAbility) {
-                sb.append("'s ability");
+                sb.append(stackText("AbilitySuffix"));
             }
         }
 
         if (isAbility && sa.hasParam("DestroyPermanent")) {
-            sb.append(" and destroy it");
+            sb.append(stackText("AndDestroyIt"));
         }
 
         if (sa.hasParam("UnlessCost")) {
-            sb.append(" unless its controller pays {" + sa.getParam("UnlessCost") + "}");
+            sb.append(stackText("UnlessPays", "{" + sa.getParam("UnlessCost") + "}"));
         }
 
         sb.append(".");

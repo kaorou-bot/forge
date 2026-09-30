@@ -336,105 +336,50 @@ public class ChangeZoneEffect extends SpellAbilityEffect {
      * @return a {@link java.lang.String} object.
      */
     private static String changeKnownOriginStackDescription(final SpellAbility sa) {
-        final StringBuilder sb = new StringBuilder();
         final Card host = sa.getHostCard();
         final ZoneType destination = ZoneType.smartValueOf(sa.getParam("Destination"));
-        ZoneType origin = null;
-        if (sa.hasParam("Origin")) {
-            origin = ZoneType.listValueOf(sa.getParam("Origin")).get(0);
+        final ZoneType origin = sa.hasParam("Origin")
+                ? ZoneType.listValueOf(sa.getParam("Origin")).get(0) : null;
+        final Iterable<Card> targets = sa.usesTargeting() ? getCardsfromTargets(sa)
+                : sa.knownDetermineDefined(sa.getParam("Defined"));
+        final String names = sa.getParamOrDefault("DefinedDesc", stackList(targets));
+        final String owners = stackText(Iterables.size(targets) > 1 ? "TheirOwners" : "ItsOwner");
+        final String fromGraveyard = ZoneType.Graveyard.equals(origin) ? stackText("FromGraveyard") : "";
+
+        if (destination == ZoneType.Battlefield) {
+            final String entry = sa.hasParam("Tapped")
+                    ? stackText(sa.hasParam("Attacking") ? "TappedAttacking" : "Tapped")
+                    : sa.hasParam("Attacking") ? stackText("Attacking") : "";
+            return stackText(origin == ZoneType.Graveyard ? "ReturnBattlefield" : "PutBattlefield",
+                    names, entry, sa.hasParam("GainControl") ? stackText("YourControl") : "");
         }
-
-        final StringBuilder sbTargets = new StringBuilder();
-        Iterable<Card> tgts;
-        if (sa.usesTargeting()) {
-            tgts = getCardsfromTargets(sa);
-        } else { // otherwise add self to list and go from there
-            tgts = sa.knownDetermineDefined(sa.getParam("Defined"));
+        if (destination == ZoneType.Hand) {
+            return stackText(origin == ZoneType.Graveyard || origin == ZoneType.Battlefield
+                    ? "ReturnHand" : "PutHand", names, fromGraveyard, owners);
         }
-
-        sbTargets.append(" ").append(sa.getParamOrDefault("DefinedDesc", Lang.joinHomogenous(tgts)));
-
-        final String targetname = sbTargets.toString();
-
-        final String pronoun = Iterables.size(tgts) > 1 ? " their " : " its ";
-
-        final String fromGraveyard = " from the graveyard";
-
-        if (destination.equals(ZoneType.Battlefield)) {
-            final boolean attacking = sa.hasParam("Attacking");
-            if (ZoneType.Graveyard.equals(origin)) {
-                sb.append("Return").append(targetname).append(fromGraveyard).append(" to the battlefield");
-            } else {
-                sb.append("Put").append(targetname).append(" onto the battlefield");
+        if (destination == ZoneType.Library) {
+            if (sa.hasParam("Shuffle")) {
+                return stackText("ShuffleLibrary", names, owners);
             }
-            if (sa.hasParam("Tapped")) {
-                sb.append(" tapped").append(attacking ? " and" : "");
-            }
-            sb.append(attacking ? " attacking" : "");
-            if (sa.hasParam("GainControl")) {
-                sb.append(" under your control");
-            }
-            sb.append(".");
+            // The game stores zero-based positions; show the one-based position to the player.
+            final int position = sa.hasParam("LibraryPosition")
+                    ? AbilityUtils.calculateAmount(host, sa.getParam("LibraryPosition"), sa) : 0;
+            final String placement = position == -1 ? stackText("LibraryBottom")
+                    : position == 0 ? stackText("LibraryTop") : stackText("LibraryPosition", position + 1);
+            return stackText("PutLibrary", names, fromGraveyard, placement, owners);
         }
-
-        if (destination.equals(ZoneType.Hand)) {
-            if (ZoneType.Graveyard.equals(origin)) {
-                sb.append("Return").append(targetname).append(fromGraveyard).append(" to");
-            } else if (ZoneType.Battlefield.equals(origin)) {
-                sb.append("Return").append(targetname).append(" to");
-            } else {
-                sb.append("Put").append(targetname).append(" in");
-            }
-            sb.append(pronoun).append("owner's hand.");
+        if (destination == ZoneType.Exile) {
+            return stackText("Exile", names, fromGraveyard,
+                    sa.hasParam("ExileFaceDown") ? stackText("FaceDown") : "");
         }
-
-        if (destination.equals(ZoneType.Library)) {
-            if (sa.hasParam("Shuffle")) { // for things like Gaea's Blessing
-                sb.append("Shuffle").append(targetname);
-
-                sb.append(" into").append(pronoun).append("owner's library.");
-            } else {
-                sb.append("Put").append(targetname);
-                if (ZoneType.Graveyard.equals(origin)) {
-                    sb.append(fromGraveyard);
-                }
-
-                // this needs to be zero indexed. Top = 0, Third = 2, -1 = Bottom
-                final int libraryPosition = sa.hasParam("LibraryPosition") ? AbilityUtils.calculateAmount(host, sa.getParam("LibraryPosition"), sa) : 0;
-
-                if (libraryPosition == -1) {
-                    sb.append(" on the bottom of").append(pronoun).append("owner's library.");
-                } else if (libraryPosition == 0) {
-                    sb.append(" on top of").append(pronoun).append("owner's library.");
-                } else {
-                    sb.append(" ").append(libraryPosition + 1).append(" from the top of");
-                    sb.append(pronoun).append("owner's library.");
-                }
-            }
+        if (destination == ZoneType.Ante) {
+            return stackText("Ante", names);
         }
-
-        if (destination.equals(ZoneType.Exile)) {
-            sb.append("Exile").append(targetname);
-            if (ZoneType.Graveyard.equals(origin)) {
-                sb.append(fromGraveyard);
-            }
-            sb.append(".");
+        if (destination == ZoneType.Graveyard) {
+            return stackText("PutGraveyard", names,
+                    origin == null ? "" : stackText("FromZone", origin.getTranslatedName()), owners);
         }
-
-        if (destination.equals(ZoneType.Ante)) {
-            sb.append("Ante").append(targetname);
-            sb.append(".");
-        }
-
-        if (destination.equals(ZoneType.Graveyard)) {
-            sb.append("Put").append(targetname);
-            if (origin != null) {
-                sb.append(" from ").append(origin);
-            }
-            sb.append(" into").append(pronoun).append("owner's graveyard.");
-        }
-
-        return sb.toString();
+        return "";
     }
 
     /**

@@ -119,6 +119,8 @@ public abstract class CardPanelContainer extends SkinnedPanel {
                 }
                 this.buttonsDown[button] = true;
                 mouseDownPanel = getCardPanel(evt.getX(), evt.getY());
+                intialMouseDragX = evt.getX();
+                intialMouseDragY = evt.getY();
 
                 if (mouseDownPanel != null && getMouseDragPanel() == null &&
                         (this.buttonsDown[2] || (this.buttonsDown[1] && this.buttonsDown[3]))) {
@@ -200,14 +202,12 @@ public abstract class CardPanelContainer extends SkinnedPanel {
                 }
                 final int x = evt.getX();
                 final int y = evt.getY();
-                final CardPanel panel = getCardPanel(x, y);
+                // Keep the pressed card even when the first motion event is already outside
+                // its bounds (fast drags and narrow, overlapping fan cards).
+                final CardPanel panel = mouseDownPanel;
                 if (panel == null) {
                     return;
                 }
-                if (panel != mouseDownPanel) {
-                    return;
-                }
-
                 if (cardPanelDraggable(panel)) { // allow for non-draggable cards
                     if (intialMouseDragX == -1) {
                         intialMouseDragX = x;

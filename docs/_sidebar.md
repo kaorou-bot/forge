@@ -7,6 +7,8 @@
   - [Network Play](network-play.md)
   - [Advanced search](Advanced-Search.md)
   - [Advanced Yield Options](Advanced-Yield-Options.md)
+  - [桌面对战皮肤制作入门](DesktopMatchSkin-Guide.zh-CN.md)
+  - [桌面对战皮肤 AI 制作规范](DesktopMatchSkin-AI-Spec.zh-CN.md)
 
 - Adventure Mode
 

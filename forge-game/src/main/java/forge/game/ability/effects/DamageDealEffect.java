@@ -45,16 +45,16 @@ public class DamageDealEffect extends DamageBaseEffect {
             return "";
         }
 
-        stringBuilder.append(definedSources.get(0).toString()).append(" deals").append(" ").append(dmg).append(" damage ");
+        stringBuilder.append(stackText("DamagePrefix", definedSources.get(0), dmg));
 
         // if use targeting we show all targets and corresponding damage
         if (spellAbility.usesTargeting()) {
             if (spellAbility.hasParam("DivideEvenly")) {
-                stringBuilder.append("divided evenly (rounded down) to \n");
+                stringBuilder.append(stackText("DamageEvenlyTo")).append("\n");
             } else if (spellAbility.isDividedAsYouChoose()) {
-                stringBuilder.append("divided to \n");
+                stringBuilder.append(stackText("DamageDividedTo")).append("\n");
             } else
-                stringBuilder.append("to ");
+                stringBuilder.append(stackText("DamageTo"));
 
             final List<Card> targetCards = getTargetCards(spellAbility);
             final List<Player> players = getTargetPlayers(spellAbility);
@@ -67,10 +67,10 @@ public class DamageDealEffect extends DamageBaseEffect {
                 stringBuilder.append(targetCard);
                 Integer v = spellAbility.getDividedValue(targetCard);
                 if (v != null) //fix null damage stack description
-                    stringBuilder.append(" (").append(v).append(" damage)");
+                    stringBuilder.append(stackText("DamageAssignment", v));
 
                 if (i == targetCount - 2) {
-                    stringBuilder.append(" and ");
+                    stringBuilder.append(" ").append(stackText("And")).append(" ");
                 } else if (i + 1 < targetCount) {
                     stringBuilder.append(", ");
                 }
@@ -82,31 +82,26 @@ public class DamageDealEffect extends DamageBaseEffect {
                 stringBuilder.append(targetPlayer);
                 Integer v = spellAbility.getDividedValue(targetPlayer);
                 if (v != null) //fix null damage stack description
-                    stringBuilder.append(" (").append(v).append(" damage)");
+                    stringBuilder.append(stackText("DamageAssignment", v));
 
                 if (i == players.size() - 2) {
-                    stringBuilder.append(" and ");
+                    stringBuilder.append(" ").append(stackText("And")).append(" ");
                 } else if (i + 1 < players.size()) {
                     stringBuilder.append(", ");
                 }
             }
         } else {
             if (spellAbility.hasParam("DivideEvenly")) {
-                stringBuilder.append("divided evenly (rounded down) ");
+                stringBuilder.append(stackText("DamageEvenly"));
             } else if (spellAbility.isDividedAsYouChoose()) {
-                stringBuilder.append("divided as you choose ");
+                stringBuilder.append(stackText("DamageAsChosen"));
             }
-            stringBuilder.append("to ").append(Lang.joinHomogenous(targets));
+            stringBuilder.append(stackText("DamageTo")).append(stackList(targets));
         }
 
         if (spellAbility.hasParam("Radiance")) {
-            stringBuilder.append(" and each other ").append(spellAbility.getParam("ValidTgts"))
-                    .append(" that shares a color with ");
-            if (targets.size() > 1) {
-                stringBuilder.append("them");
-            } else {
-                stringBuilder.append("it");
-            }
+            stringBuilder.append(" ").append(stackText(targets.size() > 1 ? "RadianceMany" : "Radiance",
+                    stackTerm(spellAbility.getParam("ValidTgts"))));
         }
 
         stringBuilder.append(".");
@@ -119,7 +114,10 @@ public class DamageDealEffect extends DamageBaseEffect {
                     break;
                 }
             }
-            stringBuilder.append(" ").append(statement);
+            // Only the exact stock clause is templated; preserve custom death conditions verbatim.
+            stringBuilder.append(" ").append(statement.trim().replaceFirst("\\.$", "")
+                    .equals("If that creature would die this turn, exile it instead")
+                    ? stackText("ExileInsteadOfDying") : statement);
         }
         return stringBuilder.toString();
     }

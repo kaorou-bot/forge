@@ -11,7 +11,6 @@ import forge.game.player.Player;
 import forge.game.spellability.SpellAbility;
 import forge.game.trigger.TriggerType;
 import forge.game.zone.ZoneType;
-import forge.util.Lang;
 import forge.util.Localizer;
 
 import java.util.Map;
@@ -26,13 +25,13 @@ public class UntapEffect extends SpellAbilityEffect {
         // when getStackDesc is called, just build exactly what is happening
         final StringBuilder sb = new StringBuilder();
 
-        sb.append("Untap ");
+        sb.append(stackText("UntapPrefix"));
 
         if (sa.hasParam("UntapUpTo")) {
-            sb.append("up to ").append(sa.getParam("Amount")).append(" ");
-            sb.append(sa.getParam("UntapType")).append("s");
+            sb.append(stackText("UpToType", sa.getParam("Amount"), sa.getParam("UntapType"),
+                    stackTerm(sa.getParam("UntapType"))));
         } else {
-            sb.append(Lang.joinHomogenous(getTargetCards(sa)));
+            sb.append(stackList(getTargetCards(sa)));
         }
         sb.append(".");
         return sb.toString();

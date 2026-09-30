@@ -99,10 +99,18 @@ public class MillEffect extends SpellAbilityEffect {
             each = each.toLowerCase();
         }
 
+        final ZoneType dest = ZoneType.smartValueOf(sa.getParam("Destination"));
+        if (dest == null || dest == ZoneType.Graveyard) {
+            // Only the verb/amount is generated here; preserve any preceding IfDesc clause.
+            final String players = eachP ? stackText(sa.hasParam("IfDesc") ? "EachPlayerLower" : "EachPlayer") : stackList(tgtPs);
+            final String amount = numCards == 1 ? stackText("OneCard")
+                    : stackText("Cards", Lang.getNumeral(numCards), numCards);
+            sb.append(stackText(optional ? "MayMill" : eachP || tgtPs.size() <= 1 ? "Mill" : "MillMany",
+                    players, amount));
+            return sb.toString();
+        }
         sb.append(eachP ? each : Lang.joinHomogenous(tgtPs));
         sb.append(" ");
-
-        final ZoneType dest = ZoneType.smartValueOf(sa.getParam("Destination"));
         sb.append(optional ? "may " : "");
         if ((dest == null) || dest.equals(ZoneType.Graveyard)) {
             sb.append("mill");

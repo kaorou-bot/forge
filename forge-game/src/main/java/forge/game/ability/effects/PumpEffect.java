@@ -163,22 +163,17 @@ public class PumpEffect extends SpellAbilityEffect {
             List<String> keywords = Lists.newArrayList();
             if (sa.hasParam("KW")) {
                 if (sa.getParam("KW").equals("HIDDEN This card doesn't untap during your next untap step.")) {
-                    if (sa instanceof AbilitySub) {
-                        sb.append(tgts.size() == 1 ? "It doesn't " : "They don't ");
-                    } else {
-                        sb.append(Lang.joinHomogenous(tgts)).append(tgts.size() == 1 ? " doesn't " : " don't ");
-                    }
-                    sb.append("untap during ");
-                    String whose = "your";
+                    String subject = sa instanceof AbilitySub
+                            ? stackText(tgts.size() == 1 ? "It" : "They") : stackList(tgts);
+                    String whose = stackText("Your");
                     for (GameEntity t : tgts) {
                         final Card c = (Card) t;
                         if (!(c.getOwner() == sa.getActivatingPlayer())) {
-                            whose = (tgts.size() == 1 ? "its controller's" : "their controller's");
+                            whose = stackText(tgts.size() == 1 ? "ItsControllers" : "TheirControllers");
                             break;
                         }
                     }
-                    sb.append(whose).append(" next untap step.");
-                    return sb.toString();
+                    return stackText(tgts.size() == 1 ? "NoUntapNext" : "NoUntapNextMany", subject, whose);
                 }
                 keywords.addAll(Arrays.asList(sa.getParam("KW").split(" & ")));
             }
@@ -195,15 +190,14 @@ public class PumpEffect extends SpellAbilityEffect {
 
             if (sa instanceof AbilitySub && sa.getRootAbility().getTargets().containsAll(tgts)) {
                 //try to avoid having the same long list of targets twice in a StackDescription
-                sb.append(tgts.size() == 1 && tgts.get(0) instanceof Card ? "It " : "They ");
+                sb.append(stackText(tgts.size() == 1 && tgts.get(0) instanceof Card ? "It" : "They")).append(" ");
             } else {
-                sb.append(Lang.joinHomogenous(tgts)).append(" ");
+                sb.append(stackList(tgts)).append(" ");
             }
 
             if (sa.hasParam("Radiance")) {
-                sb.append("and each other ").append(sa.getParam("ValidTgts"))
-                        .append(" that shares a color with ");
-                sb.append(tgts.size() > 1 ? "them " : "it ");
+                sb.append(stackText(tgts.size() > 1 ? "RadianceMany" : "Radiance",
+                        stackTerm(sa.getParam("ValidTgts")))).append(" ");
             }
 
             final int atk = AbilityUtils.calculateAmount(sa.getHostCard(), sa.getParam("NumAtt"), sa, true);
@@ -213,7 +207,7 @@ public class PumpEffect extends SpellAbilityEffect {
             boolean gains = !keywords.isEmpty();
 
             if (gets) {
-                sb.append("gets ");
+                sb.append(stackText("Gets"));
                 if (atk != 0) {
                     sb.append(atk > 0 ? "+" : "").append(atk).append("/");
                 } else {
@@ -224,39 +218,38 @@ public class PumpEffect extends SpellAbilityEffect {
                 } else {
                     sb.append(atk < 0 ? "-" : "+").append(def).append(" ");
                 }
-                sb.append(gains ? "and gains " : "");
+                sb.append(gains ? stackText("AndGains") : "");
             } else if (gains) {
-                sb.append("gains ");
+                sb.append(stackText("Gains"));
             }
 
             for (int i = 0; i < keywords.size(); i++) {
-                sb.append(keywords.get(i).toLowerCase());
+                sb.append(stackTerm(keywords.get(i)));
                 sb.append(keywords.size() > 2 && i+1 != keywords.size() ? ", " : "");
                 sb.append(keywords.size() == 2 && i == 0 ? " " : "");
-                sb.append(i+2 == keywords.size() ? "and " : "");
+                sb.append(i+2 == keywords.size() ? stackText("And") + " " : "");
             }
 
             if (sa.hasParam("CanBlockAny")) {
                 if (gets || gains) {
-                    sb.append(" and ");
+                    sb.append(" ").append(stackText("And")).append(" ");
                 }
-                sb.append("can block any number of creatures");
+                sb.append(stackText("BlockAny"));
             } else if (sa.hasParam("CanBlockAmount")) {
                 if (gets || gains) {
-                    sb.append(" and ");
+                    sb.append(" ").append(stackText("And")).append(" ");
                 }
                 String n = sa.getParam("CanBlockAmount");
-                sb.append("can block an additional ");
-                sb.append("1".equals(n) ? "creature" : Lang.nounWithNumeral(n, "creature"));
-                sb.append(" each combat");
+                sb.append(stackText("BlockAdditional",
+                        "1".equals(n) ? "creature" : Lang.nounWithNumeral(n, "creature"), n));
             }
 
             String duration = sa.getParam("Duration");
             if (!"Permanent".equals(duration)) {
                 if ("UntilUntaps".equals(duration)) {
-                    sb.append(" for as long as CARDNAME remains tapped.");
+                    sb.append(stackText("WhileTapped"));
                 } else {
-                    sb.append(" until end of turn.");
+                    sb.append(stackText("UntilEndOfTurn"));
                 }
             } else {
                 sb.append(".");

@@ -53,6 +53,7 @@ public class CardMockTestCase {
 
     protected MockedStatic<FModel> fModelMock;
     protected MockedStatic<ImageKeys> imageKeysMock;
+    private MockedStatic<StaticData> staticDataMock;
 
     /**
      * The {@link Localizer} that was installed when this class last replaced it with a mock,
@@ -77,10 +78,20 @@ public class CardMockTestCase {
         initCardImageMocks();
         initForgePreferences();
         initializeStaticData();
+        // Other test classes build isolated databases, changing StaticData.instance().
+        // Keep both database entry points on this method's selected fixture, including
+        // subclasses that select a lazy-loading or no-image database.
+        StaticData data = FModel.getMagicDb();
+        staticDataMock = Mockito.mockStatic(StaticData.class, Mockito.CALLS_REAL_METHODS);
+        staticDataMock.when(StaticData::instance).thenReturn(data);
     }
 
     @AfterMethod(alwaysRun = true)
     protected void releaseMocks() {
+        if (staticDataMock != null) {
+            staticDataMock.close();
+            staticDataMock = null;
+        }
         if (imageKeysMock != null) {
             imageKeysMock.close();
             imageKeysMock = null;

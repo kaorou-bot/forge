@@ -52,7 +52,18 @@ public final class DragCell extends JPanel implements ILocalRepaint {
     // Tab handling layout stuff
     private final List<IVDoc<? extends ICDoc>> allDocs = new ArrayList<>();
     private final JLabel lblHandle = new DragHandle();
-    private final JLabel lblOverflow = new JLabel();
+    private final JLabel lblOverflow = new JLabel() {
+        @Override public boolean isOpaque() {
+            return getClientProperty(forge.screens.match.layout.MatchSkinTheme.STYLE_PROPERTY) == null && super.isOpaque();
+        }
+        @Override protected void paintComponent(Graphics g) {
+            if (getClientProperty(forge.screens.match.layout.MatchSkinTheme.STYLE_PROPERTY)
+                    instanceof forge.screens.match.layout.MatchSkinTheme.Style style) {
+                style.paint((java.awt.Graphics2D) g, getWidth(), getHeight(), false, false);
+            }
+            super.paintComponent(g);
+        }
+    };
     private IVDoc<? extends ICDoc> docSelected = null;
 
     public DragCell() {
@@ -92,8 +103,57 @@ public final class DragCell extends JPanel implements ILocalRepaint {
      * <p>
      * Primarily used to toggle visibility of tabs.
      */
+    private boolean sceneMode;
+    private forge.screens.match.layout.MatchSurfaceStyle sceneSurface = forge.screens.match.layout.MatchSurfaceStyle.CLEAR;
+    private Runnable restoreSurface;
+    private forge.screens.match.layout.MatchSkinTheme sceneTheme;
+    private Runnable restoreTheme;
+    public void setSceneTheme(forge.screens.match.layout.MatchSkinTheme theme) { sceneTheme = theme; }
+    private void applySceneSurface() {
+        restoreSurface = sceneSurface.apply(pnlBody);
+        if (sceneTheme != null) {
+            final Runnable body = sceneTheme.apply(pnlBody, "document");
+            final Runnable tabs = sceneTheme.apply(pnlHead, "tab");
+            restoreTheme = () -> { tabs.run(); body.run(); };
+        }
+    }
+    private java.util.function.Function<String, forge.screens.match.layout.MatchSurfaceStyle> surfaceResolver;
+    public boolean isSceneMode() { return sceneMode; }
+    public void setSceneSurfaceResolver(java.util.function.Function<String, forge.screens.match.layout.MatchSurfaceStyle> resolver) {
+        surfaceResolver = resolver;
+    }
+
+    public void releaseSceneSurface() {
+        if (restoreTheme != null) { restoreTheme.run(); restoreTheme = null; }
+        if (restoreSurface != null) { restoreSurface.run(); restoreSurface = null; }
+    }
+
+    public void setSceneSurface(forge.screens.match.layout.MatchSurfaceStyle style) {
+        releaseSceneSurface();
+        sceneSurface = style;
+        if (sceneMode) { applySceneSurface(); }
+        doCellLayout(showGameTabs());
+    }
+
+    public void setSceneMode(boolean value) {
+        releaseSceneSurface();
+        sceneMode = value;
+        if (value) { applySceneSurface(); }
+        lblHandle.setVisible(!value);
+        doCellLayout(showGameTabs());
+    }
+
     public void doCellLayout(final boolean showTabs) {
         this.removeAll();
+        if (sceneMode) {
+            // Keep tabs for utility documents; scene fields/hands have no draggable chrome.
+            final int head = allDocs.size() > 1 || sceneSurface.title() ? SLayoutConstants.HEAD_H : 0;
+            lblHandle.setVisible(false);
+            this.add(pnlHead, "w 100%!, h " + head + "px!, wrap");
+            this.add(pnlBody, "w 100%!, h 100% - " + head + "px!");
+            revalidate();
+            return;
+        }
         final int borderT = SLayoutConstants.BORDER_T;
         final int headH = ((showTabs || allDocs.size() > 1) ? SLayoutConstants.HEAD_H : 0);
         this.add(pnlHead,
@@ -309,6 +369,7 @@ public final class DragCell extends JPanel implements ILocalRepaint {
             return;
         }
 
+        releaseSceneSurface();
         docSelected = null;
         pnlBody.removeAll();
 
@@ -319,6 +380,11 @@ public final class DragCell extends JPanel implements ILocalRepaint {
                 doc.getTabLabel().priorityOne();
                 doc.getTabLabel().setSelected(true);
                 doc.populate();
+                if (sceneMode) {
+                    if (surfaceResolver != null) { sceneSurface = surfaceResolver.apply(doc.getDocumentID().name()); }
+                    applySceneSurface();
+                    doCellLayout(showGameTabs());
+                }
                 doc.getLayoutControl().update();
             }
             else {

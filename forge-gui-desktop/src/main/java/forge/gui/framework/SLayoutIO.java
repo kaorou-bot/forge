@@ -12,6 +12,7 @@ import forge.toolbox.SaveOpenDialog.Filetypes;
 import forge.util.ThreadUtil;
 import forge.view.FFrame;
 import forge.view.FView;
+import forge.screens.match.VMatchUI;
 
 import javax.swing.border.EmptyBorder;
 import javax.xml.stream.*;
@@ -57,7 +58,8 @@ public final class SLayoutIO {
     public static void saveLayout() {
         final SaveOpenDialog dlgSave = new SaveOpenDialog();
         final FileLocation layoutFile = Singletons.getControl().getCurrentScreen().getLayoutFile();
-        final File defFile = layoutFile != null ? new File(layoutFile.userPrefLoc) : null;
+        final File defFile = layoutFile != null
+                ? new File(getLayoutPreferencePath(Singletons.getControl().getCurrentScreen())) : null;
         final File saveFile = dlgSave.SaveDialog(defFile, Filetypes.LAYOUT);
         if (saveFile != null) {
             SLayoutIO.saveLayout(saveFile);
@@ -69,7 +71,8 @@ public final class SLayoutIO {
 
         final SaveOpenDialog dlgOpen = new SaveOpenDialog();
         final FileLocation layoutFile = Singletons.getControl().getCurrentScreen().getLayoutFile();
-        final File defFile = layoutFile != null ? new File(layoutFile.userPrefLoc) : null;
+        final File defFile = layoutFile != null
+                ? new File(getLayoutPreferencePath(Singletons.getControl().getCurrentScreen())) : null;
         final File loadFile = dlgOpen.OpenDialog(defFile, Filetypes.LAYOUT);
 
         if (loadFile != null) {
@@ -80,6 +83,7 @@ public final class SLayoutIO {
                 SLayoutIO.loadLayout(loadFile);
                 Singletons.getControl().getCurrentScreen().getView().populate();
                 SLayoutIO.saveLayout(null);
+                Singletons.getControl().getForgeMenu().refresh();
                 SOverlayUtils.hideOverlay();
             });
         }
@@ -92,6 +96,7 @@ public final class SLayoutIO {
         FThreads.invokeInEdtLater(() -> {
             SLayoutIO.loadLayout(null);
             Singletons.getControl().getCurrentScreen().getView().populate();
+            Singletons.getControl().getForgeMenu().refresh();
             SOverlayUtils.hideOverlay();
         });
     }
@@ -254,13 +259,33 @@ public final class SLayoutIO {
      */
     public static void saveLayout(final File f0) {
         if( saveRequested.getAndSet(true) ) return; 
-        ThreadUtil.delay(100, () -> {
-            save(f0);
-            saveRequested.set(false);
-        });
+        final FScreen screen = Singletons.getControl().getCurrentScreen();
+        final String path = getLayoutPreferencePath(screen);
+        final List<DragCell> cells = FView.SINGLETON_INSTANCE.getDragCells();
+        ThreadUtil.delay(100, () -> FThreads.invokeInEdtLater(() -> {
+            try {
+                // A delayed save must not write a different screen/provider into the old layout file.
+                if (screen == Singletons.getControl().getCurrentScreen()
+                        && java.util.Objects.equals(path, getLayoutPreferencePath(screen))
+                        && cells.equals(FView.SINGLETON_INSTANCE.getDragCells())) {
+                    save(f0);
+                }
+            } finally {
+                saveRequested.set(false);
+            }
+        }));
+    }
+
+    public static String getLayoutPreferencePath(final FScreen screen) {
+        if (screen.getView() instanceof VMatchUI match && match.getDesktopUi().isCustom()) {
+            return match.getDesktopUi().savedLayout().toString();
+        }
+        return screen.getLayoutFile() == null ? null : screen.getLayoutFile().userPrefLoc;
     }
 
     private synchronized static void save(final File f0) {
+        if (Singletons.getControl().getCurrentScreen().getView() instanceof VMatchUI match
+                && match.getDesktopUi().isScene()) { return; }
         final String fWriteTo;
         FileLocation file = Singletons.getControl().getCurrentScreen().getLayoutFile();
 
@@ -268,7 +293,7 @@ public final class SLayoutIO {
             if (file == null) {
                 return;
             }
-            fWriteTo = file.userPrefLoc;
+            fWriteTo = getLayoutPreferencePath(Singletons.getControl().getCurrentScreen());
         }
         else {
             fWriteTo = f0.getPath();
@@ -378,12 +403,23 @@ public final class SLayoutIO {
         String userLayoutSerial = "";
         boolean resetLayout = false;
         FScreen screen = Singletons.getControl().getCurrentScreen();
+        final VMatchUI match = screen.getView() instanceof VMatchUI matchView ? matchView : null;
+        if (match != null) { match.prepareDesktopLayout(); }
         FAbsolutePositioner.SINGLETON_INSTANCE.hideAll();
         view.getPnlInsets().removeAll();
         view.getPnlInsets().setLayout(new BorderLayout());
         view.getPnlInsets().add(view.getPnlContent(), BorderLayout.CENTER);
         view.getPnlInsets().setBorder(new EmptyBorder(SLayoutConstants.BORDER_T, SLayoutConstants.BORDER_T, 0, 0));
+        for (DragCell oldCell : view.getDragCells()) {
+            for (var doc : oldCell.getDocs()) { doc.setParentCell(null); }
+        }
         view.removeAllDragCells();
+
+        if (match != null && match.getDesktopUi().isCustom()
+                && (match.getDesktopUi().isScene() || f == null && !new File(getLayoutPreferencePath(screen)).exists())) {
+            match.getDesktopUi().install();
+            return;
+        }
 
         FileLocation file = screen.getLayoutFile();
         if (file != null) {
@@ -397,11 +433,12 @@ public final class SLayoutIO {
                     fis = new FileInputStream(f);
                 }
                 else {
-                    File userSetting = new File(file.userPrefLoc);
+                    File userSetting = new File(getLayoutPreferencePath(screen));
                     if (userSetting.exists()) {
                         defaultLayoutSerial = getLayoutSerial(file.defaultLoc);
-                        userLayoutSerial = getLayoutSerial(file.userPrefLoc);
-                        if (defaultLayoutSerial.compareTo(userLayoutSerial) > 0) {
+                        userLayoutSerial = getLayoutSerial(userSetting.getPath());
+                        if ((match == null || !match.getDesktopUi().isCustom())
+                                && defaultLayoutSerial.compareTo(userLayoutSerial) > 0) {
                             // prompt the user that their saved layout is older
                             resetLayout = SOptionPane.showConfirmDialog(
                                     String.format("Your %s layout file is from an older template.",
@@ -431,6 +468,12 @@ public final class SLayoutIO {
                 try {
                     xer = inputFactory.createXMLEventReader(fis);
                     model = readLayout(xer);
+                    if (match != null && match.getDesktopUi().isCustom()) {
+                        for (LayoutInfo info : model.keySet()) {
+                            final var b = info.bounds();
+                            new forge.screens.match.layout.MatchUiLayout.Bounds(b.getX(), b.getY(), b.getW(), b.getH());
+                        }
+                    }
                 } catch (final Exception e) { // I don't care what happened inside, the layout is wrong
                     try {
                         if (xer != null) { xer.close(); }
@@ -439,6 +482,11 @@ public final class SLayoutIO {
                         x.printStackTrace();
                     }
                     e.printStackTrace();
+                    if (match != null && match.getDesktopUi().isCustom()) {
+                        // Keep the damaged file for diagnosis, but leave a usable match on screen.
+                        match.getDesktopUi().install();
+                        return;
+                    }
                     if (usedCustomPrefsFile) { // the one we can safely delete
                         throw new InvalidLayoutFileException();
                     }
@@ -462,6 +510,9 @@ public final class SLayoutIO {
                 }
             }
     
+            // Never resurrect a hand panel which this player can no longer view.
+            final java.util.Set<String> allowedMatchDocs = match != null && match.getDesktopUi().isCustom()
+                    ? new java.util.HashSet<>(match.getDesktopDocuments()) : null;
             // Apply new layout
             for (Entry<LayoutInfo, Collection<EDocID>> kv : model.asMap().entrySet()) {
                 LayoutInfo layoutInfo = kv.getKey();
@@ -469,6 +520,10 @@ public final class SLayoutIO {
                 cell.setRoughBounds(layoutInfo.bounds());
                 FView.SINGLETON_INSTANCE.addDragCell(cell); 
                 for(EDocID edoc : kv.getValue()) {
+                    if (allowedMatchDocs != null && !allowedMatchDocs.contains(edoc.name())
+                            && !edoc.name().startsWith("ZONE_")) {
+                        continue;
+                    }
                     try {
                         //System.out.println(String.format("adding doc %s -> %s",  edoc, edoc.getDoc()));
                         if (edoc.getDoc() != null ) {
@@ -541,4 +596,3 @@ public final class SLayoutIO {
         writer0.add(NEWLINE);
     }
 }
- 

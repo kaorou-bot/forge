@@ -8,7 +8,6 @@ import forge.game.ability.SpellAbilityEffect;
 import forge.game.card.CardZoneTable;
 import forge.game.player.Player;
 import forge.game.spellability.SpellAbility;
-import forge.util.Lang;
 import forge.util.Localizer;
 
 public class SurveilEffect extends SpellAbilityEffect {
@@ -20,17 +19,13 @@ public class SurveilEffect extends SpellAbilityEffect {
 
     @Override
     protected String getStackDescription(SpellAbility sa) {
-        final StringBuilder sb = new StringBuilder();
-
-        sb.append(Lang.joinHomogenous(getTargetPlayers(sa)));
 
         int num = 1;
         if (sa.hasParam("Amount")) {
             num = AbilityUtils.calculateAmount(sa.getHostCard(), sa.getParam("Amount"), sa);
         }
 
-        sb.append(" surveils (").append(num).append(").");
-        return sb.toString();
+        return stackText("Surveil", stackList(getTargetPlayers(sa)), num);
     }
 
     @Override

@@ -74,6 +74,25 @@ public abstract class SpellAbilityEffect {
         return sa.getDescription();
     }
 
+    /** Localize generated display text before inserting names, amounts or mana symbols.
+     * Never run word replacements on the resulting text: player names are arbitrary.
+     */
+    protected static String stackText(final String key, final Object... arguments) {
+        return Localizer.getInstance().getMessage("lblStack" + key, arguments);
+    }
+
+    protected static String stackList(final Iterable<?> objects) {
+        return Lang.joinHomogenous(Lists.newArrayList(objects), null, stackText("And"));
+    }
+
+    protected static String stackTerm(final String term) {
+        return StackDescriptionTerms.translate(term);
+    }
+
+    protected static String stackCount(final int amount, final String type) {
+        return stackText("Counted", Lang.nounWithNumeralExceptOne(amount, type), amount, stackTerm(type));
+    }
+
     public void buildSpellAbility(final SpellAbility sa) {
         if (sa.hasParam("Forecast")) {
             sa.putParam("ActivationZone", "Hand");
@@ -157,7 +176,7 @@ public abstract class SpellAbilityEffect {
                     }
                 }
                 if (sa.getTargets() != null && !sa.getTargets().isEmpty() && reps == null) {
-                    sb.append(" (Targeting: ").append(Lang.joinHomogenous(sa.getTargets())).append(")");
+                    sb.append(" (").append(stackText("Targeting", stackList(sa.getTargets()))).append(")");
                 }
             } else if (!"None".equalsIgnoreCase(stackDesc)) { // by typing "none" they want to suppress output
                 tokenizeString(sa, sb, stackDesc);

@@ -300,14 +300,18 @@ public class CardPanel extends SkinnedPanel implements CardContainer, IDisposabl
         if (!isValid()) {
             super.validate();
         }
-        Graphics2D g2d = (Graphics2D) g;
-        if (getTappedAngle() > 0) {
-            g2d = (Graphics2D) g2d.create();
+        final Graphics2D g2d = (Graphics2D) g.create();
+        try {
+            g2d.rotate(presentationAngle, cardXOffset + cardWidth / 2.0, cardYOffset + cardHeight / 2.0);
+            if (getTappedAngle() > 0) {
             final float edgeOffset = cardWidth / 2f;
             g2d.rotate(getTappedAngle(), cardXOffset + edgeOffset, (cardYOffset + cardHeight)
                     - edgeOffset);
+            }
+            super.paint(g2d);
+        } finally {
+            g2d.dispose();
         }
-        super.paint(g2d);
     }
 
     @Override
@@ -467,6 +471,22 @@ public class CardPanel extends SkinnedPanel implements CardContainer, IDisposabl
         }
 
         boolean nonselectable = matchUI.isSelecting() && !matchUI.isSelectable(getCard());
+        if (canShow && ZoneType.Battlefield.equals(card.getZone())) {
+            final var painter = matchUI.getCardPresentation().overlay();
+            if (painter != forge.screens.match.layout.CardOverlayPainter.NONE) {
+                final java.util.Map<String, Integer> counters = new java.util.LinkedHashMap<>();
+                if (card.getCounters() != null) {
+                    for (var entry : card.getCounters().entrySet()) { counters.put(entry.getElement().getName(), entry.getCount()); }
+                }
+                final var state = card.getCurrentState();
+                final String pt = state.getType().isCreature() ? state.getPower() + "/" + state.getToughness() : "";
+                final Graphics2D overlayGraphics = (Graphics2D) g.create(cardXOffset, cardYOffset, cardWidth, cardHeight);
+                try {
+                    painter.paint(overlayGraphics, cardWidth, cardHeight,
+                            new forge.screens.match.layout.CardOverlayPainter.Data(pt, counters, card.getDamage()));
+                } finally { overlayGraphics.dispose(); }
+            }
+        }
         // if selecting, darken non-selectable cards
         if (nonselectable) {
             boolean noBorderPref = !isPreferenceEnabled(FPref.UI_RENDER_BLACK_BORDERS);
@@ -502,7 +522,9 @@ public class CardPanel extends SkinnedPanel implements CardContainer, IDisposabl
         final boolean showText = !imagePanel.hasImage() || !isAnimationPanel;
 
         displayCardNameOverlay(showText && canShow && showCardNameOverlay(), imgSize, imgPos);
-        displayPTOverlay(showText && (canShow || card.isFaceDown()) && showCardPowerOverlay(), imgSize, imgPos);
+        displayPTOverlay(showText && (canShow || card.isFaceDown()) && showCardPowerOverlay()
+                && !(canShow && ZoneType.Battlefield.equals(card.getZone())
+                && matchUI.getCardPresentation().overlay() != forge.screens.match.layout.CardOverlayPainter.NONE), imgSize, imgPos);
         displayCardIdOverlay(showText && canShow && showCardIdOverlay(), imgSize, imgPos);
     }
 
@@ -950,9 +972,28 @@ public class CardPanel extends SkinnedPanel implements CardContainer, IDisposabl
 
     static final int ZONE_BANNER_HEIGHT = 16;
 
+    private double presentationAngle;
+
+    public final void setPresentationAngle(double angle) {
+        if (!Double.isFinite(angle)) { throw new IllegalArgumentException("Non-finite card angle"); }
+        presentationAngle = angle;
+    }
+
+    public final boolean containsPresentedCard(int x, int y) {
+        return new forge.screens.match.layout.HandLayoutStrategy.Placement(
+                getCardX(), getCardY(), cardWidth, cardHeight, presentationAngle).contains(x, y);
+    }
+
     public final void setCardBounds(final int x, final int y, int width, int height) {
         cardWidth = width;
         cardHeight = height;
+        if (presentationAngle != 0) {
+            final int diagonal = (int) Math.ceil(Math.hypot(width, height)) + 4;
+            cardXOffset = (diagonal - width) / 2;
+            cardYOffset = (diagonal - height) / 2;
+            setBounds(x - cardXOffset, y - cardYOffset, diagonal, diagonal);
+            return;
+        }
         final int rotCenterX = Math.round(width / 2f);
         final int rotCenterY = height - rotCenterX;
         final int rotCenterToTopCorner = Math.round(width * CardPanel.ROT_CENTER_TO_TOP_CORNER);

@@ -1,0 +1,330 @@
+{
+  "version": 3,
+  "id": "dusk-sanctum",
+  "regions": [
+    {
+      "bounds": [
+        0.18,
+        0.13,
+        0.64,
+        0.28
+      ],
+      "documents": [
+        "opponents"
+      ],
+      "split": "GRID"
+    },
+    {
+      "bounds": [
+        0.18,
+        0.46,
+        0.64,
+        0.26
+      ],
+      "documents": [
+        "FIELD_0"
+      ]
+    },
+    {
+      "bounds": [
+        0.18,
+        0.72,
+        0.64,
+        0.21
+      ],
+      "documents": [
+        "hands"
+      ],
+      "split": "COLUMNS"
+    },
+    {
+      "bounds": [
+        0.83,
+        0.12,
+        0.165,
+        0.57
+      ],
+      "documents": [
+        "CARD_PICTURE",
+        "CARD_DETAIL"
+      ]
+    },
+    {
+      "bounds": [
+        0.83,
+        0.71,
+        0.165,
+        0.18
+      ],
+      "documents": [
+        "REPORT_LOG",
+        "remaining"
+      ]
+    }
+  ],
+  "scene": {
+    "surface": {
+      "border": false,
+      "background": false,
+      "title": false
+    },
+    "widgets": {
+      "FIELD_1.HAND_BACKS": [
+        0.22,
+        0,
+        0.56,
+        0.12
+      ],
+      "PHASES_ACTIVE": [
+        0.015,
+        0.415,
+        0.79,
+        0.035
+      ],
+      "ACTION_END_TURN": [
+        0.83,
+        0.9,
+        0.08,
+        0.045
+      ],
+      "ACTION_YIELD_SETTINGS": [
+        0.915,
+        0.9,
+        0.08,
+        0.045
+      ],
+      "ACTIONS_MENU": [
+        0.83,
+        0.95,
+        0.165,
+        0.045
+      ],
+      "FIELD_1.ZONE_LIBRARY": [
+        0.015,
+        0.015,
+        0.049,
+        0.115
+      ],
+      "FIELD_1.ZONE_GRAVEYARD": [
+        0.07,
+        0.015,
+        0.049,
+        0.115
+      ],
+      "FIELD_1.ZONE_EXILE": [
+        0.125,
+        0.015,
+        0.049,
+        0.115
+      ],
+      "FIELD_1.AVATAR_IMAGE": [
+        0.02,
+        0.15,
+        0.085,
+        0.15
+      ],
+      "FIELD_1.NAME": [
+        0.11,
+        0.15,
+        0.064,
+        0.045
+      ],
+      "FIELD_1.LIFE": [
+        0.11,
+        0.2,
+        0.064,
+        0.065
+      ],
+      "FIELD_1.STATUS": [
+        0.11,
+        0.27,
+        0.064,
+        0.035
+      ],
+      "FIELD_1.MANA": [
+        0.02,
+        0.315,
+        0.154,
+        0.04
+      ],
+      "FIELD_1.OTHER_ZONES": [
+        0.02,
+        0.365,
+        0.154,
+        0.035
+      ],
+      "FIELD_0.AVATAR_IMAGE": [
+        0.02,
+        0.48,
+        0.085,
+        0.15
+      ],
+      "FIELD_0.NAME": [
+        0.11,
+        0.48,
+        0.064,
+        0.045
+      ],
+      "FIELD_0.LIFE": [
+        0.11,
+        0.53,
+        0.064,
+        0.065
+      ],
+      "FIELD_0.STATUS": [
+        0.11,
+        0.6,
+        0.064,
+        0.035
+      ],
+      "FIELD_0.MANA": [
+        0.02,
+        0.645,
+        0.154,
+        0.04
+      ],
+      "FIELD_0.OTHER_ZONES": [
+        0.02,
+        0.695,
+        0.154,
+        0.035
+      ],
+      "FIELD_0.ZONE_LIBRARY": [
+        0.015,
+        0.775,
+        0.049,
+        0.14
+      ],
+      "FIELD_0.ZONE_GRAVEYARD": [
+        0.07,
+        0.775,
+        0.049,
+        0.14
+      ],
+      "FIELD_0.ZONE_EXILE": [
+        0.125,
+        0.775,
+        0.049,
+        0.14
+      ],
+      "PROMPT_MESSAGE": [
+        0.02,
+        0.937,
+        0.53,
+        0.061
+      ],
+      "PROMPT_OK": [
+        0.56,
+        0.95,
+        0.115,
+        0.045
+      ],
+      "PROMPT_CANCEL": [
+        0.685,
+        0.95,
+        0.13,
+        0.045
+      ]
+    },
+    "visibility": {
+      "FIELD_0.MANA": "MANA_NONEMPTY",
+      "FIELD_1.MANA": "MANA_NONEMPTY"
+    },
+    "floating": {
+      "REPORT_STACK": {
+        "bounds": [
+          0.61,
+          0.15,
+          0.205,
+          0.46
+        ],
+        "visibleWhen": "STACK_NONEMPTY",
+        "draggable": true
+      }
+    },
+    "appearance": {
+      "background": "images/table.png",
+      "font": "fonts/NotoSansCJKsc-Regular.otf",
+      "text": "#E9DDC8",
+      "styles": {
+        "default": {
+          "radius": 8,
+          "padding": 2,
+          "fontSize": 14
+        },
+        "avatar": {
+          "fill": "#111B23B0",
+          "border": "#B58B48",
+          "highlight": "#F3BD64",
+          "radius": 18,
+          "padding": 5
+        },
+        "life": {
+          "fill": "#111B23D0",
+          "border": "#A9874D",
+          "highlight": "#E8B365",
+          "radius": 20,
+          "padding": 2,
+          "fontSize": 28
+        },
+        "zone": {
+          "fill": "#101B25B8",
+          "border": "#786544",
+          "highlight": "#83C4CC",
+          "radius": 8,
+          "padding": 3,
+          "fontSize": 12
+        },
+        "phase": {
+          "fill": "#111C26E0",
+          "border": "#66583F",
+          "highlight": "#A87839",
+          "radius": 6,
+          "padding": 1,
+          "fontSize": 13
+        },
+        "button": {
+          "fill": "#263744",
+          "border": "#B18C50",
+          "highlight": "#5F999F",
+          "radius": 10,
+          "padding": 3,
+          "fontSize": 13
+        },
+        "floating": {
+          "fill": "#101D29F8",
+          "border": "#D2AA62",
+          "highlight": "#91C8CB",
+          "radius": 14,
+          "padding": 10,
+          "fontSize": 16
+        },
+        "tab": {
+          "fill": "#182733",
+          "border": "#907346",
+          "highlight": "#A87839",
+          "radius": 7,
+          "padding": 2,
+          "fontSize": 13
+        },
+        "actions": {
+          "fill": "#101D29",
+          "border": "#D2AA62",
+          "radius": 14,
+          "padding": 16,
+          "fontSize": 16
+        },
+        "text": {
+          "fill": "#162330",
+          "fontSize": 14
+        }
+      }
+    }
+  },
+  "cards": {
+    "hand": "fan",
+    "fanDegrees": 22,
+    "overlay": "badges",
+    "battlefield": "lanes"
+  }
+}

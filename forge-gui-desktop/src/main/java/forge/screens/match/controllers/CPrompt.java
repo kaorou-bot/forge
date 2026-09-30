@@ -98,7 +98,7 @@ public class CPrompt implements ICDoc {
     private final FocusListener onFocus = new FocusAdapter() {
         @Override
         public void focusGained(final FocusEvent e) {
-            if (null != view.getParentCell() && view == view.getParentCell().getSelected()) {
+            if (view.getBtnOK().isShowing() || view.getBtnCancel().isShowing()) {
                 // only record focus changes when we're showing -- otherwise it is due to a tab visibility change
                 lastFocusedButton = e.getComponent();
             }
@@ -153,12 +153,17 @@ public class CPrompt implements ICDoc {
      * Invoke a flashing animation on the prompt.
      */
     public void remind() {
-        SDisplayUtil.remind(view);
+        if (view.getParentCell() == null) {
+            // Independent scene controls have no document frame to flash. Focus highlights the live action.
+            if (view.getBtnOK().isEnabled()) { view.getBtnOK().requestFocusInWindow(); }
+            else if (view.getBtnCancel().isEnabled()) { view.getBtnCancel().requestFocusInWindow(); }
+        } else { SDisplayUtil.remind(view); }
     }
 
     public void alert() {
         if (FModel.getPreferences().getPrefBoolean(ForgePreferences.FPref.UI_REMIND_ON_PRIORITY)) {
-            SDisplayUtil.remind(view, 15, 30);
+            if (view.getParentCell() == null) { remind(); }
+            else { SDisplayUtil.remind(view, 15, 30); }
         }
     }
 

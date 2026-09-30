@@ -48,6 +48,7 @@ public class CField implements ICDoc {
     private final PlayerView player;
     private final VField view;
     private boolean initializedAlready = false;
+    private final BiConsumer<ZoneType, MouseEvent> zoneRightClick;
 
     private final MouseListener madAvatar = new MouseAdapter() {
         @Override
@@ -81,7 +82,7 @@ public class CField implements ICDoc {
 
         Function<ZoneType, Runnable> zoneActionFactory = (zone) -> new ZoneAction(matchUI, player, zone);
 
-        final BiConsumer<ZoneType, MouseEvent> zoneRightClick = (zone, e) -> {
+        zoneRightClick = (zone, e) -> {
             final Localizer localizer = Localizer.getInstance();
             final JPopupMenu popup = new JPopupMenu();
             final ButtonGroup group = new ButtonGroup();
@@ -122,6 +123,11 @@ public class CField implements ICDoc {
         return matchUI;
     }
 
+    /** Shared by the classic details panel and independent zone controls. */
+    public void showZoneMenu(ZoneType zone, MouseEvent event) {
+        zoneRightClick.accept(zone, event);
+    }
+
     @Override
     public void register() {
     }
@@ -134,6 +140,7 @@ public class CField implements ICDoc {
         // Listeners
         // Player select
         this.view.getAvatarArea().addMouseListener(madAvatar);
+        this.view.getAvatarImageComponent().addMouseListener(madAvatar);
     }
 
     @Override

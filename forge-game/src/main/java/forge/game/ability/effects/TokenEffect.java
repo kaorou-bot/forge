@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import forge.util.Lang;
+import forge.game.ability.StackDescriptionTerms;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.mutable.MutableBoolean;
 
@@ -34,6 +35,44 @@ import forge.game.player.Player;
 import forge.game.spellability.SpellAbility;
 
 public class TokenEffect extends TokenEffectBase {
+
+    // Recognize complete simple descriptions only, never arbitrary fragments of rules text.
+    private static final java.util.regex.Pattern SIMPLE_CREATION = java.util.regex.Pattern.compile(
+            "Create (?:a|an|one|two|three|four|five|six|seven|eight|nine|ten|[0-9]+|X) "
+            + "([0-9]+/[0-9]+) (white|blue|black|red|green|colorless) "
+            + "([A-Za-z]+) creature tokens?(?: with ([^.]+))?\\.");
+
+    private static String localizeSimpleCreation(SpellAbility sa, List<Player> creators, String english) {
+        for (String override : List.of("TokenPower", "TokenToughness", "TokenColors", "TokenTypes",
+                "TokenName", "TokenKeywords", "TokenTapped", "TokenAttacking", "TokenController",
+                "PumpKeywords", "AtEOT")) {
+            if (sa.hasParam(override)) {
+                return english;
+            }
+        }
+        java.util.regex.Matcher match = SIMPLE_CREATION.matcher(sa.getParam("SpellDescription"));
+        if (!match.matches() || !StackDescriptionTerms.isKnown(match.group(3))) {
+            return english;
+        }
+        final List<String> keywords = new java.util.ArrayList<>();
+        if (match.group(4) != null) {
+            for (String keyword : match.group(4).split(",? and |, ")) {
+                if (!StackDescriptionTerms.isKnown(keyword)) {
+                    return english;
+                }
+                keywords.add(stackTerm(keyword));
+            }
+        }
+        String amount = sa.getParamOrDefault("TokenAmount", "1");
+        int count = AbilityUtils.calculateAmount(sa.getHostCard(), amount, sa);
+        // The upstream generator keeps its formula when an X amount is not yet available.
+        if (!StringUtils.isNumeric(amount) && count <= 0) {
+            return english;
+        }
+        return stackText("CreateSimpleTokens", english, stackList(creators), count,
+                match.group(1), stackTerm(match.group(2)), stackTerm(match.group(3)),
+                keywords.isEmpty() ? "" : stackText("TokenWith", stackList(keywords)));
+    }
 
     @Override
     protected String getStackDescription(SpellAbility sa) {
@@ -87,7 +126,7 @@ public class TokenEffect extends TokenEffectBase {
                 //pronoun replacement for things that create an amount based on what you control
                 desc = desc.replace("you control","they control");
             }
-            return desc;
+            return localizeSimpleCreation(sa, creators, desc);
         }
         return sa.getDescription();
     }

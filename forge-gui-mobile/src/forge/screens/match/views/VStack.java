@@ -247,7 +247,7 @@ public class VStack extends FDropDown {
                 .replace("\\n", "\n");
             if (stackInstance.isOptionalTrigger() &&
                     stackInstance0.getActivatingPlayer().equals(MatchController.instance.getCurrentPlayer())) {
-                text = "(OPTIONAL) " + text;
+                text = Forge.getLocalizer().getMessage("lblStackOptional") + text;
             }
 
             // TODO: A hacky workaround is currently used to make the game not leak the color information for Morph cards.

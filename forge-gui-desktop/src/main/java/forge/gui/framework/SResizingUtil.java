@@ -197,6 +197,10 @@ public final class SResizingUtil {
             t.refresh();
         }
 
+        final FScreen currentScreen = forge.Singletons.getControl().getCurrentScreen();
+        if (currentScreen != null && currentScreen.getView() instanceof forge.screens.match.VMatchUI match) {
+            match.getDesktopUi().resizeScene();
+        }
         cells.clear();
     }
 

@@ -4,7 +4,6 @@ import forge.game.ability.AbilityUtils;
 import forge.game.ability.SpellAbilityEffect;
 import forge.game.player.Player;
 import forge.game.spellability.SpellAbility;
-import forge.util.Lang;
 
 import java.util.Collections;
 import java.util.List;
@@ -24,19 +23,19 @@ public class LifeGainEffect extends SpellAbilityEffect {
         final String amountStr = sa.getParam("LifeAmount");
         final String spellDesc = sa.getParam("SpellDescription");
 
-        sb.append(Lang.joinHomogenous(getDefinedPlayersOrTargeted(sa)));
+        sb.append(stackList(getDefinedPlayersOrTargeted(sa)));
         if (sb.length() == 0 && spellDesc != null) {
             return spellDesc;
         } else {
-            sb.append(getDefinedPlayersOrTargeted(sa).size() > 1 ? " gain " : " gains ");
+            sb.append(stackText(getDefinedPlayersOrTargeted(sa).size() > 1 ? "GainLifeManyPrefix" : "GainLifePrefix"));
             if (!StringUtils.isNumeric(amountStr) && spellDesc != null && spellDesc.contains("life equal to")) {
                 sb.append(spellDesc.substring(spellDesc.indexOf("life equal to")));
             } else if (!amountStr.equals("AFLifeLost") || sa.hasSVar(amountStr)) {
                 final int amount = AbilityUtils.calculateAmount(sa.getHostCard(), amountStr, sa);
 
-                sb.append(amount).append(" life.");
+                sb.append(stackText("LifeAmount", amount));
             } else {
-                sb.append("life equal to the life lost this way.");
+                sb.append(stackText("LifeLostThisWay"));
             }
         }
 

@@ -403,3 +403,17 @@ OSS Bucket 私有时，RAM 发布账号可能有上传权限却没有读取对�
 - 桌面、共享移动端编译及中文译表、套牌导入、Android 启动资源、更新清单和联机偏好共 101 项回归通过，零失败、零跳过。源码清理可从 Git 历史恢复，不触碰原始冲突工作区或其中未跟踪的开发缓存。
 - `mvn -pl forge-gui-android -am -DskipTests -Dcheckstyle.skip=true compile` 也通过，确认 Android 后端没有遗留被删除接口的引用；本次没有生成新 APK。
 - 用户授权提交推送，不重新打包、升版、改更新清单或部署服务器。线上 cn0929r2 制品保持不变。
+
+## 2026-09-30：动态描述、桌面对战皮肤与独立制作资料（cn0930）
+
+- 正式标识 `2.0.15-cn0930`，显示版本 `2.0.15-汉化-09.30`，Android versionCode `2026093001`。用户要求打包发布，并同步更新文档。
+- 纳入两轮动态堆叠描述汉化及 `desktop-match-ui` 已整合功能，默认经典布局；Swing 对战皮肤仅适用于桌面。复杂动态脚本仍可能回退英文，不宣称全覆盖。
+- 独立资料包入口为 `docs/DesktopMatchUI.zh-CN.md`，构建器为 `deploy/build-skin-kit.py`，可维护源为 `tools/desktop-skin-kit/`、两份皮肤制作规范及 `skins/dusk-sanctum/`。资料包不包含 Forge 主程序，工具只用 Python 3.10+ 标准库；静态验收不能替代真实对局检查。
+- 发布前从独立译表固定 raw 地址下载并校验：38,219 条，UTF-8、四栏、非空唯一英文键均通过；内容与现有文件一致，仅存在 LF/CRLF 差异，不改动生成译表。
+- 程序内更新说明随两端打包，Windows 包根目录另有 `更新说明.txt`。保留完全免费、非官方民间汉化、QQ群和开源分支说明。
+- 仅发布完整 Windows 安装器、内置 JRE 便携 ZIP、APK 与皮肤资料 ZIP，不生成增量包。保留线上 `assets.*` 与卡图/tokens；不 SSH 修改或重启大厅服务，现有自建大厅部署包仍可使用。
+- 原始工作区有未解决冲突，继续保持不动；在已整合的 `mtg forge 汉化-translation-release-20260929` 工作区构建。发布遵循备份清单、不可变制品上传、CDN 完整哈希回读、提交推送、并发清单检查、最后切换清单的顺序。
+- 正式版本完整回归：桌面测试集 808 项，802 通过、6 项默认关闭的压力测试跳过、零失败；依赖模块另 31 项通过。日志 `dist/diagnostics/cn0930-tests-retry.log`。首次运行受本机 AF_UNIX 管道初始化影响；通过仅在测试进程设置 `JAVA_TOOL_OPTIONS=-Djdk.net.unixdomain.tmpdir=C:\nonexistent-forge-selector-test` 重跑，随后移除环境变量，不写入发布启动器。
+- 独立皮肤工具 24 项自动测试、平台守卫 7 项测试及两套示例的真实 Java 解析通过；中文字体 3,927 个所需码点、0 缺字。资料 ZIP 解压后的文件清单哈希和文档链接检查通过，且已从公开 CDN 完整回读校验。资料包 SHA-256：`8d05f64ed7d7aa7b2c07e5f58bfc24bff08a296c329da475424dcb704ab7e169`。
+- 正式包位于 `dist/android-cn0930/`、`dist/desktop-cn0930/` 和 `dist/installers-cn0930/`；资料包位于 `dist/skin-authoring-kit/`。APK v2/v3 签名通过并与上一正式版证书一致；APK 的实际 versionName/code、Windows JAR 的 Implementation-Version、EXE 目标 JAR、JRE-only、包内译表/镜像配置/更新说明、ZIP 完整性均通过检查。实际发布 JAR 使用包内 JRE 验证了联机默认值、偏好保存与两套皮肤解析。未把这些自动检查表述为本轮新的手机实机验收。
+- 正式制品 SHA-256：APK `ef8af8fe32469a282b23d099d1ba2a2723373051457be210166718e88baf36ca`（20,413,456 字节）；Windows EXE `451f7c7f9de196c50b3a0d40a92cb94fc902fa20d7933e663af5feb55f13d401`（228,367,417 字节）；Windows ZIP `17e13fdf13becc24e75a8ecefb8cbe949f97e73cf5c865761437c120a8a26ba2`（275,179,587 字节）。本地制品验证日志：`dist/diagnostics/cn0930-package-validation.log`。

@@ -88,7 +88,11 @@ public final class DragTab extends SkinnedLabel implements ILocalRepaint {
 
     @Override
     public void paintComponent(final Graphics g) {
-        if (!selected) {
+        if (getClientProperty(forge.screens.match.layout.MatchSkinTheme.STYLE_PROPERTY)
+                instanceof forge.screens.match.layout.MatchSkinTheme.Style style) {
+            style.paint((java.awt.Graphics2D) g, getWidth(), getHeight(), selected, false);
+        }
+        else if (!selected) {
             FSkin.setGraphicsColor(g, FSkin.getColor(FSkin.Colors.CLR_INACTIVE));
             g.fillRoundRect(0, 0, getWidth() - 1, getHeight() * 2, 6, 6);
             FSkin.setGraphicsColor(g, FSkin.getColor(FSkin.Colors.CLR_BORDERS));

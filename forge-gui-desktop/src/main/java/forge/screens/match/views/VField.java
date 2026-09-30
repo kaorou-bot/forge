@@ -39,6 +39,8 @@ import forge.gui.framework.EDocID;
 import forge.gui.framework.IVDoc;
 import forge.localinstance.skin.FSkinProp;
 import forge.screens.match.CMatchUI;
+import forge.screens.match.layout.MatchFieldLayout;
+import java.util.Map;
 import forge.screens.match.controllers.CField;
 import forge.toolbox.FLabel;
 import forge.toolbox.FScrollPane;
@@ -89,6 +91,22 @@ public class VField implements IVDoc<CField> {
     private final FLabel lblRad        = new FLabel.Builder().fontAlign(SwingConstants.CENTER).fontStyle(Font.BOLD).icon(FSkin.getImage(FSkinProp.IMG_RAD)).iconInBackground().build();
 
     private final PhaseIndicator phaseIndicator = new PhaseIndicator();
+    private boolean sceneAvatar;
+
+    public FLabel getAvatarImageComponent() { return lblAvatar; }
+    public FLabel getLifeComponent() { return lblLife; }
+    public javax.swing.JComponent getAvatarTargetComponent() { return sceneAvatar ? lblAvatar : avatarArea; }
+
+    public void setSceneAvatar(boolean value) {
+        sceneAvatar = value;
+        if (!value) {
+            lblAvatar.setBorder((Border) null);
+            avatarArea.removeAll();
+            avatarArea.add(lblAvatar, "w 100%-6px!, h 100%-23px!, wrap, gap 3 3 3 0");
+            avatarArea.add(lblLife, "w 100%!, h 20px!, wrap");
+        }
+        updateDetails();
+    }
 
     private final Border borderAvatarSimple = new LineBorder(new Color(0, 0, 0, 0), 1);
     private final Border borderAvatarHighlighted = new LineBorder(Color.red, 2);
@@ -163,12 +181,11 @@ public class VField implements IVDoc<CField> {
     @Override
     public void populate() {
         final JPanel pnl = parentCell.getBody();
-        pnl.setLayout(new MigLayout("insets 0, gap 0"));
-
-        pnl.add(avatarArea, "w 10%!, h 35%!");
-        pnl.add(phaseIndicator, "w 5%!, h 100%!, span 1 2");
-        pnl.add(scroller, "w 85%!, h 100%!, span 1 2, wrap");
-        pnl.add(detailsPanel, "w 10%!, h 64%!, gapleft 1px");
+        matchUI.getFieldLayout().populate(pnl, Map.of(
+                MatchFieldLayout.Part.AVATAR, avatarArea,
+                MatchFieldLayout.Part.PHASES, phaseIndicator,
+                MatchFieldLayout.Part.BATTLEFIELD, scroller,
+                MatchFieldLayout.Part.DETAILS, detailsPanel));
     }
 
     @Override
@@ -199,6 +216,8 @@ public class VField implements IVDoc<CField> {
     public PlayArea getTabletop() {
         return this.tabletop;
     }
+
+    public PlayerView getPlayer() { return player; }
 
     public JPanel getAvatarArea() {
         return this.avatarArea;
@@ -343,6 +362,12 @@ public class VField implements IVDoc<CField> {
             lblLife.setForeground(FSkin.getColor(FSkin.Colors.CLR_TEXT));
         } else {
             lblLife.setForeground(Color.RED);
+        }
+
+        if (sceneAvatar) {
+            lblAvatar.setToolTipText(getPlayerDetailsHtml());
+            lblAvatar.setBorder(isHighlighted() ? borderAvatarHighlighted : null);
+            return; // Independent status widgets own the counters; do not reparent life into the old composite.
         }
 
         // Update poison and/or energy counters, poison counters take precedence

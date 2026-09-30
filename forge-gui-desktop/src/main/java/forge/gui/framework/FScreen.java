@@ -232,9 +232,20 @@ public class FScreen {
 
     public boolean deleteLayoutFile() {
         if (layoutFile == null) { return false; }
+        if (view instanceof VMatchUI match && match.getDesktopUi().isCustom()) {
+            try {
+                java.nio.file.Files.deleteIfExists(match.getDesktopUi().savedLayout());
+                return true;
+            } catch (java.io.IOException ex) {
+                FOptionPane.showErrorDialog(ex.getMessage());
+                return false;
+            }
+        }
         return deleteLayoutFile(layoutFile);
     }
     public static boolean deleteMatchLayoutFile() {
+        final FScreen current = Singletons.getControl().getCurrentScreen();
+        if (current != null && current.isMatchScreen()) { return current.deleteLayoutFile(); }
         return deleteLayoutFile(ForgeConstants.MATCH_LAYOUT_FILE);
     }
     private static boolean deleteLayoutFile(final FileLocation file) {

@@ -15,6 +15,23 @@ public class PhaseIndicator extends JPanel {
     private static final String CONSTRAINTS = "w 94%!, h 7.2%, gaptop 1%, gapleft 3%";
 
     private final Map<PhaseType, PhaseLabel> phaseLabels = new EnumMap<>(PhaseType.class);
+    private final Map<PhaseType, String> shortNames = new EnumMap<>(PhaseType.class);
+    private boolean horizontal;
+
+    /** Reuses the labels so stop/yield listeners and state survive layout switches. */
+    public void setHorizontal(boolean value) {
+        if (horizontal == value) { return; }
+        horizontal = value;
+        removeAll();
+        setLayout(value ? new java.awt.GridLayout(1, phaseLabels.size(), 3, 0)
+                : new MigLayout("insets 0 0 1% 0, gap 0, wrap"));
+        phaseLabels.forEach((phase, label) -> {
+            label.setText(value ? phase.nameForUi : shortNames.get(phase));
+            if (value) { add(label); } else { add(label, CONSTRAINTS); }
+        });
+        revalidate();
+        repaint();
+    }
 
     public PhaseIndicator() {
         this.setOpaque(false);
@@ -37,6 +54,7 @@ public class PhaseIndicator extends JPanel {
         PhaseLabel lbl = new PhaseLabel(caption);
         lbl.setToolTipText(Localizer.getInstance().getMessage("htmlPhaseTooltipFmt", phaseType.nameForUi));
         phaseLabels.put(phaseType, lbl);
+        shortNames.put(phaseType, caption);
         add(lbl, CONSTRAINTS);
     }
 

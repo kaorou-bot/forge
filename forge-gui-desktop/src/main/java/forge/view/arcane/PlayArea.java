@@ -430,6 +430,13 @@ public class PlayArea extends CardPanelContainer implements CardPanelMouseListen
 
         this.playAreaWidth = rect.width;
         this.playAreaHeight = rect.height;
+        final var customBattlefield = zone == ZoneType.Battlefield ? getMatchUI().getCardPresentation().battlefield() : null;
+        if (customBattlefield != null) {
+            final var insets = getScrollPane().getInsets();
+            // Budget for possible scrollbars before laying out, avoiding an oscillating viewport size.
+            playAreaWidth = Math.max(1, rect.width - insets.left - insets.right - getScrollPane().getVerticalScrollBar().getPreferredSize().width);
+            playAreaHeight = Math.max(1, rect.height - insets.top - insets.bottom - getScrollPane().getHorizontalScrollBar().getPreferredSize().height);
+        }
 
         List<CardPanel> unsorted = new LinkedList<>(this.getCardPanels());
         unsorted.removeIf(p -> p.getAttachedToPanel() != null);
@@ -469,6 +476,9 @@ public class PlayArea extends CardPanelContainer implements CardPanelMouseListen
 
         // should find an appropriate width of card
         int maxCardWidth = this.getCardWidthMax();
+        if (customBattlefield != null) {
+            maxCardWidth = customBattlefield.maximumCardWidth(playAreaWidth, playAreaHeight, maxCardWidth, getCardWidthMin());
+        }
         setCardWidth(maxCardWidth);
         int minCardWidth = this.getCardWidthMin();
         int lastGoodCardWidth = minCardWidth;
@@ -514,9 +524,44 @@ public class PlayArea extends CardPanelContainer implements CardPanelMouseListen
         this.setPreferredSize(new Dimension(maxRowWidth - this.cardSpacingX, y - this.cardSpacingY));
         this.revalidate();
         positionAllCards(lastTemplate);
+        applyBattlefieldLayout(lastTemplate);
         repaint();
 
         super.doLayout();
+    }
+
+    private void applyBattlefieldLayout(List<CardStackRow> template) {
+        final var strategy = getMatchUI().getCardPresentation().battlefield();
+        if (strategy == null || zone != ZoneType.Battlefield) { return; }
+        final List<CardStack> stacks = new ArrayList<>();
+        final List<forge.screens.match.layout.BattlefieldLayoutStrategy.Group> groups = new ArrayList<>();
+        for (CardStackRow row : template) {
+            for (CardStack stack : row) {
+                if (stack.isEmpty()) { continue; }
+                final var state = stack.get(0).getCard().getCurrentState();
+                final var kind = state.isCreature() ? forge.screens.match.layout.BattlefieldLayoutStrategy.Kind.CREATURE
+                        : state.isLand() ? forge.screens.match.layout.BattlefieldLayoutStrategy.Kind.LAND
+                        : forge.screens.match.layout.BattlefieldLayoutStrategy.Kind.OTHER;
+                stacks.add(stack);
+                groups.add(new forge.screens.match.layout.BattlefieldLayoutStrategy.Group(stack.getWidth(), stack.getHeight(), kind));
+            }
+        }
+        final var positions = strategy.arrange(List.copyOf(groups), playAreaWidth, playAreaHeight, mirror);
+        if (positions.size() != stacks.size()) { throw new IllegalArgumentException("Expected one position per battlefield stack"); }
+        int width = playAreaWidth, height = playAreaHeight;
+        for (int i = 0; i < stacks.size(); i++) {
+            final var stack = stacks.get(i);
+            final int left = stack.stream().mapToInt(CardPanel::getCardX).min().orElse(0);
+            final int top = stack.stream().mapToInt(CardPanel::getCardY).min().orElse(0);
+            final var p = positions.get(i);
+            for (CardPanel panel : stack) {
+                panel.setCardBounds(panel.getCardX() + p.x - left, panel.getCardY() + p.y - top,
+                        panel.getCardWidth(), panel.getCardHeight());
+            }
+            width = Math.max(width, p.x + groups.get(i).width());
+            height = Math.max(height, p.y + groups.get(i).height());
+        }
+        setPreferredSize(new Dimension(width, height));
     }
 
     // Position all card panels
@@ -563,6 +608,7 @@ public class PlayArea extends CardPanelContainer implements CardPanelMouseListen
 
                     final int panelX = x + (visualPos * this.stackSpacingX);
                     final int panelY = y + (visualPos * this.stackSpacingY);
+                    panel.setPresentationAngle(0);
                     panel.setCardBounds(panelX, panelY, this.getCardWidth(), this.cardHeight);
                     panel.setDisplayEnabled(!hidden);
                 }

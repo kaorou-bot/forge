@@ -160,6 +160,17 @@ public class PhaseLabel extends JLabel {
     public void paintComponent(final Graphics g) {
         final int w = this.getWidth();
         final int h = this.getHeight();
+        if (getClientProperty(forge.screens.match.layout.MatchSkinTheme.STYLE_PROPERTY)
+                instanceof forge.screens.match.layout.MatchSkinTheme.Style style) {
+            style.paint((Graphics2D) g, w, h, active || hover || yieldMarked, pressed);
+            if (enabled) {
+                g.setColor(style.highlight() == null ? getForeground() : style.highlight());
+                g.fillOval(Math.max(2, w - 7), 3, 4, 4);
+            }
+            if (yieldMarked) { drawChevron(g, w, h); }
+            else { super.paintComponent(g); }
+            return;
+        }
 
         // Precedence: hover > yieldMarked > active/enabled combinations.
         if (this.hover) {

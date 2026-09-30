@@ -22,6 +22,7 @@ import forge.model.FModel;
 import forge.screens.match.views.VDev;
 import forge.screens.match.views.VField;
 import forge.screens.match.views.VHand;
+import forge.screens.match.layout.DesktopMatchUi;
 import forge.sound.MusicPlaylist;
 import forge.sound.SoundSystem;
 import forge.toolbox.FButton;
@@ -44,6 +45,31 @@ public class VMatchUI implements IVTopLevelUI {
     // Other instantiations
     private final CMatchUI control;
     private boolean bypassConcedeOnClose;
+    private final DesktopMatchUi desktopUi = new DesktopMatchUi();
+
+    public DesktopMatchUi getDesktopUi() { return desktopUi; }
+
+    public List<String> getDesktopDocuments() {
+        final List<String> docs = new ArrayList<>();
+        for (VField field : lstFields) {
+            field.getDocumentID().setDoc(field);
+            docs.add(field.getDocumentID().name());
+        }
+        for (VHand hand : lstHands) {
+            hand.getDocumentID().setDoc(hand);
+            docs.add(hand.getDocumentID().name());
+        }
+        docs.addAll(List.of("REPORT_STACK", "REPORT_COMBAT", "REPORT_LOG", "REPORT_DEPENDENCIES",
+                "REPORT_MESSAGE", "BUTTON_DOCK", "CARD_PICTURE", "CARD_DETAIL"));
+        if (ForgePreferences.DEV_MODE) { docs.add("DEV_MODE"); }
+        return docs;
+    }
+
+    public void prepareDesktopLayout() {
+        // SLayoutIO is replacing all cells; old dynamic references must not touch the new layout.
+        dynamicCells.clear();
+        desktopUi.prepare(getDesktopDocuments());
+    }
 
     VMatchUI(final CMatchUI control) {
         this.control = control;
@@ -151,6 +177,16 @@ public class VMatchUI implements IVTopLevelUI {
 
     @Override
     public void populate() {
+        if (desktopUi.isCustom()) {
+            desktopUi.ensureDocuments(getDesktopDocuments());
+            desktopUi.refreshScene(control);
+            if (getBtnOK().isEnabled()) {
+                getBtnOK().requestFocusInWindow();
+            } else if (getBtnCancel().isEnabled()) {
+                getBtnCancel().requestFocusInWindow();
+            }
+            return;
+        }
         // Dev mode disabled? Remove from parent cell if exists.
         final VDev vDev = getControl().getCDev().getView();
         if (!ForgePreferences.DEV_MODE) {
@@ -371,6 +407,7 @@ public class VMatchUI implements IVTopLevelUI {
      * match view. Called from menu when preferences change mid-game.
      */
     public void relayoutMultiplayerFields() {
+        if (desktopUi.isCustom()) { return; }
         if (lstFields.size() <= 2) {
             return;
         }

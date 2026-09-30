@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import forge.game.card.CardUtil;
-import forge.util.Lang;
 import org.apache.commons.lang3.StringUtils;
 
 import forge.card.ColorSet;
@@ -305,21 +304,34 @@ public class ManaEffect extends SpellAbilityEffect {
             mana = sa.getParam("Produced");
             manaDesc = sa.getParam("AmountDesc");
         }
-        sb.append(Lang.joinHomogenous(tgtPlayers)).append(tgtPlayers.size() == 1 ? " adds " : " add ");
-        sb.append(toManaString(mana)).append(manaDesc).append(".");
+        final String symbols = toManaString(mana);
+        final String manaText = symbols.equals("mana") ? stackText("Mana") : symbols;
+        sb.append(stackText(tgtPlayers.size() == 1 ? "AddMana" : "AddManaMany",
+                stackList(tgtPlayers), manaText + manaDesc));
         if (sa.hasParam("RestrictValid")) {
             sb.append(" ");
             final String desc = sa.getDescription();
             if (desc.contains("Spend this") && desc.contains(".")) {
                 int i = desc.indexOf("Spend this");
-                sb.append(desc, i, desc.indexOf(".", i) + 1);
+                sb.append(localizeRestriction(desc.substring(i, desc.indexOf(".", i) + 1)));
             } else if (desc.contains("This mana can't") && desc.contains(".")) { //for negative restrictions (Jegantha)
                 int i = desc.indexOf("This mana can't");
-                sb.append(desc, i, desc.indexOf(".", i) + 1);
+                sb.append(localizeRestriction(desc.substring(i, desc.indexOf(".", i) + 1)));
             } else {
                 sb.append("[failed to add RestrictValid to StackDesc]");
             }
         }
         return sb.toString();
+    }
+
+    private static String localizeRestriction(String restriction) {
+        return switch (restriction) {
+            case "Spend this mana only to cast creature spells." -> stackText("ManaOnlyCreatures");
+            case "Spend this mana only to cast artifact spells." -> stackText("ManaOnlyArtifacts");
+            case "Spend this mana only to cast colorless spells." -> stackText("ManaOnlyColorless");
+            case "Spend this mana only to cast instant or sorcery spells." -> stackText("ManaOnlyInstantsSorceries");
+            case "This mana can't be spent to pay generic mana costs." -> stackText("ManaNotGeneric");
+            default -> restriction;
+        };
     }
 }

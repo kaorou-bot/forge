@@ -13,7 +13,6 @@ import forge.game.card.CardUtil;
 import forge.game.card.CardZoneTable;
 import forge.game.spellability.SpellAbility;
 import forge.game.zone.ZoneType;
-import forge.util.Lang;
 
 public class DestroyEffect extends SpellAbilityEffect {
     @Override
@@ -26,16 +25,15 @@ public class DestroyEffect extends SpellAbilityEffect {
         if (tgtCards.isEmpty()) return sa.getParamOrDefault("SpellDescription", "");
         final boolean justOne = tgtCards.size() == 1;
 
-        sb.append("Destroy ").append(Lang.joinHomogenous(tgtCards));
+        sb.append(stackText("DestroyPrefix")).append(stackList(tgtCards));
 
         if (sa.hasParam("Radiance")) {
             final String thing = sa.getParamOrDefault("ValidTgts", "thing");
-            sb.append(" and each other ").append(thing).append(" that shares a color with ");
-            sb.append(justOne ? "it" : "them");
+            sb.append(" ").append(stackText(justOne ? "Radiance" : "RadianceMany", stackTerm(thing)));
         }
 
         if (noRegen) {
-            sb.append(". ").append(justOne ? "It" : "They").append(" can't be regenerated");
+            sb.append(". ").append(stackText(justOne ? "NoRegeneration" : "NoRegenerationMany"));
         }
         sb.append(".");
 

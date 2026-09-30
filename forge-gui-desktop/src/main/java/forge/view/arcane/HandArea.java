@@ -18,7 +18,9 @@
 package forge.view.arcane;
 
 import java.awt.event.MouseEvent;
+import javax.swing.SwingUtilities;
 
+import forge.game.zone.ZoneType;
 import forge.localinstance.properties.ForgePreferences.FPref;
 import forge.model.FModel;
 import forge.screens.match.CMatchUI;
@@ -55,8 +57,55 @@ public class HandArea extends CardArea {
     }
 
     @Override
+    public void doLayout() {
+        final var strategy = getMatchUI().getCardPresentation().hand();
+        if (strategy == null) {
+            for (CardPanel panel : getCardPanels()) { panel.setPresentationAngle(0); }
+            super.doLayout();
+            return;
+        }
+        final var extent = getScrollPane().getViewport().getExtentSize();
+        if (extent.width <= 0 || extent.height <= 0) { return; }
+        final var placements = strategy.arrange(getCardPanels().size(), extent.width, extent.height, getCardWidthMax());
+        if (placements.size() != getCardPanels().size()) {
+            throw new IllegalArgumentException("Hand layout must return one placement per card");
+        }
+        for (int i = 0; i < placements.size(); i++) {
+            final CardPanel panel = getCardPanels().get(i);
+            final var p = placements.get(i);
+            panel.setPresentationAngle(p.angle());
+            if (panel != getMouseDragPanel()) { panel.setCardBounds(p.x(), p.y(), p.width(), p.height()); }
+            if (panel.getParent() == this) { setComponentZOrder(panel, 0); }
+        }
+        if (!extent.equals(getPreferredSize())) { setPreferredSize(extent); revalidate(); }
+    }
+
+    @Override
     protected boolean cardPanelDraggable(final CardPanel panel) {
         return panel.getCard() != null;
+    }
+
+    @Override
+    protected Runnable getDropAction(final CardPanel panel, final MouseEvent evt) {
+        if (!SwingUtilities.isLeftMouseButton(evt) || !getMatchUI().isCurrentScreen()
+                || getMatchUI().getGameController() == null || !getCardPanels().contains(panel)
+                || panel.getCard() == null || panel.getCard().getZone() != ZoneType.Hand
+                || !getMatchUI().mayView(panel.getCard())) {
+            return null;
+        }
+        // Use the visible viewport, not the full (possibly scrolled) battlefield contents.
+        // This also accepts empty battlefields and adapts to any desktop layout.
+        final boolean battlefield = getMatchUI().getFieldViews().stream().anyMatch(field ->
+                CardDropTarget.contains(evt, field.getTabletop().getScrollPane().getViewport()));
+        if (!battlefield) { return null; }
+        return () -> {
+            getMatchUI().setLastClickedCardPanel(panel);
+            // Match a click on the source card, including popup positioning and modifiers.
+            final MouseEvent click = new MouseEvent(this, MouseEvent.MOUSE_RELEASED, evt.getWhen(),
+                    evt.getModifiersEx(), panel.getCardX() + panel.getCardWidth() / 2,
+                    panel.getCardY() + panel.getCardHeight() / 2, 1, false, MouseEvent.BUTTON1);
+            mouseLeftClicked(panel, click);
+        };
     }
 
     /** {@inheritDoc} */
