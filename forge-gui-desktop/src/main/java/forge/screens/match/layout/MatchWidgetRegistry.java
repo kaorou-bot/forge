@@ -33,6 +33,21 @@ public final class MatchWidgetRegistry {
         register("AVATAR_IMAGE", c -> new Widget(c.field().getAvatarImageComponent()));
         register("LIFE", c -> new Widget(c.field().getLifeComponent()));
         register("NAME", c -> text(() -> c.field().getPlayer().getName()));
+        register("PHASES", c -> {
+            final var indicator = c.field().getPhaseIndicator(); final var restore = new java.util.ArrayList<Runnable>();
+            for (var phase : forge.game.phase.PhaseType.values()) {
+                final var label = indicator.getLabelFor(phase); if (label == null) { continue; }
+                final String text = label.getText(), tip = label.getToolTipText();
+                label.setText(Localizer.getInstance().getMessage("lblPhaseShort" + phase.name()));
+                label.setToolTipText(c.field().getPlayer().getName() + " · " + phase.nameForUi);
+                restore.add(() -> { label.setText(text); label.setToolTipText(tip); });
+            }
+            return new Widget(indicator,indicator::repaint,() -> restore.forEach(Runnable::run));
+        });
+        register("PHASES_OVERVIEW", c -> text(() -> {
+            final var game = c.match().getGameView();
+            return game == null || game.getPlayerTurn() == null ? "" : game.getPlayerTurn().getName() + " · " + (game.getPhase() == null ? "" : game.getPhase().nameForUi);
+        }));
         register("STATUS", c -> text(() -> {
             final var counters = c.field().getPlayer().getCounters();
             if (counters == null) { return ""; }

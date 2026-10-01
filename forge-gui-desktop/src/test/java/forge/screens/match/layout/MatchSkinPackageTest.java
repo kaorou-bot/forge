@@ -63,7 +63,8 @@ public class MatchSkinPackageTest {
             Assert.assertFalse(fixed.contains("BUTTON_DOCK"));
             Assert.assertFalse(fixed.contains("REPORT_MESSAGE"));
             Assert.assertTrue(layout.arrange(docs).stream().anyMatch(c -> c.documents().equals(List.of("HAND_0"))));
-            Assert.assertEquals(fixed.size() + 3, docs.size());
+            Assert.assertFalse(fixed.contains("CARD_DETAIL"), "Details are now a floating document");
+            Assert.assertEquals(fixed.size() + docs.stream().filter(layout.scene()::replacesDocument).count(), (long) docs.size());
             final var missingCancel = new java.util.HashMap<>(layout.scene().widgets());
             missingCancel.remove("PROMPT_CANCEL");
             Assert.expectThrows(IllegalArgumentException.class, () -> new MatchSceneLayout(missingCancel));
@@ -85,7 +86,8 @@ public class MatchSkinPackageTest {
             final var layout = MatchUiLayout.read(reader, skin);
             final var protectedBounds = layout.scene().protectedAreas(layout.regions());
             Assert.assertTrue(protectedBounds.contains(layout.regions().stream()
-                    .filter(r -> r.documents().contains("CARD_DETAIL")).findFirst().orElseThrow().bounds()));
+                    .filter(r -> r.documents().contains("CARD_PICTURE")).findFirst().orElseThrow().bounds()));
+            Assert.assertTrue(layout.scene().floating().containsKey("CARD_DETAIL"));
             for (int width : List.of(800, 1280, 2048)) {
                 final int height = width * 9 / 16;
                 final var obstacles = protectedBounds.stream().map(b -> new Rectangle((int) (b.x() * width),

@@ -31,15 +31,8 @@ public final class DesktopMatchUi {
     private static String packageName;
     static {
         register("classic", "lblDesktopMatchUiClassic", MatchUiLayout::classic);
-        register("arena", "lblDesktopMatchUiArena", () -> {
-            try (var stream = DesktopMatchUi.class.getResourceAsStream("/match-ui/arena.json")) {
-                if (stream == null) { throw new IOException("Missing built-in arena.json"); }
-                try (var reader = new InputStreamReader(stream, StandardCharsets.UTF_8)) {
-                    return MatchUiLayout.read(reader);
-                }
-            }
-        });
-        register("tabletop", "lblDesktopMatchUiTabletop", () -> readBuiltin("tabletop"));
+        register("dusk-sanctum", "lblDesktopMatchUiDuskSanctum", BuiltinMatchSkin::loadDuskSanctum);
+        register("dusk-observatory", "lblDesktopMatchUiDuskObservatory", BuiltinMatchSkin::loadDuskObservatory);
         register("package", "lblDesktopMatchUiPackage", () -> MatchSkinPackages.load(packageName));
         register("skin", "lblDesktopMatchUiSkin", () -> {
             final Path file = FSkin.getSkinDirectory().toPath().resolve("match-ui.json");
@@ -68,6 +61,11 @@ public final class DesktopMatchUi {
 
     public static List<Provider> providers() { return List.copyOf(PROVIDERS.values()); }
 
+    /** Removed preview selections must not produce an unknown-provider dialog after upgrading. */
+    static String supportedSelection(String id) {
+        return PROVIDERS.containsKey(id) ? id : "classic";
+    }
+
     private static Path settingsFile() {
         return Path.of(ForgeConstants.USER_PREFS_DIR, "desktop-match-ui.properties");
     }
@@ -82,7 +80,7 @@ public final class DesktopMatchUi {
                     System.err.println("Cannot read desktop match UI selection: " + ex.getMessage());
                 }
             }
-            selection = settings.getProperty("provider", "classic");
+            selection = supportedSelection(settings.getProperty("provider", "classic"));
             packageName = settings.getProperty("package");
         }
         return selection;
@@ -91,14 +89,39 @@ public final class DesktopMatchUi {
     public static void select(String id) throws IOException {
         selection();
         if (!PROVIDERS.containsKey(id)) { throw new IllegalArgumentException("Unknown provider: " + id); }
-        final Properties settings = new Properties();
-        settings.setProperty("provider", id);
-        if (packageName != null) { settings.setProperty("package", packageName); }
-        Files.createDirectories(settingsFile().getParent());
-        try (var writer = Files.newBufferedWriter(settingsFile(), StandardCharsets.UTF_8)) {
-            settings.store(writer, "Desktop match UI (does not affect mobile)");
-        }
+        saveSelection(settingsFile(), id, packageName);
         selection = id;
+    }
+
+    static void saveSelection(Path file, String provider, String savedPackage) throws IOException {
+        final Properties settings = new Properties();
+        settings.setProperty("provider", provider);
+        if (savedPackage != null) { settings.setProperty("package", savedPackage); }
+        Files.createDirectories(file.getParent());
+        final Path temporary = Files.createTempFile(file.getParent(), ".match-ui-", ".tmp");
+        try {
+            try (var writer = Files.newBufferedWriter(temporary, StandardCharsets.UTF_8)) {
+                settings.store(writer, "Desktop match UI (does not affect mobile)");
+            }
+            Files.move(temporary, file, java.nio.file.StandardCopyOption.ATOMIC_MOVE, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+        } finally {
+            Files.deleteIfExists(temporary);
+        }
+    }
+
+    public static String selectedPackage() { selection(); return packageName; }
+
+    /** Returns whether the active scene must be rebuilt before files may be removed. */
+    public static boolean forgetPackage(String name) throws IOException { return forgetPackage(name, settingsFile()); }
+    static boolean forgetPackage(String name, Path file) throws IOException {
+        selection();
+        if (name == null || !name.equals(packageName)) { return false; }
+        final boolean active = selection.equals("package");
+        final String next = active ? "classic" : selection;
+        saveSelection(file, next, null);
+        selection = next;
+        packageName = null;
+        return active;
     }
     public static void selectPackage(String name) throws IOException {
         MatchSkinPackages.load(name);
@@ -114,6 +137,74 @@ public final class DesktopMatchUi {
     private String lastError;
     private MatchSceneView sceneView;
     private boolean creatingScene;
+    private MatchUiLayout template;
+    private MatchSkinPreferences preferences;
+    private String variant = "base";
+    private List<String> documents = List.of();
+    private boolean responsiveReload;
+    private MatchUiLayout validated;
+    /** Decode/plan before removing live controls; malformed hot reload leaves the current scene intact. */
+    public boolean preflight(List<String> available) {
+        try {
+            final var source = responsiveReload && template != null ? template : PROVIDERS.get(selection()).implementation().load();
+            final var prefs = new MatchSkinPreferences(Path.of(ForgeConstants.USER_PREFS_DIR, "desktop-skin-experience"), source.id(), source.experience().defaults());
+            final var chosen = source.experience().choose(source, Math.max(1, FView.SINGLETON_INSTANCE.getPnlContent().getWidth()),
+                    (int) available.stream().filter(s -> s.startsWith("FIELD_")).count(), prefs.settings().layoutMode()).layout();
+            if (chosen.scene() == null || chosen.scene().supports(available)) { chosen.arrange(available); }
+            validated = source; return true;
+        } catch (IOException | RuntimeException ex) {
+            FOptionPane.showErrorDialog("皮肤配置未通过验证，已保留当前界面。\n" + ex.getMessage()); return false;
+        }
+    }
+    public static DesktopMatchUi current() {
+        final var view = forge.Singletons.getControl().getCurrentScreen().getView();
+        return view instanceof forge.screens.match.VMatchUI match ? match.getDesktopUi() : null;
+    }
+    public void showSettings() {
+        if (preferences == null || !isScene()) { return; }
+        final var s = preferences.settings();
+        final var font = new javax.swing.JSpinner(new javax.swing.SpinnerNumberModel(s.fontScale(), .75, 1.75, .05));
+        final var hand = new javax.swing.JSpinner(new javax.swing.SpinnerNumberModel(s.handWidth(), 40, 300, 10));
+        final var opacity = new javax.swing.JSlider(0, 100, (int) (s.panelOpacity() * 100));
+        final var decorations = new javax.swing.JSlider(0, 100, (int) (s.decorationOpacity() * 100));
+        final var compact = new javax.swing.JCheckBox("优先使用 compact 紧凑方案（皮肤需提供）", s.layoutMode().equals("COMPACT"));
+        final var panel = new javax.swing.JPanel(new java.awt.GridLayout(0, 2, 8, 8));
+        panel.add(new javax.swing.JLabel("字号倍率")); panel.add(font);
+        panel.add(new javax.swing.JLabel("扇形手牌最大宽度")); panel.add(hand);
+        panel.add(new javax.swing.JLabel("浮窗背景不透明度（不影响文字）")); panel.add(opacity);
+        panel.add(new javax.swing.JLabel("装饰不透明度")); panel.add(decorations); panel.add(compact);
+        final var reset = new javax.swing.JCheckBox("重置个人设置和全部浮窗位置"); panel.add(reset);
+        if (javax.swing.JOptionPane.showConfirmDialog(null, panel, "皮肤个人设置 · " + variant,
+                javax.swing.JOptionPane.OK_CANCEL_OPTION) != javax.swing.JOptionPane.OK_OPTION) { return; }
+        try {
+            if (reset.isSelected()) { preferences.reset(); }
+            else { preferences.settings(new MatchSkinSettings(((Number) font.getValue()).doubleValue(), ((Number) hand.getValue()).intValue(),
+                    opacity.getValue() / 100.0, decorations.getValue() / 100.0, compact.isSelected() ? "COMPACT" : "AUTO")); }
+            responsiveReload = true; forge.gui.framework.SLayoutIO.revertLayoutNow();
+        } catch (IOException ex) { FOptionPane.showErrorDialog(ex.getMessage()); }
+    }
+    private final javax.swing.Timer resizeTimer = new javax.swing.Timer(250, e -> adapt());
+    public MatchSkinPreferences preferences() { return preferences; }
+    public MatchUiLayout template() { return template; }
+    public String variant() { return variant; }
+    public void preview(MatchUiLayout draft) {
+        final var previous = template; template = draft; responsiveReload = true;
+        if (!preflight(documents)) { template = previous; responsiveReload = false; return; }
+        forge.gui.framework.SLayoutIO.revertLayoutNow();
+    }
+    private int playerCount() { return (int) documents.stream().filter(s -> s.startsWith("FIELD_")).count(); }
+    private MatchSkinExperience.Choice choice(MatchUiLayout source) {
+        return source.experience().choose(source, Math.max(1, FView.SINGLETON_INSTANCE.getPnlContent().getWidth()),
+                playerCount(), preferences.settings().layoutMode());
+    }
+    private void adapt() {
+        resizeTimer.stop();
+        if (current() != this || template == null || preferences == null || creatingScene || template.experience().variants().isEmpty()) { return; }
+        if (!choice(template).id().equals(variant)) {
+            responsiveReload = true;
+            forge.gui.framework.SLayoutIO.revertLayoutNow();
+        }
+    }
 
     public MatchUiLayout layout() { return layout; }
     public Path savedLayout() { return savedLayout; }
@@ -125,7 +216,7 @@ public final class DesktopMatchUi {
         if (sceneView == null) {
             // Populating a floating document calls its controller, which can request another scene refresh.
             creatingScene = true;
-            try { sceneView = new MatchSceneView(match, layout); }
+            try { sceneView = new MatchSceneView(match, layout, preferences, variant); }
             finally { creatingScene = false; }
         }
         sceneView.refresh();
@@ -133,6 +224,7 @@ public final class DesktopMatchUi {
 
     public void resizeScene() {
         if (sceneView != null) { sceneView.resize(); }
+        resizeTimer.setRepeats(false); resizeTimer.restart();
     }
 
     public void refreshExistingScene() {
@@ -141,19 +233,40 @@ public final class DesktopMatchUi {
 
     /** Resolve and validate everything before SLayoutIO removes the current cells. */
     public void prepare(List<String> documents) {
+        resizeTimer.stop();
+        this.documents = List.copyOf(documents);
         if (sceneView != null) { sceneView.dispose(); sceneView = null; }
         for (DragCell cell : FView.SINGLETON_INSTANCE.getDragCells()) { cell.releaseSceneSurface(); }
         try {
             final Provider provider = PROVIDERS.get(selection());
             if (provider == null) { throw new IllegalArgumentException("Unknown provider: " + selection()); }
-            MatchUiLayout candidate = provider.implementation().load();
-            // A two-player skin must not hide extra players or controlled hands.
+            MatchUiLayout candidate = validated != null ? validated : responsiveReload && template != null ? template : provider.implementation().load();
+            validated = null;
+            responsiveReload = false;
+            template = candidate;
+            preferences = new MatchSkinPreferences(Path.of(ForgeConstants.USER_PREFS_DIR, "desktop-skin-experience"),
+                    candidate.id(), candidate.experience().defaults());
+            final var chosen = choice(candidate); candidate = chosen.layout(); variant = chosen.id();
+            final var settings = preferences.settings();
+            if (candidate.scene() != null && candidate.scene().appearance() != null) {
+                final var cards = candidate.cards(); final var hand = cards.hand();
+                final HandLayoutStrategy adjusted = hand == null ? null : new HandLayoutStrategy() {
+                    @Override public double hoverLift() { return hand.hoverLift(); }
+                    @Override public List<Placement> arrange(int count, int width, int height, int max) {
+                        return hand.arrange(count, width, height, Math.min(max, settings.handWidth()));
+                    }
+                };
+                candidate = new MatchUiLayout(candidate.id(), candidate.regions(), candidate.fieldLayout(),
+                        candidate.scene().withAppearance(candidate.scene().appearance().withSettings(settings)),
+                        new MatchCardPresentation(adjusted, cards.overlay(), cards.battlefield()), candidate.experience());
+            }
+            // Keep the capacity-safe internal layout, without exposing the old Arena demo in the menu.
             if (candidate.scene() != null && !candidate.scene().supports(documents)) {
                 candidate = readBuiltin("arena");
             }
             final List<MatchUiLayout.Cell> plan = candidate.arrange(documents);
             final String identity = selection() + "\n" + FSkin.getSkinDirectory() + "\n"
-                    + candidate.id() + "\n" + candidate.regions() + "\n" + candidate.scene() + "\n" + documents;
+                    + candidate.id() + "\n" + variant + "\n" + template.experience().source() + "\n" + candidate.regions() + "\n" + documents;
             final Path saved = candidate.isClassic() ? null : Path.of(ForgeConstants.USER_PREFS_DIR,
                     "match-ui-" + digest(identity) + ".xml");
             layout = candidate;

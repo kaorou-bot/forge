@@ -112,7 +112,7 @@ public final class DragCell extends JPanel implements ILocalRepaint {
     private void applySceneSurface() {
         restoreSurface = sceneSurface.apply(pnlBody);
         if (sceneTheme != null) {
-            final Runnable body = sceneTheme.apply(pnlBody, "document");
+            final Runnable body = sceneTheme.apply(pnlBody, docSelected == null ? "document" : "document." + docSelected.getDocumentID().name());
             final Runnable tabs = sceneTheme.apply(pnlHead, "tab");
             restoreTheme = () -> { tabs.run(); body.run(); };
         }

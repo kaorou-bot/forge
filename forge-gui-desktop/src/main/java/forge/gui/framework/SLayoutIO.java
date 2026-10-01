@@ -90,15 +90,36 @@ public final class SLayoutIO {
     }
 
     public static void revertLayout() {
+        if (!validateMatchSkin()) { return; }
         SOverlayUtils.genericOverlay();
         FView.SINGLETON_INSTANCE.getPnlContent().removeAll();
 
-        FThreads.invokeInEdtLater(() -> {
+        FThreads.invokeInEdtLater(SLayoutIO::finishRevertLayout);
+    }
+
+    /** Finish detaching the previous skin before the caller removes its on-disk assets. */
+    public static void revertLayoutNow() {
+        FThreads.invokeInEdtAndWait(() -> {
+            if (!validateMatchSkin()) { return; }
+            SOverlayUtils.genericOverlay();
+            FView.SINGLETON_INSTANCE.getPnlContent().removeAll();
+            finishRevertLayout();
+        });
+    }
+
+    private static boolean validateMatchSkin() {
+        final var view = Singletons.getControl().getCurrentScreen().getView();
+        return !(view instanceof forge.screens.match.VMatchUI match) || match.getDesktopUi().preflight(match.getDesktopDocuments());
+    }
+
+    private static void finishRevertLayout() {
+        try {
             SLayoutIO.loadLayout(null);
             Singletons.getControl().getCurrentScreen().getView().populate();
             Singletons.getControl().getForgeMenu().refresh();
+        } finally {
             SOverlayUtils.hideOverlay();
-        });
+        }
     }
 
     public static void saveWindowLayout() {

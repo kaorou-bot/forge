@@ -231,6 +231,14 @@ public class FButton extends SkinnedButton implements ILocalRepaint, IButton {
                 instanceof forge.screens.match.layout.MatchSkinTheme.Style style) {
             final Graphics2D themed = (Graphics2D) g.create();
             try {
+                if (style.visual() != null) {
+                    final var chosen = style.state(isEnabled(), hovered, getModel().isPressed(), isToggled() || getModel().isSelected() || isFocusOwner());
+                    themed.setFont(getFont().deriveFont(chosen.fontSize())); themed.setColor(getForeground());
+                    chosen.paint(themed, getWidth(), getHeight(), isFocusOwner(), getModel().isPressed());
+                    if (!chosen.visual().paintContent(themed, getWidth(), getHeight(), getText(), chosen.fontSize() != style.fontSize())) { super.paintComponent(themed); }
+                    chosen.paintFrame(themed, getWidth(), getHeight());
+                    return;
+                }
                 if (!isEnabled()) { themed.setComposite(disabledComposite); }
                 style.paint(themed, getWidth(), getHeight(), getModel().isRollover() || isFocusOwner(),
                         getModel().isPressed());

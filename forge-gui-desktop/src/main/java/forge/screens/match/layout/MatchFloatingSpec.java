@@ -16,7 +16,7 @@ public record MatchFloatingSpec(MatchUiLayout.Bounds bounds, MatchVisibility vis
         }
         final MatchVisibility visibility = json.has("visibleWhen")
                 ? MatchVisibility.valueOf(json.get("visibleWhen").getAsString()) : MatchVisibility.ALWAYS;
-        if (visibility != MatchVisibility.ALWAYS && visibility != MatchVisibility.STACK_NONEMPTY) {
+        if (visibility != MatchVisibility.ALWAYS && visibility != MatchVisibility.STACK_NONEMPTY && visibility != MatchVisibility.STACK_EMPTY) {
             throw new IllegalArgumentException("Floating documents need a global visibility condition");
         }
         return new MatchFloatingSpec(MatchUiLayout.bounds(json.get("bounds")), visibility,

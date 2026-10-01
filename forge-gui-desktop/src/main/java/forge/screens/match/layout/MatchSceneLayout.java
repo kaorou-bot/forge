@@ -9,7 +9,12 @@ import java.util.Set;
 /** Independent live widgets and reversible surface decoration in screen coordinates. */
 public record MatchSceneLayout(Map<String, MatchUiLayout.Bounds> widgets, MatchSurfaceStyle surface,
         Map<String, MatchSurfaceStyle> styles, Map<String, String> renderers,
-        Map<String, MatchVisibility> visibility, Map<String, MatchFloatingSpec> floating, MatchSkinTheme appearance) {
+        Map<String, MatchVisibility> visibility, Map<String, MatchFloatingSpec> floating, MatchSkinTheme appearance, Map<String, MatchAnchor> anchors) {
+    public MatchSceneLayout(Map<String, MatchUiLayout.Bounds> widgets, MatchSurfaceStyle surface, Map<String, MatchSurfaceStyle> styles,
+            Map<String,String> renderers, Map<String,MatchVisibility> visibility, Map<String,MatchFloatingSpec> floating, MatchSkinTheme appearance) {
+        this(widgets,surface,styles,renderers,visibility,floating,appearance,Map.of());
+    }
+    public MatchSceneLayout withAppearance(MatchSkinTheme theme) { return new MatchSceneLayout(widgets,surface,styles,renderers,visibility,floating,theme,anchors); }
     public MatchSceneLayout(Map<String, MatchUiLayout.Bounds> widgets, MatchSurfaceStyle surface,
             Map<String, MatchSurfaceStyle> styles, Map<String, String> renderers) {
         this(widgets, surface, styles, renderers, Map.of(), Map.of(), null);
@@ -23,12 +28,15 @@ public record MatchSceneLayout(Map<String, MatchUiLayout.Bounds> widgets, MatchS
         renderers = Map.copyOf(renderers);
         visibility = Map.copyOf(visibility);
         floating = Map.copyOf(floating);
+        anchors = Map.copyOf(anchors);
+        if (!widgets.keySet().containsAll(anchors.keySet())) { throw new IllegalArgumentException("Anchor target not in widgets"); }
         for (var entry : visibility.entrySet()) {
             if (!widgets.containsKey(entry.getKey())) { throw new IllegalArgumentException("Unknown conditional widget: " + entry.getKey()); }
             final String type = entry.getKey().substring(entry.getKey().indexOf('.') + 1);
             // Required action, player-selection and phase controls must remain reachable.
             if (entry.getValue() != MatchVisibility.ALWAYS
                     && !(entry.getValue() == MatchVisibility.MANA_NONEMPTY && (type.equals("MANA") || type.startsWith("MANA_")))
+                    && !(entry.getValue() == MatchVisibility.STATUS_NONEMPTY && type.equals("STATUS"))
                     && !(entry.getValue() == MatchVisibility.STACK_NONEMPTY && type.equals("STACK_STATUS"))) {
                 throw new IllegalArgumentException("Unsupported visibility condition for " + entry.getKey());
             }
@@ -68,6 +76,7 @@ public record MatchSceneLayout(Map<String, MatchUiLayout.Bounds> widgets, MatchS
         for (var entry : renderers.entrySet()) {
             final String type = entry.getKey().substring(entry.getKey().indexOf('.') + 1);
             final String renderer = entry.getValue();
+            if (entry.getKey().equals("PHASES_ACTIVE") && Set.of("PHASES_SPLIT", "PHASES_OVERVIEW").contains(renderer)) { continue; }
             if (entry.getKey().equals("PHASES_ACTIVE") || !widgets.containsKey(entry.getKey()) || !MatchWidgetRegistry.contains(renderer)
                     || !(renderer.equals(type) || (type.startsWith("ZONE_") && Set.of("ZONE_PILE", "ZONE_BUTTON").contains(renderer))
                     || renderer.startsWith("CUSTOM_"))) {
@@ -127,11 +136,15 @@ public record MatchSceneLayout(Map<String, MatchUiLayout.Bounds> widgets, MatchS
         }
     }
     public boolean supports(List<String> documents) {
+        if (!overviewPhases() && widgets.keySet().stream().anyMatch(k -> k.endsWith(".PHASES"))) { return false; }
         if (documents.stream().filter(id -> id.startsWith("HAND_")).count() > 1) { return false; }
+        if (splitPhases() && !documents.stream().filter(id -> id.startsWith("FIELD_")).collect(java.util.stream.Collectors.toSet())
+                .equals(Set.of("FIELD_0", "FIELD_1"))) { return false; }
         final Set<String> fields = new java.util.HashSet<>();
         for (String id : documents) {
             if (!id.startsWith("FIELD_")) { continue; }
             fields.add(id);
+            if (overviewPhases() && !widgets.containsKey(id + ".PHASES")) { return false; }
             final java.util.function.Predicate<String> has = type -> widgets.containsKey(id + "." + type);
             if (!has.test("AVATAR") && !(has.test("AVATAR_IMAGE") && has.test("LIFE") && has.test("STATUS"))) { return false; }
             final boolean mana = has.test("MANA") || List.of("W", "U", "B", "R", "G", "C").stream().allMatch(c -> has.test("MANA_" + c));
@@ -142,21 +155,37 @@ public record MatchSceneLayout(Map<String, MatchUiLayout.Bounds> widgets, MatchS
                 .allMatch(id -> fields.contains(id.substring(0, id.indexOf('.'))));
     }
     static MatchSceneLayout read(JsonObject json) { return read(json, null, false); }
+    public boolean splitPhases() { return "PHASES_SPLIT".equals(renderers.get("PHASES_ACTIVE")); }
+    public boolean overviewPhases() { return "PHASES_OVERVIEW".equals(renderers.get("PHASES_ACTIVE")); }
     static MatchSceneLayout read(JsonObject json, java.nio.file.Path assets, boolean version3) {
-        MatchUiLayout.keys(json, version3 ? Set.of("widgets", "surface", "styles", "renderers", "visibility", "floating", "appearance")
+        return read(json, assets, version3, false);
+    }
+    static MatchSceneLayout read(JsonObject json, java.nio.file.Path assets, boolean version3, boolean version4) {
+        MatchUiLayout.keys(json, version3 ? Set.of("widgets", "surface", "styles", "renderers", "visibility", "floating", "appearance", "anchors")
                 : Set.of("widgets", "surface", "styles", "renderers"));
         final Map<String, MatchUiLayout.Bounds> widgets = new LinkedHashMap<>();
         final Map<String, MatchSurfaceStyle> styles = new LinkedHashMap<>();
         final Map<String, String> renderers = new LinkedHashMap<>();
+        final Map<String, MatchAnchor> anchors = new LinkedHashMap<>();
+        if (json.has("anchors")) {
+            if (!version4) { throw new IllegalArgumentException("Anchors require an enhanced scene client"); }
+            json.getAsJsonObject("anchors").entrySet().forEach(e -> anchors.put(e.getKey(),MatchAnchor.read(e.getValue().getAsJsonObject())));
+        }
         json.getAsJsonObject("widgets").entrySet().forEach(e -> widgets.put(e.getKey(), MatchUiLayout.bounds(e.getValue())));
         if (json.has("styles")) { json.getAsJsonObject("styles").entrySet().forEach(e -> styles.put(e.getKey(), MatchSurfaceStyle.read(e.getValue().getAsJsonObject()))); }
         if (json.has("renderers")) { json.getAsJsonObject("renderers").entrySet().forEach(e -> renderers.put(e.getKey(), e.getValue().getAsString())); }
+        if (!version4 && "PHASES_SPLIT".equals(renderers.get("PHASES_ACTIVE"))) {
+            throw new IllegalArgumentException("PHASES_SPLIT requires version 4");
+        }
         final Map<String, MatchVisibility> visibility = new LinkedHashMap<>();
         final Map<String, MatchFloatingSpec> floating = new LinkedHashMap<>();
         if (json.has("visibility")) { json.getAsJsonObject("visibility").entrySet().forEach(e -> visibility.put(e.getKey(), MatchVisibility.valueOf(e.getValue().getAsString()))); }
+        if (!version4 && visibility.containsValue(MatchVisibility.STATUS_NONEMPTY)) {
+            throw new IllegalArgumentException("scene.visibility: STATUS_NONEMPTY requires match-ui v4 and skin capabilities 2026-10-01.1");
+        }
         if (json.has("floating")) { json.getAsJsonObject("floating").entrySet().forEach(e -> floating.put(e.getKey(), MatchFloatingSpec.read(e.getValue().getAsJsonObject()))); }
         return new MatchSceneLayout(widgets, json.has("surface") ? MatchSurfaceStyle.read(json.getAsJsonObject("surface")) : MatchSurfaceStyle.CLEAR,
                 styles, renderers, visibility, floating,
-                json.has("appearance") ? MatchSkinTheme.read(json.getAsJsonObject("appearance"), assets) : null);
+                json.has("appearance") ? MatchSkinTheme.read(json.getAsJsonObject("appearance"), assets, version4) : null, anchors);
     }
 }

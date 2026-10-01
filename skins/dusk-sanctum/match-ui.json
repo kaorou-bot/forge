@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 4,
   "id": "dusk-sanctum",
   "regions": [
     {
@@ -7,7 +7,7 @@
         0.18,
         0.13,
         0.64,
-        0.28
+        0.264
       ],
       "documents": [
         "opponents"
@@ -17,9 +17,9 @@
     {
       "bounds": [
         0.18,
-        0.46,
+        0.474,
         0.64,
-        0.26
+        0.246
       ],
       "documents": [
         "FIELD_0"
@@ -28,9 +28,9 @@
     {
       "bounds": [
         0.18,
-        0.72,
+        0.728,
         0.64,
-        0.21
+        0.2
       ],
       "documents": [
         "hands"
@@ -39,22 +39,21 @@
     },
     {
       "bounds": [
-        0.83,
-        0.12,
-        0.165,
-        0.57
+        0.832,
+        0.015,
+        0.156,
+        0.358
       ],
       "documents": [
-        "CARD_PICTURE",
-        "CARD_DETAIL"
+        "CARD_PICTURE"
       ]
     },
     {
       "bounds": [
-        0.83,
-        0.71,
-        0.165,
-        0.18
+        0.832,
+        0.683,
+        0.156,
+        0.2
       ],
       "documents": [
         "REPORT_LOG",
@@ -76,154 +75,154 @@
         0.12
       ],
       "PHASES_ACTIVE": [
-        0.015,
-        0.415,
-        0.79,
-        0.035
-      ],
-      "ACTION_END_TURN": [
-        0.83,
-        0.9,
-        0.08,
-        0.045
-      ],
-      "ACTION_YIELD_SETTINGS": [
-        0.915,
-        0.9,
-        0.08,
-        0.045
-      ],
-      "ACTIONS_MENU": [
-        0.83,
-        0.95,
-        0.165,
-        0.045
-      ],
-      "FIELD_1.ZONE_LIBRARY": [
-        0.015,
-        0.015,
-        0.049,
-        0.115
-      ],
-      "FIELD_1.ZONE_GRAVEYARD": [
-        0.07,
-        0.015,
-        0.049,
-        0.115
-      ],
-      "FIELD_1.ZONE_EXILE": [
-        0.125,
-        0.015,
-        0.049,
-        0.115
+        0.18,
+        0.402,
+        0.64,
+        0.064
       ],
       "FIELD_1.AVATAR_IMAGE": [
-        0.02,
-        0.15,
-        0.085,
-        0.15
+        0.034,
+        0.015,
+        0.106,
+        0.135
       ],
       "FIELD_1.NAME": [
-        0.11,
-        0.15,
-        0.064,
-        0.045
+        0.012,
+        0.155,
+        0.154,
+        0.03
       ],
       "FIELD_1.LIFE": [
-        0.11,
-        0.2,
-        0.064,
-        0.065
+        0.021,
+        0.19,
+        0.136,
+        0.055
       ],
       "FIELD_1.STATUS": [
-        0.11,
-        0.27,
-        0.064,
-        0.035
+        0.013,
+        0.25,
+        0.152,
+        0.025
       ],
       "FIELD_1.MANA": [
-        0.02,
-        0.315,
+        0.013,
+        0.279,
+        0.152,
+        0.032
+      ],
+      "FIELD_1.ZONE_LIBRARY": [
+        0.012,
+        0.318,
         0.154,
-        0.04
+        0.031
+      ],
+      "FIELD_1.ZONE_GRAVEYARD": [
+        0.012,
+        0.355,
+        0.154,
+        0.031
+      ],
+      "FIELD_1.ZONE_EXILE": [
+        0.012,
+        0.392,
+        0.154,
+        0.031
       ],
       "FIELD_1.OTHER_ZONES": [
-        0.02,
-        0.365,
+        0.012,
+        0.435,
         0.154,
-        0.035
+        0.03
       ],
       "FIELD_0.AVATAR_IMAGE": [
-        0.02,
-        0.48,
-        0.085,
-        0.15
+        0.034,
+        0.496,
+        0.106,
+        0.134
       ],
       "FIELD_0.NAME": [
-        0.11,
-        0.48,
-        0.064,
-        0.045
+        0.012,
+        0.635,
+        0.154,
+        0.026
       ],
       "FIELD_0.LIFE": [
-        0.11,
-        0.53,
-        0.064,
-        0.065
+        0.021,
+        0.665,
+        0.136,
+        0.05
       ],
       "FIELD_0.STATUS": [
-        0.11,
-        0.6,
-        0.064,
-        0.035
+        0.013,
+        0.72,
+        0.152,
+        0.02
       ],
       "FIELD_0.MANA": [
-        0.02,
-        0.645,
-        0.154,
-        0.04
-      ],
-      "FIELD_0.OTHER_ZONES": [
-        0.02,
-        0.695,
-        0.154,
-        0.035
+        0.013,
+        0.745,
+        0.152,
+        0.026
       ],
       "FIELD_0.ZONE_LIBRARY": [
-        0.015,
-        0.775,
-        0.049,
-        0.14
+        0.012,
+        0.777,
+        0.154,
+        0.032
       ],
       "FIELD_0.ZONE_GRAVEYARD": [
-        0.07,
-        0.775,
-        0.049,
-        0.14
+        0.012,
+        0.814,
+        0.154,
+        0.032
       ],
       "FIELD_0.ZONE_EXILE": [
-        0.125,
-        0.775,
-        0.049,
-        0.14
+        0.012,
+        0.851,
+        0.154,
+        0.032
+      ],
+      "FIELD_0.OTHER_ZONES": [
+        0.012,
+        0.891,
+        0.154,
+        0.027
       ],
       "PROMPT_MESSAGE": [
-        0.02,
-        0.937,
-        0.53,
-        0.061
+        0.012,
+        0.94,
+        0.535,
+        0.055
       ],
       "PROMPT_OK": [
-        0.56,
+        0.558,
         0.95,
-        0.115,
-        0.045
+        0.118,
+        0.042
       ],
       "PROMPT_CANCEL": [
-        0.685,
+        0.688,
         0.95,
         0.13,
-        0.045
+        0.042
+      ],
+      "ACTION_END_TURN": [
+        0.832,
+        0.895,
+        0.074,
+        0.041
+      ],
+      "ACTION_YIELD_SETTINGS": [
+        0.914,
+        0.895,
+        0.074,
+        0.041
+      ],
+      "ACTIONS_MENU": [
+        0.832,
+        0.95,
+        0.156,
+        0.042
       ]
     },
     "visibility": {
@@ -234,18 +233,33 @@
       "REPORT_STACK": {
         "bounds": [
           0.61,
-          0.15,
-          0.205,
-          0.46
+          0.145,
+          0.208,
+          0.262
         ],
-        "visibleWhen": "STACK_NONEMPTY",
+        "draggable": true,
+        "visibleWhen": "STACK_NONEMPTY"
+      },
+      "CARD_DETAIL": {
+        "bounds": [
+          0.832,
+          0.389,
+          0.156,
+          0.28
+        ],
         "draggable": true
       }
     },
+    "renderers": {
+      "PHASES_ACTIVE": "PHASES_SPLIT"
+    },
     "appearance": {
-      "background": "images/table.png",
+      "background": {
+        "path": "images/table.png",
+        "mode": "COVER"
+      },
       "font": "fonts/NotoSansCJKsc-Regular.otf",
-      "text": "#E9DDC8",
+      "text": "#EEE5D3",
       "styles": {
         "default": {
           "radius": 8,
@@ -253,59 +267,154 @@
           "fontSize": 14
         },
         "avatar": {
+          "shape": "HEXAGON",
           "fill": "#111B23B0",
           "border": "#B58B48",
-          "highlight": "#F3BD64",
-          "radius": 18,
-          "padding": 5
+          "borderWidth": 2,
+          "padding": 3,
+          "states": {
+            "hover": {
+              "border": "#9BD3D2"
+            },
+            "selected": {
+              "border": "#FFD287",
+              "borderWidth": 4
+            }
+          }
         },
         "life": {
-          "fill": "#111B23D0",
+          "fill": "#101B25D0",
           "border": "#A9874D",
-          "highlight": "#E8B365",
-          "radius": 20,
+          "radius": 18,
           "padding": 2,
-          "fontSize": 28
+          "fontSize": 30,
+          "icon": {
+            "path": "images/life.png",
+            "mode": "CONTAIN"
+          },
+          "iconBounds": [
+            0.04,
+            0.18,
+            0.18,
+            0.64
+          ],
+          "textBounds": [
+            0.25,
+            0,
+            0.7,
+            1
+          ],
+          "states": {
+            "hover": {
+              "border": "#9BD3D2"
+            },
+            "selected": {
+              "border": "#FFD287",
+              "borderWidth": 3
+            }
+          }
         },
         "zone": {
-          "fill": "#101B25B8",
+          "fill": "#111D29D0",
           "border": "#786544",
-          "highlight": "#83C4CC",
-          "radius": 8,
-          "padding": 3,
-          "fontSize": 12
+          "radius": 9,
+          "padding": 1,
+          "fontSize": 12,
+          "states": {
+            "hover": {
+              "fill": "#28414D",
+              "border": "#99CBCD"
+            },
+            "pressed": {
+              "fill": "#0A141D"
+            }
+          }
         },
         "phase": {
-          "fill": "#111C26E0",
+          "fill": "#101B26E8",
           "border": "#66583F",
-          "highlight": "#A87839",
-          "radius": 6,
+          "radius": 5,
           "padding": 1,
-          "fontSize": 13
+          "fontSize": 12,
+          "states": {
+            "selected": {
+              "fill": "#73562F",
+              "border": "#F3C777",
+              "textColor": "#FFF5DC"
+            },
+            "hover": {
+              "fill": "#294450",
+              "border": "#91C8CB"
+            }
+          }
         },
         "button": {
           "fill": "#263744",
           "border": "#B18C50",
-          "highlight": "#5F999F",
           "radius": 10,
-          "padding": 3,
-          "fontSize": 13
+          "padding": 2,
+          "fontSize": 13,
+          "states": {
+            "hover": {
+              "fill": "#365560",
+              "border": "#B2DEE0",
+              "textColor": "#FFFFFF"
+            },
+            "pressed": {
+              "fill": "#10232D"
+            },
+            "selected": {
+              "border": "#F3C777"
+            },
+            "disabled": {
+              "fill": "#18222B",
+              "border": "#4B514F",
+              "textColor": "#89928E"
+            }
+          }
+        },
+        "PROMPT_OK": {
+          "fill": "#355A5B",
+          "border": "#AED7CB",
+          "radius": 10,
+          "padding": 2,
+          "fontSize": 15,
+          "states": {
+            "hover": {
+              "fill": "#4C7979",
+              "textColor": "#FFFFFF"
+            },
+            "pressed": {
+              "fill": "#17373B"
+            },
+            "disabled": {
+              "fill": "#18222B",
+              "border": "#4B514F",
+              "textColor": "#89928E"
+            }
+          }
         },
         "floating": {
-          "fill": "#101D29F8",
-          "border": "#D2AA62",
-          "highlight": "#91C8CB",
-          "radius": 14,
-          "padding": 10,
-          "fontSize": 16
+          "fill": "#101D2900",
+          "border": "#BB975B",
+          "radius": 12,
+          "padding": 7,
+          "fontSize": 15
+        },
+        "floating.CARD_DETAIL": {
+          "fill": "#101D2900",
+          "border": "#927849",
+          "radius": 12,
+          "padding": 7,
+          "fontSize": 14
         },
         "tab": {
-          "fill": "#182733",
+          "fill": "#182733E8",
           "border": "#907346",
-          "highlight": "#A87839",
+          "highlight": "#89653B",
           "radius": 7,
           "padding": 2,
-          "fontSize": 13
+          "fontSize": 12
         },
         "actions": {
           "fill": "#101D29",
@@ -315,16 +424,249 @@
           "fontSize": 16
         },
         "text": {
-          "fill": "#162330",
-          "fontSize": 14
+          "fontSize": 15,
+          "textColor": "#F5F8FA"
+        },
+        "FIELD_0.ZONE_LIBRARY": {
+          "fill": "#111D29D0",
+          "border": "#786544",
+          "radius": 9,
+          "padding": 1,
+          "fontSize": 12,
+          "states": {
+            "hover": {
+              "fill": "#28414D",
+              "border": "#99CBCD"
+            },
+            "pressed": {
+              "fill": "#0A141D"
+            }
+          },
+          "icon": {
+            "path": "images/library.png",
+            "mode": "CONTAIN"
+          },
+          "iconBounds": [
+            0.035,
+            0.1,
+            0.16,
+            0.8
+          ],
+          "textBounds": [
+            0.21,
+            0,
+            0.77,
+            1
+          ]
+        },
+        "FIELD_0.ZONE_GRAVEYARD": {
+          "fill": "#111D29D0",
+          "border": "#786544",
+          "radius": 9,
+          "padding": 1,
+          "fontSize": 12,
+          "states": {
+            "hover": {
+              "fill": "#28414D",
+              "border": "#99CBCD"
+            },
+            "pressed": {
+              "fill": "#0A141D"
+            }
+          },
+          "icon": {
+            "path": "images/graveyard.png",
+            "mode": "CONTAIN"
+          },
+          "iconBounds": [
+            0.035,
+            0.1,
+            0.16,
+            0.8
+          ],
+          "textBounds": [
+            0.21,
+            0,
+            0.77,
+            1
+          ]
+        },
+        "FIELD_0.ZONE_EXILE": {
+          "fill": "#111D29D0",
+          "border": "#786544",
+          "radius": 9,
+          "padding": 1,
+          "fontSize": 12,
+          "states": {
+            "hover": {
+              "fill": "#28414D",
+              "border": "#99CBCD"
+            },
+            "pressed": {
+              "fill": "#0A141D"
+            }
+          },
+          "icon": {
+            "path": "images/exile.png",
+            "mode": "CONTAIN"
+          },
+          "iconBounds": [
+            0.035,
+            0.1,
+            0.16,
+            0.8
+          ],
+          "textBounds": [
+            0.21,
+            0,
+            0.77,
+            1
+          ]
+        },
+        "FIELD_1.ZONE_LIBRARY": {
+          "fill": "#111D29D0",
+          "border": "#786544",
+          "radius": 9,
+          "padding": 1,
+          "fontSize": 12,
+          "states": {
+            "hover": {
+              "fill": "#28414D",
+              "border": "#99CBCD"
+            },
+            "pressed": {
+              "fill": "#0A141D"
+            }
+          },
+          "icon": {
+            "path": "images/library.png",
+            "mode": "CONTAIN"
+          },
+          "iconBounds": [
+            0.035,
+            0.1,
+            0.16,
+            0.8
+          ],
+          "textBounds": [
+            0.21,
+            0,
+            0.77,
+            1
+          ]
+        },
+        "FIELD_1.ZONE_GRAVEYARD": {
+          "fill": "#111D29D0",
+          "border": "#786544",
+          "radius": 9,
+          "padding": 1,
+          "fontSize": 12,
+          "states": {
+            "hover": {
+              "fill": "#28414D",
+              "border": "#99CBCD"
+            },
+            "pressed": {
+              "fill": "#0A141D"
+            }
+          },
+          "icon": {
+            "path": "images/graveyard.png",
+            "mode": "CONTAIN"
+          },
+          "iconBounds": [
+            0.035,
+            0.1,
+            0.16,
+            0.8
+          ],
+          "textBounds": [
+            0.21,
+            0,
+            0.77,
+            1
+          ]
+        },
+        "FIELD_1.ZONE_EXILE": {
+          "fill": "#111D29D0",
+          "border": "#786544",
+          "radius": 9,
+          "padding": 1,
+          "fontSize": 12,
+          "states": {
+            "hover": {
+              "fill": "#28414D",
+              "border": "#99CBCD"
+            },
+            "pressed": {
+              "fill": "#0A141D"
+            }
+          },
+          "icon": {
+            "path": "images/exile.png",
+            "mode": "CONTAIN"
+          },
+          "iconBounds": [
+            0.035,
+            0.1,
+            0.16,
+            0.8
+          ],
+          "textBounds": [
+            0.21,
+            0,
+            0.77,
+            1
+          ]
         }
       }
     }
   },
   "cards": {
     "hand": "fan",
-    "fanDegrees": 22,
+    "fanDegrees": 18,
+    "handSpacing": 0.7,
+    "handArc": 0.55,
+    "hoverLift": 0.12,
     "overlay": "badges",
-    "battlefield": "lanes"
+    "battlefield": "adaptive",
+    "battlefieldAlign": "CENTER",
+    "battlefieldGap": 8,
+    "battlefieldRowGap": 6,
+    "badges": {
+      "powerToughness": {
+        "bounds": [
+          0.47,
+          0.82,
+          0.53,
+          0.18
+        ],
+        "fill": "#17252BE8",
+        "fontSize": 12,
+        "text": "#FFF1D7"
+      },
+      "counters": {
+        "bounds": [
+          0,
+          0,
+          1,
+          0.45
+        ],
+        "fill": "#101D29C8",
+        "fontSize": 11,
+        "text": "#DFECE4"
+      },
+      "damage": {
+        "bounds": [
+          0,
+          0.82,
+          0.44,
+          0.18
+        ],
+        "fill": "#702D2DE8",
+        "fontSize": 12,
+        "text": "#FFFFFF"
+      }
+    }
   }
 }

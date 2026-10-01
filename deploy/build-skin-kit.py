@@ -22,6 +22,7 @@ def between(text, start, end, replacement):
 
 
 def standalone_spec(text):
+    text = text.replace('(DesktopMatchSkin-v4.zh-CN.md)', '(v4扩展规范.md)')
     text = text.replace('背景设计记录见 [桌面对战接口](DesktopMatchUI.zh-CN.md)。', '')
     text = text.replace('(DesktopMatchSkin-Guide.zh-CN.md)', '(制作入门.md)')
     text = text.replace('以下源码路径均相对仓库根目录。', '本文已给出制作所需的数据接口。源码索引仅供需要扩展主程序时参考，独立制作不需要获取源码。')
@@ -143,21 +144,30 @@ def main():
     out.mkdir(parents=True)
     for directory in ('docs', 'tools', 'examples/minimal', 'ready-to-import', 'previews', 'validation'):
         (out / directory).mkdir(parents=True, exist_ok=True)
-    for name in ('skin_tool.py', 'test_skin_tool.py'):
+    for name in ('skin_tool.py', 'test_skin_tool.py', 'test_authoring.py', 'test_v5.py', 'make_v4_example.py', 'make_v5_example.py'):
         shutil.copy2(source / name, out / 'tools' / name)
+    shutil.copy2(root / 'forge-gui-desktop/src/main/resources/forge/skin-capabilities.json', out / 'tools/skin-capabilities.json')
+    shutil.copy2(source / 'AUTHORING-WORKFLOW.md', out / 'docs/高效制作与排错.md')
     for name in ('README.md', 'NOTICE.md'):
         shutil.copy2(source / name, out / name)
     shutil.copy2(root / 'LICENSE', out / 'LICENSE.txt')
     shutil.copy2(source / 'TOOL-GUIDE.md', out / 'docs/独立工具说明.md')
     shutil.copy2(source / 'ACCEPTANCE.md', out / 'docs/验收清单.md')
     shutil.copy2(source / 'AI-TASK.txt', out / 'docs/AI任务模板.txt')
+    shutil.copy2(root / 'docs/DesktopMatchSkin-v4.zh-CN.md', out / 'docs/v4扩展规范.md')
+    shutil.copy2(root / 'docs/DesktopMatchSkin-v5.zh-CN.md', out / 'docs/v5扩展规范.md')
     guide = (root / 'docs/DesktopMatchSkin-Guide.zh-CN.md').read_text(encoding='utf-8')
     guide = guide.replace('源码中的原件在 `skins/dusk-sanctum/`', '资料包中的原件在 `examples/dusk-sanctum/`')
     guide = guide.replace('(DesktopMatchSkin-AI-Spec.zh-CN.md)', '(AI制作规范.md)')
+    guide = guide.replace('(DesktopMatchSkin-v4.zh-CN.md)', '(v4扩展规范.md)')
+    guide = guide.replace('(DesktopMatchSkin-v5.zh-CN.md)', '(v5扩展规范.md)')
     (out / 'docs/制作入门.md').write_text(guide, encoding='utf-8')
     spec = (root / 'docs/DesktopMatchSkin-AI-Spec.zh-CN.md').read_text(encoding='utf-8')
     (out / 'docs/AI制作规范.md').write_text(standalone_spec(spec), encoding='utf-8')
     shutil.copytree(root / 'skins/dusk-sanctum', out / 'examples/dusk-sanctum')
+    shutil.copytree(root / 'skins/dusk-observatory', out / 'examples/dusk-observatory')
+    subprocess.run([sys.executable, '-B', str(source / 'make_v4_example.py'), '--base', str(out / 'examples/dusk-sanctum'),
+                    '--out', str(out / 'examples/v4-workbench')], check=True)
     skin_readme = (out / 'examples/dusk-sanctum/README.md').read_text(encoding='utf-8')
     skin_readme = skin_readme.split('## 制作自己的皮肤')[0] + '## 制作自己的皮肤\n\n请阅读资料包根目录的 README.md 以及 docs 中的独立说明。\n'
     (out / 'examples/dusk-sanctum/README.md').write_text(skin_readme, encoding='utf-8')
@@ -170,14 +180,14 @@ def main():
     module_spec = importlib.util.spec_from_file_location('skin_tool', source / 'skin_tool.py')
     tool = importlib.util.module_from_spec(module_spec)
     module_spec.loader.exec_module(tool)
-    for name in ('minimal', 'dusk-sanctum'):
+    for name in ('minimal', 'dusk-sanctum', 'v4-workbench', 'dusk-observatory'):
         files = tool.read_package(out / 'examples' / name)
         config, report = tool.validate(files)
         tool.pack(files, out / 'ready-to-import' / (name + '.zip'))
         tool.validate(tool.read_package(out / 'ready-to-import' / (name + '.zip')))
         tool.preview(config, files, out / 'previews' / (name + '.html'))
         (out / 'validation' / (name + '.json')).write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding='utf-8')
-    test = subprocess.run([sys.executable, '-B', '-m', 'unittest', '-v', 'test_skin_tool.py'], cwd=out / 'tools', capture_output=True)
+    test = subprocess.run([sys.executable, '-B', '-m', 'unittest', '-v', 'test_skin_tool.py', 'test_authoring.py', 'test_v5.py'], cwd=out / 'tools', capture_output=True)
     (out / 'validation/tool-tests.txt').write_bytes(test.stdout + test.stderr)
     if test.returncode:
         raise SystemExit('Standalone tests failed; see validation/tool-tests.txt')
@@ -190,8 +200,13 @@ def main():
 无需 Forge 主程序与源码即可制作和静态校验；真实对局交互由使用者最后验收。
 
 - [先读 README](README.md)
+- [高效制作流程、尺寸诊断与排错](docs/高效制作与排错.md)
 - [制作入门](docs/制作入门.md)
 - [AI 制作规范](docs/AI制作规范.md)
+- [v4 新增能力与字段](docs/v4扩展规范.md)
+- [v5 响应式、个人设置与多人布局](docs/v5扩展规范.md)
+- [暮辉星台 v5 示例](previews/dusk-observatory.html)
+- [v4 接口工作台布局示意](previews/v4-workbench.html)
 - [独立工具说明](docs/独立工具说明.md)
 - [验收清单](docs/验收清单.md)
 - [给 AI 的任务文本](docs/AI任务模板.txt)
@@ -202,7 +217,7 @@ def main():
 可编辑示例在 examples，可直接导入的示例 ZIP 在 ready-to-import。工具位于 tools，只需要 Python 3.10 或更高版本。
 '''
     (out / '开始阅读.html').write_text(document_html(home), encoding='utf-8')
-    manifest = {"kit_version": tool.VERSION, "interface": "match-ui-v3", "reference_date": "2026-09-30",
+    manifest = {"kit_version": tool.VERSION, "interface": "match-ui-v3/v4/v5", "reference_date": "2026-10-02",
                 "python_minimum": "3.10", "requires_forge_for_authoring": False, "runtime_acceptance_required": True,
                 "files": {p.relative_to(out).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
                           for p in sorted(out.rglob('*')) if p.is_file()}}

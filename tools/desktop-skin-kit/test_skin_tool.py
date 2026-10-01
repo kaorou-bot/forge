@@ -34,6 +34,75 @@ def files(config=None):
 
 
 class ValidationTest(unittest.TestCase):
+    def test_adaptive_battlefield_requires_v4_and_preserves_legacy_modes(self):
+        config = minimal()
+        config['cards'] = {'battlefield': 'adaptive'}
+        self.reject(config)
+        config['version'] = 4
+        self.assertTrue(tool.validate(files(config))[1]['ok'])
+        config['cards']['battlefield'] = 'ADAPTIVE'
+        self.reject(config)
+        for version in (3, 4):
+            config['version'] = version
+            for mode in ('classic', 'lanes'):
+                config['cards']['battlefield'] = mode
+                self.assertTrue(tool.validate(files(config))[1]['ok'])
+
+    def test_split_phase_renderer_version_scope_and_capacity(self):
+        config = minimal()
+        config["version"] = 4
+        config["scene"]["renderers"] = {"PHASES_ACTIVE": "PHASES_SPLIT"}
+        self.assertTrue(tool.validate(files(config))[1]["ok"])
+        self.assertTrue(tool.supports(config, tool.documents(2, 1)))
+        for count in (1, 3, 8):
+            self.assertFalse(tool.supports(config, tool.documents(count, 1)))
+        for version in (3, 2):
+            config["version"] = version
+            self.reject(config)
+        config["version"] = 4
+        for renderers in ({"FIELD_0.AVATAR": "PHASES_SPLIT"}, {"PHASES_ACTIVE": "ZONE_BUTTON"}):
+            config["scene"]["renderers"] = renderers
+            self.reject(config)
+
+    def test_v4_controls_states_decorations_and_cards(self):
+        config = minimal()
+        config['version'] = 4
+        config['cards'] = {'hand':'fan', 'handSpacing':.6, 'handArc':.7, 'hoverLift':.2,
+                          'battlefield':'lanes','battlefieldAlign':'CENTER','battlefieldRowGap':8,
+                          'badges':{'powerToughness':{'bounds':[.5,.8,.5,.2],'fill':'#10102080'}}}
+        config['scene']['appearance'] = {'styles':{'button':{'shape':'HEXAGON', 'opacity':.8,
+            'states':{'hover':{'fill':'#123456'},'disabled':{'textColor':'#FFFFFF'}}}}}
+        self.assertTrue(tool.validate(files(config))[1]['ok'])
+        config['version'] = 3
+        self.reject(config)
+
+    def test_v4_bad_states_and_ranges(self):
+        for style in ({'states':{'hover':{'states':{}}}}, {'opacity':2}, {'shape':'STAR'},
+                      {'showText':'false'}, {'textBounds':[0,0,2,1]}, {'borderWidth':100}):
+            config = minimal()
+            config['version'] = 4
+            config['scene']['appearance'] = {'styles':{'button':style}}
+            self.reject(config)
+        for card in ({'hoverLift':1}, {'handSpacing':0}, {'battlefieldGap':.5}, {'battlefieldAlign':'MIDDLE'}):
+            config = minimal()
+            config['version'] = 4
+            config['cards'] = card
+            self.reject(config)
+
+    def test_v4_texture_and_standalone_example(self):
+        import make_v4_example
+        config = minimal()
+        config['version'] = 4
+        config['scene']['appearance'] = {'background':{'path':'icon.png','mode':'NINE_SLICE','slices':[6,6,6,6]},
+            'decorations':[{'image':{'path':'icon.png','mode':'CONTAIN'},'bounds':[0,0,1,1],'plane':'FOREGROUND'}]}
+        package = files(config)
+        package['icon.png'] = make_v4_example.png('life')
+        self.assertTrue(tool.validate(package)[1]['ok'])
+        config['scene']['appearance']['background']['slices'] = [32,32,32,32]
+        package['match-ui.json'] = json.dumps(config).encode()
+        with self.assertRaises(tool.Invalid):
+            tool.validate(package)
+
     def reject(self, config):
         with self.assertRaises(tool.Invalid):
             tool.validate(files(config))

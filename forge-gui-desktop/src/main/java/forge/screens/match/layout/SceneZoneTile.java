@@ -18,10 +18,15 @@ final class SceneZoneTile extends JComponent {
     private final PlayerView player;
     private final ZoneType zone;
     private final boolean pile;
+    private boolean hovered, pressed;
     SceneZoneTile(CMatchUI match, PlayerView player, ZoneType zone, boolean pile) {
         this.match = match; this.player = player; this.zone = zone; this.pile = pile;
         setToolTipText(player.getName() + " · " + zone.getTranslatedName());
         addMouseListener(new MouseAdapter() {
+            @Override public void mouseEntered(MouseEvent e) { hovered = true; repaint(); }
+            @Override public void mouseExited(MouseEvent e) { hovered = false; pressed = false; repaint(); }
+            @Override public void mousePressed(MouseEvent e) { pressed = javax.swing.SwingUtilities.isLeftMouseButton(e); repaint(); }
+            @Override public void mouseReleased(MouseEvent e) { pressed = false; repaint(); }
             @Override public void mouseClicked(MouseEvent e) {
                 if (javax.swing.SwingUtilities.isRightMouseButton(e)) {
                     match.getFieldViewFor(player).getLayoutControl().showZoneMenu(zone, e);
@@ -37,6 +42,18 @@ final class SceneZoneTile extends JComponent {
     @Override protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         final int count = player.getZoneSize(zone);
+        if (getClientProperty(MatchSkinTheme.STYLE_PROPERTY) instanceof MatchSkinTheme.Style base && base.visual() != null
+                && base.state(isEnabled(), hovered, pressed, false).visual().icon() != null) {
+            final var style = base.state(isEnabled(), hovered, pressed, false);
+            final var graphics = (java.awt.Graphics2D) g.create();
+            try {
+                graphics.setFont(getFont().deriveFont(style.fontSize())); graphics.setColor(getForeground());
+                style.paint(graphics, getWidth(), getHeight(), hovered, pressed);
+                style.visual().paintContent(graphics, getWidth(), getHeight(), zone.getTranslatedName() + " · " + count, true);
+                style.paintFrame(graphics, getWidth(), getHeight());
+            } finally { graphics.dispose(); }
+            return; // Custom icon replaces preview, never requests hidden identities.
+        }
         if (pile && count > 0) {
             final int height = Math.max(1, getHeight() - 24);
             final int width = Math.max(1, Math.min(getWidth() - 4, (int) (height / 1.4)));

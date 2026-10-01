@@ -289,6 +289,8 @@ public class CardPanel extends SkinnedPanel implements CardContainer, IDisposabl
     }
     public final void setSelected(final boolean isSelected0) {
         isSelected = isSelected0;
+        if (getParent() instanceof HandArea hand && matchUI.getCardPresentation().hand() != null
+                && matchUI.getCardPresentation().hand().hoverLift() > 0) { hand.doLayout(); hand.repaint(); }
         repaint();
     }
 
@@ -973,6 +975,8 @@ public class CardPanel extends SkinnedPanel implements CardContainer, IDisposabl
     static final int ZONE_BANNER_HEIGHT = 16;
 
     private double presentationAngle;
+    private forge.screens.match.layout.HandLayoutStrategy.Placement presentationHitBounds;
+    public final void setPresentationHitBounds(forge.screens.match.layout.HandLayoutStrategy.Placement bounds) { presentationHitBounds = bounds; }
 
     public final void setPresentationAngle(double angle) {
         if (!Double.isFinite(angle)) { throw new IllegalArgumentException("Non-finite card angle"); }
@@ -980,7 +984,7 @@ public class CardPanel extends SkinnedPanel implements CardContainer, IDisposabl
     }
 
     public final boolean containsPresentedCard(int x, int y) {
-        return new forge.screens.match.layout.HandLayoutStrategy.Placement(
+        return presentationHitBounds != null && presentationHitBounds.contains(x, y) || new forge.screens.match.layout.HandLayoutStrategy.Placement(
                 getCardX(), getCardY(), cardWidth, cardHeight, presentationAngle).contains(x, y);
     }
 

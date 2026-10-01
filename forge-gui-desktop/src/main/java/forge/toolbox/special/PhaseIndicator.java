@@ -18,9 +18,11 @@ public class PhaseIndicator extends JPanel {
     private final Map<PhaseType, String> shortNames = new EnumMap<>(PhaseType.class);
     private boolean horizontal;
 
+    public boolean isHorizontal() { return horizontal; }
+
     /** Reuses the labels so stop/yield listeners and state survive layout switches. */
     public void setHorizontal(boolean value) {
-        if (horizontal == value) { return; }
+        if (horizontal == value && phaseLabels.values().stream().allMatch(label -> label.getParent() == this)) { return; }
         horizontal = value;
         removeAll();
         setLayout(value ? new java.awt.GridLayout(1, phaseLabels.size(), 3, 0)
@@ -52,6 +54,7 @@ public class PhaseIndicator extends JPanel {
 
     private void addPhaseLabel(String caption, PhaseType phaseType) {
         PhaseLabel lbl = new PhaseLabel(caption);
+        lbl.putClientProperty("forge.matchPhase", phaseType.name());
         lbl.setToolTipText(Localizer.getInstance().getMessage("htmlPhaseTooltipFmt", phaseType.nameForUi));
         phaseLabels.put(phaseType, lbl);
         shortNames.put(phaseType, caption);

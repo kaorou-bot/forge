@@ -1,8 +1,10 @@
 # 独立工具使用说明
 
-工具要求 Python 3.10+，没有第三方依赖。输入可以是皮肤目录，也可以是 ZIP；目录根或 ZIP 根必须直接有 match-ui.json。这里只支持版本 3 的内置控件 scene 皮肤，不支持旧版本区域布局或需要自定义 Java 的 CUSTOM_*。
+工具要求 Python 3.10+，没有第三方依赖。输入可以是皮肤目录，也可以是 ZIP；目录根或 ZIP 根必须直接有 match-ui.json。支持版本 3、4 的内置控件 scene 皮肤，不支持旧版本区域布局或需要自定义 Java 的 CUSTOM_*。v4 会校验图片模式、九宫格边宽、状态、形状、装饰、内部坐标和卡牌几何范围；新增字段见 `v4扩展规范.md`。预览只标示装饰位置，不模拟完整视觉和交互。
 
 ## 命令
+
+1.2.0 新增 capabilities / inspect / migrate / runtime；完整例子、尺寸语义和结果限制见 [高效制作与排错](高效制作与排错.md)。inspect 不需 Java，runtime 是可选的客户端生产算法诊断，不是游戏模拟器。所有模式仍不联网、不修改原皮肤或用户配置。
 
 在资料包根目录执行：
 
@@ -62,7 +64,7 @@ Python 标准库工具不包含 Java/Swing/ImageIO，也没有游戏引擎。因
 
 ```text
 cd tools
-python -m unittest -v test_skin_tool.py
+python -m unittest -v test_skin_tool.py test_authoring.py
 ```
 
 测试使用系统临时目录，不依赖 Forge、不联网、不读用户套牌。它验证工具本身，不会自动把新作品标记为完成；新作品仍须单独执行 validate、pack 和导入验收。

@@ -534,6 +534,7 @@ public class PlayArea extends CardPanelContainer implements CardPanelMouseListen
         final var strategy = getMatchUI().getCardPresentation().battlefield();
         if (strategy == null || zone != ZoneType.Battlefield) { return; }
         final List<CardStack> stacks = new ArrayList<>();
+        final List<Point> origins = new ArrayList<>();
         final List<forge.screens.match.layout.BattlefieldLayoutStrategy.Group> groups = new ArrayList<>();
         for (CardStackRow row : template) {
             for (CardStack stack : row) {
@@ -543,23 +544,35 @@ public class PlayArea extends CardPanelContainer implements CardPanelMouseListen
                         : state.isLand() ? forge.screens.match.layout.BattlefieldLayoutStrategy.Kind.LAND
                         : forge.screens.match.layout.BattlefieldLayoutStrategy.Kind.OTHER;
                 stacks.add(stack);
-                groups.add(new forge.screens.match.layout.BattlefieldLayoutStrategy.Group(stack.getWidth(), stack.getHeight(), kind));
+                if (strategy.fitRotatedBounds()) {
+                    // Reserve rotation envelopes as well as banners and attachment offsets.
+                    // An upright-face-only budget would let a tapped/animating card cross the divider.
+                    Rectangle bounds = new Rectangle(stack.get(0).getBounds());
+                    for (CardPanel panel : stack) { bounds.add(panel.getBounds()); }
+                    bounds.grow(2, 2); // Pixel-rounding allowance when the complete stack is scaled down.
+                    origins.add(new Point(bounds.x, bounds.y));
+                    groups.add(new forge.screens.match.layout.BattlefieldLayoutStrategy.Group(bounds.width, bounds.height, kind));
+                } else {
+                    origins.add(new Point(stack.stream().mapToInt(CardPanel::getCardX).min().orElse(0),
+                            stack.stream().mapToInt(CardPanel::getCardY).min().orElse(0)));
+                    groups.add(new forge.screens.match.layout.BattlefieldLayoutStrategy.Group(stack.getWidth(), stack.getHeight(), kind));
+                }
             }
         }
-        final var positions = strategy.arrange(List.copyOf(groups), playAreaWidth, playAreaHeight, mirror);
+        final var positions = strategy.placements(List.copyOf(groups), playAreaWidth, playAreaHeight, mirror);
         if (positions.size() != stacks.size()) { throw new IllegalArgumentException("Expected one position per battlefield stack"); }
         int width = playAreaWidth, height = playAreaHeight;
         for (int i = 0; i < stacks.size(); i++) {
             final var stack = stacks.get(i);
-            final int left = stack.stream().mapToInt(CardPanel::getCardX).min().orElse(0);
-            final int top = stack.stream().mapToInt(CardPanel::getCardY).min().orElse(0);
+            final int left = origins.get(i).x;
+            final int top = origins.get(i).y;
             final var p = positions.get(i);
             for (CardPanel panel : stack) {
-                panel.setCardBounds(panel.getCardX() + p.x - left, panel.getCardY() + p.y - top,
-                        panel.getCardWidth(), panel.getCardHeight());
+                final var bounds = p.cardBounds(panel.getCardX() - left, panel.getCardY() - top, panel.getCardWidth(), panel.getCardHeight());
+                panel.setCardBounds(bounds.x, bounds.y, bounds.width, bounds.height);
             }
-            width = Math.max(width, p.x + groups.get(i).width());
-            height = Math.max(height, p.y + groups.get(i).height());
+            width = Math.max(width, p.x() + p.width());
+            height = Math.max(height, p.y() + p.height());
         }
         setPreferredSize(new Dimension(width, height));
     }

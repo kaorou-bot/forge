@@ -16,18 +16,70 @@ public final class MatchSkinPackages {
     private MatchSkinPackages() { }
     public static Path directory() { return Path.of(ForgeConstants.USER_PREFS_DIR, "desktop-match-skins"); }
     public static List<String> installed() {
-        if (!Files.isDirectory(directory())) { return List.of(); }
-        try (var paths = Files.list(directory())) {
-            return paths.filter(Files::isDirectory).filter(p -> p.getFileName().toString().matches("[a-z][a-z0-9-]{0,80}"))
-                    .filter(p -> Files.isRegularFile(p.resolve("match-ui.json"))).map(p -> p.getFileName().toString()).sorted().toList();
+        return installed(directory());
+    }
+    static List<String> installed(Path destination) {
+        if (!Files.isDirectory(destination)) { return List.of(); }
+        try (var paths = Files.list(destination.toRealPath())) {
+            return paths.filter(p -> {
+                try { packagePath(p.getFileName().toString(), destination); return true; }
+                catch (IOException e) { return false; }
+            }).map(p -> p.getFileName().toString()).sorted().toList();
         } catch (IOException e) { return List.of(); }
     }
     public static MatchUiLayout load(String name) throws IOException {
+        return read(packagePath(name, directory()));
+    }
+    private static Path packagePath(String name, Path destination) throws IOException {
         if (name == null || !name.matches("[a-z][a-z0-9-]{0,80}")) { throw new IOException("Select an imported skin first"); }
-        final Path root = directory().toRealPath();
-        final Path base = root.resolve(name).toRealPath();
-        if (!base.startsWith(root)) { throw new IOException("Skin path leaves package directory"); }
-        return read(base);
+        final Path root = destination.toRealPath();
+        final Path base = root.resolve(name);
+        if (!Files.isDirectory(base, java.nio.file.LinkOption.NOFOLLOW_LINKS) || !base.toRealPath().equals(base)
+                || !Files.isRegularFile(base.resolve("match-ui.json"), java.nio.file.LinkOption.NOFOLLOW_LINKS)) {
+            throw new IOException("Not a saved skin directory: " + base);
+        }
+        return base;
+    }
+
+    /** Call only after user confirmation and detaching this package from the current scene. */
+    public static void remove(String name) throws IOException { remove(name, directory()); }
+
+    static void remove(String name, Path destination) throws IOException {
+        final Path base = packagePath(name, destination);
+        final Path json = base.resolve("match-ui.json");
+        final var files = new java.util.ArrayList<Path>();
+        final var directories = new java.util.ArrayList<Path>();
+        // Preflight the entire tree before deleting anything. Never follow symlinks or Windows junctions.
+        Files.walkFileTree(base, new java.nio.file.SimpleFileVisitor<>() {
+            @Override public java.nio.file.FileVisitResult preVisitDirectory(Path dir, java.nio.file.attribute.BasicFileAttributes attrs) throws IOException {
+                validateRemovalPath(base, dir);
+                return java.nio.file.FileVisitResult.CONTINUE;
+            }
+            @Override public java.nio.file.FileVisitResult visitFile(Path file, java.nio.file.attribute.BasicFileAttributes attrs) throws IOException {
+                validateRemovalPath(base, file);
+                if (!attrs.isRegularFile()) { throw new IOException("Unsupported entry in saved skin: " + file); }
+                if (!file.equals(json)) { files.add(file); }
+                return java.nio.file.FileVisitResult.CONTINUE;
+            }
+            @Override public java.nio.file.FileVisitResult postVisitDirectory(Path dir, IOException error) throws IOException {
+                if (error != null) { throw error; }
+                if (!dir.equals(base)) { directories.add(dir); }
+                return java.nio.file.FileVisitResult.CONTINUE;
+            }
+        });
+        // Keep the library entry until all assets were removed, so a failed deletion can be retried.
+        files.addAll(directories);
+        files.add(json);
+        files.add(base);
+        for (Path path : files) {
+            validateRemovalPath(base, path);
+            Files.delete(path);
+        }
+    }
+    private static void validateRemovalPath(Path base, Path path) throws IOException {
+        if (!path.startsWith(base) || Files.isSymbolicLink(path) || !path.toRealPath().equals(path)) {
+            throw new IOException("Refusing to delete a linked or external skin path: " + path);
+        }
     }
     private static MatchUiLayout read(Path base) throws IOException {
         final Path json = MatchSkinTheme.asset(base, "match-ui.json");

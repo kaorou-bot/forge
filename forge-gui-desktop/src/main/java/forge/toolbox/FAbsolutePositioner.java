@@ -86,7 +86,9 @@ public enum FAbsolutePositioner {
      * @param comp &emsp; Component to hide
      */
     public void hide(final Component comp) {
+        final Rectangle oldBounds = comp.getBounds();
         panel.remove(comp);
+        panel.repaint(oldBounds);
     }
 
     /**

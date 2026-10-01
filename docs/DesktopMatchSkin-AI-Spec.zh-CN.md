@@ -1,5 +1,7 @@
 # Forge 桌面对战皮肤 AI 制作规范
 
+版本提示：本文主体固定为 v3 基线。v4 测试客户端的新增字段和替代限制见 [v4 扩展规范](DesktopMatchSkin-v4.zh-CN.md)；v4 保留本文的安全边界和必需操作，但允许该补充规范明确列出的状态、图片模式、装饰、图标、头像轮廓和卡牌几何设置。未升级客户端仍只能使用 v3。
+
 本文供 AI 编码助手、皮肤工具开发者和需要逐项核对接口的制作者使用。目标是在不改变游戏逻辑和信息权限的前提下，制作可导入、可回退、可验证的桌面对战数据皮肤。
 
 规范核对日期：2026-09-30。适用对象是已整合 `desktop-match-ui` 功能的 Swing 桌面客户端，JSON 格式版本为 1、2、3，新数据皮肤应使用版本 3。客户端产品版本号与 JSON `version` 是两回事；不能仅凭 `cn0929r2` 等产品版本判断是否已包含尚未发布的接口。
@@ -30,7 +32,7 @@
 
 | 类或文件 | 需要核对的职责 |
 | --- | --- |
-| `MatchSkinPackages` | ZIP 导入、大小限制、隔离目录、安装失败清理 |
+| `MatchSkinPackages` | ZIP 导入、大小限制、持久化皮肤目录、枚举、受限删除、安装失败清理 |
 | `MatchUiLayout` | 顶层字段、区域几何、选择器展开、文档完整性 |
 | `MatchSceneLayout` | 控件合法性、重复组件、可见条件、浮层、容量与重叠 |
 | `MatchWidgetRegistry` | 当前真实存在的组件和 renderer 名称 |
@@ -142,7 +144,7 @@ scene 的合法键为 `widgets`、`surface`、`styles`、`renderers`；版本 3 
 
 | ID | 约束和用途 |
 | --- | --- |
-| `PHASES_ACTIVE` | 必须存在；显示当前回合玩家的阶段，保留原阶段操作 |
+| `PHASES_ACTIVE` | 必须存在；默认显示当前回合玩家的阶段；v4 可用 PHASES_SPLIT 同时呈现双方，保留原阶段操作 |
 | `PROMPT_MESSAGE` | 提示滚动区 |
 | `PROMPT_OK` | 原确认按钮 |
 | `PROMPT_CANCEL` | 原取消按钮 |
@@ -293,7 +295,7 @@ highlight 用于特定激活、标签选中或按下绘制逻辑，不是通用 
 
 `scene.renderers` 将已有 widget 映射到已注册 renderer。通常保持默认，只有 ZONE_* 可改为 ZONE_PILE 或 ZONE_BUTTON，用于牌堆缩略图和文字按钮。ZONE_PILE/ZONE_BUTTON 本身不能作为独立 widget ID。
 
-PHASES_ACTIVE 不能替换 renderer。CUSTOM_* 需要先由可信主程序 Java 注册；单靠 JSON 写出一个名称不会自动实现功能。
+v1～v3 的 PHASES_ACTIVE 不能替换 renderer；v4 新客户端支持 `"PHASES_ACTIVE": "PHASES_SPLIT"`，上半 FIELD_1、下半 FIELD_0，各自保留真实阶段控件。仅支持两个字段、最多一副可见手牌，否则回退。详细约定见 [v4 扩展](DesktopMatchSkin-v4.zh-CN.md)。CUSTOM_* 需要先由可信主程序 Java 注册；单靠 JSON 写出一个名称不会自动实现功能。
 
 `cards` 只允许：
 
@@ -301,16 +303,18 @@ PHASES_ACTIVE 不能替换 renderer。CUSTOM_* 需要先由可信主程序 Java 
 | --- | --- | --- |
 | `hand` | classic / fan | classic |
 | `fanDegrees` | 有限数字 0～60 | 28 |
-| `battlefield` | classic / lanes | classic |
+| `battlefield` | classic / lanes；新版 v4 另支持 adaptive | classic |
 | `overlay` | classic / badges | classic |
 
 fan 的绘制与点击共享旋转几何，角度为整体展开角度。旧手牌“不重叠”“每行张数”不参与 fan 计算。lanes 将完整牌叠分区排列，附着物和合并牌叠仍作为整体；空间不足时滚动。badges 使用当前许可的展示数据绘制指示物等，不获得隐藏牌权限。
+
+新版 v4 的 `adaptive` 将地与非生物非地永久物放在同一后排的左右半区，独立换行且不越左右中线；生物保留全宽居中行。超宽完整牌叠等比缩小，纵向溢出保留滚动。兼容要求见 [v4 扩展规范](DesktopMatchSkin-v4.zh-CN.md)。需要工具 1.1.5 对应的新客户端，不能用于 v3；静态通过不等于实机通过。
 
 拖手牌至任一可见战场后释放，调用原控制器的选牌/出牌流程；不是直接移动 Card 模型，不自动把落点永久物设为目标。非法施放、费用与目标仍由原引擎判断。
 
 ## 可完整解析的最小双人骨架
 
-以下是完整 JSON，不是局部片段。它没有外部图片和字体，适合用来验证解析与文档分配；不是视觉成品，小窗口的窄提示区和薄玩家条仍需另行设计验收。正式制作优先复制暮辉秘境。
+以下是完整 v3 JSON，不是局部片段。它没有外部图片和字体，适合用来验证解析与文档分配；不是视觉成品，小窗口的窄提示区和薄玩家条仍需另行设计验收。新客户端制作优先复制已经升级为 v4 的暮辉秘境，并配合 v4 扩展规范；旧客户端制作保留本骨架，不得混用 v4 字段。
 
 ```json
 {
@@ -349,6 +353,8 @@ fan 的绘制与点击共享旋转几何，角度为整体展开角度。旧手�
 - `desktop-match-ui.properties`：选中提供者和包名。
 - `match.xml`：经典布局。
 - `match-ui-<摘要>.xml`：非 scene 的自定义区域布局保存位置；scene 使用 JSON 固定坐标，不按普通拖拽布局持久化。
+
+导入副本是持久化数据，不依赖原 ZIP 的后续位置；菜单每次打开从磁盘刷新，并按具体副本标记选中状态。选择写入同目录临时文件后原子替换偏好文件，失败不破坏旧选择。删除入口需要明确确认；若删除当前副本，先持久化经典布局并卸载当前场景，再在后台删除文件。删除只接受皮肤库内的单级合法名称，拒绝符号链接、目录联接和路径越界；不删除原 ZIP、内置资源、其他副本或游戏数据。删除是永久的；失败会报错，不宣称“已删除”。直接改过安装副本的作者应先备份原稿。
 
 Windows 默认通常是 `%APPDATA%/Forge/preferences/`，Linux 通常是 `~/.forge/preferences/`，macOS 通常是 `~/Library/Application Support/Forge/preferences/`；自定义 `userDir` 会改变位置，以运行实例配置为准。
 

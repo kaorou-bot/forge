@@ -1,0 +1,4138 @@
+{
+  "version": 5,
+  "id": "dusk-observatory",
+  "regions": [
+    {
+      "bounds": [
+        0.18,
+        0.13,
+        0.64,
+        0.264
+      ],
+      "documents": [
+        "opponents"
+      ],
+      "split": "GRID"
+    },
+    {
+      "bounds": [
+        0.18,
+        0.474,
+        0.64,
+        0.246
+      ],
+      "documents": [
+        "FIELD_0"
+      ]
+    },
+    {
+      "bounds": [
+        0.18,
+        0.728,
+        0.64,
+        0.2
+      ],
+      "documents": [
+        "hands"
+      ],
+      "split": "COLUMNS"
+    },
+    {
+      "bounds": [
+        0.835,
+        0.012,
+        0.153,
+        0.55
+      ],
+      "documents": [
+        "CARD_PICTURE",
+        "CARD_DETAIL",
+        "remaining"
+      ]
+    }
+  ],
+  "scene": {
+    "surface": {
+      "border": false,
+      "background": false,
+      "title": false
+    },
+    "widgets": {
+      "FIELD_1.HAND_BACKS": [
+        0.22,
+        0,
+        0.56,
+        0.12
+      ],
+      "PHASES_ACTIVE": [
+        0.18,
+        0.402,
+        0.64,
+        0.064
+      ],
+      "FIELD_1.AVATAR_IMAGE": [
+        0.034,
+        0.015,
+        0.106,
+        0.135
+      ],
+      "FIELD_1.NAME": [
+        0.012,
+        0.155,
+        0.154,
+        0.03
+      ],
+      "FIELD_1.LIFE": [
+        0.021,
+        0.19,
+        0.136,
+        0.055
+      ],
+      "FIELD_1.STATUS": [
+        0.013,
+        0.25,
+        0.152,
+        0.025
+      ],
+      "FIELD_1.MANA": [
+        0.013,
+        0.279,
+        0.152,
+        0.032
+      ],
+      "FIELD_1.ZONE_LIBRARY": [
+        0.012,
+        0.318,
+        0.154,
+        0.031
+      ],
+      "FIELD_1.ZONE_GRAVEYARD": [
+        0.012,
+        0.355,
+        0.154,
+        0.031
+      ],
+      "FIELD_1.ZONE_EXILE": [
+        0.012,
+        0.392,
+        0.154,
+        0.031
+      ],
+      "FIELD_1.OTHER_ZONES": [
+        0.012,
+        0.435,
+        0.154,
+        0.03
+      ],
+      "FIELD_0.AVATAR_IMAGE": [
+        0.034,
+        0.496,
+        0.106,
+        0.134
+      ],
+      "FIELD_0.NAME": [
+        0.012,
+        0.635,
+        0.154,
+        0.026
+      ],
+      "FIELD_0.LIFE": [
+        0.021,
+        0.665,
+        0.136,
+        0.05
+      ],
+      "FIELD_0.STATUS": [
+        0.013,
+        0.72,
+        0.152,
+        0.02
+      ],
+      "FIELD_0.MANA": [
+        0.013,
+        0.745,
+        0.152,
+        0.026
+      ],
+      "FIELD_0.ZONE_LIBRARY": [
+        0.012,
+        0.777,
+        0.154,
+        0.032
+      ],
+      "FIELD_0.ZONE_GRAVEYARD": [
+        0.012,
+        0.814,
+        0.154,
+        0.032
+      ],
+      "FIELD_0.ZONE_EXILE": [
+        0.012,
+        0.851,
+        0.154,
+        0.032
+      ],
+      "FIELD_0.OTHER_ZONES": [
+        0.012,
+        0.891,
+        0.154,
+        0.027
+      ],
+      "PROMPT_MESSAGE": [
+        0.012,
+        0.94,
+        0.535,
+        0.055
+      ],
+      "PROMPT_OK": [
+        0.558,
+        0.95,
+        0.118,
+        0.042
+      ],
+      "PROMPT_CANCEL": [
+        0.688,
+        0.95,
+        0.13,
+        0.042
+      ],
+      "ACTION_END_TURN": [
+        0.832,
+        0.895,
+        0.074,
+        0.041
+      ],
+      "ACTION_YIELD_SETTINGS": [
+        0.914,
+        0.895,
+        0.074,
+        0.041
+      ],
+      "ACTIONS_MENU": [
+        0.832,
+        0.95,
+        0.156,
+        0.042
+      ]
+    },
+    "visibility": {
+      "FIELD_0.MANA": "MANA_NONEMPTY",
+      "FIELD_1.MANA": "MANA_NONEMPTY"
+    },
+    "floating": {
+      "REPORT_STACK": {
+        "bounds": [
+          0.835,
+          0.58,
+          0.153,
+          0.305
+        ],
+        "draggable": true,
+        "visibleWhen": "STACK_NONEMPTY"
+      },
+      "REPORT_LOG": {
+        "bounds": [
+          0.835,
+          0.58,
+          0.153,
+          0.305
+        ],
+        "draggable": true,
+        "visibleWhen": "STACK_EMPTY"
+      }
+    },
+    "renderers": {
+      "PHASES_ACTIVE": "PHASES_SPLIT"
+    },
+    "appearance": {
+      "background": {
+        "path": "images/table.png",
+        "mode": "COVER"
+      },
+      "font": "fonts/NotoSansCJKsc-Regular.otf",
+      "text": "#F1F4EF",
+      "styles": {
+        "default": {
+          "radius": 8,
+          "padding": 2,
+          "fontSize": 14
+        },
+        "avatar": {
+          "shape": "POLYGON",
+          "polygon": [
+            [
+              0.16,
+              0
+            ],
+            [
+              0.84,
+              0
+            ],
+            [
+              1,
+              0.16
+            ],
+            [
+              1,
+              0.82
+            ],
+            [
+              0.8,
+              1
+            ],
+            [
+              0.2,
+              1
+            ],
+            [
+              0,
+              0.82
+            ],
+            [
+              0,
+              0.16
+            ]
+          ],
+          "border": "#D5B572",
+          "borderWidth": 3,
+          "fill": "#162A31",
+          "padding": 0
+        },
+        "life": {
+          "fill": "#101B25D0",
+          "border": "#A9874D",
+          "radius": 18,
+          "padding": 2,
+          "fontSize": 30,
+          "icon": {
+            "path": "images/life.png",
+            "mode": "CONTAIN"
+          },
+          "iconBounds": [
+            0.04,
+            0.18,
+            0.18,
+            0.64
+          ],
+          "textBounds": [
+            0.25,
+            0,
+            0.7,
+            1
+          ],
+          "states": {
+            "hover": {
+              "border": "#9BD3D2"
+            },
+            "selected": {
+              "border": "#FFD287",
+              "borderWidth": 3
+            }
+          }
+        },
+        "zone": {
+          "fill": "#111D29D0",
+          "border": "#786544",
+          "radius": 9,
+          "padding": 1,
+          "fontSize": 12,
+          "states": {
+            "hover": {
+              "fill": "#28414D",
+              "border": "#99CBCD"
+            },
+            "pressed": {
+              "fill": "#0A141D"
+            }
+          }
+        },
+        "phase": {
+          "fill": "#142D35E8",
+          "border": "#789E9D",
+          "textColor": "#F6EEE0",
+          "fontSize": 12,
+          "padding": 1,
+          "radius": 8,
+          "markers": {
+            "stop": "images/life.png",
+            "active": "images/library.png",
+            "yield": "images/exile.png"
+          },
+          "states": {
+            "selected": {
+              "fill": "#256775",
+              "border": "#E9C478"
+            },
+            "hover": {
+              "fill": "#385B62"
+            },
+            "pressed": {
+              "fill": "#0C2029"
+            }
+          }
+        },
+        "button": {
+          "fill": "#263744",
+          "border": "#B18C50",
+          "radius": 10,
+          "padding": 2,
+          "fontSize": 13,
+          "states": {
+            "hover": {
+              "fill": "#365560",
+              "border": "#B2DEE0",
+              "textColor": "#FFFFFF"
+            },
+            "pressed": {
+              "fill": "#10232D"
+            },
+            "selected": {
+              "border": "#F3C777"
+            },
+            "disabled": {
+              "fill": "#18222B",
+              "border": "#4B514F",
+              "textColor": "#89928E"
+            }
+          }
+        },
+        "PROMPT_OK": {
+          "fill": "#355A5B",
+          "border": "#AED7CB",
+          "radius": 10,
+          "padding": 2,
+          "fontSize": 15,
+          "states": {
+            "hover": {
+              "fill": "#4C7979",
+              "textColor": "#FFFFFF"
+            },
+            "pressed": {
+              "fill": "#17373B"
+            },
+            "disabled": {
+              "fill": "#18222B",
+              "border": "#4B514F",
+              "textColor": "#89928E"
+            }
+          }
+        },
+        "floating": {
+          "fill": "#0B1929",
+          "border": "#B9A27A",
+          "borderWidth": 1,
+          "radius": 14,
+          "padding": 7,
+          "fontSize": 15,
+          "opacity": 0.78
+        },
+        "tab": {
+          "fill": "#182733E8",
+          "border": "#907346",
+          "highlight": "#89653B",
+          "radius": 7,
+          "padding": 2,
+          "fontSize": 12
+        },
+        "actions": {
+          "fill": "#101D29",
+          "border": "#D2AA62",
+          "radius": 14,
+          "padding": 16,
+          "fontSize": 16
+        },
+        "text": {
+          "fontSize": 16,
+          "textColor": "#F1F4EF",
+          "fill": "#00000000",
+          "padding": 0
+        },
+        "FIELD_0.ZONE_LIBRARY": {
+          "fill": "#111D29D0",
+          "border": "#786544",
+          "radius": 9,
+          "padding": 1,
+          "fontSize": 12,
+          "states": {
+            "hover": {
+              "fill": "#28414D",
+              "border": "#99CBCD"
+            },
+            "pressed": {
+              "fill": "#0A141D"
+            }
+          },
+          "icon": {
+            "path": "images/library.png",
+            "mode": "CONTAIN"
+          },
+          "iconBounds": [
+            0.035,
+            0.1,
+            0.16,
+            0.8
+          ],
+          "textBounds": [
+            0.21,
+            0,
+            0.77,
+            1
+          ]
+        },
+        "FIELD_0.ZONE_GRAVEYARD": {
+          "fill": "#111D29D0",
+          "border": "#786544",
+          "radius": 9,
+          "padding": 1,
+          "fontSize": 12,
+          "states": {
+            "hover": {
+              "fill": "#28414D",
+              "border": "#99CBCD"
+            },
+            "pressed": {
+              "fill": "#0A141D"
+            }
+          },
+          "icon": {
+            "path": "images/graveyard.png",
+            "mode": "CONTAIN"
+          },
+          "iconBounds": [
+            0.035,
+            0.1,
+            0.16,
+            0.8
+          ],
+          "textBounds": [
+            0.21,
+            0,
+            0.77,
+            1
+          ]
+        },
+        "FIELD_0.ZONE_EXILE": {
+          "fill": "#111D29D0",
+          "border": "#786544",
+          "radius": 9,
+          "padding": 1,
+          "fontSize": 12,
+          "states": {
+            "hover": {
+              "fill": "#28414D",
+              "border": "#99CBCD"
+            },
+            "pressed": {
+              "fill": "#0A141D"
+            }
+          },
+          "icon": {
+            "path": "images/exile.png",
+            "mode": "CONTAIN"
+          },
+          "iconBounds": [
+            0.035,
+            0.1,
+            0.16,
+            0.8
+          ],
+          "textBounds": [
+            0.21,
+            0,
+            0.77,
+            1
+          ]
+        },
+        "FIELD_1.ZONE_LIBRARY": {
+          "fill": "#111D29D0",
+          "border": "#786544",
+          "radius": 9,
+          "padding": 1,
+          "fontSize": 12,
+          "states": {
+            "hover": {
+              "fill": "#28414D",
+              "border": "#99CBCD"
+            },
+            "pressed": {
+              "fill": "#0A141D"
+            }
+          },
+          "icon": {
+            "path": "images/library.png",
+            "mode": "CONTAIN"
+          },
+          "iconBounds": [
+            0.035,
+            0.1,
+            0.16,
+            0.8
+          ],
+          "textBounds": [
+            0.21,
+            0,
+            0.77,
+            1
+          ]
+        },
+        "FIELD_1.ZONE_GRAVEYARD": {
+          "fill": "#111D29D0",
+          "border": "#786544",
+          "radius": 9,
+          "padding": 1,
+          "fontSize": 12,
+          "states": {
+            "hover": {
+              "fill": "#28414D",
+              "border": "#99CBCD"
+            },
+            "pressed": {
+              "fill": "#0A141D"
+            }
+          },
+          "icon": {
+            "path": "images/graveyard.png",
+            "mode": "CONTAIN"
+          },
+          "iconBounds": [
+            0.035,
+            0.1,
+            0.16,
+            0.8
+          ],
+          "textBounds": [
+            0.21,
+            0,
+            0.77,
+            1
+          ]
+        },
+        "FIELD_1.ZONE_EXILE": {
+          "fill": "#111D29D0",
+          "border": "#786544",
+          "radius": 9,
+          "padding": 1,
+          "fontSize": 12,
+          "states": {
+            "hover": {
+              "fill": "#28414D",
+              "border": "#99CBCD"
+            },
+            "pressed": {
+              "fill": "#0A141D"
+            }
+          },
+          "icon": {
+            "path": "images/exile.png",
+            "mode": "CONTAIN"
+          },
+          "iconBounds": [
+            0.035,
+            0.1,
+            0.16,
+            0.8
+          ],
+          "textBounds": [
+            0.21,
+            0,
+            0.77,
+            1
+          ]
+        },
+        "PHASES_ACTIVE": {
+          "padding": 1,
+          "fontSize": 13,
+          "textColor": "#DBDCCB"
+        },
+        "text.REPORT_LOG": {
+          "fontSize": 16,
+          "textColor": "#F1F4EF",
+          "fill": "#00000000",
+          "padding": 0
+        }
+      },
+      "documents": {
+        "default": {
+          "margin": 8,
+          "paragraphGap": 6,
+          "align": "LEFT"
+        },
+        "REPORT_LOG": {
+          "margin": 10,
+          "paragraphGap": 8,
+          "align": "LEFT"
+        }
+      }
+    },
+    "anchors": {
+      "FIELD_0.AVATAR_IMAGE": {
+        "maxWidth": 150,
+        "maxHeight": 150,
+        "aspectRatio": 1,
+        "horizontal": "CENTER",
+        "vertical": "CENTER"
+      },
+      "FIELD_1.AVATAR_IMAGE": {
+        "maxWidth": 150,
+        "maxHeight": 150,
+        "aspectRatio": 1,
+        "horizontal": "CENTER",
+        "vertical": "CENTER"
+      },
+      "PHASES_ACTIVE": {
+        "maxHeight": 64,
+        "minHeight": 44
+      }
+    }
+  },
+  "cards": {
+    "hand": "fan",
+    "fanDegrees": 18,
+    "handSpacing": 0.7,
+    "handArc": 0.55,
+    "hoverLift": 0.12,
+    "overlay": "badges",
+    "battlefield": "adaptive",
+    "battlefieldAlign": "CENTER",
+    "battlefieldGap": 8,
+    "battlefieldRowGap": 6,
+    "badges": {
+      "powerToughness": {
+        "bounds": [
+          0.47,
+          0.82,
+          0.53,
+          0.18
+        ],
+        "fill": "#17252BE8",
+        "fontSize": 12,
+        "text": "#FFF1D7"
+      },
+      "counters": {
+        "bounds": [
+          0,
+          0,
+          1,
+          0.45
+        ],
+        "fill": "#101D29C8",
+        "fontSize": 11,
+        "text": "#DFECE4"
+      },
+      "damage": {
+        "bounds": [
+          0,
+          0.82,
+          0.44,
+          0.18
+        ],
+        "fill": "#702D2DE8",
+        "fontSize": 12,
+        "text": "#FFFFFF"
+      }
+    },
+    "handCardWidthMax": 145,
+    "battlefieldPartition": 0.5,
+    "landsSide": "LEFT"
+  },
+  "experience": {
+    "defaults": {
+      "fontScale": 1,
+      "handWidth": 145,
+      "panelOpacity": 1,
+      "decorationOpacity": 0.7,
+      "layoutMode": "AUTO"
+    },
+    "variants": [
+      {
+        "id": "compact",
+        "maxWidth": 1440,
+        "minPlayers": 2,
+        "maxPlayers": 2,
+        "widgets": {
+          "FIELD_1.HAND_BACKS": [
+            0.22,
+            0,
+            0.56,
+            0.12
+          ],
+          "PHASES_ACTIVE": [
+            0.18,
+            0.392,
+            0.64,
+            0.084
+          ],
+          "FIELD_1.AVATAR_IMAGE": [
+            0.034,
+            0.015,
+            0.106,
+            0.135
+          ],
+          "FIELD_1.NAME": [
+            0.012,
+            0.155,
+            0.154,
+            0.03
+          ],
+          "FIELD_1.LIFE": [
+            0.021,
+            0.19,
+            0.136,
+            0.055
+          ],
+          "FIELD_1.STATUS": [
+            0.013,
+            0.25,
+            0.152,
+            0.025
+          ],
+          "FIELD_1.MANA": [
+            0.013,
+            0.279,
+            0.152,
+            0.032
+          ],
+          "FIELD_1.ZONE_LIBRARY": [
+            0.012,
+            0.318,
+            0.154,
+            0.031
+          ],
+          "FIELD_1.ZONE_GRAVEYARD": [
+            0.012,
+            0.355,
+            0.154,
+            0.031
+          ],
+          "FIELD_1.ZONE_EXILE": [
+            0.012,
+            0.392,
+            0.154,
+            0.031
+          ],
+          "FIELD_1.OTHER_ZONES": [
+            0.012,
+            0.435,
+            0.154,
+            0.03
+          ],
+          "FIELD_0.AVATAR_IMAGE": [
+            0.034,
+            0.496,
+            0.106,
+            0.134
+          ],
+          "FIELD_0.NAME": [
+            0.012,
+            0.635,
+            0.154,
+            0.026
+          ],
+          "FIELD_0.LIFE": [
+            0.021,
+            0.665,
+            0.136,
+            0.05
+          ],
+          "FIELD_0.STATUS": [
+            0.013,
+            0.72,
+            0.152,
+            0.02
+          ],
+          "FIELD_0.MANA": [
+            0.013,
+            0.745,
+            0.152,
+            0.026
+          ],
+          "FIELD_0.ZONE_LIBRARY": [
+            0.012,
+            0.777,
+            0.154,
+            0.032
+          ],
+          "FIELD_0.ZONE_GRAVEYARD": [
+            0.012,
+            0.814,
+            0.154,
+            0.032
+          ],
+          "FIELD_0.ZONE_EXILE": [
+            0.012,
+            0.851,
+            0.154,
+            0.032
+          ],
+          "FIELD_0.OTHER_ZONES": [
+            0.012,
+            0.891,
+            0.154,
+            0.027
+          ],
+          "PROMPT_MESSAGE": [
+            0.012,
+            0.94,
+            0.535,
+            0.055
+          ],
+          "PROMPT_OK": [
+            0.558,
+            0.95,
+            0.118,
+            0.042
+          ],
+          "PROMPT_CANCEL": [
+            0.688,
+            0.95,
+            0.13,
+            0.042
+          ],
+          "ACTION_END_TURN": [
+            0.832,
+            0.895,
+            0.074,
+            0.041
+          ],
+          "ACTION_YIELD_SETTINGS": [
+            0.914,
+            0.895,
+            0.074,
+            0.041
+          ],
+          "ACTIONS_MENU": [
+            0.832,
+            0.95,
+            0.156,
+            0.042
+          ]
+        },
+        "regions": [
+          {
+            "bounds": [
+              0.18,
+              0.13,
+              0.64,
+              0.25
+            ],
+            "documents": [
+              "opponents"
+            ],
+            "split": "GRID"
+          },
+          {
+            "bounds": [
+              0.18,
+              0.487,
+              0.64,
+              0.233
+            ],
+            "documents": [
+              "FIELD_0"
+            ]
+          },
+          {
+            "bounds": [
+              0.18,
+              0.728,
+              0.64,
+              0.2
+            ],
+            "documents": [
+              "hands"
+            ],
+            "split": "COLUMNS"
+          },
+          {
+            "bounds": [
+              0.835,
+              0.012,
+              0.153,
+              0.55
+            ],
+            "documents": [
+              "CARD_PICTURE",
+              "CARD_DETAIL",
+              "remaining"
+            ]
+          }
+        ],
+        "anchors": {
+          "FIELD_0.AVATAR_IMAGE": {
+            "maxWidth": 150,
+            "maxHeight": 150,
+            "aspectRatio": 1,
+            "horizontal": "CENTER",
+            "vertical": "CENTER"
+          },
+          "FIELD_1.AVATAR_IMAGE": {
+            "maxWidth": 150,
+            "maxHeight": 150,
+            "aspectRatio": 1,
+            "horizontal": "CENTER",
+            "vertical": "CENTER"
+          },
+          "PHASES_ACTIVE": {
+            "maxHeight": 64,
+            "minHeight": 44
+          }
+        },
+        "cards": {
+          "hand": "fan",
+          "fanDegrees": 18,
+          "handSpacing": 0.7,
+          "handArc": 0.55,
+          "hoverLift": 0.12,
+          "overlay": "badges",
+          "battlefield": "adaptive",
+          "battlefieldAlign": "CENTER",
+          "battlefieldGap": 8,
+          "battlefieldRowGap": 6,
+          "badges": {
+            "powerToughness": {
+              "bounds": [
+                0.47,
+                0.82,
+                0.53,
+                0.18
+              ],
+              "fill": "#17252BE8",
+              "fontSize": 12,
+              "text": "#FFF1D7"
+            },
+            "counters": {
+              "bounds": [
+                0,
+                0,
+                1,
+                0.45
+              ],
+              "fill": "#101D29C8",
+              "fontSize": 11,
+              "text": "#DFECE4"
+            },
+            "damage": {
+              "bounds": [
+                0,
+                0.82,
+                0.44,
+                0.18
+              ],
+              "fill": "#702D2DE8",
+              "fontSize": 12,
+              "text": "#FFFFFF"
+            }
+          },
+          "handCardWidthMax": 112,
+          "battlefieldPartition": 0.5,
+          "landsSide": "LEFT"
+        }
+      },
+      {
+        "id": "players-3",
+        "minPlayers": 3,
+        "maxPlayers": 3,
+        "widgets": {
+          "PROMPT_MESSAGE": [
+            0.012,
+            0.94,
+            0.535,
+            0.055
+          ],
+          "PROMPT_OK": [
+            0.558,
+            0.95,
+            0.118,
+            0.042
+          ],
+          "PROMPT_CANCEL": [
+            0.688,
+            0.95,
+            0.13,
+            0.042
+          ],
+          "ACTION_END_TURN": [
+            0.832,
+            0.895,
+            0.074,
+            0.041
+          ],
+          "ACTION_YIELD_SETTINGS": [
+            0.914,
+            0.895,
+            0.074,
+            0.041
+          ],
+          "ACTIONS_MENU": [
+            0.832,
+            0.95,
+            0.156,
+            0.042
+          ],
+          "PHASES_ACTIVE": [
+            0.01,
+            0.005,
+            0.81,
+            0.025
+          ],
+          "FIELD_1.AVATAR_IMAGE": [
+            0.01,
+            0.045,
+            0.04764,
+            0.09082
+          ],
+          "FIELD_1.NAME": [
+            0.06161,
+            0.045,
+            0.24217,
+            0.04302
+          ],
+          "FIELD_1.LIFE": [
+            0.30775,
+            0.045,
+            0.09528,
+            0.09082
+          ],
+          "FIELD_1.STATUS": [
+            0.06161,
+            0.0928,
+            0.24217,
+            0.04302
+          ],
+          "FIELD_1.PHASES": [
+            0.01,
+            0.1406,
+            0.397,
+            0.05019
+          ],
+          "FIELD_1.ZONE_LIBRARY": [
+            0.01,
+            0.19557,
+            0.05161,
+            0.05019
+          ],
+          "FIELD_1.ZONE_GRAVEYARD": [
+            0.06558,
+            0.19557,
+            0.05161,
+            0.05019
+          ],
+          "FIELD_1.ZONE_EXILE": [
+            0.12116,
+            0.19557,
+            0.05161,
+            0.05019
+          ],
+          "FIELD_1.MANA": [
+            0.18071,
+            0.19557,
+            0.17071,
+            0.05019
+          ],
+          "FIELD_1.OTHER_ZONES": [
+            0.35539,
+            0.19557,
+            0.05161,
+            0.05019
+          ],
+          "FIELD_2.AVATAR_IMAGE": [
+            0.415,
+            0.045,
+            0.04764,
+            0.09082
+          ],
+          "FIELD_2.NAME": [
+            0.46661,
+            0.045,
+            0.24217,
+            0.04302
+          ],
+          "FIELD_2.LIFE": [
+            0.71275,
+            0.045,
+            0.09528,
+            0.09082
+          ],
+          "FIELD_2.STATUS": [
+            0.46661,
+            0.0928,
+            0.24217,
+            0.04302
+          ],
+          "FIELD_2.PHASES": [
+            0.415,
+            0.1406,
+            0.397,
+            0.05019
+          ],
+          "FIELD_2.ZONE_LIBRARY": [
+            0.415,
+            0.19557,
+            0.05161,
+            0.05019
+          ],
+          "FIELD_2.ZONE_GRAVEYARD": [
+            0.47058,
+            0.19557,
+            0.05161,
+            0.05019
+          ],
+          "FIELD_2.ZONE_EXILE": [
+            0.52616,
+            0.19557,
+            0.05161,
+            0.05019
+          ],
+          "FIELD_2.MANA": [
+            0.58571,
+            0.19557,
+            0.17071,
+            0.05019
+          ],
+          "FIELD_2.OTHER_ZONES": [
+            0.76039,
+            0.19557,
+            0.05161,
+            0.05019
+          ],
+          "FIELD_0.AVATAR_IMAGE": [
+            0.01,
+            0.545,
+            0.09624,
+            0.04465
+          ],
+          "FIELD_0.NAME": [
+            0.11426,
+            0.545,
+            0.48922,
+            0.02115
+          ],
+          "FIELD_0.LIFE": [
+            0.6115,
+            0.545,
+            0.19248,
+            0.04465
+          ],
+          "FIELD_0.STATUS": [
+            0.11426,
+            0.5685,
+            0.48922,
+            0.02115
+          ],
+          "FIELD_0.PHASES": [
+            0.01,
+            0.592,
+            0.802,
+            0.024675
+          ],
+          "FIELD_0.ZONE_LIBRARY": [
+            0.01,
+            0.619025,
+            0.10426,
+            0.024675
+          ],
+          "FIELD_0.ZONE_GRAVEYARD": [
+            0.12228,
+            0.619025,
+            0.10426,
+            0.024675
+          ],
+          "FIELD_0.ZONE_EXILE": [
+            0.23456,
+            0.619025,
+            0.10426,
+            0.024675
+          ],
+          "FIELD_0.MANA": [
+            0.35486,
+            0.619025,
+            0.34486,
+            0.024675
+          ],
+          "FIELD_0.OTHER_ZONES": [
+            0.70774,
+            0.619025,
+            0.10426,
+            0.024675
+          ]
+        },
+        "regions": [
+          {
+            "bounds": [
+              0.01,
+              0.25293,
+              0.397,
+              0.27007
+            ],
+            "documents": [
+              "FIELD_1"
+            ]
+          },
+          {
+            "bounds": [
+              0.415,
+              0.25293,
+              0.397,
+              0.27007
+            ],
+            "documents": [
+              "FIELD_2"
+            ]
+          },
+          {
+            "bounds": [
+              0.01,
+              0.647225,
+              0.802,
+              0.132775
+            ],
+            "documents": [
+              "FIELD_0"
+            ]
+          },
+          {
+            "bounds": [
+              0.01,
+              0.79,
+              0.81,
+              0.138
+            ],
+            "documents": [
+              "hands"
+            ],
+            "split": "COLUMNS"
+          },
+          {
+            "bounds": [
+              0.835,
+              0.012,
+              0.153,
+              0.55
+            ],
+            "documents": [
+              "CARD_PICTURE",
+              "CARD_DETAIL",
+              "remaining"
+            ]
+          }
+        ],
+        "renderers": {
+          "PHASES_ACTIVE": "PHASES_OVERVIEW",
+          "FIELD_1.ZONE_LIBRARY": "ZONE_BUTTON",
+          "FIELD_1.ZONE_GRAVEYARD": "ZONE_BUTTON",
+          "FIELD_1.ZONE_EXILE": "ZONE_BUTTON",
+          "FIELD_2.ZONE_LIBRARY": "ZONE_BUTTON",
+          "FIELD_2.ZONE_GRAVEYARD": "ZONE_BUTTON",
+          "FIELD_2.ZONE_EXILE": "ZONE_BUTTON",
+          "FIELD_0.ZONE_LIBRARY": "ZONE_BUTTON",
+          "FIELD_0.ZONE_GRAVEYARD": "ZONE_BUTTON",
+          "FIELD_0.ZONE_EXILE": "ZONE_BUTTON"
+        },
+        "visibility": {
+          "FIELD_0.STATUS": "STATUS_NONEMPTY",
+          "FIELD_1.STATUS": "STATUS_NONEMPTY",
+          "FIELD_2.STATUS": "STATUS_NONEMPTY"
+        },
+        "anchors": {
+          "FIELD_0.AVATAR_IMAGE": {
+            "aspectRatio": 1,
+            "maxHeight": 120
+          },
+          "FIELD_1.AVATAR_IMAGE": {
+            "aspectRatio": 1,
+            "maxHeight": 120
+          },
+          "FIELD_2.AVATAR_IMAGE": {
+            "aspectRatio": 1,
+            "maxHeight": 120
+          }
+        }
+      },
+      {
+        "id": "players-4",
+        "minPlayers": 4,
+        "maxPlayers": 4,
+        "widgets": {
+          "PROMPT_MESSAGE": [
+            0.012,
+            0.94,
+            0.535,
+            0.055
+          ],
+          "PROMPT_OK": [
+            0.558,
+            0.95,
+            0.118,
+            0.042
+          ],
+          "PROMPT_CANCEL": [
+            0.688,
+            0.95,
+            0.13,
+            0.042
+          ],
+          "ACTION_END_TURN": [
+            0.832,
+            0.895,
+            0.074,
+            0.041
+          ],
+          "ACTION_YIELD_SETTINGS": [
+            0.914,
+            0.895,
+            0.074,
+            0.041
+          ],
+          "ACTIONS_MENU": [
+            0.832,
+            0.95,
+            0.156,
+            0.042
+          ],
+          "PHASES_ACTIVE": [
+            0.01,
+            0.005,
+            0.81,
+            0.025
+          ],
+          "FIELD_1.AVATAR_IMAGE": [
+            0.01,
+            0.045,
+            0.03144,
+            0.09082
+          ],
+          "FIELD_1.NAME": [
+            0.04406,
+            0.045,
+            0.15982,
+            0.04302
+          ],
+          "FIELD_1.LIFE": [
+            0.2065,
+            0.045,
+            0.06288,
+            0.09082
+          ],
+          "FIELD_1.STATUS": [
+            0.04406,
+            0.0928,
+            0.15982,
+            0.04302
+          ],
+          "FIELD_1.PHASES": [
+            0.01,
+            0.1406,
+            0.262,
+            0.05019
+          ],
+          "FIELD_1.ZONE_LIBRARY": [
+            0.01,
+            0.19557,
+            0.03406,
+            0.05019
+          ],
+          "FIELD_1.ZONE_GRAVEYARD": [
+            0.04668,
+            0.19557,
+            0.03406,
+            0.05019
+          ],
+          "FIELD_1.ZONE_EXILE": [
+            0.08336,
+            0.19557,
+            0.03406,
+            0.05019
+          ],
+          "FIELD_1.MANA": [
+            0.12266,
+            0.19557,
+            0.11266,
+            0.05019
+          ],
+          "FIELD_1.OTHER_ZONES": [
+            0.23794,
+            0.19557,
+            0.03406,
+            0.05019
+          ],
+          "FIELD_2.AVATAR_IMAGE": [
+            0.28,
+            0.045,
+            0.03144,
+            0.09082
+          ],
+          "FIELD_2.NAME": [
+            0.31406,
+            0.045,
+            0.15982,
+            0.04302
+          ],
+          "FIELD_2.LIFE": [
+            0.4765,
+            0.045,
+            0.06288,
+            0.09082
+          ],
+          "FIELD_2.STATUS": [
+            0.31406,
+            0.0928,
+            0.15982,
+            0.04302
+          ],
+          "FIELD_2.PHASES": [
+            0.28,
+            0.1406,
+            0.262,
+            0.05019
+          ],
+          "FIELD_2.ZONE_LIBRARY": [
+            0.28,
+            0.19557,
+            0.03406,
+            0.05019
+          ],
+          "FIELD_2.ZONE_GRAVEYARD": [
+            0.31668,
+            0.19557,
+            0.03406,
+            0.05019
+          ],
+          "FIELD_2.ZONE_EXILE": [
+            0.35336,
+            0.19557,
+            0.03406,
+            0.05019
+          ],
+          "FIELD_2.MANA": [
+            0.39266,
+            0.19557,
+            0.11266,
+            0.05019
+          ],
+          "FIELD_2.OTHER_ZONES": [
+            0.50794,
+            0.19557,
+            0.03406,
+            0.05019
+          ],
+          "FIELD_3.AVATAR_IMAGE": [
+            0.55,
+            0.045,
+            0.03144,
+            0.09082
+          ],
+          "FIELD_3.NAME": [
+            0.58406,
+            0.045,
+            0.15982,
+            0.04302
+          ],
+          "FIELD_3.LIFE": [
+            0.7465,
+            0.045,
+            0.06288,
+            0.09082
+          ],
+          "FIELD_3.STATUS": [
+            0.58406,
+            0.0928,
+            0.15982,
+            0.04302
+          ],
+          "FIELD_3.PHASES": [
+            0.55,
+            0.1406,
+            0.262,
+            0.05019
+          ],
+          "FIELD_3.ZONE_LIBRARY": [
+            0.55,
+            0.19557,
+            0.03406,
+            0.05019
+          ],
+          "FIELD_3.ZONE_GRAVEYARD": [
+            0.58668,
+            0.19557,
+            0.03406,
+            0.05019
+          ],
+          "FIELD_3.ZONE_EXILE": [
+            0.62336,
+            0.19557,
+            0.03406,
+            0.05019
+          ],
+          "FIELD_3.MANA": [
+            0.66266,
+            0.19557,
+            0.11266,
+            0.05019
+          ],
+          "FIELD_3.OTHER_ZONES": [
+            0.77794,
+            0.19557,
+            0.03406,
+            0.05019
+          ],
+          "FIELD_0.AVATAR_IMAGE": [
+            0.01,
+            0.545,
+            0.09624,
+            0.04465
+          ],
+          "FIELD_0.NAME": [
+            0.11426,
+            0.545,
+            0.48922,
+            0.02115
+          ],
+          "FIELD_0.LIFE": [
+            0.6115,
+            0.545,
+            0.19248,
+            0.04465
+          ],
+          "FIELD_0.STATUS": [
+            0.11426,
+            0.5685,
+            0.48922,
+            0.02115
+          ],
+          "FIELD_0.PHASES": [
+            0.01,
+            0.592,
+            0.802,
+            0.024675
+          ],
+          "FIELD_0.ZONE_LIBRARY": [
+            0.01,
+            0.619025,
+            0.10426,
+            0.024675
+          ],
+          "FIELD_0.ZONE_GRAVEYARD": [
+            0.12228,
+            0.619025,
+            0.10426,
+            0.024675
+          ],
+          "FIELD_0.ZONE_EXILE": [
+            0.23456,
+            0.619025,
+            0.10426,
+            0.024675
+          ],
+          "FIELD_0.MANA": [
+            0.35486,
+            0.619025,
+            0.34486,
+            0.024675
+          ],
+          "FIELD_0.OTHER_ZONES": [
+            0.70774,
+            0.619025,
+            0.10426,
+            0.024675
+          ]
+        },
+        "regions": [
+          {
+            "bounds": [
+              0.01,
+              0.25293,
+              0.262,
+              0.27007
+            ],
+            "documents": [
+              "FIELD_1"
+            ]
+          },
+          {
+            "bounds": [
+              0.28,
+              0.25293,
+              0.262,
+              0.27007
+            ],
+            "documents": [
+              "FIELD_2"
+            ]
+          },
+          {
+            "bounds": [
+              0.55,
+              0.25293,
+              0.262,
+              0.27007
+            ],
+            "documents": [
+              "FIELD_3"
+            ]
+          },
+          {
+            "bounds": [
+              0.01,
+              0.647225,
+              0.802,
+              0.132775
+            ],
+            "documents": [
+              "FIELD_0"
+            ]
+          },
+          {
+            "bounds": [
+              0.01,
+              0.79,
+              0.81,
+              0.138
+            ],
+            "documents": [
+              "hands"
+            ],
+            "split": "COLUMNS"
+          },
+          {
+            "bounds": [
+              0.835,
+              0.012,
+              0.153,
+              0.55
+            ],
+            "documents": [
+              "CARD_PICTURE",
+              "CARD_DETAIL",
+              "remaining"
+            ]
+          }
+        ],
+        "renderers": {
+          "PHASES_ACTIVE": "PHASES_OVERVIEW",
+          "FIELD_1.ZONE_LIBRARY": "ZONE_BUTTON",
+          "FIELD_1.ZONE_GRAVEYARD": "ZONE_BUTTON",
+          "FIELD_1.ZONE_EXILE": "ZONE_BUTTON",
+          "FIELD_2.ZONE_LIBRARY": "ZONE_BUTTON",
+          "FIELD_2.ZONE_GRAVEYARD": "ZONE_BUTTON",
+          "FIELD_2.ZONE_EXILE": "ZONE_BUTTON",
+          "FIELD_3.ZONE_LIBRARY": "ZONE_BUTTON",
+          "FIELD_3.ZONE_GRAVEYARD": "ZONE_BUTTON",
+          "FIELD_3.ZONE_EXILE": "ZONE_BUTTON",
+          "FIELD_0.ZONE_LIBRARY": "ZONE_BUTTON",
+          "FIELD_0.ZONE_GRAVEYARD": "ZONE_BUTTON",
+          "FIELD_0.ZONE_EXILE": "ZONE_BUTTON"
+        },
+        "visibility": {
+          "FIELD_0.STATUS": "STATUS_NONEMPTY",
+          "FIELD_1.STATUS": "STATUS_NONEMPTY",
+          "FIELD_2.STATUS": "STATUS_NONEMPTY",
+          "FIELD_3.STATUS": "STATUS_NONEMPTY"
+        },
+        "anchors": {
+          "FIELD_0.AVATAR_IMAGE": {
+            "aspectRatio": 1,
+            "maxHeight": 120
+          },
+          "FIELD_1.AVATAR_IMAGE": {
+            "aspectRatio": 1,
+            "maxHeight": 120
+          },
+          "FIELD_2.AVATAR_IMAGE": {
+            "aspectRatio": 1,
+            "maxHeight": 120
+          },
+          "FIELD_3.AVATAR_IMAGE": {
+            "aspectRatio": 1,
+            "maxHeight": 120
+          }
+        }
+      },
+      {
+        "id": "players-5",
+        "minPlayers": 5,
+        "maxPlayers": 5,
+        "widgets": {
+          "PROMPT_MESSAGE": [
+            0.012,
+            0.94,
+            0.535,
+            0.055
+          ],
+          "PROMPT_OK": [
+            0.558,
+            0.95,
+            0.118,
+            0.042
+          ],
+          "PROMPT_CANCEL": [
+            0.688,
+            0.95,
+            0.13,
+            0.042
+          ],
+          "ACTION_END_TURN": [
+            0.832,
+            0.895,
+            0.074,
+            0.041
+          ],
+          "ACTION_YIELD_SETTINGS": [
+            0.914,
+            0.895,
+            0.074,
+            0.041
+          ],
+          "ACTIONS_MENU": [
+            0.832,
+            0.95,
+            0.156,
+            0.042
+          ],
+          "PHASES_ACTIVE": [
+            0.01,
+            0.005,
+            0.81,
+            0.025
+          ],
+          "FIELD_1.AVATAR_IMAGE": [
+            0.01,
+            0.045,
+            0.04764,
+            0.04427
+          ],
+          "FIELD_1.NAME": [
+            0.06161,
+            0.045,
+            0.24217,
+            0.02097
+          ],
+          "FIELD_1.LIFE": [
+            0.30775,
+            0.045,
+            0.09528,
+            0.04427
+          ],
+          "FIELD_1.STATUS": [
+            0.06161,
+            0.0683,
+            0.24217,
+            0.02097
+          ],
+          "FIELD_1.PHASES": [
+            0.01,
+            0.0916,
+            0.397,
+            0.024465
+          ],
+          "FIELD_1.ZONE_LIBRARY": [
+            0.01,
+            0.118395,
+            0.05161,
+            0.024465
+          ],
+          "FIELD_1.ZONE_GRAVEYARD": [
+            0.06558,
+            0.118395,
+            0.05161,
+            0.024465
+          ],
+          "FIELD_1.ZONE_EXILE": [
+            0.12116,
+            0.118395,
+            0.05161,
+            0.024465
+          ],
+          "FIELD_1.MANA": [
+            0.18071,
+            0.118395,
+            0.17071,
+            0.024465
+          ],
+          "FIELD_1.OTHER_ZONES": [
+            0.35539,
+            0.118395,
+            0.05161,
+            0.024465
+          ],
+          "FIELD_2.AVATAR_IMAGE": [
+            0.415,
+            0.045,
+            0.04764,
+            0.04427
+          ],
+          "FIELD_2.NAME": [
+            0.46661,
+            0.045,
+            0.24217,
+            0.02097
+          ],
+          "FIELD_2.LIFE": [
+            0.71275,
+            0.045,
+            0.09528,
+            0.04427
+          ],
+          "FIELD_2.STATUS": [
+            0.46661,
+            0.0683,
+            0.24217,
+            0.02097
+          ],
+          "FIELD_2.PHASES": [
+            0.415,
+            0.0916,
+            0.397,
+            0.024465
+          ],
+          "FIELD_2.ZONE_LIBRARY": [
+            0.415,
+            0.118395,
+            0.05161,
+            0.024465
+          ],
+          "FIELD_2.ZONE_GRAVEYARD": [
+            0.47058,
+            0.118395,
+            0.05161,
+            0.024465
+          ],
+          "FIELD_2.ZONE_EXILE": [
+            0.52616,
+            0.118395,
+            0.05161,
+            0.024465
+          ],
+          "FIELD_2.MANA": [
+            0.58571,
+            0.118395,
+            0.17071,
+            0.024465
+          ],
+          "FIELD_2.OTHER_ZONES": [
+            0.76039,
+            0.118395,
+            0.05161,
+            0.024465
+          ],
+          "FIELD_3.AVATAR_IMAGE": [
+            0.01,
+            0.29,
+            0.04764,
+            0.04427
+          ],
+          "FIELD_3.NAME": [
+            0.06161,
+            0.29,
+            0.24217,
+            0.02097
+          ],
+          "FIELD_3.LIFE": [
+            0.30775,
+            0.29,
+            0.09528,
+            0.04427
+          ],
+          "FIELD_3.STATUS": [
+            0.06161,
+            0.3133,
+            0.24217,
+            0.02097
+          ],
+          "FIELD_3.PHASES": [
+            0.01,
+            0.3366,
+            0.397,
+            0.024465
+          ],
+          "FIELD_3.ZONE_LIBRARY": [
+            0.01,
+            0.363395,
+            0.05161,
+            0.024465
+          ],
+          "FIELD_3.ZONE_GRAVEYARD": [
+            0.06558,
+            0.363395,
+            0.05161,
+            0.024465
+          ],
+          "FIELD_3.ZONE_EXILE": [
+            0.12116,
+            0.363395,
+            0.05161,
+            0.024465
+          ],
+          "FIELD_3.MANA": [
+            0.18071,
+            0.363395,
+            0.17071,
+            0.024465
+          ],
+          "FIELD_3.OTHER_ZONES": [
+            0.35539,
+            0.363395,
+            0.05161,
+            0.024465
+          ],
+          "FIELD_4.AVATAR_IMAGE": [
+            0.415,
+            0.29,
+            0.04764,
+            0.04427
+          ],
+          "FIELD_4.NAME": [
+            0.46661,
+            0.29,
+            0.24217,
+            0.02097
+          ],
+          "FIELD_4.LIFE": [
+            0.71275,
+            0.29,
+            0.09528,
+            0.04427
+          ],
+          "FIELD_4.STATUS": [
+            0.46661,
+            0.3133,
+            0.24217,
+            0.02097
+          ],
+          "FIELD_4.PHASES": [
+            0.415,
+            0.3366,
+            0.397,
+            0.024465
+          ],
+          "FIELD_4.ZONE_LIBRARY": [
+            0.415,
+            0.363395,
+            0.05161,
+            0.024465
+          ],
+          "FIELD_4.ZONE_GRAVEYARD": [
+            0.47058,
+            0.363395,
+            0.05161,
+            0.024465
+          ],
+          "FIELD_4.ZONE_EXILE": [
+            0.52616,
+            0.363395,
+            0.05161,
+            0.024465
+          ],
+          "FIELD_4.MANA": [
+            0.58571,
+            0.363395,
+            0.17071,
+            0.024465
+          ],
+          "FIELD_4.OTHER_ZONES": [
+            0.76039,
+            0.363395,
+            0.05161,
+            0.024465
+          ],
+          "FIELD_0.AVATAR_IMAGE": [
+            0.01,
+            0.545,
+            0.09624,
+            0.04465
+          ],
+          "FIELD_0.NAME": [
+            0.11426,
+            0.545,
+            0.48922,
+            0.02115
+          ],
+          "FIELD_0.LIFE": [
+            0.6115,
+            0.545,
+            0.19248,
+            0.04465
+          ],
+          "FIELD_0.STATUS": [
+            0.11426,
+            0.5685,
+            0.48922,
+            0.02115
+          ],
+          "FIELD_0.PHASES": [
+            0.01,
+            0.592,
+            0.802,
+            0.024675
+          ],
+          "FIELD_0.ZONE_LIBRARY": [
+            0.01,
+            0.619025,
+            0.10426,
+            0.024675
+          ],
+          "FIELD_0.ZONE_GRAVEYARD": [
+            0.12228,
+            0.619025,
+            0.10426,
+            0.024675
+          ],
+          "FIELD_0.ZONE_EXILE": [
+            0.23456,
+            0.619025,
+            0.10426,
+            0.024675
+          ],
+          "FIELD_0.MANA": [
+            0.35486,
+            0.619025,
+            0.34486,
+            0.024675
+          ],
+          "FIELD_0.OTHER_ZONES": [
+            0.70774,
+            0.619025,
+            0.10426,
+            0.024675
+          ]
+        },
+        "regions": [
+          {
+            "bounds": [
+              0.01,
+              0.146355,
+              0.397,
+              0.131645
+            ],
+            "documents": [
+              "FIELD_1"
+            ]
+          },
+          {
+            "bounds": [
+              0.415,
+              0.146355,
+              0.397,
+              0.131645
+            ],
+            "documents": [
+              "FIELD_2"
+            ]
+          },
+          {
+            "bounds": [
+              0.01,
+              0.391355,
+              0.397,
+              0.131645
+            ],
+            "documents": [
+              "FIELD_3"
+            ]
+          },
+          {
+            "bounds": [
+              0.415,
+              0.391355,
+              0.397,
+              0.131645
+            ],
+            "documents": [
+              "FIELD_4"
+            ]
+          },
+          {
+            "bounds": [
+              0.01,
+              0.647225,
+              0.802,
+              0.132775
+            ],
+            "documents": [
+              "FIELD_0"
+            ]
+          },
+          {
+            "bounds": [
+              0.01,
+              0.79,
+              0.81,
+              0.138
+            ],
+            "documents": [
+              "hands"
+            ],
+            "split": "COLUMNS"
+          },
+          {
+            "bounds": [
+              0.835,
+              0.012,
+              0.153,
+              0.55
+            ],
+            "documents": [
+              "CARD_PICTURE",
+              "CARD_DETAIL",
+              "remaining"
+            ]
+          }
+        ],
+        "renderers": {
+          "PHASES_ACTIVE": "PHASES_OVERVIEW",
+          "FIELD_1.ZONE_LIBRARY": "ZONE_BUTTON",
+          "FIELD_1.ZONE_GRAVEYARD": "ZONE_BUTTON",
+          "FIELD_1.ZONE_EXILE": "ZONE_BUTTON",
+          "FIELD_2.ZONE_LIBRARY": "ZONE_BUTTON",
+          "FIELD_2.ZONE_GRAVEYARD": "ZONE_BUTTON",
+          "FIELD_2.ZONE_EXILE": "ZONE_BUTTON",
+          "FIELD_3.ZONE_LIBRARY": "ZONE_BUTTON",
+          "FIELD_3.ZONE_GRAVEYARD": "ZONE_BUTTON",
+          "FIELD_3.ZONE_EXILE": "ZONE_BUTTON",
+          "FIELD_4.ZONE_LIBRARY": "ZONE_BUTTON",
+          "FIELD_4.ZONE_GRAVEYARD": "ZONE_BUTTON",
+          "FIELD_4.ZONE_EXILE": "ZONE_BUTTON",
+          "FIELD_0.ZONE_LIBRARY": "ZONE_BUTTON",
+          "FIELD_0.ZONE_GRAVEYARD": "ZONE_BUTTON",
+          "FIELD_0.ZONE_EXILE": "ZONE_BUTTON"
+        },
+        "visibility": {
+          "FIELD_0.STATUS": "STATUS_NONEMPTY",
+          "FIELD_1.STATUS": "STATUS_NONEMPTY",
+          "FIELD_2.STATUS": "STATUS_NONEMPTY",
+          "FIELD_3.STATUS": "STATUS_NONEMPTY",
+          "FIELD_4.STATUS": "STATUS_NONEMPTY"
+        },
+        "anchors": {
+          "FIELD_0.AVATAR_IMAGE": {
+            "aspectRatio": 1,
+            "maxHeight": 120
+          },
+          "FIELD_1.AVATAR_IMAGE": {
+            "aspectRatio": 1,
+            "maxHeight": 120
+          },
+          "FIELD_2.AVATAR_IMAGE": {
+            "aspectRatio": 1,
+            "maxHeight": 120
+          },
+          "FIELD_3.AVATAR_IMAGE": {
+            "aspectRatio": 1,
+            "maxHeight": 120
+          },
+          "FIELD_4.AVATAR_IMAGE": {
+            "aspectRatio": 1,
+            "maxHeight": 120
+          }
+        }
+      },
+      {
+        "id": "players-6",
+        "minPlayers": 6,
+        "maxPlayers": 6,
+        "widgets": {
+          "PROMPT_MESSAGE": [
+            0.012,
+            0.94,
+            0.535,
+            0.055
+          ],
+          "PROMPT_OK": [
+            0.558,
+            0.95,
+            0.118,
+            0.042
+          ],
+          "PROMPT_CANCEL": [
+            0.688,
+            0.95,
+            0.13,
+            0.042
+          ],
+          "ACTION_END_TURN": [
+            0.832,
+            0.895,
+            0.074,
+            0.041
+          ],
+          "ACTION_YIELD_SETTINGS": [
+            0.914,
+            0.895,
+            0.074,
+            0.041
+          ],
+          "ACTIONS_MENU": [
+            0.832,
+            0.95,
+            0.156,
+            0.042
+          ],
+          "PHASES_ACTIVE": [
+            0.01,
+            0.005,
+            0.81,
+            0.025
+          ],
+          "FIELD_1.AVATAR_IMAGE": [
+            0.01,
+            0.045,
+            0.03144,
+            0.04427
+          ],
+          "FIELD_1.NAME": [
+            0.04406,
+            0.045,
+            0.15982,
+            0.02097
+          ],
+          "FIELD_1.LIFE": [
+            0.2065,
+            0.045,
+            0.06288,
+            0.04427
+          ],
+          "FIELD_1.STATUS": [
+            0.04406,
+            0.0683,
+            0.15982,
+            0.02097
+          ],
+          "FIELD_1.PHASES": [
+            0.01,
+            0.0916,
+            0.262,
+            0.024465
+          ],
+          "FIELD_1.ZONE_LIBRARY": [
+            0.01,
+            0.118395,
+            0.03406,
+            0.024465
+          ],
+          "FIELD_1.ZONE_GRAVEYARD": [
+            0.04668,
+            0.118395,
+            0.03406,
+            0.024465
+          ],
+          "FIELD_1.ZONE_EXILE": [
+            0.08336,
+            0.118395,
+            0.03406,
+            0.024465
+          ],
+          "FIELD_1.MANA": [
+            0.12266,
+            0.118395,
+            0.11266,
+            0.024465
+          ],
+          "FIELD_1.OTHER_ZONES": [
+            0.23794,
+            0.118395,
+            0.03406,
+            0.024465
+          ],
+          "FIELD_2.AVATAR_IMAGE": [
+            0.28,
+            0.045,
+            0.03144,
+            0.04427
+          ],
+          "FIELD_2.NAME": [
+            0.31406,
+            0.045,
+            0.15982,
+            0.02097
+          ],
+          "FIELD_2.LIFE": [
+            0.4765,
+            0.045,
+            0.06288,
+            0.04427
+          ],
+          "FIELD_2.STATUS": [
+            0.31406,
+            0.0683,
+            0.15982,
+            0.02097
+          ],
+          "FIELD_2.PHASES": [
+            0.28,
+            0.0916,
+            0.262,
+            0.024465
+          ],
+          "FIELD_2.ZONE_LIBRARY": [
+            0.28,
+            0.118395,
+            0.03406,
+            0.024465
+          ],
+          "FIELD_2.ZONE_GRAVEYARD": [
+            0.31668,
+            0.118395,
+            0.03406,
+            0.024465
+          ],
+          "FIELD_2.ZONE_EXILE": [
+            0.35336,
+            0.118395,
+            0.03406,
+            0.024465
+          ],
+          "FIELD_2.MANA": [
+            0.39266,
+            0.118395,
+            0.11266,
+            0.024465
+          ],
+          "FIELD_2.OTHER_ZONES": [
+            0.50794,
+            0.118395,
+            0.03406,
+            0.024465
+          ],
+          "FIELD_3.AVATAR_IMAGE": [
+            0.55,
+            0.045,
+            0.03144,
+            0.04427
+          ],
+          "FIELD_3.NAME": [
+            0.58406,
+            0.045,
+            0.15982,
+            0.02097
+          ],
+          "FIELD_3.LIFE": [
+            0.7465,
+            0.045,
+            0.06288,
+            0.04427
+          ],
+          "FIELD_3.STATUS": [
+            0.58406,
+            0.0683,
+            0.15982,
+            0.02097
+          ],
+          "FIELD_3.PHASES": [
+            0.55,
+            0.0916,
+            0.262,
+            0.024465
+          ],
+          "FIELD_3.ZONE_LIBRARY": [
+            0.55,
+            0.118395,
+            0.03406,
+            0.024465
+          ],
+          "FIELD_3.ZONE_GRAVEYARD": [
+            0.58668,
+            0.118395,
+            0.03406,
+            0.024465
+          ],
+          "FIELD_3.ZONE_EXILE": [
+            0.62336,
+            0.118395,
+            0.03406,
+            0.024465
+          ],
+          "FIELD_3.MANA": [
+            0.66266,
+            0.118395,
+            0.11266,
+            0.024465
+          ],
+          "FIELD_3.OTHER_ZONES": [
+            0.77794,
+            0.118395,
+            0.03406,
+            0.024465
+          ],
+          "FIELD_4.AVATAR_IMAGE": [
+            0.01,
+            0.29,
+            0.04764,
+            0.04427
+          ],
+          "FIELD_4.NAME": [
+            0.06161,
+            0.29,
+            0.24217,
+            0.02097
+          ],
+          "FIELD_4.LIFE": [
+            0.30775,
+            0.29,
+            0.09528,
+            0.04427
+          ],
+          "FIELD_4.STATUS": [
+            0.06161,
+            0.3133,
+            0.24217,
+            0.02097
+          ],
+          "FIELD_4.PHASES": [
+            0.01,
+            0.3366,
+            0.397,
+            0.024465
+          ],
+          "FIELD_4.ZONE_LIBRARY": [
+            0.01,
+            0.363395,
+            0.05161,
+            0.024465
+          ],
+          "FIELD_4.ZONE_GRAVEYARD": [
+            0.06558,
+            0.363395,
+            0.05161,
+            0.024465
+          ],
+          "FIELD_4.ZONE_EXILE": [
+            0.12116,
+            0.363395,
+            0.05161,
+            0.024465
+          ],
+          "FIELD_4.MANA": [
+            0.18071,
+            0.363395,
+            0.17071,
+            0.024465
+          ],
+          "FIELD_4.OTHER_ZONES": [
+            0.35539,
+            0.363395,
+            0.05161,
+            0.024465
+          ],
+          "FIELD_5.AVATAR_IMAGE": [
+            0.415,
+            0.29,
+            0.04764,
+            0.04427
+          ],
+          "FIELD_5.NAME": [
+            0.46661,
+            0.29,
+            0.24217,
+            0.02097
+          ],
+          "FIELD_5.LIFE": [
+            0.71275,
+            0.29,
+            0.09528,
+            0.04427
+          ],
+          "FIELD_5.STATUS": [
+            0.46661,
+            0.3133,
+            0.24217,
+            0.02097
+          ],
+          "FIELD_5.PHASES": [
+            0.415,
+            0.3366,
+            0.397,
+            0.024465
+          ],
+          "FIELD_5.ZONE_LIBRARY": [
+            0.415,
+            0.363395,
+            0.05161,
+            0.024465
+          ],
+          "FIELD_5.ZONE_GRAVEYARD": [
+            0.47058,
+            0.363395,
+            0.05161,
+            0.024465
+          ],
+          "FIELD_5.ZONE_EXILE": [
+            0.52616,
+            0.363395,
+            0.05161,
+            0.024465
+          ],
+          "FIELD_5.MANA": [
+            0.58571,
+            0.363395,
+            0.17071,
+            0.024465
+          ],
+          "FIELD_5.OTHER_ZONES": [
+            0.76039,
+            0.363395,
+            0.05161,
+            0.024465
+          ],
+          "FIELD_0.AVATAR_IMAGE": [
+            0.01,
+            0.545,
+            0.09624,
+            0.04465
+          ],
+          "FIELD_0.NAME": [
+            0.11426,
+            0.545,
+            0.48922,
+            0.02115
+          ],
+          "FIELD_0.LIFE": [
+            0.6115,
+            0.545,
+            0.19248,
+            0.04465
+          ],
+          "FIELD_0.STATUS": [
+            0.11426,
+            0.5685,
+            0.48922,
+            0.02115
+          ],
+          "FIELD_0.PHASES": [
+            0.01,
+            0.592,
+            0.802,
+            0.024675
+          ],
+          "FIELD_0.ZONE_LIBRARY": [
+            0.01,
+            0.619025,
+            0.10426,
+            0.024675
+          ],
+          "FIELD_0.ZONE_GRAVEYARD": [
+            0.12228,
+            0.619025,
+            0.10426,
+            0.024675
+          ],
+          "FIELD_0.ZONE_EXILE": [
+            0.23456,
+            0.619025,
+            0.10426,
+            0.024675
+          ],
+          "FIELD_0.MANA": [
+            0.35486,
+            0.619025,
+            0.34486,
+            0.024675
+          ],
+          "FIELD_0.OTHER_ZONES": [
+            0.70774,
+            0.619025,
+            0.10426,
+            0.024675
+          ]
+        },
+        "regions": [
+          {
+            "bounds": [
+              0.01,
+              0.146355,
+              0.262,
+              0.131645
+            ],
+            "documents": [
+              "FIELD_1"
+            ]
+          },
+          {
+            "bounds": [
+              0.28,
+              0.146355,
+              0.262,
+              0.131645
+            ],
+            "documents": [
+              "FIELD_2"
+            ]
+          },
+          {
+            "bounds": [
+              0.55,
+              0.146355,
+              0.262,
+              0.131645
+            ],
+            "documents": [
+              "FIELD_3"
+            ]
+          },
+          {
+            "bounds": [
+              0.01,
+              0.391355,
+              0.397,
+              0.131645
+            ],
+            "documents": [
+              "FIELD_4"
+            ]
+          },
+          {
+            "bounds": [
+              0.415,
+              0.391355,
+              0.397,
+              0.131645
+            ],
+            "documents": [
+              "FIELD_5"
+            ]
+          },
+          {
+            "bounds": [
+              0.01,
+              0.647225,
+              0.802,
+              0.132775
+            ],
+            "documents": [
+              "FIELD_0"
+            ]
+          },
+          {
+            "bounds": [
+              0.01,
+              0.79,
+              0.81,
+              0.138
+            ],
+            "documents": [
+              "hands"
+            ],
+            "split": "COLUMNS"
+          },
+          {
+            "bounds": [
+              0.835,
+              0.012,
+              0.153,
+              0.55
+            ],
+            "documents": [
+              "CARD_PICTURE",
+              "CARD_DETAIL",
+              "remaining"
+            ]
+          }
+        ],
+        "renderers": {
+          "PHASES_ACTIVE": "PHASES_OVERVIEW",
+          "FIELD_1.ZONE_LIBRARY": "ZONE_BUTTON",
+          "FIELD_1.ZONE_GRAVEYARD": "ZONE_BUTTON",
+          "FIELD_1.ZONE_EXILE": "ZONE_BUTTON",
+          "FIELD_2.ZONE_LIBRARY": "ZONE_BUTTON",
+          "FIELD_2.ZONE_GRAVEYARD": "ZONE_BUTTON",
+          "FIELD_2.ZONE_EXILE": "ZONE_BUTTON",
+          "FIELD_3.ZONE_LIBRARY": "ZONE_BUTTON",
+          "FIELD_3.ZONE_GRAVEYARD": "ZONE_BUTTON",
+          "FIELD_3.ZONE_EXILE": "ZONE_BUTTON",
+          "FIELD_4.ZONE_LIBRARY": "ZONE_BUTTON",
+          "FIELD_4.ZONE_GRAVEYARD": "ZONE_BUTTON",
+          "FIELD_4.ZONE_EXILE": "ZONE_BUTTON",
+          "FIELD_5.ZONE_LIBRARY": "ZONE_BUTTON",
+          "FIELD_5.ZONE_GRAVEYARD": "ZONE_BUTTON",
+          "FIELD_5.ZONE_EXILE": "ZONE_BUTTON",
+          "FIELD_0.ZONE_LIBRARY": "ZONE_BUTTON",
+          "FIELD_0.ZONE_GRAVEYARD": "ZONE_BUTTON",
+          "FIELD_0.ZONE_EXILE": "ZONE_BUTTON"
+        },
+        "visibility": {
+          "FIELD_0.STATUS": "STATUS_NONEMPTY",
+          "FIELD_1.STATUS": "STATUS_NONEMPTY",
+          "FIELD_2.STATUS": "STATUS_NONEMPTY",
+          "FIELD_3.STATUS": "STATUS_NONEMPTY",
+          "FIELD_4.STATUS": "STATUS_NONEMPTY",
+          "FIELD_5.STATUS": "STATUS_NONEMPTY"
+        },
+        "anchors": {
+          "FIELD_0.AVATAR_IMAGE": {
+            "aspectRatio": 1,
+            "maxHeight": 120
+          },
+          "FIELD_1.AVATAR_IMAGE": {
+            "aspectRatio": 1,
+            "maxHeight": 120
+          },
+          "FIELD_2.AVATAR_IMAGE": {
+            "aspectRatio": 1,
+            "maxHeight": 120
+          },
+          "FIELD_3.AVATAR_IMAGE": {
+            "aspectRatio": 1,
+            "maxHeight": 120
+          },
+          "FIELD_4.AVATAR_IMAGE": {
+            "aspectRatio": 1,
+            "maxHeight": 120
+          },
+          "FIELD_5.AVATAR_IMAGE": {
+            "aspectRatio": 1,
+            "maxHeight": 120
+          }
+        }
+      },
+      {
+        "id": "players-7",
+        "minPlayers": 7,
+        "maxPlayers": 7,
+        "widgets": {
+          "PROMPT_MESSAGE": [
+            0.012,
+            0.94,
+            0.535,
+            0.055
+          ],
+          "PROMPT_OK": [
+            0.558,
+            0.95,
+            0.118,
+            0.042
+          ],
+          "PROMPT_CANCEL": [
+            0.688,
+            0.95,
+            0.13,
+            0.042
+          ],
+          "ACTION_END_TURN": [
+            0.832,
+            0.895,
+            0.074,
+            0.041
+          ],
+          "ACTION_YIELD_SETTINGS": [
+            0.914,
+            0.895,
+            0.074,
+            0.041
+          ],
+          "ACTIONS_MENU": [
+            0.832,
+            0.95,
+            0.156,
+            0.042
+          ],
+          "PHASES_ACTIVE": [
+            0.01,
+            0.005,
+            0.81,
+            0.025
+          ],
+          "FIELD_1.AVATAR_IMAGE": [
+            0.01,
+            0.045,
+            0.03144,
+            0.04427
+          ],
+          "FIELD_1.NAME": [
+            0.04406,
+            0.045,
+            0.15982,
+            0.02097
+          ],
+          "FIELD_1.LIFE": [
+            0.2065,
+            0.045,
+            0.06288,
+            0.04427
+          ],
+          "FIELD_1.STATUS": [
+            0.04406,
+            0.0683,
+            0.15982,
+            0.02097
+          ],
+          "FIELD_1.PHASES": [
+            0.01,
+            0.0916,
+            0.262,
+            0.024465
+          ],
+          "FIELD_1.ZONE_LIBRARY": [
+            0.01,
+            0.118395,
+            0.03406,
+            0.024465
+          ],
+          "FIELD_1.ZONE_GRAVEYARD": [
+            0.04668,
+            0.118395,
+            0.03406,
+            0.024465
+          ],
+          "FIELD_1.ZONE_EXILE": [
+            0.08336,
+            0.118395,
+            0.03406,
+            0.024465
+          ],
+          "FIELD_1.MANA": [
+            0.12266,
+            0.118395,
+            0.11266,
+            0.024465
+          ],
+          "FIELD_1.OTHER_ZONES": [
+            0.23794,
+            0.118395,
+            0.03406,
+            0.024465
+          ],
+          "FIELD_2.AVATAR_IMAGE": [
+            0.28,
+            0.045,
+            0.03144,
+            0.04427
+          ],
+          "FIELD_2.NAME": [
+            0.31406,
+            0.045,
+            0.15982,
+            0.02097
+          ],
+          "FIELD_2.LIFE": [
+            0.4765,
+            0.045,
+            0.06288,
+            0.04427
+          ],
+          "FIELD_2.STATUS": [
+            0.31406,
+            0.0683,
+            0.15982,
+            0.02097
+          ],
+          "FIELD_2.PHASES": [
+            0.28,
+            0.0916,
+            0.262,
+            0.024465
+          ],
+          "FIELD_2.ZONE_LIBRARY": [
+            0.28,
+            0.118395,
+            0.03406,
+            0.024465
+          ],
+          "FIELD_2.ZONE_GRAVEYARD": [
+            0.31668,
+            0.118395,
+            0.03406,
+            0.024465
+          ],
+          "FIELD_2.ZONE_EXILE": [
+            0.35336,
+            0.118395,
+            0.03406,
+            0.024465
+          ],
+          "FIELD_2.MANA": [
+            0.39266,
+            0.118395,
+            0.11266,
+            0.024465
+          ],
+          "FIELD_2.OTHER_ZONES": [
+            0.50794,
+            0.118395,
+            0.03406,
+            0.024465
+          ],
+          "FIELD_3.AVATAR_IMAGE": [
+            0.55,
+            0.045,
+            0.03144,
+            0.04427
+          ],
+          "FIELD_3.NAME": [
+            0.58406,
+            0.045,
+            0.15982,
+            0.02097
+          ],
+          "FIELD_3.LIFE": [
+            0.7465,
+            0.045,
+            0.06288,
+            0.04427
+          ],
+          "FIELD_3.STATUS": [
+            0.58406,
+            0.0683,
+            0.15982,
+            0.02097
+          ],
+          "FIELD_3.PHASES": [
+            0.55,
+            0.0916,
+            0.262,
+            0.024465
+          ],
+          "FIELD_3.ZONE_LIBRARY": [
+            0.55,
+            0.118395,
+            0.03406,
+            0.024465
+          ],
+          "FIELD_3.ZONE_GRAVEYARD": [
+            0.58668,
+            0.118395,
+            0.03406,
+            0.024465
+          ],
+          "FIELD_3.ZONE_EXILE": [
+            0.62336,
+            0.118395,
+            0.03406,
+            0.024465
+          ],
+          "FIELD_3.MANA": [
+            0.66266,
+            0.118395,
+            0.11266,
+            0.024465
+          ],
+          "FIELD_3.OTHER_ZONES": [
+            0.77794,
+            0.118395,
+            0.03406,
+            0.024465
+          ],
+          "FIELD_4.AVATAR_IMAGE": [
+            0.01,
+            0.29,
+            0.03144,
+            0.04427
+          ],
+          "FIELD_4.NAME": [
+            0.04406,
+            0.29,
+            0.15982,
+            0.02097
+          ],
+          "FIELD_4.LIFE": [
+            0.2065,
+            0.29,
+            0.06288,
+            0.04427
+          ],
+          "FIELD_4.STATUS": [
+            0.04406,
+            0.3133,
+            0.15982,
+            0.02097
+          ],
+          "FIELD_4.PHASES": [
+            0.01,
+            0.3366,
+            0.262,
+            0.024465
+          ],
+          "FIELD_4.ZONE_LIBRARY": [
+            0.01,
+            0.363395,
+            0.03406,
+            0.024465
+          ],
+          "FIELD_4.ZONE_GRAVEYARD": [
+            0.04668,
+            0.363395,
+            0.03406,
+            0.024465
+          ],
+          "FIELD_4.ZONE_EXILE": [
+            0.08336,
+            0.363395,
+            0.03406,
+            0.024465
+          ],
+          "FIELD_4.MANA": [
+            0.12266,
+            0.363395,
+            0.11266,
+            0.024465
+          ],
+          "FIELD_4.OTHER_ZONES": [
+            0.23794,
+            0.363395,
+            0.03406,
+            0.024465
+          ],
+          "FIELD_5.AVATAR_IMAGE": [
+            0.28,
+            0.29,
+            0.03144,
+            0.04427
+          ],
+          "FIELD_5.NAME": [
+            0.31406,
+            0.29,
+            0.15982,
+            0.02097
+          ],
+          "FIELD_5.LIFE": [
+            0.4765,
+            0.29,
+            0.06288,
+            0.04427
+          ],
+          "FIELD_5.STATUS": [
+            0.31406,
+            0.3133,
+            0.15982,
+            0.02097
+          ],
+          "FIELD_5.PHASES": [
+            0.28,
+            0.3366,
+            0.262,
+            0.024465
+          ],
+          "FIELD_5.ZONE_LIBRARY": [
+            0.28,
+            0.363395,
+            0.03406,
+            0.024465
+          ],
+          "FIELD_5.ZONE_GRAVEYARD": [
+            0.31668,
+            0.363395,
+            0.03406,
+            0.024465
+          ],
+          "FIELD_5.ZONE_EXILE": [
+            0.35336,
+            0.363395,
+            0.03406,
+            0.024465
+          ],
+          "FIELD_5.MANA": [
+            0.39266,
+            0.363395,
+            0.11266,
+            0.024465
+          ],
+          "FIELD_5.OTHER_ZONES": [
+            0.50794,
+            0.363395,
+            0.03406,
+            0.024465
+          ],
+          "FIELD_6.AVATAR_IMAGE": [
+            0.55,
+            0.29,
+            0.03144,
+            0.04427
+          ],
+          "FIELD_6.NAME": [
+            0.58406,
+            0.29,
+            0.15982,
+            0.02097
+          ],
+          "FIELD_6.LIFE": [
+            0.7465,
+            0.29,
+            0.06288,
+            0.04427
+          ],
+          "FIELD_6.STATUS": [
+            0.58406,
+            0.3133,
+            0.15982,
+            0.02097
+          ],
+          "FIELD_6.PHASES": [
+            0.55,
+            0.3366,
+            0.262,
+            0.024465
+          ],
+          "FIELD_6.ZONE_LIBRARY": [
+            0.55,
+            0.363395,
+            0.03406,
+            0.024465
+          ],
+          "FIELD_6.ZONE_GRAVEYARD": [
+            0.58668,
+            0.363395,
+            0.03406,
+            0.024465
+          ],
+          "FIELD_6.ZONE_EXILE": [
+            0.62336,
+            0.363395,
+            0.03406,
+            0.024465
+          ],
+          "FIELD_6.MANA": [
+            0.66266,
+            0.363395,
+            0.11266,
+            0.024465
+          ],
+          "FIELD_6.OTHER_ZONES": [
+            0.77794,
+            0.363395,
+            0.03406,
+            0.024465
+          ],
+          "FIELD_0.AVATAR_IMAGE": [
+            0.01,
+            0.545,
+            0.09624,
+            0.04465
+          ],
+          "FIELD_0.NAME": [
+            0.11426,
+            0.545,
+            0.48922,
+            0.02115
+          ],
+          "FIELD_0.LIFE": [
+            0.6115,
+            0.545,
+            0.19248,
+            0.04465
+          ],
+          "FIELD_0.STATUS": [
+            0.11426,
+            0.5685,
+            0.48922,
+            0.02115
+          ],
+          "FIELD_0.PHASES": [
+            0.01,
+            0.592,
+            0.802,
+            0.024675
+          ],
+          "FIELD_0.ZONE_LIBRARY": [
+            0.01,
+            0.619025,
+            0.10426,
+            0.024675
+          ],
+          "FIELD_0.ZONE_GRAVEYARD": [
+            0.12228,
+            0.619025,
+            0.10426,
+            0.024675
+          ],
+          "FIELD_0.ZONE_EXILE": [
+            0.23456,
+            0.619025,
+            0.10426,
+            0.024675
+          ],
+          "FIELD_0.MANA": [
+            0.35486,
+            0.619025,
+            0.34486,
+            0.024675
+          ],
+          "FIELD_0.OTHER_ZONES": [
+            0.70774,
+            0.619025,
+            0.10426,
+            0.024675
+          ]
+        },
+        "regions": [
+          {
+            "bounds": [
+              0.01,
+              0.146355,
+              0.262,
+              0.131645
+            ],
+            "documents": [
+              "FIELD_1"
+            ]
+          },
+          {
+            "bounds": [
+              0.28,
+              0.146355,
+              0.262,
+              0.131645
+            ],
+            "documents": [
+              "FIELD_2"
+            ]
+          },
+          {
+            "bounds": [
+              0.55,
+              0.146355,
+              0.262,
+              0.131645
+            ],
+            "documents": [
+              "FIELD_3"
+            ]
+          },
+          {
+            "bounds": [
+              0.01,
+              0.391355,
+              0.262,
+              0.131645
+            ],
+            "documents": [
+              "FIELD_4"
+            ]
+          },
+          {
+            "bounds": [
+              0.28,
+              0.391355,
+              0.262,
+              0.131645
+            ],
+            "documents": [
+              "FIELD_5"
+            ]
+          },
+          {
+            "bounds": [
+              0.55,
+              0.391355,
+              0.262,
+              0.131645
+            ],
+            "documents": [
+              "FIELD_6"
+            ]
+          },
+          {
+            "bounds": [
+              0.01,
+              0.647225,
+              0.802,
+              0.132775
+            ],
+            "documents": [
+              "FIELD_0"
+            ]
+          },
+          {
+            "bounds": [
+              0.01,
+              0.79,
+              0.81,
+              0.138
+            ],
+            "documents": [
+              "hands"
+            ],
+            "split": "COLUMNS"
+          },
+          {
+            "bounds": [
+              0.835,
+              0.012,
+              0.153,
+              0.55
+            ],
+            "documents": [
+              "CARD_PICTURE",
+              "CARD_DETAIL",
+              "remaining"
+            ]
+          }
+        ],
+        "renderers": {
+          "PHASES_ACTIVE": "PHASES_OVERVIEW",
+          "FIELD_1.ZONE_LIBRARY": "ZONE_BUTTON",
+          "FIELD_1.ZONE_GRAVEYARD": "ZONE_BUTTON",
+          "FIELD_1.ZONE_EXILE": "ZONE_BUTTON",
+          "FIELD_2.ZONE_LIBRARY": "ZONE_BUTTON",
+          "FIELD_2.ZONE_GRAVEYARD": "ZONE_BUTTON",
+          "FIELD_2.ZONE_EXILE": "ZONE_BUTTON",
+          "FIELD_3.ZONE_LIBRARY": "ZONE_BUTTON",
+          "FIELD_3.ZONE_GRAVEYARD": "ZONE_BUTTON",
+          "FIELD_3.ZONE_EXILE": "ZONE_BUTTON",
+          "FIELD_4.ZONE_LIBRARY": "ZONE_BUTTON",
+          "FIELD_4.ZONE_GRAVEYARD": "ZONE_BUTTON",
+          "FIELD_4.ZONE_EXILE": "ZONE_BUTTON",
+          "FIELD_5.ZONE_LIBRARY": "ZONE_BUTTON",
+          "FIELD_5.ZONE_GRAVEYARD": "ZONE_BUTTON",
+          "FIELD_5.ZONE_EXILE": "ZONE_BUTTON",
+          "FIELD_6.ZONE_LIBRARY": "ZONE_BUTTON",
+          "FIELD_6.ZONE_GRAVEYARD": "ZONE_BUTTON",
+          "FIELD_6.ZONE_EXILE": "ZONE_BUTTON",
+          "FIELD_0.ZONE_LIBRARY": "ZONE_BUTTON",
+          "FIELD_0.ZONE_GRAVEYARD": "ZONE_BUTTON",
+          "FIELD_0.ZONE_EXILE": "ZONE_BUTTON"
+        },
+        "visibility": {
+          "FIELD_0.STATUS": "STATUS_NONEMPTY",
+          "FIELD_1.STATUS": "STATUS_NONEMPTY",
+          "FIELD_2.STATUS": "STATUS_NONEMPTY",
+          "FIELD_3.STATUS": "STATUS_NONEMPTY",
+          "FIELD_4.STATUS": "STATUS_NONEMPTY",
+          "FIELD_5.STATUS": "STATUS_NONEMPTY",
+          "FIELD_6.STATUS": "STATUS_NONEMPTY"
+        },
+        "anchors": {
+          "FIELD_0.AVATAR_IMAGE": {
+            "aspectRatio": 1,
+            "maxHeight": 120
+          },
+          "FIELD_1.AVATAR_IMAGE": {
+            "aspectRatio": 1,
+            "maxHeight": 120
+          },
+          "FIELD_2.AVATAR_IMAGE": {
+            "aspectRatio": 1,
+            "maxHeight": 120
+          },
+          "FIELD_3.AVATAR_IMAGE": {
+            "aspectRatio": 1,
+            "maxHeight": 120
+          },
+          "FIELD_4.AVATAR_IMAGE": {
+            "aspectRatio": 1,
+            "maxHeight": 120
+          },
+          "FIELD_5.AVATAR_IMAGE": {
+            "aspectRatio": 1,
+            "maxHeight": 120
+          },
+          "FIELD_6.AVATAR_IMAGE": {
+            "aspectRatio": 1,
+            "maxHeight": 120
+          }
+        }
+      },
+      {
+        "id": "players-8",
+        "minPlayers": 8,
+        "maxPlayers": 8,
+        "widgets": {
+          "PROMPT_MESSAGE": [
+            0.012,
+            0.94,
+            0.535,
+            0.055
+          ],
+          "PROMPT_OK": [
+            0.558,
+            0.95,
+            0.118,
+            0.042
+          ],
+          "PROMPT_CANCEL": [
+            0.688,
+            0.95,
+            0.13,
+            0.042
+          ],
+          "ACTION_END_TURN": [
+            0.832,
+            0.895,
+            0.074,
+            0.041
+          ],
+          "ACTION_YIELD_SETTINGS": [
+            0.914,
+            0.895,
+            0.074,
+            0.041
+          ],
+          "ACTIONS_MENU": [
+            0.832,
+            0.95,
+            0.156,
+            0.042
+          ],
+          "PHASES_ACTIVE": [
+            0.01,
+            0.005,
+            0.81,
+            0.025
+          ],
+          "FIELD_1.AVATAR_IMAGE": [
+            0.01,
+            0.045,
+            0.02334,
+            0.04427
+          ],
+          "FIELD_1.NAME": [
+            0.035285,
+            0.045,
+            0.118645,
+            0.02097
+          ],
+          "FIELD_1.LIFE": [
+            0.155875,
+            0.045,
+            0.04668,
+            0.04427
+          ],
+          "FIELD_1.STATUS": [
+            0.035285,
+            0.0683,
+            0.118645,
+            0.02097
+          ],
+          "FIELD_1.PHASES": [
+            0.01,
+            0.0916,
+            0.1945,
+            0.024465
+          ],
+          "FIELD_1.ZONE_LIBRARY": [
+            0.01,
+            0.118395,
+            0.025285,
+            0.024465
+          ],
+          "FIELD_1.ZONE_GRAVEYARD": [
+            0.03723,
+            0.118395,
+            0.025285,
+            0.024465
+          ],
+          "FIELD_1.ZONE_EXILE": [
+            0.06446,
+            0.118395,
+            0.025285,
+            0.024465
+          ],
+          "FIELD_1.MANA": [
+            0.093635,
+            0.118395,
+            0.083635,
+            0.024465
+          ],
+          "FIELD_1.OTHER_ZONES": [
+            0.179215,
+            0.118395,
+            0.025285,
+            0.024465
+          ],
+          "FIELD_2.AVATAR_IMAGE": [
+            0.2125,
+            0.045,
+            0.02334,
+            0.04427
+          ],
+          "FIELD_2.NAME": [
+            0.237785,
+            0.045,
+            0.118645,
+            0.02097
+          ],
+          "FIELD_2.LIFE": [
+            0.358375,
+            0.045,
+            0.04668,
+            0.04427
+          ],
+          "FIELD_2.STATUS": [
+            0.237785,
+            0.0683,
+            0.118645,
+            0.02097
+          ],
+          "FIELD_2.PHASES": [
+            0.2125,
+            0.0916,
+            0.1945,
+            0.024465
+          ],
+          "FIELD_2.ZONE_LIBRARY": [
+            0.2125,
+            0.118395,
+            0.025285,
+            0.024465
+          ],
+          "FIELD_2.ZONE_GRAVEYARD": [
+            0.23973,
+            0.118395,
+            0.025285,
+            0.024465
+          ],
+          "FIELD_2.ZONE_EXILE": [
+            0.26696,
+            0.118395,
+            0.025285,
+            0.024465
+          ],
+          "FIELD_2.MANA": [
+            0.296135,
+            0.118395,
+            0.083635,
+            0.024465
+          ],
+          "FIELD_2.OTHER_ZONES": [
+            0.381715,
+            0.118395,
+            0.025285,
+            0.024465
+          ],
+          "FIELD_3.AVATAR_IMAGE": [
+            0.415,
+            0.045,
+            0.02334,
+            0.04427
+          ],
+          "FIELD_3.NAME": [
+            0.440285,
+            0.045,
+            0.118645,
+            0.02097
+          ],
+          "FIELD_3.LIFE": [
+            0.560875,
+            0.045,
+            0.04668,
+            0.04427
+          ],
+          "FIELD_3.STATUS": [
+            0.440285,
+            0.0683,
+            0.118645,
+            0.02097
+          ],
+          "FIELD_3.PHASES": [
+            0.415,
+            0.0916,
+            0.1945,
+            0.024465
+          ],
+          "FIELD_3.ZONE_LIBRARY": [
+            0.415,
+            0.118395,
+            0.025285,
+            0.024465
+          ],
+          "FIELD_3.ZONE_GRAVEYARD": [
+            0.44223,
+            0.118395,
+            0.025285,
+            0.024465
+          ],
+          "FIELD_3.ZONE_EXILE": [
+            0.46946,
+            0.118395,
+            0.025285,
+            0.024465
+          ],
+          "FIELD_3.MANA": [
+            0.498635,
+            0.118395,
+            0.083635,
+            0.024465
+          ],
+          "FIELD_3.OTHER_ZONES": [
+            0.584215,
+            0.118395,
+            0.025285,
+            0.024465
+          ],
+          "FIELD_4.AVATAR_IMAGE": [
+            0.6175,
+            0.045,
+            0.02334,
+            0.04427
+          ],
+          "FIELD_4.NAME": [
+            0.642785,
+            0.045,
+            0.118645,
+            0.02097
+          ],
+          "FIELD_4.LIFE": [
+            0.763375,
+            0.045,
+            0.04668,
+            0.04427
+          ],
+          "FIELD_4.STATUS": [
+            0.642785,
+            0.0683,
+            0.118645,
+            0.02097
+          ],
+          "FIELD_4.PHASES": [
+            0.6175,
+            0.0916,
+            0.1945,
+            0.024465
+          ],
+          "FIELD_4.ZONE_LIBRARY": [
+            0.6175,
+            0.118395,
+            0.025285,
+            0.024465
+          ],
+          "FIELD_4.ZONE_GRAVEYARD": [
+            0.64473,
+            0.118395,
+            0.025285,
+            0.024465
+          ],
+          "FIELD_4.ZONE_EXILE": [
+            0.67196,
+            0.118395,
+            0.025285,
+            0.024465
+          ],
+          "FIELD_4.MANA": [
+            0.701135,
+            0.118395,
+            0.083635,
+            0.024465
+          ],
+          "FIELD_4.OTHER_ZONES": [
+            0.786715,
+            0.118395,
+            0.025285,
+            0.024465
+          ],
+          "FIELD_5.AVATAR_IMAGE": [
+            0.01,
+            0.29,
+            0.03144,
+            0.04427
+          ],
+          "FIELD_5.NAME": [
+            0.04406,
+            0.29,
+            0.15982,
+            0.02097
+          ],
+          "FIELD_5.LIFE": [
+            0.2065,
+            0.29,
+            0.06288,
+            0.04427
+          ],
+          "FIELD_5.STATUS": [
+            0.04406,
+            0.3133,
+            0.15982,
+            0.02097
+          ],
+          "FIELD_5.PHASES": [
+            0.01,
+            0.3366,
+            0.262,
+            0.024465
+          ],
+          "FIELD_5.ZONE_LIBRARY": [
+            0.01,
+            0.363395,
+            0.03406,
+            0.024465
+          ],
+          "FIELD_5.ZONE_GRAVEYARD": [
+            0.04668,
+            0.363395,
+            0.03406,
+            0.024465
+          ],
+          "FIELD_5.ZONE_EXILE": [
+            0.08336,
+            0.363395,
+            0.03406,
+            0.024465
+          ],
+          "FIELD_5.MANA": [
+            0.12266,
+            0.363395,
+            0.11266,
+            0.024465
+          ],
+          "FIELD_5.OTHER_ZONES": [
+            0.23794,
+            0.363395,
+            0.03406,
+            0.024465
+          ],
+          "FIELD_6.AVATAR_IMAGE": [
+            0.28,
+            0.29,
+            0.03144,
+            0.04427
+          ],
+          "FIELD_6.NAME": [
+            0.31406,
+            0.29,
+            0.15982,
+            0.02097
+          ],
+          "FIELD_6.LIFE": [
+            0.4765,
+            0.29,
+            0.06288,
+            0.04427
+          ],
+          "FIELD_6.STATUS": [
+            0.31406,
+            0.3133,
+            0.15982,
+            0.02097
+          ],
+          "FIELD_6.PHASES": [
+            0.28,
+            0.3366,
+            0.262,
+            0.024465
+          ],
+          "FIELD_6.ZONE_LIBRARY": [
+            0.28,
+            0.363395,
+            0.03406,
+            0.024465
+          ],
+          "FIELD_6.ZONE_GRAVEYARD": [
+            0.31668,
+            0.363395,
+            0.03406,
+            0.024465
+          ],
+          "FIELD_6.ZONE_EXILE": [
+            0.35336,
+            0.363395,
+            0.03406,
+            0.024465
+          ],
+          "FIELD_6.MANA": [
+            0.39266,
+            0.363395,
+            0.11266,
+            0.024465
+          ],
+          "FIELD_6.OTHER_ZONES": [
+            0.50794,
+            0.363395,
+            0.03406,
+            0.024465
+          ],
+          "FIELD_7.AVATAR_IMAGE": [
+            0.55,
+            0.29,
+            0.03144,
+            0.04427
+          ],
+          "FIELD_7.NAME": [
+            0.58406,
+            0.29,
+            0.15982,
+            0.02097
+          ],
+          "FIELD_7.LIFE": [
+            0.7465,
+            0.29,
+            0.06288,
+            0.04427
+          ],
+          "FIELD_7.STATUS": [
+            0.58406,
+            0.3133,
+            0.15982,
+            0.02097
+          ],
+          "FIELD_7.PHASES": [
+            0.55,
+            0.3366,
+            0.262,
+            0.024465
+          ],
+          "FIELD_7.ZONE_LIBRARY": [
+            0.55,
+            0.363395,
+            0.03406,
+            0.024465
+          ],
+          "FIELD_7.ZONE_GRAVEYARD": [
+            0.58668,
+            0.363395,
+            0.03406,
+            0.024465
+          ],
+          "FIELD_7.ZONE_EXILE": [
+            0.62336,
+            0.363395,
+            0.03406,
+            0.024465
+          ],
+          "FIELD_7.MANA": [
+            0.66266,
+            0.363395,
+            0.11266,
+            0.024465
+          ],
+          "FIELD_7.OTHER_ZONES": [
+            0.77794,
+            0.363395,
+            0.03406,
+            0.024465
+          ],
+          "FIELD_0.AVATAR_IMAGE": [
+            0.01,
+            0.545,
+            0.09624,
+            0.04465
+          ],
+          "FIELD_0.NAME": [
+            0.11426,
+            0.545,
+            0.48922,
+            0.02115
+          ],
+          "FIELD_0.LIFE": [
+            0.6115,
+            0.545,
+            0.19248,
+            0.04465
+          ],
+          "FIELD_0.STATUS": [
+            0.11426,
+            0.5685,
+            0.48922,
+            0.02115
+          ],
+          "FIELD_0.PHASES": [
+            0.01,
+            0.592,
+            0.802,
+            0.024675
+          ],
+          "FIELD_0.ZONE_LIBRARY": [
+            0.01,
+            0.619025,
+            0.10426,
+            0.024675
+          ],
+          "FIELD_0.ZONE_GRAVEYARD": [
+            0.12228,
+            0.619025,
+            0.10426,
+            0.024675
+          ],
+          "FIELD_0.ZONE_EXILE": [
+            0.23456,
+            0.619025,
+            0.10426,
+            0.024675
+          ],
+          "FIELD_0.MANA": [
+            0.35486,
+            0.619025,
+            0.34486,
+            0.024675
+          ],
+          "FIELD_0.OTHER_ZONES": [
+            0.70774,
+            0.619025,
+            0.10426,
+            0.024675
+          ]
+        },
+        "regions": [
+          {
+            "bounds": [
+              0.01,
+              0.146355,
+              0.1945,
+              0.131645
+            ],
+            "documents": [
+              "FIELD_1"
+            ]
+          },
+          {
+            "bounds": [
+              0.2125,
+              0.146355,
+              0.1945,
+              0.131645
+            ],
+            "documents": [
+              "FIELD_2"
+            ]
+          },
+          {
+            "bounds": [
+              0.415,
+              0.146355,
+              0.1945,
+              0.131645
+            ],
+            "documents": [
+              "FIELD_3"
+            ]
+          },
+          {
+            "bounds": [
+              0.6175,
+              0.146355,
+              0.1945,
+              0.131645
+            ],
+            "documents": [
+              "FIELD_4"
+            ]
+          },
+          {
+            "bounds": [
+              0.01,
+              0.391355,
+              0.262,
+              0.131645
+            ],
+            "documents": [
+              "FIELD_5"
+            ]
+          },
+          {
+            "bounds": [
+              0.28,
+              0.391355,
+              0.262,
+              0.131645
+            ],
+            "documents": [
+              "FIELD_6"
+            ]
+          },
+          {
+            "bounds": [
+              0.55,
+              0.391355,
+              0.262,
+              0.131645
+            ],
+            "documents": [
+              "FIELD_7"
+            ]
+          },
+          {
+            "bounds": [
+              0.01,
+              0.647225,
+              0.802,
+              0.132775
+            ],
+            "documents": [
+              "FIELD_0"
+            ]
+          },
+          {
+            "bounds": [
+              0.01,
+              0.79,
+              0.81,
+              0.138
+            ],
+            "documents": [
+              "hands"
+            ],
+            "split": "COLUMNS"
+          },
+          {
+            "bounds": [
+              0.835,
+              0.012,
+              0.153,
+              0.55
+            ],
+            "documents": [
+              "CARD_PICTURE",
+              "CARD_DETAIL",
+              "remaining"
+            ]
+          }
+        ],
+        "renderers": {
+          "PHASES_ACTIVE": "PHASES_OVERVIEW",
+          "FIELD_1.ZONE_LIBRARY": "ZONE_BUTTON",
+          "FIELD_1.ZONE_GRAVEYARD": "ZONE_BUTTON",
+          "FIELD_1.ZONE_EXILE": "ZONE_BUTTON",
+          "FIELD_2.ZONE_LIBRARY": "ZONE_BUTTON",
+          "FIELD_2.ZONE_GRAVEYARD": "ZONE_BUTTON",
+          "FIELD_2.ZONE_EXILE": "ZONE_BUTTON",
+          "FIELD_3.ZONE_LIBRARY": "ZONE_BUTTON",
+          "FIELD_3.ZONE_GRAVEYARD": "ZONE_BUTTON",
+          "FIELD_3.ZONE_EXILE": "ZONE_BUTTON",
+          "FIELD_4.ZONE_LIBRARY": "ZONE_BUTTON",
+          "FIELD_4.ZONE_GRAVEYARD": "ZONE_BUTTON",
+          "FIELD_4.ZONE_EXILE": "ZONE_BUTTON",
+          "FIELD_5.ZONE_LIBRARY": "ZONE_BUTTON",
+          "FIELD_5.ZONE_GRAVEYARD": "ZONE_BUTTON",
+          "FIELD_5.ZONE_EXILE": "ZONE_BUTTON",
+          "FIELD_6.ZONE_LIBRARY": "ZONE_BUTTON",
+          "FIELD_6.ZONE_GRAVEYARD": "ZONE_BUTTON",
+          "FIELD_6.ZONE_EXILE": "ZONE_BUTTON",
+          "FIELD_7.ZONE_LIBRARY": "ZONE_BUTTON",
+          "FIELD_7.ZONE_GRAVEYARD": "ZONE_BUTTON",
+          "FIELD_7.ZONE_EXILE": "ZONE_BUTTON",
+          "FIELD_0.ZONE_LIBRARY": "ZONE_BUTTON",
+          "FIELD_0.ZONE_GRAVEYARD": "ZONE_BUTTON",
+          "FIELD_0.ZONE_EXILE": "ZONE_BUTTON"
+        },
+        "visibility": {
+          "FIELD_0.STATUS": "STATUS_NONEMPTY",
+          "FIELD_1.STATUS": "STATUS_NONEMPTY",
+          "FIELD_2.STATUS": "STATUS_NONEMPTY",
+          "FIELD_3.STATUS": "STATUS_NONEMPTY",
+          "FIELD_4.STATUS": "STATUS_NONEMPTY",
+          "FIELD_5.STATUS": "STATUS_NONEMPTY",
+          "FIELD_6.STATUS": "STATUS_NONEMPTY",
+          "FIELD_7.STATUS": "STATUS_NONEMPTY"
+        },
+        "anchors": {
+          "FIELD_0.AVATAR_IMAGE": {
+            "aspectRatio": 1,
+            "maxHeight": 120
+          },
+          "FIELD_1.AVATAR_IMAGE": {
+            "aspectRatio": 1,
+            "maxHeight": 120
+          },
+          "FIELD_2.AVATAR_IMAGE": {
+            "aspectRatio": 1,
+            "maxHeight": 120
+          },
+          "FIELD_3.AVATAR_IMAGE": {
+            "aspectRatio": 1,
+            "maxHeight": 120
+          },
+          "FIELD_4.AVATAR_IMAGE": {
+            "aspectRatio": 1,
+            "maxHeight": 120
+          },
+          "FIELD_5.AVATAR_IMAGE": {
+            "aspectRatio": 1,
+            "maxHeight": 120
+          },
+          "FIELD_6.AVATAR_IMAGE": {
+            "aspectRatio": 1,
+            "maxHeight": 120
+          },
+          "FIELD_7.AVATAR_IMAGE": {
+            "aspectRatio": 1,
+            "maxHeight": 120
+          }
+        }
+      }
+    ]
+  }
+}

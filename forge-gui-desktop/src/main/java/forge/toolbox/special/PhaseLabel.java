@@ -26,6 +26,8 @@ import forge.toolbox.FSkin;
  */
 @SuppressWarnings("serial")
 public class PhaseLabel extends JLabel {
+    public static final String SPLIT_HALF_PROPERTY = "forge.matchPhaseHalf";
+    public enum SplitHalf { TOP, BOTTOM }
     /** Tint used when a yield marker is targeted at this (player, phase) cell. */
     private static final Color YIELD_MARKER_COLOR = new Color(0xFFA528);
 
@@ -160,8 +162,36 @@ public class PhaseLabel extends JLabel {
     public void paintComponent(final Graphics g) {
         final int w = this.getWidth();
         final int h = this.getHeight();
+        final boolean split = getClientProperty(SPLIT_HALF_PROPERTY) instanceof SplitHalf;
         if (getClientProperty(forge.screens.match.layout.MatchSkinTheme.STYLE_PROPERTY)
                 instanceof forge.screens.match.layout.MatchSkinTheme.Style style) {
+            if (style.visual() != null) {
+                final var chosen = style.state(true, hover, pressed, active || !split && yieldMarked);
+                final var graphics = (Graphics2D) g.create();
+                try {
+                    graphics.setFont(getFont().deriveFont(chosen.fontSize())); graphics.setColor(getForeground());
+                    if (split) { paintSplitSurface(graphics, chosen, w, h); }
+                    else { chosen.paint(graphics, w, h, active || yieldMarked, pressed); }
+                    // Multiplayer rows have narrower chips. Keep the localized short
+                    // phase name readable instead of clipping its final character.
+                    final int textWidth = graphics.getFontMetrics().stringWidth(getText());
+                    if (textWidth > Math.max(1, w - 6)) {
+                        graphics.setFont(graphics.getFont().deriveFont(Math.max(8f, graphics.getFont().getSize2D() * Math.max(1,w - 6) / textWidth)));
+                    }
+                    chosen.visual().paintContent(graphics, w, h, getText(), true);
+                    if (!split) { chosen.paintFrame(graphics, w, h); }
+                    // Stop/yield indicators remain visible independently of artwork.
+                    if (active && !chosen.visual().paintMarker(graphics, "active", w, h)) { graphics.setColor(YIELD_MARKER_COLOR); graphics.fillRect(2, 3, 2, Math.max(1, h - 6)); }
+                    if (enabled && !chosen.visual().paintMarker(graphics, "stop", w, h)) { graphics.setColor(getForeground()); graphics.fillOval(Math.max(2, w - 7), 3, 4, 4); }
+                    if (yieldMarked && !chosen.visual().paintMarker(graphics, "yield", w, h)) {
+                        if (split) {
+                            graphics.setColor(YIELD_MARKER_COLOR);
+                            graphics.fillPolygon(new int[]{w - 9, w - 3, w - 9}, new int[]{h - 10, h - 7, h - 4}, 3);
+                        } else { drawChevron(graphics, w, h); }
+                    }
+                } finally { graphics.dispose(); }
+                return;
+            }
             style.paint((Graphics2D) g, w, h, active || hover || yieldMarked, pressed);
             if (enabled) {
                 g.setColor(style.highlight() == null ? getForeground() : style.highlight());
@@ -210,6 +240,29 @@ public class PhaseLabel extends JLabel {
         } else {
             super.paintComponent(g);
         }
+    }
+
+    /** Clip one complete chip to this player's half, leaving only the outer corners rounded. */
+    private void paintSplitSurface(Graphics2D source, forge.screens.match.layout.MatchSkinTheme.Style style, int w, int h) {
+        final var g = (Graphics2D) source.create();
+        try {
+            g.clipRect(0, 0, w, h);
+            final int offset = getParent() == null ? 0 : getY();
+            final int height = getParent() == null ? h * 2 : getParent().getHeight();
+            g.translate(0, -offset);
+            style.paint(g, w, height, active, pressed);
+            style.paintFrame(g, w, height);
+        } finally { g.dispose(); }
+        if (getClientProperty(SPLIT_HALF_PROPERTY) == SplitHalf.TOP) {
+            source.setColor(style.border() == null ? Color.GRAY : style.border());
+            source.drawLine(1, h - 1, w - 2, h - 1);
+        }
+        // Remains distinguishable even while hovered or pressed; yield has a separate arrow.
+        if (active && (style.visual() == null || !style.visual().markers().containsKey("active"))) {
+            source.setColor(YIELD_MARKER_COLOR);
+            source.fillRect(2, 3, 2, Math.max(1, h - 6));
+        }
+        source.setColor(getForeground());
     }
 
     /** Darkens the chip briefly while it is pressed, so a click reads as a physical push before the new state settles. */

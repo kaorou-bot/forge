@@ -481,6 +481,7 @@ public class FLabel extends SkinnedLabel implements ILocalRepaint, IButton {
     protected int getMaxTextWidth() {
         final int w = getWidth();
         final int h = getHeight();
+
         final int sh = (int) (h * iconScaleFactor);
         final int sw = (int) (sh * iar);
         return w - sw;
@@ -544,6 +545,29 @@ public class FLabel extends SkinnedLabel implements ILocalRepaint, IButton {
 
         final int w = getWidth();
         final int h = getHeight();
+
+        if (getClientProperty(forge.screens.match.layout.MatchSkinTheme.STYLE_PROPERTY)
+                instanceof forge.screens.match.layout.MatchSkinTheme.Style base && base.visual() != null) {
+            final boolean active = selected || Boolean.TRUE.equals(getClientProperty("forge.matchSkinActive"));
+            final boolean over = hovered || Boolean.TRUE.equals(getClientProperty("forge.matchSkinHover"));
+            final boolean down = (pressed || Boolean.TRUE.equals(getClientProperty("forge.matchSkinPressed"))) && over;
+            final var style = base.state(isEnabled(), over, down, active);
+            final var themed = (Graphics2D) g.create();
+            try {
+                themed.setFont(getFont().deriveFont(style.fontSize()));
+                themed.setColor(getForeground());
+                style.paint(themed, w, h, active || over, down);
+                final var content = (Graphics2D) themed.create();
+                try {
+                    content.clip(style.visual().outline(w, h, style.radius()));
+                    if (iconInBackground || getIcon() != null && (getText() == null || getText().isEmpty()) && style.visual().icon() == null
+                            || !style.visual().paintContent(content, w, h, getText(), style.fontSize() != base.fontSize())) { paintContent(content, w, h, false); }
+                } finally { content.dispose(); }
+                style.paintFrame(themed, w, h);
+                if (hasFocus() && isEnabled()) { paintFocus(themed, w, h); }
+            } finally { themed.dispose(); }
+            return;
+        }
 
         final boolean paintWithHover = hoverable && hovered && isEnabled();
         final Composite oldComp = g2d.getComposite();
@@ -611,6 +635,12 @@ public class FLabel extends SkinnedLabel implements ILocalRepaint, IButton {
         if (paintPressedState) { //reset translation after icon and text painted
             g.translate(-1, -1);
         }
+    }
+
+    @Override protected void paintBorder(Graphics g) {
+        if (getClientProperty(forge.screens.match.layout.MatchSkinTheme.STYLE_PROPERTY)
+                instanceof forge.screens.match.layout.MatchSkinTheme.Style style && style.visual() != null) { return; }
+        super.paintBorder(g);
     }
 
     private static void paintFocus(final Graphics2D g, final int w, final int h) {

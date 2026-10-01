@@ -59,6 +59,14 @@ public class FScrollPane extends SkinnedScrollPane {
             getHorizontalScrollBar().setPreferredSize(new Dimension(0, 0));
             getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
             arrowButtons = new ArrowButton[4];
+            // These controls live in the global overlay, not inside this scroll pane.
+            // Hiding/reparenting an ancestor (e.g. an empty stack floating window) must
+            // remove them too; setVisible(false) on this pane alone is not sufficient.
+            addHierarchyListener(e -> {
+                if ((e.getChangeFlags() & java.awt.event.HierarchyEvent.SHOWING_CHANGED) != 0 && !isShowing()) {
+                    hideArrowButtons();
+                }
+            });
         }
         else {
             arrowButtons = null;
@@ -78,9 +86,16 @@ public class FScrollPane extends SkinnedScrollPane {
 
         for (final ArrowButton arrowButton : arrowButtons) {
             if (arrowButton != null) {
+                arrowButton.timer.stop();
+                arrowButton.setVisible(false);
                 FAbsolutePositioner.SINGLETON_INSTANCE.hide(arrowButton);
             }
         }
+    }
+
+    @Override public void removeNotify() {
+        hideArrowButtons();
+        super.removeNotify();
     }
 
     public void scrollToTop() {

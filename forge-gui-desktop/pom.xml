@@ -294,6 +294,20 @@ try {
         </plugins>
         <resources>
             <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+            </resource>
+            <resource>
+                <directory>${basedir}/../skins/dusk-sanctum</directory>
+                <targetPath>match-ui/dusk-sanctum</targetPath>
+                <filtering>false</filtering>
+            </resource>
+            <resource>
+                <directory>${basedir}/../skins/dusk-observatory</directory>
+                <targetPath>match-ui/dusk-observatory</targetPath>
+                <filtering>false</filtering>
+            </resource>
+            <resource>
                 <directory>filters</directory>
                 <filtering>true</filtering>
             </resource>

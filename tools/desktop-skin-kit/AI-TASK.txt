@@ -1,8 +1,11 @@
-请制作 Forge match-ui v3 桌面对战数据皮肤。
+请制作 Forge 桌面对战数据皮肤。先确认目标接口：cn0930 正式版使用 v3；支持新接口的测试客户端可使用 v4。
 
 本资料包就是独立工作环境，不需要先获取 Forge 主程序或源码。
-先读 README.md、docs/AI制作规范.md、docs/独立工具说明.md。
-复制 examples/dusk-sanctum 为 work/<新名称>，不要覆盖示例；需要简单结构时参考 examples/minimal。
+先读 README.md、docs/高效制作与排错.md、docs/AI制作规范.md、docs/独立工具说明.md。
+先运行 capabilities，记录作品 required_features；不能只凭 cn 版号或 version=4 判断能力。若提供目标客户端的 capabilities.json，再做能力对照。
+先做一枚阶段按钮和单个控件，核对整 chip/半区坐标、padding 和状态语义，再批量制作美术。示例生成器不是迁移器；自己的 v3 作品用 migrate 升级，不让示例脚本重设计作品。
+制作 v4 时额外阅读 docs/v4扩展规范.md，复制 examples/dusk-sanctum 为 work/<新名称>，不要覆盖示例；更多接口演示参考 examples/v4-workbench。
+需要兼容旧 v3 客户端时复制 examples/minimal，不要将 v4 字段放入 version 3 配置，也不要直接降低新版暮辉秘境的 version。
 
 我的视觉风格：[填写]
 目标窗口尺寸和系统缩放：[填写]
@@ -14,9 +17,12 @@
 素材使用有许可的本地文件；保留字体许可及来源说明。
 
 运行 python tools/skin_tool.py validate <目录> --json，完整保留 warnings。
+运行 inspect，在指定内容区大小与一个较小尺寸下记录 inner_size_px、手牌估算和阶段按钮建议；记录尺寸来源与 DPI，不使用带标题栏的整屏分辨率代替内容区。
+有匹配客户端时可以 runtime 调用内置 JRE 运行独立诊断；没有时不要求下载客户端。不得反编译/改 JAR、临时 javac helper 或把 paintContent 伪装成真实提示窗口。
 生成 preview 示意图，校验 pack 输出的 ZIP，报告容量与回退，不把 fallback 当成该人数已适配。
 没有 Python 执行能力时，明确说明未实际检查；不要只凭推测声称通过。
 没有 Forge 主程序时，停止在“制作与静态验证完成”，把真实交互交给使用者验收。
 
 交付皮肤 ZIP、可编辑原稿、使用说明、素材来源和测试记录。
 不要把整个制作资料包作为皮肤 ZIP，不覆盖旧输出，不上传、不推送、不发布。
+目标支持 v5 时，先读取 tools/skin-capabilities.json 和 docs/v5扩展规范.md。v5 使用 experience.variants 整段替换几何，不能把多人布局或响应式写成未经支持的字段。以 examples/dusk-observatory 为参考，运行 validate 的完整人数矩阵；用 --players 和 --width 分别检查方案。不要把几何预览当作游戏截图或实机验收。

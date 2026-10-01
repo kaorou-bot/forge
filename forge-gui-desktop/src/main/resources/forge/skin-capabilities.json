@@ -1,0 +1,10 @@
+{
+  "capability_revision": "2026-10-02.1",
+  "format_versions": [3, 4, 5],
+  "features": ["scene-v3", "visuals-v4", "phases-split", "battlefield-adaptive", "hand-width-cap", "status-nonempty", "document-text-style", "authoring-probe", "experience-v5", "anchors", "player-preferences", "floating-state", "geometry-editor", "polygon-avatar", "phase-markers", "document-format", "battlefield-partition", "multiplayer-phases", "stack-empty-visibility"],
+  "phases": ["UPKEEP", "DRAW", "MAIN1", "COMBAT_BEGIN", "COMBAT_DECLARE_ATTACKERS", "COMBAT_DECLARE_BLOCKERS", "COMBAT_FIRST_STRIKE_DAMAGE", "COMBAT_DAMAGE", "COMBAT_END", "MAIN2", "END_OF_TURN", "CLEANUP"],
+  "style_categories": ["default", "button", "tab", "text", "avatar", "life", "zone", "phase", "floating"],
+  "style_resolution": "Exact ID then category then default. Exact styles replace, not merge with, category styles. text.<DOCUMENT> falls back to text.",
+  "geometry": {"hand_default_max": 300, "hand_width_cap_range": [16, 300], "split_phase_legend_width": 38, "split_phase_legend_gap": 4, "split_phase_chip_gap": 3, "split_phase_recommended_height": 44},
+  "limits": ["Desktop match scene only; not Android or main menu", "PHASES_SPLIT: exactly two fields, at most one visible hand", "Phase background/frame: full chip coordinates; text/icon: half coordinates", "Phase disabled state is not stop-off; stop/yield markers remain separate", "Fixed widgets do not reflow when hidden", "Preview is not gameplay acceptance"]
+}

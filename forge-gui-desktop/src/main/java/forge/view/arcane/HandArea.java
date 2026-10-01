@@ -60,7 +60,7 @@ public class HandArea extends CardArea {
     public void doLayout() {
         final var strategy = getMatchUI().getCardPresentation().hand();
         if (strategy == null) {
-            for (CardPanel panel : getCardPanels()) { panel.setPresentationAngle(0); }
+            for (CardPanel panel : getCardPanels()) { panel.setPresentationAngle(0); panel.setPresentationHitBounds(null); }
             super.doLayout();
             return;
         }
@@ -73,10 +73,13 @@ public class HandArea extends CardArea {
         for (int i = 0; i < placements.size(); i++) {
             final CardPanel panel = getCardPanels().get(i);
             final var p = placements.get(i);
+            panel.setPresentationHitBounds(panel.isSelected() && strategy.hoverLift() > 0 ? p : null);
             panel.setPresentationAngle(p.angle());
-            if (panel != getMouseDragPanel()) { panel.setCardBounds(p.x(), p.y(), p.width(), p.height()); }
+            final int lift = panel.isSelected() ? (int) (p.height() * strategy.hoverLift()) : 0;
+            if (panel != getMouseDragPanel()) { panel.setCardBounds(p.x(), p.y() - lift, p.width(), p.height()); }
             if (panel.getParent() == this) { setComponentZOrder(panel, 0); }
         }
+        for (CardPanel panel : getCardPanels()) { if (panel.isSelected() && panel.getParent() == this && strategy.hoverLift() > 0) { setComponentZOrder(panel, 0); } }
         if (!extent.equals(getPreferredSize())) { setPreferredSize(extent); revalidate(); }
     }
 

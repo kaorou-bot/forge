@@ -14,7 +14,10 @@ import java.util.Set;
 
 /** Validated, renderer-independent desktop layout description. Coordinates are relative to the host. */
 public record MatchUiLayout(String id, List<Region> regions, MatchFieldLayout fieldLayout,
-        MatchSceneLayout scene, MatchCardPresentation cards) {
+        MatchSceneLayout scene, MatchCardPresentation cards, MatchSkinExperience experience) {
+    public MatchUiLayout(String id, List<Region> regions, MatchFieldLayout fieldLayout, MatchSceneLayout scene, MatchCardPresentation cards) {
+        this(id,regions,fieldLayout,scene,cards,MatchSkinExperience.NONE);
+    }
     public MatchUiLayout(String id, List<Region> regions, MatchFieldLayout fieldLayout) {
         this(id, regions, fieldLayout, null, MatchCardPresentation.CLASSIC);
     }
@@ -131,10 +134,11 @@ public record MatchUiLayout(String id, List<Region> regions, MatchFieldLayout fi
     public static MatchUiLayout read(final Reader reader, java.nio.file.Path assets) {
         final JsonObject root = JsonParser.parseReader(reader).getAsJsonObject();
         final String version = root.has("version") ? root.get("version").getAsString() : "";
-        if (!Set.of("1", "2", "3").contains(version)) {
-            throw new IllegalArgumentException("Unsupported match UI version (expected 1, 2 or 3)");
+        if (!Set.of("1", "2", "3", "4", "5").contains(version)) {
+            throw new IllegalArgumentException("Unsupported match UI version (expected 1..5)");
         }
         keys(root, version.equals("1") ? Set.of("version", "id", "regions", "field")
+                : version.equals("5") ? Set.of("version","id","regions","scene","cards","experience")
                 : Set.of("version", "id", "regions", "field", "scene", "cards"));
         if (!root.has("id") || !root.has("regions") || !root.get("regions").isJsonArray()) {
             throw new IllegalArgumentException("Layout requires id and regions");
@@ -160,12 +164,15 @@ public record MatchUiLayout(String id, List<Region> regions, MatchFieldLayout fi
             validateBounds(new ArrayList<>(parts.values()), false);
             field = MatchFieldLayout.relative(parts);
         }
-        final MatchSceneLayout scene = root.has("scene") ? MatchSceneLayout.read(root.getAsJsonObject("scene"), assets, version.equals("3")) : null;
+        final MatchSceneLayout scene = root.has("scene") ? MatchSceneLayout.read(root.getAsJsonObject("scene"), assets,
+                Set.of("3","4","5").contains(version), Set.of("4","5").contains(version)) : null;
         if (scene != null && root.has("field")) {
             throw new IllegalArgumentException("scene replaces field; do not specify both");
         }
-        return new MatchUiLayout(root.get("id").getAsString(), regions, field, scene,
-                root.has("cards") ? MatchCardPresentation.read(root.getAsJsonObject("cards")) : MatchCardPresentation.CLASSIC);
+        if (version.equals("5") && scene == null) { throw new IllegalArgumentException("v5 requires scene"); }
+        final var base = new MatchUiLayout(root.get("id").getAsString(), regions, field, scene,
+                root.has("cards") ? MatchCardPresentation.read(root.getAsJsonObject("cards"), Set.of("4","5").contains(version)) : MatchCardPresentation.CLASSIC);
+        return new MatchUiLayout(base.id,regions,field,scene,base.cards,MatchSkinExperience.read(root,assets,base));
     }
 
     static Bounds bounds(JsonElement element) {
