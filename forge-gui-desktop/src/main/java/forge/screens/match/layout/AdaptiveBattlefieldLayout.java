@@ -42,11 +42,13 @@ final class AdaptiveBattlefieldLayout implements BattlefieldLayoutStrategy {
 
     @Override public int maximumGroupWidth(Kind kind, int width) { return band(kind, width).width(); }
     @Override public boolean fitRotatedBounds() { return true; }
+    @Override public boolean sizesFromContent() { return true; }
 
     @Override public int maximumCardWidth(int width, int height, int maximum, int minimum) {
-        // CardPanel reserves the whole tapping-rotation envelope (~1.75 * face width).
-        // Budgeting only the upright 1.4 aspect ratio makes even two sparse rows overflow.
-        return Math.max(minimum, Math.min(maximum, (int) ((height - 8 - rowGap) / 3.5)));
+        // Start with one readable row, not two hypothetical full-width rows. The
+        // actual groups decide whether another row is necessary in placements().
+        // Keep a readable starting size in short fields; crowded boards can scroll.
+        return Math.max(minimum, Math.min(maximum, Math.max(150, (int) ((height - 8) / 1.75))));
     }
 
     @Override public List<Placement> placements(List<Group> groups, int width, int height, boolean opponent) {
@@ -92,6 +94,7 @@ final class AdaptiveBattlefieldLayout implements BattlefieldLayoutStrategy {
         if (opponent) {
             final int rearBottom = rear(groups, result, width, 4);
             rows(groups, result, Kind.CREATURE, band(Kind.CREATURE, width), rearBottom + (rearBottom > 4 ? rowGap : 0));
+            compactDisjointBands(groups, result, height, true);
             // Face the opposing battlefield without inserting empty space BETWEEN rows.
             int bottom = 4;
             for (int i = 0; i < groups.size(); i++) { bottom = Math.max(bottom, result.get(i).y + groups.get(i).height()); }
@@ -100,8 +103,42 @@ final class AdaptiveBattlefieldLayout implements BattlefieldLayoutStrategy {
         } else {
             final int creaturesBottom = rows(groups, result, Kind.CREATURE, band(Kind.CREATURE, width), 4);
             rear(groups, result, width, creaturesBottom + (creaturesBottom > 4 ? rowGap : 0));
+            compactDisjointBands(groups, result, height, false);
         }
         return List.copyOf(result);
+    }
+
+    private void compactDisjointBands(List<Group> groups, List<Point> points, int height, boolean opponent) {
+        int firstBottom = 4, secondTop = Integer.MAX_VALUE, secondBottom = 4;
+        boolean hasFirst = false;
+        for (int i = 0; i < groups.size(); i++) {
+            if ((groups.get(i).kind() == Kind.CREATURE) == !opponent) {
+                hasFirst = true;
+                firstBottom = Math.max(firstBottom, points.get(i).y + groups.get(i).height());
+            } else {
+                secondTop = Math.min(secondTop, points.get(i).y);
+                secondBottom = Math.max(secondBottom, points.get(i).y + groups.get(i).height());
+            }
+        }
+        if (!hasFirst || secondTop == Integer.MAX_VALUE || Math.max(firstBottom, secondBottom) <= height - 4) { return; }
+        // A centered creature and an edge land need not reserve two full-width
+        // bands. Share vertical space only where their COMPLETE rotation/attachment
+        // rectangles are horizontally disjoint, keeping front/back order and gaps.
+        int top = Math.max(4 + rowGap, firstBottom + rowGap - (secondBottom - secondTop));
+        for (int i = 0; i < groups.size(); i++) {
+            if ((groups.get(i).kind() == Kind.CREATURE) == !opponent) { continue; }
+            for (int j = 0; j < groups.size(); j++) {
+                if ((groups.get(j).kind() == Kind.CREATURE) != !opponent) { continue; }
+                if (points.get(i).x < points.get(j).x + groups.get(j).width()
+                        && points.get(j).x < points.get(i).x + groups.get(i).width()) {
+                    top = Math.max(top, points.get(j).y + groups.get(j).height() + rowGap - (points.get(i).y - secondTop));
+                }
+            }
+        }
+        final int shift = Math.min(secondTop, top) - secondTop;
+        for (int i = 0; i < groups.size(); i++) {
+            if ((groups.get(i).kind() == Kind.CREATURE) != !opponent) { points.get(i).translate(0, shift); }
+        }
     }
 
     private int rear(List<Group> groups, List<Point> result, int width, int top) {

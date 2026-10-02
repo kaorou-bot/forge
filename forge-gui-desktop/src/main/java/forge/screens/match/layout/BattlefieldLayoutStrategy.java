@@ -23,6 +23,8 @@ public interface BattlefieldLayoutStrategy {
 
     default int maximumGroupWidth(Kind kind, int width) { return Integer.MAX_VALUE; }
     default boolean fitRotatedBounds() { return false; }
+    /** This strategy fits the actual stacks itself; do not shrink them with the classic row planner first. */
+    default boolean sizesFromContent() { return false; }
 
     /** Shrink only oversized complete stacks; existing strategies retain their exact dimensions. */
     default List<Placement> placements(List<Group> groups, int width, int height, boolean opponent) {

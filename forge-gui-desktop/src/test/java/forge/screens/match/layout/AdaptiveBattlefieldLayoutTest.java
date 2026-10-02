@@ -80,12 +80,14 @@ public class AdaptiveBattlefieldLayoutTest {
         }
     }
 
-    @Test public void resizingRecoversOriginalScaleAndOverfullRearBandPushesOpponentCreaturesDown() {
+    @Test public void resizingRecoversOriginalScaleAndKeepsOpponentCreaturesInFront() {
         final var strategy = BattlefieldLayoutStrategy.adaptive(true, 8, 6);
         final var groups = List.of(group(150, 210, LAND), group(150, 210, LAND), group(150, 210, LAND), group(100, 140, CREATURE));
         final var narrow = strategy.placements(groups, 200, 240, true);
         Assert.assertTrue(narrow.get(0).scale() < 1);
-        Assert.assertTrue(narrow.get(3).y() >= narrow.get(2).y() + narrow.get(2).height() + 8);
+        verify(groups, narrow, 200);
+        Assert.assertTrue(narrow.get(3).y() + narrow.get(3).height() >= narrow.get(2).y() + narrow.get(2).height() + 8,
+                "The front band's bottom remains nearer the opponent, even when disjoint bands share vertical space");
         final var wide = strategy.placements(groups, 1600, 800, true);
         Assert.assertEquals(wide.get(0).scale(), 1.0);
         Assert.assertEquals(wide.get(0).y(), wide.get(2).y());
@@ -129,7 +131,7 @@ public class AdaptiveBattlefieldLayoutTest {
             final var p = strategy.placements(groups, 1200, 265, opponent);
             verify(groups, p, 1200);
             Assert.assertTrue(p.stream().allMatch(a -> a.y() + a.height() <= 261));
-            Assert.assertTrue(p.stream().allMatch(a -> a.scale() >= .65 && a.scale() < 1));
+            Assert.assertTrue(p.stream().allMatch(a -> a.scale() == 1), "Disjoint sparse groups fit at full size, without mandatory shrinking");
             Assert.assertEquals(p, strategy.placements(groups, 1200, 265, opponent));
         }
         final var many = new ArrayList<BattlefieldLayoutStrategy.Group>();
@@ -150,6 +152,7 @@ public class AdaptiveBattlefieldLayoutTest {
         Assert.assertSame(MatchCardPresentation.read(json, false).battlefield(), BattlefieldLayoutStrategy.LANES);
         final var groups = List.of(group(1000, 800, CREATURE), group(200, 300, LAND), group(350, 300, OTHER));
         for (var legacy : List.of(BattlefieldLayoutStrategy.LANES, MatchCardPresentation.read(json, true).battlefield())) {
+            Assert.assertFalse(legacy.sizesFromContent(), "Classic sizing must not change for older layout strategies");
             final var points = legacy.arrange(groups, 400, 300, false);
             final var placements = legacy.placements(groups, 400, 300, false);
             for (int i = 0; i < groups.size(); i++) {

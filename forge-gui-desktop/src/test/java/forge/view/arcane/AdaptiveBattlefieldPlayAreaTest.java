@@ -20,7 +20,51 @@ import static org.mockito.Mockito.*;
 
 /** Exercises the real PlayArea adapter, CardPanel bounds calculation and battlefield hit testing. */
 public class AdaptiveBattlefieldPlayAreaTest {
-    @Test public void realRotationEnvelopesFitShortBattlefields() throws Exception {
+    @Test public void sparseCardsRemainReadableThroughTheCompleteLayoutPipeline() throws Exception {
+        SwingUtilities.invokeAndWait(() -> {
+            if (forge.gui.GuiBase.getInterface() == null) { forge.gui.GuiBase.setInterface(new forge.GuiDesktop()); }
+            try (var model = mockStatic(FModel.class)) {
+                model.when(FModel::getPreferences).thenReturn(mock(ForgePreferences.class));
+                final var match = mock(CMatchUI.class);
+                when(match.getCardPresentation()).thenReturn(new MatchCardPresentation(null, CardOverlayPainter.NONE,
+                        BattlefieldLayoutStrategy.adaptive(true, 8, 6)));
+                for (boolean opponent : List.of(false, true)) {
+                    for (boolean creature : List.of(false, true)) {
+                        final var scroll = mock(FScrollPane.class);
+                        when(scroll.getVisibleRect()).thenReturn(new Rectangle(0, 0, 1218, 230));
+                        when(scroll.getInsets()).thenReturn(new java.awt.Insets(0, 0, 0, 0));
+                        final var bar = new javax.swing.JScrollBar();
+                        bar.setPreferredSize(new java.awt.Dimension(0, 0));
+                        when(scroll.getHorizontalScrollBar()).thenReturn(bar);
+                        when(scroll.getVerticalScrollBar()).thenReturn(bar);
+                        final var area = spy(new PlayArea(match, scroll, opponent, null, ZoneType.Battlefield));
+                        // Geometry is real; fake panels need no Swing child peer or image downloads.
+                        doNothing().when(area).setComponentZOrder(any(), anyInt());
+                        final var land = panels(true, opponent).get(0);
+                        final var permanent = panels(false, false).get(0);
+                        when(permanent.getCard().getCurrentState().isCreature()).thenReturn(creature);
+                        area.getCardPanels().addAll(List.of(land, permanent));
+                        for (int pass = 0; pass < 3; pass++) {
+                            area.doLayout();
+                            for (var card : area.getCardPanels()) {
+                                Assert.assertTrue(card.getCardWidth() >= 110,
+                                        "Sparse battlefield double-shrank a card to " + card.getCardWidth());
+                                Assert.assertTrue(card.getBounds().y >= 0 && card.getBounds().getMaxY() <= 230);
+                            }
+                            Assert.assertFalse(land.getBounds().intersects(permanent.getBounds()), "Complete envelopes must not overlap");
+                            Assert.assertEquals(area.getPreferredSize().height, 230, "A sparse wide field should fit without scrolling");
+                            if (pass == 0) {
+                                System.out.printf("Sparse field opponent=%s creature=%s: card widths %d/%d in 1218x230%n",
+                                        opponent, creature, land.getCardWidth(), permanent.getCardWidth());
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    @Test public void realRotationEnvelopesFitOrScrollWithoutUnreadableCards() throws Exception {
         SwingUtilities.invokeAndWait(() -> {
             if (forge.gui.GuiBase.getInterface() == null) { forge.gui.GuiBase.setInterface(new forge.GuiDesktop()); }
             try (var model = mockStatic(FModel.class)) {
@@ -51,10 +95,16 @@ public class AdaptiveBattlefieldPlayAreaTest {
                         apply.setAccessible(true); apply.invoke(area, template);
                         for (var card : all) {
                             final var bounds = card.getBounds();
-                            Assert.assertTrue(bounds.y >= 0 && bounds.y + bounds.height <= height,
-                                    "Complete tapped/stacked card envelope clipped at height " + height + ": " + bounds);
+                            Assert.assertTrue(bounds.y >= 0 && bounds.y + bounds.height <= area.getPreferredSize().height,
+                                    "Complete envelope must stay inside the scrollable surface: " + bounds);
+                            Assert.assertTrue(card.getCardWidth() >= 90, "Short fields must not squeeze cards into tiny thumbnails");
+                            if (height >= 240) {
+                                Assert.assertTrue(bounds.y + bounds.height <= height, "Normal sparse fields should not scroll");
+                            }
                         }
-                        Assert.assertEquals(area.getPreferredSize().height, height, "Sparse board must not need vertical scrolling");
+                        if (height >= 240) {
+                            Assert.assertEquals(area.getPreferredSize().height, height, "Sparse board should fit when a readable row fits");
+                        }
                     }
                 }
             } catch (ReflectiveOperationException ex) { throw new AssertionError(ex); }
@@ -122,6 +172,8 @@ public class AdaptiveBattlefieldPlayAreaTest {
             final var card = mock(CardView.class);
             final var state = mock(CardView.CardStateView.class);
             when(card.getCurrentState()).thenReturn(state);
+            when(state.getCard()).thenReturn(card);
+            when(state.getOracleName()).thenReturn("Test card " + i);
             when(state.isLand()).thenReturn(land);
             doReturn(card).when(panel).getCard();
             doReturn(List.of()).when(panel).getAttachedPanels();

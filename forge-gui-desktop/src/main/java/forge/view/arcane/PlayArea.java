@@ -480,6 +480,18 @@ public class PlayArea extends CardPanelContainer implements CardPanelMouseListen
             maxCardWidth = customBattlefield.maximumCardWidth(playAreaWidth, playAreaHeight, maxCardWidth, getCardWidthMin());
         }
         setCardWidth(maxCardWidth);
+        if (customBattlefield != null && customBattlefield.sizesFromContent()) {
+            // The adaptive strategy measures these complete stacks and fits them
+            // once. The classic planner assumes full-width rows and would shrink
+            // even an almost empty battlefield before the custom layout sees it.
+            this.rows = List.of(lands, tokens, creatures, others);
+            positionAllCards(this.rows);
+            applyBattlefieldLayout(this.rows);
+            revalidate();
+            repaint();
+            super.doLayout();
+            return;
+        }
         int minCardWidth = this.getCardWidthMin();
         int lastGoodCardWidth = minCardWidth;
         int deltaCardWidth = (maxCardWidth - minCardWidth) / 2;
