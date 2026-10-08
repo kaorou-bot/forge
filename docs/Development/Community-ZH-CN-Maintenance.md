@@ -2,6 +2,13 @@
 
 本文记录 `kaorou-bot/forge` 的 `zh-cn-community-release` 分支在 Windows 上维护、构建、测试和发布到阿里云的实际经验。目标是让后续维护者能够复现当前版本，并避免已经发生过的更新循环、黑屏、中文缺字、输入法失效和 Windows 启动器失配等问题。
 
+## 2026-10-08：Android CI 规范检查修复（不重新发版）
+
+- GitHub Android 构建 #10（cn1008r3 源提交）在名为“Install Android maven plugin”的步骤内执行全项目 `mvn install` 时失败，真实错误为 `Coin3D.java:6:8: Unused import - com.badlogic.gdx.Gdx`；不是插件下载失败、Node 弃用警告、运行时黑屏或线上上传失败。移除该无用导入，不改变游戏逻辑、版号或已发布 APK。
+- 本地打包原来使用 `-Dcheckstyle.skip=true`，漏掉这项审计。现在在编译/使用缓存前强制执行 Android reactor 的 `validate`，显式 `checkstyle.skip=false` 且退出码非零立即失败。后续编译跳过的仅是重复审计，不能因旧中间文件存在而绕过源检查。
+- 行为验证：保留旧无用导入时运行实际打包入口，门禁以 exit code 1 停止，没有创建输出目录，也没有进入映射/D8/签名；移除导入后同一验证命令的 10 个模块全部通过、0 项规范违规。日志保存在忽略目录 `dist/diagnostics/android-reopen/checkstyle-gate-before.log` 和 `checkstyle-gate-after.log`。
+- 原 Android workflow 只监听 `forge-gui-android/**`，修复共享移动源码不会触发新检查。补上 `forge-gui-mobile/**`、本地安卓打包脚本和 workflow 自身的路径触发条件；不因此升级 JDK/Actions 或改变发行平台。线上 cn1008r3、Windows、资源包及大厅服务保持原样。
+
 ## 2026-10-08：正常退出后再次打开黑屏（Android cn1008r3）
 
 - 在安装正式 cn1008r2、已有完整资源和存档的 API 36.1 x86_64 模拟器上复现：第一次正常进入经典模式，确认退出后再次启动，Logo 消失即停在黑屏。两次 Activity 创建都在 PID 4938；不能用 `adb force-stop` 替代正常退出来验证这个问题。

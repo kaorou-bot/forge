@@ -1,5 +1,9 @@
 For community releases use `deploy/build-android-community.ps1`, with versions from the root `pom.xml` and the existing signing keystore. See [community maintenance](Community-ZH-CN-Maintenance.md). The historical upstream instructions below are not the community release workflow.
 
+## Community APK source validation gate (2026-10-08)
+
+The community build first runs `mvn -B -pl forge-gui-android -am -Pandroid-debug -Dcheckstyle.skip=false validate` and checks its exit code before creating the D8 mapping or touching cached intermediates. A source audit failure is fatal; it must not enter the legacy D8 recovery path. The subsequent compile skips only the already completed duplicate audit. This caught the unused `Gdx` import in `Coin3D.java` that failed GitHub run #10 despite the separately validated APK. Android CI also watches the shared mobile sources and build script, not only the Android launcher module. A CI-only import/build-gate correction does not require republishing an unchanged runtime APK.
+
 ## Community APK resource gate (2026-10-08)
 
 D8 packages Java code, not dependency resources. `package-android-classpath-resources.ps1` copies libGDX GLSL files from the **resolved runtime JARs** to the APK root, where Android `FileHandle.classpath` reads them. Missing default/depth/particle vertex or fragment shaders abort the build. Do not put these files only under `assets/`, or hard-code a libGDX version.

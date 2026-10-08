@@ -119,6 +119,11 @@ Write-Host "Output: $OutputDirectory"
 
 $mapping = $null
 try {
+    Write-Step 'Validate Android reactor source conventions'
+    # Fail before reusing any cached Android intermediates. The compilation below
+    # skips only the duplicate audit, not this mandatory source validation gate.
+    Invoke-Checked $Maven @('-B', '-pl', 'forge-gui-android', '-am', '-Pandroid-debug', '-Dcheckstyle.skip=false', 'validate') 'Android source validation'
+
     Write-Step 'Create an ASCII-only short path for D8'
     $mapping = New-ShortDriveMapping $repositoryRoot
     Write-Host "Short path: $($mapping.Drive)\ -> $repositoryRoot"

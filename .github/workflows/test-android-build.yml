@@ -2,9 +2,9 @@ name: Test Android build
 
 on:
   push:
-    paths: [ 'forge-gui-android/**' ]
+    paths: [ 'forge-gui-android/**', 'forge-gui-mobile/**', 'deploy/build-android-community.ps1', '.github/workflows/test-android-build.yml' ]
   pull_request:
-    paths: [ 'forge-gui-android/**' ]
+    paths: [ 'forge-gui-android/**', 'forge-gui-mobile/**', 'deploy/build-android-community.ps1', '.github/workflows/test-android-build.yml' ]
 
 jobs:
   build:
