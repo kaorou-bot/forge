@@ -198,6 +198,13 @@ public class Main extends AndroidApplication {
         heapHeartbeatHandler.postDelayed(heapHeartbeat, HEAP_HEARTBEAT_MS);
 
         super.onCreate(savedInstanceState);
+        // Android may recreate an Activity without removing the old process. Forge's
+        // static model, scenes and native resources cannot be reused after disposal.
+        if (Forge.isDisposed) {
+            netLog.warn("[lifecycle] Disposed Forge process retained; restarting before initialization");
+            triggerRebirth();
+            return;
+        }
         try {
             PackageInfo pInfo = getContext().getPackageManager().getPackageInfo(getContext().getPackageName(), 0);
             versionString = pInfo.versionName;
@@ -621,9 +628,14 @@ public class Main extends AndroidApplication {
         }
         triggerDispose();
         super.onDestroy();
-        //ensure app doesn't stick around
-        //ActivityManager am = (ActivityManager)getSystemService(Activity.ACTIVITY_SERVICE);
-        //am.killBackgroundProcesses(getApplicationContext().getPackageName());
+        // finish() destroys the Activity, not the process. Keeping the disposed
+        // Forge singleton alive makes the next launch render nothing forever.
+        // Only terminate after normal finish and backend cleanup, never on Home,
+        // screen lock, permission dialogs or configuration-change destruction.
+        if (isFinishing() && !isChangingConfigurations() && Forge.isDisposed) {
+            netLog.info("[lifecycle] Finished disposed Forge; ending process for next cold launch");
+            android.os.Process.killProcess(android.os.Process.myPid());
+        }
     }
 
     @Override

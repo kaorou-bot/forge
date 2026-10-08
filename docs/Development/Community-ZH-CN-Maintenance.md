@@ -2,6 +2,19 @@
 
 本文记录 `kaorou-bot/forge` 的 `zh-cn-community-release` 分支在 Windows 上维护、构建、测试和发布到阿里云的实际经验。目标是让后续维护者能够复现当前版本，并避免已经发生过的更新循环、黑屏、中文缺字、输入法失效和 Windows 启动器失配等问题。
 
+## 2026-10-08：正常退出后再次打开黑屏（Android cn1008r3）
+
+- 在安装正式 cn1008r2、已有完整资源和存档的 API 36.1 x86_64 模拟器上复现：第一次正常进入经典模式，确认退出后再次启动，Logo 消失即停在黑屏。两次 Activity 创建都在 PID 4938；不能用 `adb force-stop` 替代正常退出来验证这个问题。
+- 根因不是下载、中文字体或缓存损坏。`Main.triggerDispose()` 释放 Forge 并调用 `finish()`，但 Android 仍保留进程，静态 `Forge.app`、`initialized` 和 `isDisposed` 未重新初始化。新 Activity 取得旧监听器，`render()` 因 `isDisposed` 直接返回。不能只清这个布尔值：全局字体、场景、模型和原生资源已经释放。
+- 在 Android `onDestroy()` 完成后，仅对已正常 finish、非配置变化且 Forge 已释放的 Activity 结束自身进程；Home/锁屏/临时暂停不执行这一步。`onCreate()` 对意外保留的已释放进程使用现有重启入口，避免初始化旧实例。`Forge.dispose()` 增加重复调用保护，避免显式退出和 Android 后端再次释放同一资源。
+- 新增 `ForgeDisposeLifecycleTest`，验证重复释放不再次关闭屏幕、访问资源或改动结束标记；当前移动模块 20 项测试及依赖模块测试全部通过。真机生命周期仍须通过测试 APK 验收。
+- 版本身份 `2.0.15-cn1008r3`、显示 `2.0.15-汉化-10.08.3`、versionCode `2026100803`。复用固定开发工作树和自动打包脚本；不清缓存/存档，不修改 Windows、共用资源包或大厅服务。用户于 2026-10-08 授权提交、推送及上传，正式发布只切换 Android 更新字段。
+- 诊断保存于固定开发工作树的忽略目录 `dist/diagnostics/android-reopen/`；`reopen-before-logcat.txt` 和 `second-start-before.png` 是同进程正常退出/再次打开的修复前证据。
+- 验证结果：51 项 Maven 测试通过（移动模块 20、依赖模块 31），签名/对齐/着色器及纹理打包检查通过。最终 APK 覆盖安装保留资源、设置和旧存档；经典模式取消退出、Home/恢复和锁屏/解锁均保持 PID 8633。正常确认退出后 PID 消失，日志明确记录 `Finished disposed Forge; ending process for next cold launch`，未使用 force-stop。
+- 断开 Wi-Fi 和数据网络（`Active default network: none`）后第二次启动为 PID 10069，正常到达模式选择器，进入冒险模式并继续旧存档到世界地图；冒险菜单确认退出后该 PID 也消失。第三次启动 PID 10595 正常进入模式选择器；检查后恢复模拟器网络。连续两种模式的退出/重开均通过，不能据此宣称已覆盖所有真机或厂商后台策略。
+- 验收测试 APK 为 21,065,765 字节，SHA-256 `ad6c5f9bd4aad3098db89cf1a377d5f54f2041ef1aab10929a10cfa8defdb363`，签名与 cn1008r2 相同。正式包将内置发布说明由“测试版、待验收”改为正式说明，使用自动脚本重新打包并核验；逐 ZIP 条目比较确认全部 DEX、原生库及运行资源与验收包相同，仅发布说明、构建时间及签名元数据不同。正式 APK 21,065,765 字节，SHA-256 `710fc046093b1b508784d55b5721899feaa4a7280fd3264933e5224544bbf63a`，统一归档在主工作区 `dist/releases/cn1008r3/`；清单备份与发布记录保存在该目录，不能把测试 APK 哈希当成正式包哈希。
+- 发布先上传不可变路径 `forge/android/2.0.15-cn1008r3/forge-android-2.0.15-cn1008r3.apk`，从公网 CDN 完整回读核对 SHA-256/长度；推送源提交后再次比较 OSS 旧清单哈希，只有未被其他任务改动才替换 `version`、`publishedAt` 和四项 `android.*`。其余字段逐项保持不变；回读 OSS 和公网清单后才确认发布完成。不得重启大厅。
+
 ## 2026-10-08：冒险开局闪屏/卡死修复（Android cn1008r2）
 
 ### 根因与实现

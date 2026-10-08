@@ -10,6 +10,8 @@ Run `deploy/test-android-classpath-resources.ps1 -JavaHome <jdk> -GdxJar <resolv
 
 At runtime, test coin toss **after ante confirmation**, not just APK startup: shader compilation happens on first render. Also test dice/coin render and disposal failures with `MatchAnimationFailureTest`, and unavailable-font sizing with `FontHeightSelectionTest`. Keep raw test logs and screenshots under ignored `dist/diagnostics/`; they are not release artifacts.
 
+For lifecycle regressions, also exit through the application's own confirmation dialog and reopen at least twice without `adb force-stop`. Verify the old disposed process ends and each reopened app reaches the mode selector. Separately verify Home/resume and cancelled exit keep the same running process. Test existing resources/save data and offline reopen. A force-stop-only cold-start test hides the disposed-singleton black-screen bug. `ForgeDisposeLifecycleTest` guards duplicate backend disposal; it does not replace an actual Android lifecycle test.
+
 In order to build and sign the android release, you will need the `forge.keystore` file (which is not present in the repository).  This file will need to be placed in the `forge-gui-android` folder.  This file should **never** be committed to the repository.
 
 In preparation for the android release, update the version recorded in the following files:

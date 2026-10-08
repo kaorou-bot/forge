@@ -1007,6 +1007,10 @@ public class Forge implements ApplicationListener {
 
     @Override
     public void dispose() {
+        // Explicit exit and Android backend destruction can both call dispose.
+        if (isDisposed) {
+            return;
+        }
         lifecycleClosing = true;
         isDisposed = true;
         if (currentScreen != null) {
