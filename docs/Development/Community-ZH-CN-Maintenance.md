@@ -2,6 +2,31 @@
 
 本文记录 `kaorou-bot/forge` 的 `zh-cn-community-release` 分支在 Windows 上维护、构建、测试和发布到阿里云的实际经验。目标是让后续维护者能够复现当前版本，并避免已经发生过的更新循环、黑屏、中文缺字、输入法失效和 Windows 启动器失配等问题。
 
+## 2026-10-08：冒险开局闪屏/卡死修复（Android cn1008r2）
+
+### 根因与实现
+
+- 在 API 36.1 x86_64 模拟器覆盖安装正式 cn1008 后复现：冒险开局在掷币处卡住。应用日志为 `File not found: com/badlogic/gdx/graphics/g3d/shaders/default.vertex.glsl (Classpath)`，不是赌注规则结算本身报错。手动 D8 打包只保留了 Java 字节码和已有字体/服务资源，遗漏 libGDX 六个 GLSL 文件；首次 ModelBatch 渲染才触发读取，构造阶段的捕获无法覆盖。
+- 原异常路径没有关闭 FrameBuffer、恢复深度/裁剪状态或重启 SpriteBatch，后续画面留在离屏缓冲，并且游戏线程继续等待动画 latch。新增依赖资源打包门禁，缺六个必需 shader 中任何一个即构建失败；从实际 runtime JAR 复制，不写死依赖版本。
+- Coin3D/Dice3D 共享受 `finally` 保护的离屏渲染；CoinFlipOverlay 首次渲染失败只记录一次并退化为平面结果，继续支持点击确认；释放异常不阻止回调，确保结果仍返回游戏。DiceOverlay 渲染/清理失败释放当前及排队等待，不让动画绑死游戏。
+- APK 内置五张动画纹理；启动时只向旧资源目录补齐缺失文件，原皮肤文件不覆盖，临时文件验证完成后原子安装。写入可选图片失败只记录日志，不阻止完整旧资源离线启动。
+- `FSkinFont.forHeight` 原零字体度量/生成排队路径能无限递增字号，新增有限扫描、非有限高度回退及缩放字号上限 512。旧实现的七个回归场景中六个失败，修复后全部通过。补齐冒险设置实际报缺失的 `advReputation` 中文键。
+- 正式版本 `2.0.15-cn1008r2`、显示版本 `2.0.15-汉化-10.08.2`、Android versionCode `2026100802`。只发布 Android；线上 `desktop.*`、`assets.*`、卡图/tokens/皮肤及大厅服务不改，不重启大厅。
+
+### 验证范围与复现证据
+
+- `mvn -pl forge-gui-mobile -am -Dcheckstyle.skip=true test`：50 项零失败（mobile 19、依赖模块 31）。新增字体 7 项和动画异常恢复 5 项；包括着色器读取/flush 失败、FBO/GL/Batch 恢复、coin 恰好一次完成、dice 清理失败释放当前/排队等待。游戏/AI 模块继承其既有跳过配置，不称为全卡牌规则测试。
+- 构建脚本独立资源测试：六个 shader 与 runtime JAR 字节完全一致，缺失依赖必须拒绝。平台范围守卫及其 7 项回归通过；中文字体覆盖 3,927 码点、0 缺字；独立译表分支 `77744b8c20dfb77d2e45e905f6b7f72759cfd663` 的 38,219 条与本地 blob 相同，无译表变更。
+- API 36.1 模拟器从原 cn1008 覆盖安装最终签名 APK，保留旧资源和测试存档。竖屏冒险：进入地图、启用并核实 `UI_ANTE=true`、展示双方赌注、3D 掷币、选择先手、保留起手、实际打出地牌、AI 回合与咒语进入堆叠、认输、扣除赌注牌、返回地图均通过；另有关闭赌注的对局和普通构筑开局/退出测试通过。
+- 对局中 Home/恢复后仍可操作。关闭 Wi-Fi 和移动数据、强制停止并横屏冷启动，进入选择器、加载原冒险存档，再次进入启用赌注的对局并完成掷币/调度/AI 阶段推进；最后恢复模拟器网络。最终两次冒险应用日志无 Java 异常、缺 shader 或动画渲染失败。
+- 本机模拟器 software GPU 仍输出既有 GLES `GL_LINE_SMOOTH` 警告，未导致上述流程失败，不在本修复中改动其余绘图功能。未声称测试所有卡牌、所有玩法、中文实体输入法、多台真实手机、最低 API 26、实体 ARM GPU 或长时间联机；未知机型的用户反馈仍需实机确认。
+- 证据保留于固定开发工作树的忽略目录 `dist/diagnostics/adventure-cn1008/`（baseline `duel-filtered-before-logcat.txt`、`full-mobile-tests-retry.log`、`ante-final-*`、`offline-landscape-*`）。本机 JDK 的 AF_UNIX selector 回退参数只用于测试 JVM，未写入 APK。
+- APK `21,065,765` 字节，SHA-256 `0e3cb0d5bc5316b6c7ae9a2b361b99188c2de708ae3b7d7a95602a411cf49768`；签名 v2/v3 与旧版一致，证书 SHA-256 `7cc14e2ae087307908bc90ec98758d19322692fb9db1b3b3e4f9a9d56785c8da`。最终已验证的包统一保存到主工作区 `dist/releases/cn1008r2/`，原始脏工作区文件不触碰，不新增日期工作树。
+
+### Android-only 发布约定
+
+先以不可覆盖方式上传 `forge/android/2.0.15-cn1008r2/forge-android-2.0.15-cn1008r2.apk`，从正式公网 CDN 完整回读比较 SHA-256/长度；推送已测试的源代码后，核对当前 OSS 清单没有被其他任务更新，再只修改 `version`、`publishedAt` 和四项 `android.*`。保留所有未知字段和桌面/资源字段；最后回读 OSS 与正式 CDN 清单验证。若并发清单改变则停止，绝不覆盖别的任务发布。
+
 ## 2026-10-08：安卓语言稳定性（cn1008）
 
 - 安卓长期使用后自动变英文的可复现路径是文字排版/绘制抛出临时异常后，`Graphics` 调用全局强制英文接口；该状态还会在场景切换中传播。修复不再让渲染错误修改 `Localizer` 或用户语言选择，不使用延时强制重设中文来掩盖问题；用户主动选择英文仍有效。

@@ -457,18 +457,33 @@ public class Dice3D implements Disposable {
         }
         dirty = false;
 
-        fb.begin();
-        Gdx.gl.glDisable(GL20.GL_SCISSOR_TEST);
-        Gdx.gl.glClearColor(0f, 0f, 0f, 0f);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-        Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
+        renderToBuffer(fb, instance, sharedEnv);
+    }
 
-        sharedBatch.begin(sharedCam);
-        sharedBatch.render(instance, sharedEnv);
-        sharedBatch.end();
-
-        Gdx.gl.glDisable(GL20.GL_DEPTH_TEST);
-        fb.end();
+    // Shader creation can fail on the first render, not just when the model is built.
+    // Never leave the screen drawing into an off-screen buffer after such a failure.
+    static void renderToBuffer(FrameBuffer buffer, ModelInstance model, Environment environment) {
+        final boolean scissor = Gdx.gl.glIsEnabled(GL20.GL_SCISSOR_TEST);
+        final boolean depth = Gdx.gl.glIsEnabled(GL20.GL_DEPTH_TEST);
+        buffer.begin();
+        try {
+            Gdx.gl.glDisable(GL20.GL_SCISSOR_TEST);
+            Gdx.gl.glClearColor(0f, 0f, 0f, 0f);
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+            Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
+            sharedBatch.begin(sharedCam);
+            try {
+                sharedBatch.render(model, environment);
+            } finally {
+                sharedBatch.end();
+            }
+        } finally {
+            buffer.end();
+            if (depth) Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
+            else Gdx.gl.glDisable(GL20.GL_DEPTH_TEST);
+            if (scissor) Gdx.gl.glEnable(GL20.GL_SCISSOR_TEST);
+            else Gdx.gl.glDisable(GL20.GL_SCISSOR_TEST);
+        }
     }
 
     public void skip() {

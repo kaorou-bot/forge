@@ -226,11 +226,19 @@ public class DiceOverlay implements Disposable {
 
     private void finishCurrent() {
         for (Dice3D d : dice) {
-            d.dispose();
+            try {
+                d.dispose();
+            } catch (RuntimeException e) {
+                Gdx.app.error("DiceOverlay", "failed to release die", e);
+            }
         }
         dice.clear();
         if (skin != null) {
-            skin.dispose();
+            try {
+                skin.dispose();
+            } catch (RuntimeException e) {
+                Gdx.app.error("DiceOverlay", "failed to release dice skin", e);
+            }
             skin = null;
         }
         if (current != null) {
@@ -262,12 +270,19 @@ public class DiceOverlay implements Disposable {
             fb.end();
         }
         boolean allDone = true;
-        for (Dice3D d : dice) {
-            d.update(dt);
-            allDone &= d.isDone();
-        }
-        if (wasDrawing) {
-            fb.begin();
+        try {
+            for (Dice3D d : dice) {
+                d.update(dt);
+                allDone &= d.isDone();
+            }
+        } catch (RuntimeException e) {
+            Gdx.app.error("DiceOverlay", "failed to render dice animation; continuing with game result", e);
+            finishCurrent();
+            releaseQueue();
+        } finally {
+            if (wasDrawing) {
+                fb.begin();
+            }
         }
         if (allDone) {
             finishCurrent();

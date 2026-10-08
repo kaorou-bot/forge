@@ -397,6 +397,22 @@ public class AssetsDownloader {
                 installAtomically(bundledFile, destination.child(fileName));
             }
         }
+        // Do not force a full resource download merely for new coin/dice artwork.
+        // Preserve existing skin files, and install missing bundled files atomically.
+        FileHandle defaultSkin = Gdx.files.absolute(RES_DIR + "skins/default/");
+        for (String fileName : ImmutableList.of("coin_heads.png", "coin_tails.png", "dice_bone.png",
+                "planar_walk.png", "planar_chaos.png")) {
+            FileHandle target = defaultSkin.child(fileName);
+            FileHandle bundled = Gdx.files.internal("match-animation/" + fileName);
+            if (!target.exists() && bundled.exists()) {
+                try {
+                    AndroidStartupFiles.install(bundled::read, target.file().toPath());
+                } catch (IOException e) {
+                    // Optional artwork must not turn a full/read-only cache into a startup failure.
+                    System.err.println("[startup] Could not install optional animation texture " + target + ": " + e);
+                }
+            }
+        }
     }
 
     private static boolean installBundledCjkFont() {

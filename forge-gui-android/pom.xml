@@ -84,6 +84,19 @@
             </plugin>
         </plugins>
         <resources>
+            <!-- Small animation textures must be available with older assets.zip too. -->
+            <resource>
+                <directory>${project.basedir}/../forge-gui/res/skins/default</directory>
+                <filtering>false</filtering>
+                <includes>
+                    <include>coin_heads.png</include>
+                    <include>coin_tails.png</include>
+                    <include>dice_bone.png</include>
+                    <include>planar_walk.png</include>
+                    <include>planar_chaos.png</include>
+                </includes>
+                <targetPath>assets/match-animation</targetPath>
+            </resource>
             <resource>
                 <directory>filters</directory>
                 <filtering>true</filtering>

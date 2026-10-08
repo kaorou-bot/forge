@@ -35,6 +35,7 @@ public class FSkinFont {
 
     private static final int MAX_FONT_SIZE_LESS_GLYPHS = 72;
     private static final int MAX_FONT_SIZE_MANY_GLYPHS = 36;
+    private static final int MAX_SCALED_FONT_SIZE = 512;
 
     private static final String TTF_FILE = "font1.ttf";
     private static HashMap<String, String> langUniqueCharacterSet = new HashMap<>();
@@ -69,14 +70,48 @@ public class FSkinFont {
     }
 
     public static FSkinFont forHeight(final float height) {
-        int size = MIN_FONT_SIZE + 1;
-        while (true) {
-            FSkinFont f = _get(size);
-            if (f != null && f.getLineHeight() > height) {
-                return _get(size - 1);
-            }
-            size++;
+        if (!Float.isFinite(height) || height <= 0) {
+            return _get(MIN_FONT_SIZE);
         }
+        FSkinFont best = null;
+        FSkinFont largest = null;
+        float largestLineHeight = 0;
+        for (int size = MIN_FONT_SIZE; size <= MAX_FONT_SIZE; size++) {
+            final FSkinFont candidate = _get(size);
+            if (candidate == null) {
+                continue;
+            }
+            final float lineHeight = candidate.getLineHeight();
+            // A background caller can see a queued font before the render thread has generated it.
+            // Failed generation has the same zero metrics. Neither is permission to allocate
+            // another font at every increasing size forever.
+            if (!Float.isFinite(lineHeight) || lineHeight <= 0) {
+                continue;
+            }
+            if (lineHeight > height) {
+                return best == null ? candidate : best;
+            }
+            best = candidate;
+            if (size == MAX_FONT_SIZE) {
+                largest = candidate;
+                largestLineHeight = lineHeight;
+            }
+        }
+        if (largest != null) {
+            // Beyond the rasterized size limit the font is scaled. Jump directly to the required
+            // size instead of creating a separate native font/atlas at every intermediate size.
+            final double desiredSize = Math.floor((double) MAX_FONT_SIZE * height / largestLineHeight);
+            final int scaledSize = (int) Math.min(MAX_SCALED_FONT_SIZE,
+                    Math.max(MAX_FONT_SIZE, desiredSize));
+            if (scaledSize > MAX_FONT_SIZE) {
+                final FSkinFont scaled = _get(scaledSize);
+                final float lineHeight = scaled == null ? 0 : scaled.getLineHeight();
+                if (Float.isFinite(lineHeight) && lineHeight > 0) {
+                    return scaled;
+                }
+            }
+        }
+        return best == null ? _get(MIN_FONT_SIZE) : best;
     }
 
     //pre-load all supported font sizes

@@ -265,22 +265,7 @@ final class Coin3D implements Disposable {
 
     /** Renders into the FrameBuffer. Never call while a SpriteBatch is open. */
     void render() {
-        final boolean scissor = Gdx.gl.glIsEnabled(GL20.GL_SCISSOR_TEST);
-        fb.begin();
-        Gdx.gl.glDisable(GL20.GL_SCISSOR_TEST);
-        Gdx.gl.glClearColor(0f, 0f, 0f, 0f);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-        Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
-
-        Dice3D.sharedBatch.begin(Dice3D.sharedCam);
-        Dice3D.sharedBatch.render(instance, env);
-        Dice3D.sharedBatch.end();
-
-        Gdx.gl.glDisable(GL20.GL_DEPTH_TEST);
-        fb.end();
-        if (scissor) {
-            Gdx.gl.glEnable(GL20.GL_SCISSOR_TEST);
-        }
+        Dice3D.renderToBuffer(fb, instance, env);
     }
 
     TextureRegion getRegion() {

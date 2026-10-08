@@ -104,10 +104,23 @@ public class CoinFlipOverlay extends FOverlay {
             createCoin(size);
         }
         if (coin != null) {
-            // integer turns => heads up, +0.5 turn => tails up
-            coin.pose(t, settle, SPINS + (heads ? 0f : 0.5f));
-            drawCoin(cx, cy, size);
-        } else {
+            try {
+                // integer turns => heads up, +0.5 turn => tails up
+                coin.pose(t, settle, SPINS + (heads ? 0f : 0.5f));
+                drawCoin(cx, cy, size);
+            } catch (RuntimeException e) {
+                Gdx.app.error("CoinFlipOverlay", "failed to render 3D coin; using flat result", e);
+                coinFailed = true;
+                Coin3D failedCoin = coin;
+                coin = null;
+                try {
+                    failedCoin.dispose();
+                } catch (RuntimeException disposalError) {
+                    Gdx.app.error("CoinFlipOverlay", "failed to release 3D coin", disposalError);
+                }
+            }
+        }
+        if (coin == null) {
             // 3D failed: flat fallback so the game still gets its result
             final float scaleY = Math.max(0.04f, Math.abs((float) Math.cos(t * (SPINS + (heads ? 0f : 0.5f)) * 2f * Math.PI)));
             g.fillRect(heads ? HEADS_FALLBACK : TAILS_FALLBACK, cx - size / 2f, cy - size * scaleY / 2f, size, size * scaleY);
@@ -140,9 +153,12 @@ public class CoinFlipOverlay extends FOverlay {
         if (wasDrawing) {
             b.end();
         }
-        coin.render();
-        if (wasDrawing) {
-            b.begin();
+        try {
+            coin.render();
+        } finally {
+            if (wasDrawing) {
+                b.begin();
+            }
         }
 
         final float bw = Gdx.graphics.getBackBufferWidth();
@@ -160,13 +176,16 @@ public class CoinFlipOverlay extends FOverlay {
         if (!b.isDrawing()) {
             b.begin();
         }
-        b.setColor(1f, 1f, 1f, 1f);
-        b.draw(coin.getRegion(), px, py, pw, ph);
-        if (!wasDrawing) {
-            b.end();
+        try {
+            b.setColor(1f, 1f, 1f, 1f);
+            b.draw(coin.getRegion(), px, py, pw, ph);
+        } finally {
+            if (!wasDrawing) {
+                b.end();
+            }
+            b.setPackedColor(oldColor);
+            b.setProjectionMatrix(savedProjection);
         }
-        b.setPackedColor(oldColor);
-        b.setProjectionMatrix(savedProjection);
     }
 
     private void finish() {
@@ -183,11 +202,17 @@ public class CoinFlipOverlay extends FOverlay {
         }
         released = true;
         done = true; // stop drawing before the coin is disposed
-        if (coin != null) {
-            coin.dispose();
-            coin = null;
+        try {
+            if (coin != null) {
+                Coin3D releasedCoin = coin;
+                coin = null;
+                releasedCoin.dispose();
+            }
+        } catch (RuntimeException e) {
+            Gdx.app.error("CoinFlipOverlay", "failed to release 3D coin", e);
+        } finally {
+            onDone.run();   // releases the latch even when native cleanup fails
         }
-        onDone.run();   // releases the latch so the game thread continues
     }
 
     // Every dismissal path (tap, Escape/Back, FOverlay.hideAll) goes through hide().

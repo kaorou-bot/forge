@@ -163,6 +163,10 @@ try {
 
     Write-Step "Run D8 with an argument file ($($classpathEntries.Count) classpath JARs)"
     $stageDirectory = Join-Path $targetDirectory 'community-build'
+    $resolvedStage = [IO.Path]::GetFullPath($stageDirectory)
+    if (-not $resolvedStage.StartsWith($repositoryRoot.TrimEnd('\') + '\forge-gui-android\target\', [StringComparison]::OrdinalIgnoreCase)) {
+        throw "Refusing to clear unexpected Android staging path: $resolvedStage"
+    }
     if (Test-Path -LiteralPath $stageDirectory) { Remove-Item -LiteralPath $stageDirectory -Recurse -Force }
     $dexDirectory = Join-Path $stageDirectory 'dex'
     $nativeDirectory = Join-Path $stageDirectory 'native'
@@ -204,30 +208,37 @@ try {
         if (-not (Test-Path -LiteralPath (Join-Path $gdxFontDirectory $fontFile))) { throw "Missing bundled libGDX font: $fontFile" }
     }
     Invoke-Checked $jar @('uf', $unsignedApk, '-C', $classesDirectory, 'com/badlogic/gdx/utils/lsans-15.fnt', '-C', $classesDirectory, 'com/badlogic/gdx/utils/lsans-15.png') 'Add libGDX fonts'
+    & (Join-Path $scriptDirectory 'package-android-classpath-resources.ps1') -JarTool $jar -Apk $unsignedApk -ClasspathEntries $classpathEntries -StagingDirectory (Join-Path $stageDirectory 'classpath-resources')
     if (-not (Test-Path -LiteralPath (Join-Path $classesDirectory 'META-INF\services'))) { throw 'Missing META-INF/services; tinylog cannot initialize on Android.' }
     Invoke-Checked $jar @('uf', $unsignedApk, '-C', $classesDirectory, 'META-INF/services') 'Add service descriptors'
 
     Write-Step 'Align, sign, and verify the APK'
     New-Item -ItemType Directory -Path $OutputDirectory -Force | Out-Null
     $alignedApk = Join-Path $stageDirectory "Forge-$revision-aligned.apk"
+    $signedApk = Join-Path $stageDirectory "Forge-$revision-signed.apk"
     $finalApk = Join-Path $OutputDirectory "Forge-$revision-Android.apk"
     Invoke-Checked $zipalign @('-f', '-p', '4', $unsignedApk, $alignedApk) 'zipalign'
     Write-Host '[apksigner] Signing (passwords are not printed)'
-    & $apksigner sign --ks $Keystore --ks-key-alias $KeyAlias --ks-pass "pass:$StorePassword" --key-pass "pass:$KeyPassword" --out $finalApk $alignedApk
+    & $apksigner sign --ks $Keystore --ks-key-alias $KeyAlias --ks-pass "pass:$StorePassword" --key-pass "pass:$KeyPassword" --out $signedApk $alignedApk
     if ($LASTEXITCODE -ne 0) { throw "APK signing failed with exit code $LASTEXITCODE" }
-    Invoke-Checked $apksigner @('verify', '--verbose', '--print-certs', $finalApk) 'APK signature verification'
-    Invoke-Checked $zipalign @('-c', '-p', '4', $finalApk) 'APK alignment verification'
+    Invoke-Checked $apksigner @('verify', '--verbose', '--print-certs', $signedApk) 'APK signature verification'
+    Invoke-Checked $zipalign @('-c', '-p', '4', (Convert-ToShortRepoPath $signedApk $repositoryRoot $mapping.Drive)) 'APK alignment verification'
 
-    $badging = & $aapt dump badging (Convert-ToShortRepoPath $finalApk $repositoryRoot $mapping.Drive)
+    # Output may live in the central release archive, outside this worktree mapping.
+    # Native aapt cannot handle that Chinese path: validate the signed staging copy first.
+    $badging = & $aapt dump badging (Convert-ToShortRepoPath $signedApk $repositoryRoot $mapping.Drive)
     if ($LASTEXITCODE -ne 0) { throw 'aapt cannot read the final APK.' }
     $packageLine = $badging | Select-String '^package:' | Select-Object -First 1
     if (-not $packageLine -or $packageLine.Line -notmatch "versionName='$([regex]::Escape($revision))'") { throw "APK versionName does not match Maven revision: $($packageLine.Line)" }
     if ($packageLine.Line -notmatch "versionCode='$([regex]::Escape($androidVersionCode))'") { throw "APK versionCode does not match pom.xml: $($packageLine.Line)" }
 
     $requiredEntries = @('classes.dex', 'assets/localization/cardnames-zh-CN.txt', 'assets/update-mirror/forge-update.properties', 'assets/update-mirror/forge-community-release-notes-zh-CN.txt', 'assets/bundled-font/SourceHanSansCN.ttf', 'assets/fallback_skin/bg_splash.png', 'com/badlogic/gdx/utils/lsans-15.fnt', 'META-INF/services/org.tinylog.provider.LoggingProvider', 'lib/arm64-v8a/libgdx-freetype.so', 'lib/armeabi-v7a/libgdx-freetype.so', 'lib/x86/libgdx-freetype.so', 'lib/x86_64/libgdx-freetype.so')
-    $apkEntries = @(& $jar tf $finalApk)
+    $apkEntries = @(& $jar tf $signedApk)
+    $requiredEntries += @('com/badlogic/gdx/graphics/g3d/shaders/default.vertex.glsl', 'com/badlogic/gdx/graphics/g3d/shaders/default.fragment.glsl', 'com/badlogic/gdx/graphics/g3d/shaders/depth.vertex.glsl', 'com/badlogic/gdx/graphics/g3d/shaders/depth.fragment.glsl', 'com/badlogic/gdx/graphics/g3d/particles/particles.vertex.glsl', 'com/badlogic/gdx/graphics/g3d/particles/particles.fragment.glsl')
+    foreach ($image in @('coin_heads.png', 'coin_tails.png', 'dice_bone.png', 'planar_walk.png', 'planar_chaos.png')) { $requiredEntries += "assets/match-animation/$image" }
     foreach ($entry in $requiredEntries) { if ($apkEntries -notcontains $entry) { throw "Final APK is missing required entry: $entry" } }
 
+    Copy-Item -LiteralPath $signedApk -Destination $finalApk -Force
     $apkInfo = Get-Item -LiteralPath $finalApk
     $sha256 = (Get-FileHash -LiteralPath $finalApk -Algorithm SHA256).Hash.ToLowerInvariant()
     [System.IO.File]::WriteAllText("$finalApk.sha256", "$sha256  $($apkInfo.Name)`n", [System.Text.UTF8Encoding]::new($false))
