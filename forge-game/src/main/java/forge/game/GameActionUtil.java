@@ -1021,10 +1021,10 @@ public final class GameActionUtil {
             ability.setChosenList(null);
         }
 
-        ability.clearTargets();
-
+        //ability.clearTargets();
         ability.resetOnceResolved();
         payment.refundPayment();
+
         game.getStack().clearFrozen();
         game.getTriggerHandler().clearWaitingTriggers();
     }

@@ -46,6 +46,7 @@ import forge.screens.SplashScreen;
 import forge.screens.TransitionScreen;
 import forge.screens.home.HomeScreen;
 import forge.screens.home.NewGameMenu;
+import forge.screens.match.DiceOverlay;
 import forge.screens.match.MatchController;
 import forge.screens.match.MatchScreen;
 import forge.sound.MusicPlaylist;
@@ -139,6 +140,7 @@ public class Forge implements ApplicationListener {
     public static boolean isDisposed = false;
     public static boolean invokeWorldSave = false;
     public static Camera camera;
+    public static boolean lifecycleClosing = false;
 
     public static ApplicationListener getApp(HWInfo hwInfo, Clipboard clipboard0, IDeviceAdapter deviceAdapter0, String assetDir0, boolean androidOrientation, boolean isTablet, int AndroidAPI) {
         if (app == null) {
@@ -939,8 +941,11 @@ public class Forge implements ApplicationListener {
             FrameRate.getInstance().render(showFPS);
             return;
         }
+        // update DiceOverlay
+        DiceOverlay.getInstance().update(delta);
         // render classic
         Classic.getInstance().render(screen);
+        DiceOverlay.getInstance().render();
         FrameRate.getInstance().render(showFPS);
     }
 
@@ -987,6 +992,7 @@ public class Forge implements ApplicationListener {
 
     @Override
     public void pause() {
+        lifecycleClosing = true;
         setWindowFocus(false);
         if (MatchController.getHostedMatch() != null) {
             MatchController.getHostedMatch().pause();
@@ -995,6 +1001,7 @@ public class Forge implements ApplicationListener {
 
     @Override
     public void resume() {
+        lifecycleClosing = false;
         setWindowFocus(true);
         try {
             Texture.setAssetManager(getAssets().manager());
@@ -1012,6 +1019,7 @@ public class Forge implements ApplicationListener {
 
     @Override
     public void dispose() {
+        lifecycleClosing = true;
         isDisposed = true;
         if (currentScreen != null) {
             currentScreen.onClose(null);
@@ -1024,7 +1032,8 @@ public class Forge implements ApplicationListener {
         }
         Dscreens.clear();
         // don't call getInstance() or they will be recreated on dispose
-        safeDispose( // I need to know what line the startup bug occurs when the app is paused...
+        safeDispose(
+            DiceOverlay.instance,
             MapStage.instance,
             ScreenUtil.instance,
             ShaderUtil.instance,

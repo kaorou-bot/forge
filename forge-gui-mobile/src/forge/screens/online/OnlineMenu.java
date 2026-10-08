@@ -7,6 +7,7 @@ import forge.assets.FImage;
 import forge.assets.FSkinImage;
 import forge.gamemodes.net.server.FServerManager;
 import forge.gui.FThreads;
+import forge.gamemodes.net.server.HostingServer;
 import forge.localinstance.properties.ForgePreferences;
 import forge.localinstance.properties.ForgePreferences.FPref;
 import forge.menu.FMenuItem;
@@ -72,7 +73,7 @@ public class OnlineMenu extends FPopupMenu {
 
         public void update(){
             Disconnect.item.setEnabled(getGameLobby() != null);
-            ServerUrl.item.setEnabled(FServerManager.getInstance() != null && FServerManager.getInstance().isHosting()
+            ServerUrl.item.setEnabled(HostingServer.isHosting() && FServerManager.getInstance() != null
                     && !FServerManager.getInstance().isRelayHosting());
         }
     }

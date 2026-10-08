@@ -19,14 +19,11 @@ import forge.game.player.Player;
 import forge.game.player.PlayerView;
 import forge.game.player.RegisteredPlayer;
 import forge.gamemodes.net.NetworkGameEventListener;
-import forge.gamemodes.net.server.FServerManager;
+import forge.gamemodes.net.server.HostingServer;
 import forge.gamemodes.quest.QuestController;
 import forge.gui.FThreads;
 import forge.gui.GuiBase;
-import forge.gui.control.FControlGameEventHandler;
-import forge.gui.control.FControlGamePlayback;
-import forge.gui.control.PlaybackSpeed;
-import forge.gui.control.WatchLocalGame;
+import forge.gui.control.*;
 import forge.gui.events.*;
 import forge.gui.interfaces.IGuiGame;
 import forge.interfaces.IGameController;
@@ -180,7 +177,7 @@ public class HostedMatch {
         // (It still subscribes to the Match bus for UiEvent sounds like blocker assignment.)
 
         // This logs game actions to NetworkLogConfig for debugging network games
-        if (FServerManager.getInstance().isHosting()) {
+        if (HostingServer.isHosting()) {
             game.subscribeToEvents(new NetworkGameEventListener());
         }
 
@@ -221,7 +218,7 @@ public class HostedMatch {
                 gui.setGameView(gameView);
                 gui.setOriginalGameController(p.getView(), humanController);
 
-                if (gui instanceof forge.gamemodes.net.server.RemoteClientGuiGame ngg) {
+                if (gui instanceof forge.gamemodes.net.ProtocolGuiGame ngg) {
                     forge.gui.control.GameEventForwarder forwarder = new forge.gui.control.GameEventForwarder(gui);
                     ngg.setForwarder(forwarder);
                     game.subscribeToEvents(forwarder);
@@ -244,7 +241,7 @@ public class HostedMatch {
         // players' InputQueues. This ensures events are flushed on the game thread
         // before it blocks for input (e.g. host plays a land and retains priority).
         for (PlayerControllerHuman hc : humanControllers) {
-            if (hc.getGui() instanceof forge.gamemodes.net.server.RemoteClientGuiGame ngg) {
+            if (hc.getGui() instanceof forge.gamemodes.net.ProtocolGuiGame ngg) {
                 forge.gui.control.GameEventForwarder fwd = ngg.getForwarder();
                 if (fwd != null) {
                     for (PlayerControllerHuman allHc : humanControllers) {
@@ -300,7 +297,7 @@ public class HostedMatch {
             // Flush any buffered game events to remote clients so they receive
             // GameEventGameOutcome and GameEventGameFinished before we proceed.
             for (PlayerControllerHuman hc : humanControllers) {
-                if (hc.getGui() instanceof forge.gamemodes.net.server.RemoteClientGuiGame ngg) {
+                if (hc.getGui() instanceof forge.gamemodes.net.ProtocolGuiGame ngg) {
                     forge.gui.control.GameEventForwarder fwd = ngg.getForwarder();
                     if (fwd != null) {
                         fwd.flush();
@@ -370,7 +367,7 @@ public class HostedMatch {
         game = null;
 
         for (final PlayerControllerHuman humanController : humanControllers) {
-            if (humanController.getGui() instanceof forge.gamemodes.net.server.RemoteClientGuiGame ngg) {
+            if (humanController.getGui() instanceof forge.gamemodes.net.ProtocolGuiGame ngg) {
                 forge.gui.control.GameEventForwarder fwd = ngg.getForwarder();
                 if (fwd != null) {
                     for (PlayerControllerHuman allHc : humanControllers) {
