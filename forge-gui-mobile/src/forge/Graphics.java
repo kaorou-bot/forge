@@ -36,7 +36,7 @@ public class Graphics implements Disposable {
     private static final int GL_LINE_SMOOTH = 2848; //create constant here since not in GL20
 
     private final SpriteBatch batch;
-    private final ShapeRenderer shapeRenderer = new ShapeRenderer();
+    private final ShapeRenderer shapeRenderer;
     private final Vector3 tmp = new Vector3();
     // scratch colors for alpha-composited draws (avoids allocating a Color per draw call)
     private final Color fadeA = new Color();
@@ -81,11 +81,17 @@ public class Graphics implements Disposable {
     private FSkinFont fitFont;
     private boolean fitNeedClip;
     private float fitHeight;
+    private boolean textRenderingFailureReported;
     private static final Color LINING_DARK = Color.valueOf("#171717");
     private static final Color LINING_LIGHT = Color.valueOf("#fffffd");
 
     public Graphics(final int spriteCapacity) {
-        batch = new SpriteBatch(spriteCapacity);
+        this(new SpriteBatch(spriteCapacity), new ShapeRenderer());
+    }
+
+    Graphics(final SpriteBatch spriteBatch, final ShapeRenderer renderer) {
+        batch = spriteBatch;
+        shapeRenderer = renderer;
     }
 
     public void begin(float regionWidth0, float regionHeight0) {
@@ -2105,8 +2111,7 @@ public class Graphics implements Disposable {
             fitHeight = textBounds.height;
             return true;
         } catch (Exception e) {
-            // shouldn't be here but force English on CJK Error
-            Forge.setForcedEnglishonCJKMissing();
+            reportTextRenderingFailure(e);
             return false;
         }
     }
@@ -2136,8 +2141,7 @@ public class Graphics implements Disposable {
 
             fitFont.draw(batch, text, color, adjustX(x), adjustY(drawY, 0), w, wrap, horzAlignment);
         } catch (Exception e) {
-            // shouldn't be here but force English on CJK Error
-            Forge.setForcedEnglishonCJKMissing();
+            reportTextRenderingFailure(e);
         } finally {
             if (clipStarted) {
                 endClip();
@@ -2145,6 +2149,16 @@ public class Graphics implements Disposable {
             if (blendEnabled) {
                 Gdx.gl.glDisable(GL_BLEND);
             }
+        }
+    }
+
+    private void reportTextRenderingFailure(final Exception failure) {
+        // A layout/texture failure says nothing about the selected language or font coverage.
+        // Skip this draw and allow the next frame to retry, without changing global localization.
+        if (!textRenderingFailureReported) {
+            textRenderingFailureReported = true;
+            System.err.println("Text rendering failed; keeping the selected UI language.");
+            failure.printStackTrace();
         }
     }
 

@@ -132,7 +132,6 @@ public class Forge implements ApplicationListener {
     public static int mouseButtonID = 0;
     public static InputProcessor inputProcessor;
     private static Cursor cursor0, cursor1, cursor2, cursorA0, cursorA1, cursorA2;
-    public static boolean forcedEnglishonCJKMissing = false;
     public static boolean createNewAdventureMap = false;
     private static Localizer localizer;
     private static boolean desktopAutoOrientation = true;
@@ -385,8 +384,6 @@ public class Forge implements ApplicationListener {
     }
 
     public static void openHomeDefault() {
-        //default to English only if CJK is missing
-        getLocalizer().setEnglish(forcedEnglishonCJKMissing);
         FSkinTexture.invalidateAdventureTextures();
         GuiBase.setAdventureDirectory(null);
         clearScreenStack();
@@ -401,8 +398,6 @@ public class Forge implements ApplicationListener {
     }
 
     public static void openAdventure() {
-        //default to english since it doesn't have CJK fonts, it will be updated on Forgescene enter/exit
-        getLocalizer().setEnglish(forcedEnglishonCJKMissing);
         //continuous rendering is needed for adventure mode
         startContinuousRendering();
         FSkinTexture.invalidateAdventureTextures();
@@ -628,13 +623,6 @@ public class Forge implements ApplicationListener {
         }
     }
 
-    public static void setForcedEnglishonCJKMissing() {
-        if (!forcedEnglishonCJKMissing) {
-            forcedEnglishonCJKMissing = true;
-            getLocalizer().setEnglish(forcedEnglishonCJKMissing);
-            System.err.println("Forge switches to English due to an error generating CJK Fonts. Language: "+locale);
-        }
-    }
     public static void showMenu() {
         if (isMobileAdventureMode)
             return;

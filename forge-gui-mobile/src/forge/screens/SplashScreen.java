@@ -22,7 +22,7 @@ public class SplashScreen extends FContainer {
     private Texture splashBGTexture;
     private FProgressBar progressBar;
     private FSkinFont disclaimerFont;
-    private boolean preparedForDialogs, showModeSelector, init, animateLogo, hideBG, hideBtn, startClassic, clear;
+    private boolean preparedForDialogs, showModeSelector, init, animateLogo, hideBG, hideBtn, startClassic;
     private FButton btnAdventure, btnHome;
     private BGAnimation bgAnimation;
 
@@ -145,11 +145,6 @@ public class SplashScreen extends FContainer {
                 disclaimerFont = FSkinFont.get(9);
             }
             float disclaimerHeight = 30f / 450f * h;
-            if (Forge.forcedEnglishonCJKMissing && !clear) {
-                clear = true;
-                FSkinFont.preloadAll("");
-                disclaimerFont = FSkinFont.get(9);
-            }
             float padding = 20f / 450f * w;
             float pbHeight = 57f / 450f * h;
             y += 78f / 450f * h;
@@ -367,11 +362,6 @@ public class SplashScreen extends FContainer {
         float disclaimerHeight = 30f / 450f * h;
         String disclaimer = "Forge is not affiliated in any way with Wizards of the Coast.\n"
                 + "Forge is open source software, released under the GNU General Public License.";
-        if (Forge.forcedEnglishonCJKMissing && !clear) {
-            clear = true;
-            FSkinFont.preloadAll("");
-            disclaimerFont = FSkinFont.get(9);
-        }
         g.drawText(disclaimer, disclaimerFont, FProgressBar.SEL_FORE_COLOR,
                 x, y, w, disclaimerHeight, true, Align.center, true);
 

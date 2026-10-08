@@ -108,6 +108,7 @@ public class FSkinFont {
     private final int fontSize;
     private final float scale;
     BitmapFont font;
+    private boolean ownsFont;
 
     private FSkinFont(int fontSize0) {
         if (fontSize0 > MAX_FONT_SIZE) {
@@ -402,7 +403,7 @@ public class FSkinFont {
             fontName += fontSize;
         }
         boolean useCjkFont = Lang.initInstance(Forge.locale).getFontFile() != null;
-        if (useCjkFont && !Forge.forcedEnglishonCJKMissing) {
+        if (useCjkFont) {
             String ttfName = Forge.CJK_Font;
             FileHandle ttfFile = Gdx.files.absolute(ForgeConstants.FONTS_DIR + ttfName + ".ttf");
             if (ttfFile != null && ttfFile.exists()) {
@@ -414,7 +415,7 @@ public class FSkinFont {
                 return;
             }
         }
-        if (useCjkFont && !Forge.forcedEnglishonCJKMissing) {
+        if (useCjkFont) {
             // Bump this suffix whenever the bundled character sources change so
             // an upgrade cannot reuse an older bitmap-font cache with missing glyphs.
             fontName += Forge.locale + "-community3";
@@ -424,14 +425,16 @@ public class FSkinFont {
         if (fontFile != null && fontFile.exists()) {
             FThreads.invokeInEdtNowOrLater(() -> { //font must be initialized on UI thread
                 try {
-                    font = Forge.getAssets().manager().get(fontFile.path(), BitmapFont.class, false);
-                    if (font == null && fontFile.toString().endsWith(".fnt")) {
+                    BitmapFont cachedFont = Forge.getAssets().manager().get(fontFile.path(), BitmapFont.class, false);
+                    if (cachedFont == null && fontFile.toString().endsWith(".fnt")) {
                         Forge.getAssets().manager().load(fontFile.path(), BitmapFont.class);
                         Forge.getAssets().manager().finishLoadingAsset(fontFile.path());
-                        font = Forge.getAssets().manager().get(fontFile.path(), BitmapFont.class, false);
+                        cachedFont = Forge.getAssets().manager().get(fontFile.path(), BitmapFont.class, false);
                     }
-                    if (font != null)
+                    if (cachedFont != null) {
+                        replaceFont(cachedFont, false);
                         found[0] = true;
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                     found[0] = false;
@@ -441,7 +444,7 @@ public class FSkinFont {
         if (found[0])
             return;
         //not found generate
-        if (useCjkFont && !Forge.forcedEnglishonCJKMissing) {
+        if (useCjkFont) {
             String ttfName = Forge.CJK_Font;
             FileHandle ttfFile = Gdx.files.absolute(ForgeConstants.FONTS_DIR + ttfName + ".ttf");
             if (ttfFile != null && ttfFile.exists()) {
@@ -521,29 +524,66 @@ public class FSkinFont {
     }
 
     private void generateIncrementalFont(final FileHandle ttfFile, final int requestedFontSize) {
-        final FreeTypeFontGenerator generator = getIncrementalFontGenerator(ttfFile);
-        auditCjkFontCoverage(generator, ttfFile);
-
-        final FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-        parameter.characters = FreeTypeFontGenerator.DEFAULT_CHARS + "\u2022\u2014";
-        parameter.size = Math.max(MIN_FONT_SIZE, Math.min(requestedFontSize, MAX_FONT_SIZE));
-        parameter.incremental = true;
-        final int pageSize = parameter.size >= 20 ? 512 : 256;
-        parameter.packer = new PixmapPacker(pageSize, pageSize, Pixmap.Format.RGBA8888, 2, false);
-        parameter.minFilter = Texture.TextureFilter.Nearest;
-        parameter.magFilter = parameter.minFilter;
-
         FThreads.invokeInEdtNowOrLater(() -> {
+            if (Forge.isDisposed) {
+                return;
+            }
+            PixmapPacker packer = null;
             try {
-                font = generator.generateFont(parameter);
-                // The custom packer makes BitmapFont default to non-owning textures. Mark them as
-                // owned so the normal font lifecycle can release every incrementally added page.
-                font.setOwnsTexture(true);
+                // FreeType's native face and texture creation must stay on the render thread.
+                final FreeTypeFontGenerator generator = getIncrementalFontGenerator(ttfFile);
+                auditCjkFontCoverage(generator, ttfFile);
+                final FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+                parameter.characters = FreeTypeFontGenerator.DEFAULT_CHARS + "\u2022\u2014";
+                parameter.size = Math.max(MIN_FONT_SIZE, Math.min(requestedFontSize, MAX_FONT_SIZE));
+                parameter.incremental = true;
+                final int pageSize = parameter.size >= 20 ? 512 : 256;
+                packer = new PixmapPacker(pageSize, pageSize, Pixmap.Format.RGBA8888, 2, false);
+                parameter.packer = packer;
+                parameter.minFilter = Texture.TextureFilter.Nearest;
+                parameter.magFilter = parameter.minFilter;
+
+                BitmapFont generatedFont = generator.generateFont(parameter);
+                generatedFont.setOwnsTexture(true);
+                replaceFont(generatedFont, true);
+                packer = null; // the new font data now owns the packer
             } catch (Exception e) {
+                // Keep the previous working font and the user's language after a transient failure.
+                System.err.println("CJK font generation failed; keeping the selected UI language: " + Forge.locale);
                 e.printStackTrace();
-                Forge.setForcedEnglishonCJKMissing();
+            } finally {
+                Forge.safeDispose(packer);
             }
         });
+    }
+
+    void replaceFont(final BitmapFont replacement, final boolean owned) {
+        if (replacement == null || replacement == font) {
+            return;
+        }
+        dispose();
+        font = replacement;
+        ownsFont = owned;
+    }
+
+    public void dispose() {
+        if (ownsFont && font != null) {
+            // BitmapFont.dispose releases textures, but not incremental FreeType data/packers.
+            Forge.safeDispose(font);
+            if (font.getData() instanceof FreeTypeFontGenerator.FreeTypeBitmapFontData) {
+                Forge.safeDispose((FreeTypeFontGenerator.FreeTypeBitmapFontData) font.getData());
+            }
+        }
+        font = null;
+        ownsFont = false;
+    }
+
+    public static synchronized void disposeIncrementalGenerators() {
+        for (FreeTypeFontGenerator generator : incrementalFontGenerators.values()) {
+            Forge.safeDispose(generator);
+        }
+        incrementalFontGenerators.clear();
+        auditedIncrementalFonts.clear();
     }
 
     private void generateFont(final FileHandle ttfFile, final String fontName, final int fontSize) {
@@ -560,7 +600,7 @@ public class FSkinFont {
         } else {
             pageSize = 256;
         }
-        if (Lang.initInstance(Forge.locale).getFontFile() != null && !Forge.forcedEnglishonCJKMissing) {
+        if (Lang.initInstance(Forge.locale).getFontFile() != null) {
             pageSize = 1024;
         }
 
@@ -608,7 +648,7 @@ public class FSkinFont {
                         //load to assetManager
                         Forge.getAssets().manager().load(fontFile.path(), BitmapFont.class);
                         Forge.getAssets().manager().finishLoadingAsset(fontFile.path());
-                        font = Forge.getAssets().manager().get(fontFile.path(), BitmapFont.class);
+                        replaceFont(Forge.getAssets().manager().get(fontFile.path(), BitmapFont.class), false);
                     }
 
                     Forge.safeDispose(generator, packer, temp);

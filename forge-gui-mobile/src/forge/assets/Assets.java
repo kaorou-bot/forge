@@ -141,8 +141,13 @@ public class Assets implements Disposable {
             deckbox.clear();
         if (cursor != null)
             cursor.clear();
-        if (fonts != null)
+        if (fonts != null) {
+            for (FSkinFont skinFont : fonts.values()) {
+                skinFont.dispose();
+            }
             fonts.clear();
+        }
+        FSkinFont.disposeIncrementalGenerators();
         Forge.safeDispose(manager);
     }
 

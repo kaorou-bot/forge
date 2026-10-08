@@ -15,8 +15,6 @@ import java.util.List;
  */
 public abstract class ForgeScene extends Scene implements IUpdateable {
 
-    private static Boolean lastAppliedEnglishState = null;
-
     @Override
     public void dispose() {
     }
@@ -38,12 +36,6 @@ public abstract class ForgeScene extends Scene implements IUpdateable {
             activeScreen.setSize(Forge.getScreenWidth(), Forge.getScreenHeight());
         }
 
-        final boolean currentForcedState = Forge.forcedEnglishonCJKMissing;
-        if (lastAppliedEnglishState == null || lastAppliedEnglishState != currentForcedState) {
-            lastAppliedEnglishState = currentForcedState;
-            Forge.getLocalizer().setEnglish(currentForcedState);
-        }
-
         Forge.openScreen(activeScreen);
         Gdx.input.setInputProcessor(Forge.getInputProcessor());
     }
@@ -55,16 +47,6 @@ public abstract class ForgeScene extends Scene implements IUpdateable {
         if (activeScreen != null) {
             activeScreen.buildTouchListeners(x, y, potentialListeners);
         }
-    }
-
-    @Override
-    public boolean leave() {
-        final boolean currentForcedState = Forge.forcedEnglishonCJKMissing;
-        if (lastAppliedEnglishState == null || lastAppliedEnglishState != currentForcedState) {
-            lastAppliedEnglishState = currentForcedState;
-            Forge.getLocalizer().setEnglish(currentForcedState);
-        }
-        return super.leave();
     }
 
     @Override
