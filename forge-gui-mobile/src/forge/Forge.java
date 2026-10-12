@@ -991,6 +991,9 @@ public class Forge implements ApplicationListener {
     public void resume() {
         lifecycleClosing = false;
         setWindowFocus(true);
+        final forge.gamemodes.net.client.FGameClient networkClient =
+                forge.screens.online.OnlineLobbyScreen.getfGameClient();
+        if (networkClient != null) networkClient.onForeground();
         try {
             Texture.setAssetManager(getAssets().manager());
             needsUpdate = true;

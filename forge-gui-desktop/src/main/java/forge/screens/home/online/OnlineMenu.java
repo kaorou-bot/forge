@@ -27,15 +27,47 @@ public final class OnlineMenu {
     public static JMenu getMenu() {
         JMenu menu = new JMenu(Localizer.getInstance().getMessage("lblOnline"));
         menu.setMnemonic(KeyEvent.VK_O);
+        populateMenu(menu);
+        menu.addMenuListener(new javax.swing.event.MenuListener() {
+            @Override
+            public void menuSelected(javax.swing.event.MenuEvent e) {
+                // The parent Forge menu is cached across room creation/disconnection.
+                menu.removeAll();
+                populateMenu(menu);
+            }
+
+            @Override public void menuDeselected(javax.swing.event.MenuEvent e) { }
+            @Override public void menuCanceled(javax.swing.event.MenuEvent e) { }
+        });
+        return menu;
+    }
+
+    private static void populateMenu(final JMenu menu) {
         menu.add(getMenuItem_HostGame());
         menu.add(getMenuItem_JoinGame());
+        final JMenuItem joinCode = new JMenuItem(Localizer.getInstance().getMessage("lblNetworkJoinCode"));
+        joinCode.setEnabled(!FServerManager.getInstance().isHosting()
+                && VSubmenuOnlineLobby.SINGLETON_INSTANCE.getClient() == null);
+        joinCode.addActionListener(e -> CSubmenuOnlineLobby.SINGLETON_INSTANCE.joinByRoomCode());
+        menu.add(joinCode);
+        final String roomCode = forge.gamemodes.net.NetConnectUtil.getHostedRoomCode();
+        if (!roomCode.isEmpty()) {
+            final JMenuItem copyCode = new JMenuItem(Localizer.getInstance().getMessage("lblNetworkCopyRoomCode"));
+            copyCode.addActionListener(e -> forge.gui.GuiBase.getInterface().copyToClipboard(roomCode));
+            menu.add(copyCode);
+        }
+        final JMenuItem diagnostics = new JMenuItem(Localizer.getInstance().getMessage("lblNetworkDiagnostics"));
+        diagnostics.setEnabled(FServerManager.getInstance().isHosting()
+                || VSubmenuOnlineLobby.SINGLETON_INSTANCE.getClient() != null);
+        diagnostics.addActionListener(e -> forge.gamemodes.net.NetworkDiagnostics.show(
+                VSubmenuOnlineLobby.SINGLETON_INSTANCE.getClient(), null));
+        menu.add(diagnostics);
         menu.add(new JSeparator());
         menu.add(getMenuItem_OpenNetworkLog());
         menu.add(getMenuItem_OpenNetworkLogs());
         menu.add(new JSeparator());
         menu.add(chatItem);
         menu.add(draftItem);
-        return menu;
     }
 
     public static final JCheckBoxMenuItem chatItem;

@@ -40,6 +40,15 @@ public class RemoteClientGuiGame extends ProtocolGuiGame {
         return client;
     }
 
+    @Override public void updateOperationClock(final String text) {
+        if (getGameView() != null) updateOperationClockForGame(getGameView().getId(), text);
+    }
+    @Override public void updateOperationClockForGame(final int gameId, final String text) {
+        if (client.supportsOperationClock() && getGameView() != null && getGameView().getId() == gameId) {
+            client.send(forge.gamemodes.net.GuiRequestControl.control("clock:" + gameId + ":" + text));
+        }
+    }
+
     @Override
     public boolean isLibgdxPort() {
         return client.isLibgdx();

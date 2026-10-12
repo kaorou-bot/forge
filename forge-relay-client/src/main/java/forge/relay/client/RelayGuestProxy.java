@@ -35,6 +35,7 @@ public final class RelayGuestProxy implements AutoCloseable {
         Socket relay = RelayLobbyClient.connect(endpoint);
         boolean success = false;
         try {
+            ConnectionAttempt.report(ConnectionAttempt.Stage.JOINING);
             RelayWire.writeFrame(relay.getOutputStream(), RelayProtocol.JOIN_ROOM, out -> {
                 out.writeInt(RelayProtocol.VERSION);
                 RelayWire.writeString(out, compatibilityVersion);
@@ -51,6 +52,7 @@ public final class RelayGuestProxy implements AutoCloseable {
 
             ServerSocket listener = new ServerSocket(0, 1, java.net.InetAddress.getByName("127.0.0.1"));
             RelayGuestProxy proxy = new RelayGuestProxy(relay, listener);
+            ConnectionAttempt.track(proxy);
             success = true;
             return proxy;
         } finally {

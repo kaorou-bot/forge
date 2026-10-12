@@ -59,6 +59,7 @@ public class FDeckChooser extends FScreen {
     public static final float PADDING = Utils.scale(5);
 
     private FComboBox<DeckType> cmbDeckTypes;
+    private volatile boolean initialized;
     private DeckType selectedDeckType;
     private boolean needRefreshOnActivate;
     private Consumer<Deck> callback;
@@ -533,6 +534,7 @@ public class FDeckChooser extends FScreen {
     }
 
     public void initialize(FPref savedStateSetting, DeckType defaultDeckType) {
+        initialized = false;
         stateSetting = savedStateSetting;
         selectedDeckType = defaultDeckType;
 
@@ -831,6 +833,7 @@ public class FDeckChooser extends FScreen {
         else {
             restoreSavedState(); //ensure decks refreshed and state restored in case any deleted or added since last loaded
         }
+        initialized = true;
     }
 
     public void refreshDeckListForAI(){
@@ -1217,6 +1220,7 @@ public class FDeckChooser extends FScreen {
         }
     }
 
+    public boolean isInitialized() { return initialized; }
     public DeckType getSelectedDeckType() { return selectedDeckType; }
     public void setSelectedDeckType(DeckType selectedDeckType0) {
         refreshDecksList(selectedDeckType0, false, null);

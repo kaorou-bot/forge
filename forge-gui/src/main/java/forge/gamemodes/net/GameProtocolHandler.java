@@ -3,6 +3,7 @@ package forge.gamemodes.net;
 import forge.gamemodes.net.event.GuiGameEvent;
 import forge.gamemodes.net.event.ReplyEvent;
 import forge.gui.FThreads;
+import forge.gui.GuiRequestScope;
 import forge.gui.util.SOptionPane;
 import forge.localinstance.skin.FSkinProp;
 import forge.trackable.TrackableObject;
@@ -28,16 +29,40 @@ public abstract class GameProtocolHandler<T> extends ChannelInboundHandlerAdapte
     protected abstract T getToInvoke(ChannelHandlerContext ctx);
     protected abstract void beforeCall(ChannelHandlerContext ctx, ProtocolMethod protocolMethod, Object[] args);
 
+    protected void afterCall(ChannelHandlerContext ctx, ProtocolMethod protocolMethod) { }
+
+    protected boolean isCurrentConnection(ChannelHandlerContext ctx) { return true; }
+
+    protected void handleGuiRequestControl(final ChannelHandlerContext ctx, final Object value) { }
+    protected boolean handleReply(final ChannelHandlerContext ctx, final ReplyEvent event) { return false; }
+
+    protected void sendReply(final ChannelHandlerContext ctx, final ReplyEvent event) {
+        final IRemote remote = getRemote(ctx);
+        if (remote != null) remote.send(event);
+    }
+
+    protected Runnable decorateInvocation(final ChannelHandlerContext ctx, final GuiGameEvent event,
+                                          final Runnable invocation) {
+        return GuiRequestScope.bind(null, invocation);
+    }
+
     protected boolean shouldDispatchToGuiThread(final ProtocolMethod protocolMethod) {
         return runInEdt;
     }
 
     @Override
     public final void channelRead(final ChannelHandlerContext ctx, final Object msg) {
+        if (!isCurrentConnection(ctx)) return;
         final String[] catchedError = {""};
-        netLog.info("Received: {}", msg);
+        netLog.debug("Received: {}", msg);
         if (msg instanceof ReplyEvent event) {
-            getReplyPool(ctx).complete(event.getIndex(), event.getReply());
+            if (event.getIndex() == GuiRequestControl.INDEX) {
+                handleGuiRequestControl(ctx, event.getReply());
+                return;
+            }
+            final ReplyPool replies = getReplyPool(ctx);
+            if (handleReply(ctx, event)) return;
+            if (replies != null) replies.complete(event.getIndex(), event.getReply());
         } else if (msg instanceof GuiGameEvent event) {
             final ProtocolMethod protocolMethod = event.getMethod();
             final String methodName = protocolMethod.name();
@@ -58,10 +83,7 @@ public abstract class GameProtocolHandler<T> extends ChannelInboundHandlerAdapte
                 // For methods expecting a reply, send null so the client doesn't hang
                 final Class<?> earlyReturnType = protocolMethod.getReturnType();
                 if (!earlyReturnType.equals(Void.TYPE)) {
-                    final IRemote remote = getRemote(ctx);
-                    if (remote != null) {
-                        remote.send(new ReplyEvent(event.getId(), null));
-                    }
+                    sendReply(ctx, new ReplyEvent(event.getId(), null));
                 }
                 return;
             }
@@ -77,14 +99,17 @@ public abstract class GameProtocolHandler<T> extends ChannelInboundHandlerAdapte
             final Class<?> returnType = protocolMethod.getReturnType();
             final long receiveTimeMs = System.currentTimeMillis();
             final Runnable toRun = () -> {
+                if (!isCurrentConnection(ctx) || GuiRequestScope.isCurrentCancelled()) return;
                 final long startMs = System.currentTimeMillis();
                 final long queueDelayMs = startMs - receiveTimeMs;
                 if (returnType.equals(Void.TYPE)) {
                     try {
                         method.invoke(toInvoke, args);
+                        afterCall(ctx, protocolMethod);
                     } catch (final IllegalAccessException | IllegalArgumentException e) {
                         netLog.error("Unknown protocol method {} args={}", methodName, describeArgs(args));
                     } catch (final InvocationTargetException e) {
+                        if (GuiRequestScope.isCurrentCancelled()) return;
                         //throw new RuntimeException(e.getTargetException());
                         catchedError[0] += (String.format("RuntimeException: %s (GameProtocolHandler.java Line 65)\n", e.getTargetException().toString()));
                         netLog.error(e.getTargetException(), "InvocationTargetException in {} args={}", methodName, describeArgs(args));
@@ -102,13 +127,16 @@ public abstract class GameProtocolHandler<T> extends ChannelInboundHandlerAdapte
                     } catch (final IllegalAccessException | IllegalArgumentException e) {
                         netLog.error("Unknown protocol method {} args={}, replying with null", methodName, describeArgs(args));
                     } catch (final NullPointerException | InvocationTargetException e) {
+                        if (GuiRequestScope.isCurrentCancelled()) return;
                         //throw new RuntimeException(e.getTargetException());
                         catchedError[0] += e.toString();
                         SOptionPane.showMessageDialog(catchedError[0],
                                 Localizer.getInstance().getMessage("lblError"), FSkinProp.ICO_WARNING);
                         netLog.error("Exception in protocol method {} args={}: {}", methodName, describeArgs(args), e.toString());
                     }
-                    getRemote(ctx).send(new ReplyEvent(event.getId(), reply));
+                    if (isCurrentConnection(ctx) && !GuiRequestScope.isCurrentCancelled()) {
+                        sendReply(ctx, new ReplyEvent(event.getId(), reply));
+                    }
                 }
                 final long elapsed = System.currentTimeMillis() - startMs;
                 if (queueDelayMs > 50 || elapsed > 50) {
@@ -116,10 +144,11 @@ public abstract class GameProtocolHandler<T> extends ChannelInboundHandlerAdapte
                 }
             };
 
+            final Runnable invocation = decorateInvocation(ctx, event, toRun);
             if (shouldDispatchToGuiThread(protocolMethod)) {
-                FThreads.invokeInEdtNowOrLater(toRun);
+                FThreads.invokeInEdtNowOrLater(invocation);
             } else {
-                FThreads.invokeInBackgroundThread(toRun);
+                FThreads.invokeInBackgroundThread(invocation);
             }
         }
     }

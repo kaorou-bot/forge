@@ -7,7 +7,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.List;
 import java.util.concurrent.Callable;
-import java.util.concurrent.FutureTask;
 
 import javax.swing.*;
 import javax.swing.text.StyleConstants;
@@ -88,14 +87,7 @@ public class FOptionPane extends FDialog {
             optionPane.dispose();
             return dialogResult;
         };
-        final FutureTask<Integer> future = new FutureTask<>(showChoice);
-        FThreads.invokeInEdtAndWait(future);
-        try {
-            return future.get();
-        } catch (final Exception e) { // should be no exception here
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
+        return FThreads.callInEdtAndWaitChoice(showChoice);
     }
     
     public static String showInputDialog(final String message, final String title) {
@@ -144,14 +136,7 @@ public class FOptionPane extends FDialog {
             }
             return null;
         };
-        final FutureTask<T> future = new FutureTask<>(showChoice);
-        FThreads.invokeInEdtAndWait(future);
-        try {
-            return future.get();
-        } catch (final Exception e) { // should be no exception here
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
+        return FThreads.callInEdtAndWaitChoice(showChoice);
     }
 
     private int result = -1; //default result to -1, indicating dialog closed without choosing option

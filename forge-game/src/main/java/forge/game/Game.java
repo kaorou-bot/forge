@@ -868,7 +868,16 @@ public class Game {
         return myPosition - startPosition + 1;
     }
 
+    private final java.util.Set<Player> departuresInProgress = new java.util.HashSet<>();
+
     public void onPlayerLost(Player p) {
+        // Outcome is set before cleanup starts; hasLost() is not an idempotency marker.
+        if (!ingamePlayers.contains(p) || !departuresInProgress.add(p)) return;
+        try { finishPlayerDeparture(p); }
+        finally { departuresInProgress.remove(p); }
+    }
+
+    private void finishPlayerDeparture(Player p) {
         //set for Avatar
         p.setHasLost(true);
         // CR 800.4 Losing a Multiplayer game

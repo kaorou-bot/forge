@@ -264,13 +264,12 @@ public class InputPassPriority extends InputSyncronizedBase {
 
     /** Distinct from clicking OK, which accepts a yield suggestion when one is on screen. */
     public void passPriority() {
-        if (isFinished()) return;
-        passPriority(() -> {
+        runInputAction(() -> passPriority(() -> {
             getController().macros().addRememberedAction(new PassPriorityAction(
                     getController().getGame().getStack().isEmpty(),
                     getController().getGame().getPhaseHandler().getPhase()));
             stop();
-        });
+        }));
     }
 
     /** {@inheritDoc} */
@@ -306,7 +305,7 @@ public class InputPassPriority extends InputSyncronizedBase {
                 Player player = game.getPhaseHandler().getPriorityPlayer();
                 if (player != null && player.getManaPool().willManaBeLostAtEndOfPhase() && player.getLobbyPlayer() == GamePlayerUtil.getGuiPlayer()) {
                     //must invoke in game thread so dialog can be shown on mobile game
-                    ThreadUtil.invokeInGameThread(() -> {
+                    ThreadUtil.invokeInGameThread(() -> runInputAction(() -> {
                         Localizer localizer = Localizer.getInstance();
                         String message = localizer.getMessage("lblYouHaveManaFloatingInYourManaPoolCouldBeLostIfPassPriority");
                         if (player.getManaPool().hasBurn()) {
@@ -315,7 +314,7 @@ public class InputPassPriority extends InputSyncronizedBase {
                         if (getController().getGui().showConfirmDialog(message, localizer.getMessage("lblManaFloating"), localizer.getMessage("lblOK"), localizer.getMessage("lblCancel"))) {
                             runnable.run();
                         }
-                    });
+                    }));
                     return;
                 }
             }
@@ -372,7 +371,7 @@ public class InputPassPriority extends InputSyncronizedBase {
     }
 
     @Override
-    public boolean selectAbility(final SpellAbility ab) {
+    protected boolean onAbilitySelected(final SpellAbility ab) {
     	if (ab != null) {
     	    chosenSa = new ArrayList<>();
             chosenSa.add(ab);

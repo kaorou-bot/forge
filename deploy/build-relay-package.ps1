@@ -5,7 +5,11 @@ $root = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 [xml]$pom = Get-Content -LiteralPath (Join-Path $root 'pom.xml') -Raw -Encoding UTF8
 $version = [string]$pom.project.properties.versionCode + [string]$pom.project.properties.snapshotName
 $name = "Forge-Lobby-Relay-$version"
-$output = [IO.Path]::GetFullPath((Join-Path $root $OutputDirectory))
+$output = if ([IO.Path]::IsPathRooted($OutputDirectory)) {
+    [IO.Path]::GetFullPath($OutputDirectory)
+} else {
+    [IO.Path]::GetFullPath((Join-Path $root $OutputDirectory))
+}
 $package = Join-Path $output $name
 if (Test-Path -LiteralPath $package) { throw "Refusing to overwrite existing package: $package" }
 Push-Location $root
@@ -19,7 +23,7 @@ try {
     New-Item -ItemType Directory -Path $package -Force | Out-Null
     Copy-Item -LiteralPath $jar -Destination (Join-Path $package 'forge-lobby-relay.jar')
     Copy-Item -LiteralPath (Join-Path $root 'LICENSE') -Destination $package
-    foreach ($file in @('README.zh-CN.md','forge-lobby-relay.service','nginx-self-hosted.conf.example','start-local.ps1','start-local.sh')) {
+    foreach ($file in @('README.zh-CN.md','forge-lobby-relay.service','nginx-self-hosted.conf.example','start-local.ps1','start-local.sh','Dockerfile','.dockerignore','compose.yaml','nginx-container.conf.template','deploy-one-click.sh')) {
         $content = [IO.File]::ReadAllText((Join-Path $root "forge-lobby-relay/deploy/$file"))
         [IO.File]::WriteAllText((Join-Path $package $file), $content.Replace("`r`n","`n"), [Text.UTF8Encoding]::new($false))
     }

@@ -252,7 +252,11 @@ public abstract class LobbyScreen extends LaunchScreen implements ILobbyView {
             }
             throw e;
         }
+        FThreads.invokeInEdtLater(() -> onPlayerPanelInitialized(index));
     }
+
+    /** Apply subclass filters only after delayed selector initialization has completed. */
+    protected void onPlayerPanelInitialized(final int index) { }
 
     public GameLobby getLobby() {
         return lobby;

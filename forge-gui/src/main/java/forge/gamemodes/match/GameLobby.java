@@ -34,6 +34,12 @@ import java.io.Serializable;
 import java.util.*;
 
 public abstract class GameLobby implements IHasGameType {
+    private long operationTimeLimitMillis;
+    public long getOperationTimeLimitMillis() { return operationTimeLimitMillis; }
+    public void setOperationTimeLimitMillis(final long value) {
+        forge.gamemodes.net.OperationClockSettings.validate(value);
+        operationTimeLimitMillis = value;
+    }
     public static final int MIN_PLAYERS = 2;
     public static final int MAX_PLAYERS = 8;
 
@@ -548,11 +554,21 @@ public abstract class GameLobby implements IHasGameType {
         if (!legalityProblems.isEmpty() && !confirmIgnoreDeckLegality(legalityProblems)) {
             return null;
         }
+        if (operationTimeLimitMillis > 0) {
+            for (final IGuiGame gui : guis.values()) {
+                if (gui instanceof forge.gamemodes.net.server.RemoteClientGuiGame remote
+                        && !remote.getClient().supportsOperationClock()) {
+                    SOptionPane.showMessageDialog(Localizer.getInstance().getMessage("lblOperationClockUpgrade"));
+                    return null;
+                }
+            }
+        }
 
         //if above checks succeed, return runnable that can be used to finish starting game
         final GameType baseGameType = data.isLimitedMode() ? GameType.Draft : GameType.Constructed;
         return () -> {
             hostedMatch = GuiBase.getInterface().hostMatch();
+            hostedMatch.setOperationTimeLimitMillis(operationTimeLimitMillis);
             hostedMatch.setOnMatchOver(this::onMatchOver);
             hostedMatch.startMatch(baseGameType, variantTypes, players, guis);
 

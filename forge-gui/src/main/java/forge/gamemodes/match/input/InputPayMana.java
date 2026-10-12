@@ -66,14 +66,19 @@ public abstract class InputPayMana extends InputSyncronizedBase {
 
     @Override
     protected void onStop() {
-        getController().clearActionableCards();
-        if (!isFinished()) {
-            // Clear current Mana cost being paid for SA
-            saPaidFor.setManaCostBeingPaid(null);
-            player.popPaidForSA();
-
-            if (wasFloatingMana) { //hide mana pool if it was shown due to floating mana
-                getController().getGui().hideManaPool(PlayerView.get(player));
+        try {
+            getController().clearActionableCards();
+        } finally {
+            if (!isFinished()) {
+                // Rules-side resources must be released even if a disconnected UI failed.
+                try {
+                    saPaidFor.setManaCostBeingPaid(null);
+                } finally {
+                    try { player.popPaidForSA(); }
+                    finally {
+                        if (wasFloatingMana) getController().getGui().hideManaPool(PlayerView.get(player));
+                    }
+                }
             }
         }
     }
@@ -153,7 +158,7 @@ public abstract class InputPayMana extends InputSyncronizedBase {
     }
 
     @Override
-    public boolean selectAbility(final SpellAbility ab) {
+    protected boolean onAbilitySelected(final SpellAbility ab) {
         if (ab != null && ab.isManaAbility()) {
             return activateManaAbility(ab.getHostCard(), ab);
         }
@@ -329,7 +334,7 @@ public abstract class InputPayMana extends InputSyncronizedBase {
         // System.out.println("Chosen sa=" + chosen + " of " + chosen.getHostCard() + " to pay mana");
 
         locked = true;
-        game.getAction().invoke(() -> {
+        enqueueInputAction(game.getAction()::invoke, () -> {
             if (PlaySpellAbility.playSpellAbility(getController(), chosen.getActivatingPlayer(), chosen)) {
                 final List<AbilityManaPart> manaAbilities = chosen.getAllManaParts();
                 boolean restrictionsMet = true;
@@ -379,7 +384,7 @@ public abstract class InputPayMana extends InputSyncronizedBase {
             //use AI utility to automatically pay mana cost if possible
             final Runnable proc = () -> ComputerUtilMana.payManaCost(manaCost, saPaidFor, player, effect);
             //must run in game thread as certain payment actions can only be automated there
-            game.getAction().invoke(() -> {
+            enqueueInputAction(game.getAction()::invoke, () -> {
                 runAsAi(proc);
                 onStateChanged();
             });
@@ -423,7 +428,7 @@ public abstract class InputPayMana extends InputSyncronizedBase {
             done();
             stop();
         } else {
-            FThreads.invokeInEdtNowOrLater(this::updateMessage);
+            FThreads.invokeInEdtNowOrLater(() -> runInputAction(this::updateMessage));
         }
     }
 

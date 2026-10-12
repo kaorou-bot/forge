@@ -26,6 +26,7 @@ import forge.game.player.PlayerView;
 import forge.game.spellability.SpellAbility;
 import forge.game.spellability.SpellAbilityView;
 import forge.localinstance.properties.ForgePreferences;
+import forge.gui.GuiRequestScope;
 import forge.model.FModel;
 import forge.player.PlayerControllerHuman;
 import forge.util.ITriggerEvent;
@@ -57,9 +58,74 @@ public abstract class InputBase implements java.io.Serializable, Input {
         return owner == null ? null : owner.getView();
     }
 
-    private boolean finished = false;
+    private volatile boolean finished = false;
+    private transient InputActionGate actionGate;
+
+    private synchronized InputActionGate actionGate() {
+        if (actionGate == null) actionGate = new InputActionGate();
+        return actionGate;
+    }
+
+    protected GuiRequestScope requestScope() { return null; }
+
+    protected final void closeActions() { actionGate().close(); }
+
+    protected final void awaitActions() throws InterruptedException { actionGate().awaitIdle(); }
+
+    public final void runInputAction(final Runnable action) {
+        callInputAction(() -> { action.run(); return null; }, null);
+    }
+
+    /** Reserve before enqueueing: the rules waiter must also drain not-yet-started actions. */
+    protected final void enqueueInputAction(final java.util.function.Consumer<Runnable> enqueue, final Runnable action) {
+        final InputActionGate gate = actionGate();
+        if (!gate.enter()) return;
+        final GuiRequestScope owner = requestScope();
+        final java.util.concurrent.atomic.AtomicBoolean released = new java.util.concurrent.atomic.AtomicBoolean();
+        if (owner != null) owner.activity().processingStarted();
+        final Runnable release = () -> {
+            if (released.compareAndSet(false, true)) {
+                try { if (owner != null) owner.activity().processingFinished(); }
+                finally { gate.leave(); }
+            }
+        };
+        try {
+            enqueue.accept(() -> {
+                try {
+                    if (!isFinished()) GuiRequestScope.runAction(owner, action);
+                } catch (final GuiRequestScope.Cancelled cancelled) {
+                    if (owner == null || !owner.isCancelled()) throw cancelled;
+                } finally { release.run(); }
+            });
+        } catch (final RuntimeException | Error failure) {
+            release.run();
+            throw failure;
+        }
+    }
+
+    protected final <T> T callInputAction(final java.util.function.Supplier<T> action, final T ignored) {
+        final InputActionGate gate = actionGate();
+        if (!gate.enter()) return ignored;
+        final GuiRequestScope owner = requestScope();
+        boolean processing = false;
+        try {
+            if (isFinished()) return ignored;
+            if (owner != null) { owner.activity().processingStarted(); processing = true; }
+            final java.util.concurrent.atomic.AtomicReference<T> result = new java.util.concurrent.atomic.AtomicReference<>(ignored);
+            GuiRequestScope.runAction(requestScope(), () -> result.set(action.get()));
+            return result.get();
+        } catch (final GuiRequestScope.Cancelled cancelled) {
+            // This is the UI/action stack, not a fabricated answer to the rules waiter.
+            if (requestScope() == null || !requestScope().isCancelled()) throw cancelled;
+            return ignored;
+        } finally {
+            try { if (processing) owner.activity().processingFinished(); }
+            finally { gate.leave(); }
+        }
+    }
     protected final boolean isFinished() { return finished; }
     protected final void setFinished() {
+        closeActions();
         finished = true;
 
         if (allowAwaitNextInput()) {
@@ -74,40 +140,42 @@ public abstract class InputBase implements java.io.Serializable, Input {
     // showMessage() is always the first method called
     @Override
     public final void showMessageInitial() {
-        finished = false;
-        controller.cancelAwaitNextInput();
-        showMessage();
+        runInputAction(() -> {
+            controller.cancelAwaitNextInput();
+            showMessage();
+            if (!isFinished() && requestScope() != null) requestScope().inputReady();
+        });
     }
 
     protected abstract void showMessage();
 
     @Override
     public final void selectPlayer(final Player player, final ITriggerEvent triggerEvent) {
-        if (isFinished()) { return; }
-        onPlayerSelected(player, triggerEvent);
+        runInputAction(() -> onPlayerSelected(player, triggerEvent));
     }
 
     @Override
-    public boolean selectAbility(final SpellAbility ab) {
+    public final boolean selectAbility(final SpellAbility ab) {
+        return callInputAction(() -> onAbilitySelected(ab), false);
+    }
+
+    protected boolean onAbilitySelected(final SpellAbility ab) {
         return false;
     }
 
     @Override
     public final void selectButtonCancel() {
-        if (isFinished()) { return; }
-        onCancel();
+        runInputAction(this::onCancel);
     }
 
     @Override
     public final void selectButtonOK() {
-        if (isFinished()) { return; }
-        onOk();
+        runInputAction(this::onOk);
     }
 
     @Override
     public final boolean selectCard(final Card c, final List<Card> otherCardsToSelect, final ITriggerEvent triggerEvent) {
-        if (isFinished()) { return false; }
-        return onCardSelected(c, otherCardsToSelect, triggerEvent);
+        return callInputAction(() -> onCardSelected(c, otherCardsToSelect, triggerEvent), false);
     }
 
     protected boolean onCardSelected(final Card c, final List<Card> otherCardsToSelect, final ITriggerEvent triggerEvent) {

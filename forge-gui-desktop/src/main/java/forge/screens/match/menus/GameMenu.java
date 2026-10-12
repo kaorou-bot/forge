@@ -46,6 +46,18 @@ public final class GameMenu {
         menu.addSeparator();
         menu.add(getMenuItem_AutoYieldsAndTriggers());
         menu.add(getMenuItem_YieldSettings());
+        final SkinnedMenuItem cancelYield = new SkinnedMenuItem(localizer.getMessage("lblNetworkCancelYield"));
+        cancelYield.addActionListener(e -> YieldController.cancelActiveYields(
+                matchUI.getGameController(), matchUI.getCurrentPlayer()));
+        menu.add(cancelYield);
+        if (forge.screens.home.online.VSubmenuOnlineLobby.SINGLETON_INSTANCE.getClient() != null
+                || forge.gamemodes.net.server.FServerManager.getInstance().isHosting()) {
+            final SkinnedMenuItem diagnostics = new SkinnedMenuItem(localizer.getMessage("lblNetworkDiagnostics"));
+            diagnostics.addActionListener(e -> forge.gamemodes.net.NetworkDiagnostics.show(
+                    forge.screens.home.online.VSubmenuOnlineLobby.SINGLETON_INSTANCE.getClient(),
+                    matchUI.getGameView()));
+            menu.add(diagnostics);
+        }
         final SkinnedCheckBoxMenuItem autoPassItem = getMenuItem_AutoPass();
         menu.add(autoPassItem);
         menu.add(getMenuItem_ClearRememberedAbilityOrders());

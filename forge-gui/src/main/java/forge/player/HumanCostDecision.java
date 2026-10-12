@@ -28,13 +28,22 @@ import java.util.*;
 public class HumanCostDecision extends CostDecisionMakerBase {
     private final PlayerControllerHuman controller;
     private final String orString;
+    private final String originalPrompt;
     private boolean mandatory;
 
     public HumanCostDecision(final PlayerControllerHuman controller, final Player p, final SpellAbility sa, final boolean effect, String prompt) {
         super(p, effect, sa, sa.getHostCard());
         this.controller = controller;
+        this.originalPrompt = prompt;
         mandatory = sa.getPayCosts().isMandatory();
         this.orString = PlaySpellAbility.getOrStringFromCost(ability, prompt);
+    }
+
+    @Override public PaymentDecision decide(final CostPart part) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(controller, ability,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> part.accept(this),
+                next -> next.getCostDecisionMaker(player, ability, isEffect(), originalPrompt).decide(part));
     }
 
     @Override

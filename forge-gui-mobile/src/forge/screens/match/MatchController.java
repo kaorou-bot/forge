@@ -264,6 +264,10 @@ public class MatchController extends NetworkGuiGame {
         view.getPrompt(player).setMessage(message);
     }
 
+    @Override public void updateOperationClock(final String text) {
+        if (view != null) view.updateOperationClock(text);
+    }
+
     @Override
     public void showPromptMessage(final PlayerView player, final String message, final CardView card) {
         cancelWaitingTimer();

@@ -3,8 +3,6 @@ package forge.screens.home.online;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
-import java.net.BindException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -21,8 +19,6 @@ import forge.gamemodes.net.ChatMessage;
 import forge.gamemodes.net.NetConnectUtil;
 import forge.gui.FNetOverlay;
 import forge.gui.FThreads;
-import forge.gui.SOverlayUtils;
-import forge.gui.error.BugReporter;
 import forge.gui.framework.EDocID;
 import forge.gui.framework.ICDoc;
 import forge.gui.util.SOptionPane;
@@ -52,19 +48,7 @@ public enum CSubmenuOnlineLobby implements ICDoc, IMenuProvider {
 
     void hostGame() {
         NetConnectUtil.ensurePlayerName();
-        FThreads.invokeInBackgroundThread(() -> {
-            try {
-                host();
-            } catch (Exception ex) {
-                // IntelliJ swears that BindException isn't thrown in this try block, but it is!
-                if (ex.getClass() == BindException.class) {
-                    SOptionPane.showErrorDialog(Localizer.getInstance().getMessage("lblUnableStartServerPortAlreadyUse"));
-                    SOverlayUtils.hideOverlay();
-                } else {
-                    BugReporter.reportException(ex);
-                }
-            }
-        });
+        host();
     }
 
     void joinGame() {
@@ -92,6 +76,13 @@ public enum CSubmenuOnlineLobby implements ICDoc, IMenuProvider {
             return;
         }
         final int maxPlayers = Integer.parseInt(selectedPlayerLimit);
+        final List<String> formatLabels = forge.gamemodes.net.RelayRoomPresentation.FORMATS.stream()
+                .map(forge.gamemodes.net.RelayRoomPresentation::formatLabel).toList();
+        final String selectedFormat = SOptionPane.showInputDialog(
+                localizer.getMessage("lblRoomTagNotice"),
+                localizer.getMessage("lblRoomFormat"), null, formatLabels.get(0), formatLabels, false);
+        if (selectedFormat == null) return;
+        final String format = forge.gamemodes.net.RelayRoomPresentation.FORMATS.get(formatLabels.indexOf(selectedFormat));
         final String password = SOptionPane.showInputDialog(
                 localizer.getMessageorUseDefault("lblRelayPasswordOptionalPrompt", "房间密码（可留空）"),
                 localizer.getMessageorUseDefault("lblCreateRelayRoom", "创建大厅房间"));
@@ -99,82 +90,42 @@ public enum CSubmenuOnlineLobby implements ICDoc, IMenuProvider {
             return;
         }
 
-        FThreads.invokeInBackgroundThread(() -> hostRelay(roomName.trim(), password, maxPlayers));
+        final Long operationMillis = forge.gamemodes.net.OperationClockSettings.prompt();
+        if (operationMillis == null) return;
+        FThreads.invokeInBackgroundThread(() -> hostRelay(roomName.trim(), format, password, maxPlayers, operationMillis));
     }
 
     void browseRelayRooms() {
-        SwingUtilities.invokeLater(() -> {
-            SOverlayUtils.startGameOverlay(Localizer.getInstance().getMessageorUseDefault(
-                    "lblLoadingRelayRooms", "正在读取大厅房间……"));
-            SOverlayUtils.showOverlay();
-        });
-        FThreads.invokeInBackgroundThread(() -> {
-            try {
-                final List<RelayProtocol.RoomSnapshot> rooms = NetConnectUtil.listRelayRooms();
-                SwingUtilities.invokeLater(() -> showRelayRoomPicker(rooms));
-            } catch (IOException e) {
-                SwingUtilities.invokeLater(() -> {
-                    SOverlayUtils.hideOverlay();
-                    FOptionPane.showErrorDialog(
-                            Localizer.getInstance().getMessageorUseDefault(
-                                    "lblRelayUnavailable", "无法连接中央大厅：%s", e.getMessage()),
-                            Localizer.getInstance().getMessage("lblConnectionError"));
-                });
-            }
-        });
+        NetworkOperationDialog.run(Localizer.getInstance().getMessage("lblLoadingRelayRooms"),
+                NetConnectUtil::listRelayRooms, this::showRelayRoomPicker,
+                this::connectionFailed, () -> { });
     }
 
-    private void hostRelay(final String roomName, final String password, final int maxPlayers) {
-        SwingUtilities.invokeLater(() -> {
-            SOverlayUtils.startGameOverlay(Localizer.getInstance().getMessageorUseDefault(
-                    "lblCreatingRelayRoom", "正在创建大厅房间……"));
-            SOverlayUtils.showOverlay();
-        });
-        try {
-            final ChatMessage result = NetConnectUtil.hostRelay(
-                    VSubmenuOnlineLobby.SINGLETON_INSTANCE, FNetOverlay.SINGLETON_INSTANCE,
-                    roomName, "Constructed", password, maxPlayers);
-            SwingUtilities.invokeLater(() -> {
-                SOverlayUtils.hideOverlay();
-                FNetOverlay.SINGLETON_INSTANCE.show(result);
-                if (CHomeUI.SINGLETON_INSTANCE.getCurrentDocID() == EDocID.HOME_NETWORK) {
-                    VSubmenuOnlineLobby.SINGLETON_INSTANCE.populate();
-                }
-            });
-        } catch (IOException e) {
-            SwingUtilities.invokeLater(() -> {
-                SOverlayUtils.hideOverlay();
-                VSubmenuOnlineLobby.SINGLETON_INSTANCE.closeConn("");
-                FOptionPane.showErrorDialog(
-                        Localizer.getInstance().getMessageorUseDefault(
-                                "lblRelayRoomCreateFailed", "创建大厅房间失败：%s", e.getMessage()),
-                        Localizer.getInstance().getMessage("lblConnectionError"));
-            });
-        }
+    void joinByRoomCode() {
+        NetConnectUtil.ensurePlayerName();
+        final String code = SOptionPane.showInputDialog(
+                Localizer.getInstance().getMessage("lblNetworkRoomCodePrompt"),
+                Localizer.getInstance().getMessage("lblNetworkJoinCode"));
+        if (code == null || code.isBlank()) return;
+        NetworkOperationDialog.run(Localizer.getInstance().getMessage("lblLoadingRelayRooms"),
+                () -> NetConnectUtil.findRelayRoom(code), this::showRelayRoomPicker,
+                this::connectionFailed, () -> { });
+    }
+
+    private void hostRelay(final String roomName, final String format, final String password, final int maxPlayers, final long operationMillis) {
+        NetworkOperationDialog.run(Localizer.getInstance().getMessage("lblCreatingRelayRoom"),
+                () -> NetConnectUtil.hostRelay(VSubmenuOnlineLobby.SINGLETON_INSTANCE,
+                        FNetOverlay.SINGLETON_INSTANCE, roomName, format, password, maxPlayers, operationMillis),
+                result -> handleRelayJoinResult(result, roomName),
+                this::connectionFailed, this::connectionCancelled);
     }
 
     private void showRelayRoomPicker(final List<RelayProtocol.RoomSnapshot> rooms) {
-        SOverlayUtils.hideOverlay();
-        final Localizer localizer = Localizer.getInstance();
-        if (rooms.isEmpty()) {
-            FOptionPane.showMessageDialog(localizer.getMessageorUseDefault(
-                    "lblNoRelayRooms", "当前没有可加入的大厅房间。"));
-            return;
-        }
+        RelayRoomBrowser.show(rooms, this::promptRelayJoin, this::browseRelayRooms);
+    }
 
-        final List<String> labels = rooms.stream().map(CSubmenuOnlineLobby::relayRoomLabel).toList();
-        final String selected = SOptionPane.showInputDialog(
-                localizer.getMessageorUseDefault("lblSelectRelayRoom", "请选择要加入的房间"),
-                localizer.getMessageorUseDefault("lblBrowseRelayRooms", "浏览大厅"),
-                null, labels.get(0), labels, false);
-        if (selected == null) {
-            return;
-        }
-        final int index = labels.indexOf(selected);
-        if (index < 0) {
-            return;
-        }
-        final RelayProtocol.RoomSnapshot room = rooms.get(index);
+    private void promptRelayJoin(final RelayProtocol.RoomSnapshot room) {
+        final Localizer localizer = Localizer.getInstance();
         String password = "";
         if (room.passwordProtected()) {
             password = SOptionPane.showInputDialog(
@@ -189,29 +140,35 @@ public enum CSubmenuOnlineLobby implements ICDoc, IMenuProvider {
     }
 
     private void joinRelay(final RelayProtocol.RoomSnapshot room, final String password) {
-        SwingUtilities.invokeLater(() -> {
-            SOverlayUtils.startGameOverlay(Localizer.getInstance().getMessage("lblConnectingToServer"));
-            SOverlayUtils.showOverlay();
-        });
-        try {
-            final ChatMessage result = NetConnectUtil.joinRelay(room, password,
-                    VSubmenuOnlineLobby.SINGLETON_INSTANCE, FNetOverlay.SINGLETON_INSTANCE);
-            SwingUtilities.invokeLater(() -> handleRelayJoinResult(result, room.name()));
-        } catch (IOException e) {
-            SwingUtilities.invokeLater(() -> {
-                SOverlayUtils.hideOverlay();
-                FOptionPane.showErrorDialog(
-                        Localizer.getInstance().getMessageorUseDefault(
-                                "lblRelayJoinFailed", "加入大厅房间失败：%s", e.getMessage()),
-                        Localizer.getInstance().getMessage("lblConnectionError"));
-            });
+        if (room.players() >= room.maxPlayers()) {
+            FThreads.invokeInEdtLater(() -> FOptionPane.showMessageDialog(
+                    Localizer.getInstance().getMessageorUseDefault("lblNetworkRoomFull",
+                            "This room is full. Refresh the room list.")));
+            return;
         }
+        NetworkOperationDialog.run(Localizer.getInstance().getMessage("lblConnectingToServer"),
+                () -> NetConnectUtil.joinRelay(room, password,
+                        VSubmenuOnlineLobby.SINGLETON_INSTANCE, FNetOverlay.SINGLETON_INSTANCE),
+                result -> handleRelayJoinResult(result, room.name()),
+                this::connectionFailed, this::connectionCancelled);
+    }
+
+    private void connectionCancelled() {
+        VSubmenuOnlineLobby.SINGLETON_INSTANCE.setClient(null);
+        FNetOverlay.SINGLETON_INSTANCE.setGameClient(null);
+        VSubmenuOnlineLobby.SINGLETON_INSTANCE.closeConn("");
+    }
+
+    private void connectionFailed(final Exception error) {
+        connectionCancelled();
+        FOptionPane.showErrorDialog(error.getMessage() == null ? error.toString() : error.getMessage(),
+                Localizer.getInstance().getMessage("lblConnectionError"));
     }
 
     private void handleRelayJoinResult(final ChatMessage result, final String roomName) {
-        SOverlayUtils.hideOverlay();
         final String message = result.getMessage();
         if (Objects.equals(message, ForgeConstants.CLOSE_CONN_COMMAND)
+                || Objects.equals(message, ForgeConstants.INVALID_HOST_COMMAND)
                 || (message != null && message.startsWith(ForgeConstants.CONN_ERROR_PREFIX))) {
             final String detail = message != null && message.startsWith(ForgeConstants.CONN_ERROR_PREFIX)
                     ? message.substring(ForgeConstants.CONN_ERROR_PREFIX.length())
@@ -226,30 +183,16 @@ public enum CSubmenuOnlineLobby implements ICDoc, IMenuProvider {
         }
     }
 
-    private static String relayRoomLabel(final RelayProtocol.RoomSnapshot room) {
-        final String lock = room.passwordProtected() ? "[密码] " : "";
-        final String format = room.format().isBlank() ? "" : " · " + room.format();
-        return String.format("%s%s · %s · %d/%d%s", lock, room.name(), room.ownerName(),
-                room.players(), room.maxPlayers(), format);
-    }
 
     private void host() {
-        SwingUtilities.invokeLater(() -> {
-            SOverlayUtils.startGameOverlay(Localizer.getInstance().getMessage("lblStartingServer"));
-            SOverlayUtils.showOverlay();
-        });
-
-        final ChatMessage result = NetConnectUtil.host(VSubmenuOnlineLobby.SINGLETON_INSTANCE, FNetOverlay.SINGLETON_INSTANCE);
-
-        SwingUtilities.invokeLater(() -> {
-            SOverlayUtils.hideOverlay();
-            FNetOverlay.SINGLETON_INSTANCE.show(result);
-            if (CHomeUI.SINGLETON_INSTANCE.getCurrentDocID() == EDocID.HOME_NETWORK) {
-                VSubmenuOnlineLobby.SINGLETON_INSTANCE.populate();
-            }
-        });
-
-        showServerAddressesDialog();
+        final Long operationMillis = forge.gamemodes.net.OperationClockSettings.prompt();
+        if (operationMillis == null) return;
+        NetworkOperationDialog.run(Localizer.getInstance().getMessage("lblStartingServer"),
+                () -> NetConnectUtil.host(VSubmenuOnlineLobby.SINGLETON_INSTANCE, FNetOverlay.SINGLETON_INSTANCE, operationMillis),
+                result -> {
+                    handleRelayJoinResult(result, "");
+                    showServerAddressesDialog();
+                }, this::connectionFailed, this::connectionCancelled);
     }
 
     static void showServerAddressesDialog() {
@@ -322,35 +265,10 @@ public enum CSubmenuOnlineLobby implements ICDoc, IMenuProvider {
     }
 
     private void join(final String url) {
-        SwingUtilities.invokeLater(() -> {
-            SOverlayUtils.startGameOverlay(Localizer.getInstance().getMessage("lblConnectingToServer"));
-            SOverlayUtils.showOverlay();
-        });
-
-        final ChatMessage result = NetConnectUtil.join(url, VSubmenuOnlineLobby.SINGLETON_INSTANCE, FNetOverlay.SINGLETON_INSTANCE);
-        String message = result.getMessage();
-        if(Objects.equals(message, ForgeConstants.CLOSE_CONN_COMMAND)) {
-            FOptionPane.showErrorDialog(Localizer.getInstance().getMessage("UnableConnectToServer", url));
-            SOverlayUtils.hideOverlay();
-        } else if (message != null && message.startsWith(ForgeConstants.CONN_ERROR_PREFIX)) {
-            // Show detailed connection error
-            String errorDetail = message.substring(ForgeConstants.CONN_ERROR_PREFIX.length());
-            FOptionPane.showErrorDialog(errorDetail, Localizer.getInstance().getMessage("lblConnectionError"));
-            SOverlayUtils.hideOverlay();
-        } else if (Objects.equals(message, ForgeConstants.INVALID_HOST_COMMAND)) {
-            FOptionPane.showErrorDialog(Localizer.getInstance().getMessage("lblDetectedInvalidHostAddress", url));
-            SOverlayUtils.hideOverlay();
-        } else {
-            SwingUtilities.invokeLater(() -> {
-                SOverlayUtils.hideOverlay();
-                if (result instanceof ChatMessage) {
-                    FNetOverlay.SINGLETON_INSTANCE.show(result);
-                    if (CHomeUI.SINGLETON_INSTANCE.getCurrentDocID() == EDocID.HOME_NETWORK) {
-                        VSubmenuOnlineLobby.SINGLETON_INSTANCE.populate();
-                    }
-                }
-            });
-        }
+        NetworkOperationDialog.run(Localizer.getInstance().getMessage("lblConnectingToServer"),
+                () -> NetConnectUtil.join(url, VSubmenuOnlineLobby.SINGLETON_INSTANCE, FNetOverlay.SINGLETON_INSTANCE),
+                result -> handleRelayJoinResult(result, url),
+                this::connectionFailed, this::connectionCancelled);
     }
 
     @Override

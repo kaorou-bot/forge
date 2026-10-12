@@ -54,15 +54,9 @@ public class InputQueue extends Observable implements IHasForgeLog {
 
     /*pfps sometimes this is being called twice for the same input */
     public final void removeInput(final Input inp) {
-        final Input topMostInput = inputStack.isEmpty() ? null : inputStack.peek();
-
-        if (topMostInput != inp) {
-            System.out.println("Cannot remove input " + inp.getClass().getSimpleName() + " because it's not on top of stack. Stack = " + inputStack );
-        } else if (topMostInput != null) {
-            // if topMostInput is null then it means the inputstack is already empty, why this is called twice?
-           inputStack.pop();
-        }
-        updateObservers();
+        // Identity removal supports nested waits cancelled in either order. Never pop a
+        // different player's/current nested input, and don't redisplay it for duplicate stop.
+        if (inputStack.removeFirstOccurrence(inp)) updateObservers();
     }
 
     public final void clearInputs() {

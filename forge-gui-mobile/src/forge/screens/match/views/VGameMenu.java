@@ -67,6 +67,16 @@ public class VGameMenu extends FDropDownMenu {
         addItem(new FMenuItem(Forge.getLocalizer().getMessage("lblYieldSettings"), Forge.hdbuttons ? FSkinImage.HDYIELD : FSkinImage.WARNING, e -> {
             new VYieldOptions().show();
         }));
+        addItem(new FMenuItem(Forge.getLocalizer().getMessage("lblNetworkCancelYield"), FSkinImage.WARNING, e ->
+                YieldController.cancelActiveYields(MatchController.instance.getGameController(),
+                        MatchController.instance.getCurrentPlayer())));
+        if (forge.screens.online.OnlineLobbyScreen.getfGameClient() != null
+                || forge.gamemodes.net.server.FServerManager.getInstance().isHosting()) {
+            addItem(new FMenuItem(Forge.getLocalizer().getMessage("lblNetworkDiagnostics"), FSkinImage.INFORMATION,
+                    e -> forge.gamemodes.net.NetworkDiagnostics.show(
+                            forge.screens.online.OnlineLobbyScreen.getfGameClient(),
+                            MatchController.instance.getGameView())));
+        }
         String autoPassLabel = Forge.getLocalizer().getMessage(FModel.getPreferences().getPrefBoolean(FPref.YIELD_AUTO_PASS_NO_ACTIONS) ? "lblYieldBtnAutoPassOn" : "lblYieldBtnAutoPass");
         addItem(new FMenuItem(autoPassLabel, Forge.hdbuttons ? FSkinImage.HDYIELD : FSkinImage.WARNING, e -> {
             YieldController.toggleAutoPassNoActions(MatchController.instance.getGameController());

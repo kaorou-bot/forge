@@ -78,6 +78,21 @@ public class Match {
     }
 
     public void startGame(final Game game, Runnable startGameHook) {
+        try {
+            playGame(game, startGameHook);
+        } catch (final forge.game.player.DecisionGameEnded ended) {
+            if (!ended.belongsTo(game) || !game.isGameOver()) throw ended;
+            for (final Player player : game.getRegisteredPlayers()) player.getController().autoPassCancel();
+        }
+
+        // Typically ante, but also tearing up a blacker lotus
+        executeOwnershipChanges(game);
+        game.clearCaches();
+        game.fireEvent(new GameEventGameFinished());
+        System.gc();
+    }
+
+    private void playGame(final Game game, final Runnable startGameHook) {
         prepareAllZones(game);
         if (rules.useAnte()) {  // Deciding which cards go to ante
             Multimap<Player, Card> list = game.chooseCardsForAnte(rules.getMatchAnteRarity(), rules.getAnteIncludeBasicLands());
@@ -91,16 +106,6 @@ public class Match {
 
         game.getAction().startGame(this.lastOutcome, startGameHook);
 
-        // Typically ante, but also tearing up a blacker lotus
-        executeOwnershipChanges(game);
-
-        game.clearCaches();
-
-        // will pull UI dialog, when the UI is listening
-        game.fireEvent(new GameEventGameFinished());
-
-        //run GC after game is finished
-        System.gc();
     }
 
     public GameOutcome getOutcomeById(int id) {

@@ -1,0 +1,17 @@
+worker_processes auto;
+events { worker_connections 4096; }
+error_log /dev/stderr warn;
+pid /var/run/nginx.pid;
+stream {
+    server {
+        listen 443 ssl;
+        ssl_certificate /etc/letsencrypt/live/@DOMAIN@/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/@DOMAIN@/privkey.pem;
+        ssl_protocols TLSv1.2 TLSv1.3;
+        ssl_handshake_timeout 10s;
+        ssl_session_cache shared:FORGE:10m;
+        proxy_pass relay:36744;
+        proxy_connect_timeout 10s;
+        proxy_timeout 2h;
+    }
+}

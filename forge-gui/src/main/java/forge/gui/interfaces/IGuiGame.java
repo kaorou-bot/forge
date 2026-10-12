@@ -39,6 +39,11 @@ import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
 public interface IGuiGame {
+    /** Display-only, sent separately from trackables to preserve untimed peer compatibility. */
+    default void updateOperationClock(final String text) { }
+    default void updateOperationClockForGame(final int gameId, final String text) {
+        if (getGameView() != null && getGameView().getId() == gameId) updateOperationClock(text);
+    }
 
     record OrderResult<T>(List<T> ordered, boolean rememberDecision) implements Serializable {}
 

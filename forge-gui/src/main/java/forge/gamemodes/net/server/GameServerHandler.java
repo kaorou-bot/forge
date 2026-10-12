@@ -22,8 +22,15 @@ final class GameServerHandler extends GameProtocolHandler<IGameController> imple
     }
 
     @Override
+    protected boolean isCurrentConnection(final ChannelHandlerContext ctx) {
+        final RemoteClient client = getClient(ctx);
+        return client != null && client.hasValidSlot() && client.isCurrentChannel(ctx.channel());
+    }
+
+    @Override
     protected ReplyPool getReplyPool(final ChannelHandlerContext ctx) {
-        return getClient(ctx).getReplyPool();
+        final RemoteClient client = getClient(ctx);
+        return client == null ? null : client.getReplyPool(ctx.channel());
     }
 
     @Override
@@ -32,9 +39,22 @@ final class GameServerHandler extends GameProtocolHandler<IGameController> imple
     }
 
     @Override
+    protected void handleGuiRequestControl(final ChannelHandlerContext ctx, final Object value) {
+        final Integer id = forge.gamemodes.net.GuiRequestControl.requestId(value, "ready:");
+        final RemoteClient client = getClient(ctx);
+        if (client != null && id != null) client.acknowledgeReady(ctx.channel(), id);
+    }
+
+    @Override
     protected IGameController getToInvoke(final ChannelHandlerContext ctx) {
         final RemoteClient client = getClient(ctx);
         return client != null ? server.getController(client.getIndex()) : null;
+    }
+
+    @Override
+    protected boolean handleReply(final ChannelHandlerContext ctx, final forge.gamemodes.net.event.ReplyEvent event) {
+        final RemoteClient client = getClient(ctx);
+        return client != null && client.completeTimedReply(ctx.channel(), event.getIndex(), event.getReply());
     }
 
     @Override

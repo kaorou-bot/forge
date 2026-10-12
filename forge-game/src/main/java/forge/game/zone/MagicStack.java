@@ -593,6 +593,30 @@ public class MagicStack /* extends MyObservable */ implements Iterable<SpellAbil
     }
 
     public final void resolveStack() {
+        final boolean previouslyFrozen = frozen;
+        final SpellAbility previousPrimary = primaryAbility;
+        try {
+            resolveStackInFrame();
+        } catch (final RuntimeException | Error failure) {
+            // Report unexpected failures, rather than continuing a partly executed spell.
+            // In particular, do not execute waiting triggers while unwinding that failure.
+            setResolving(false);
+            curResolvingCard = null;
+            frozen = previouslyFrozen;
+            primaryAbility = previousPrimary;
+            throw failure;
+        }
+    }
+
+    /** Unwind an interrupted nested UI action without executing effects on that UI stack. */
+    public void abandonInputFreeze(final SpellAbility ability, final boolean wasFrozen) {
+        if (primaryAbility == ability) primaryAbility = null;
+        frozen = wasFrozen;
+        // Pending items remain owned by this game. The rules-side departure boundary
+        // filters departed owners and resumes them, never a timer/GUI cleanup callback.
+    }
+
+    private void resolveStackInFrame() {
         // freeze the stack while we're in the middle of resolving
         freezeStack(null);
         setResolving(true);
@@ -623,6 +647,7 @@ public class MagicStack /* extends MyObservable */ implements Iterable<SpellAbil
             sa.getActivatingPlayer().addController(sa.getControlledByPlayer().getLeft(), sa.getControlledByPlayer().getRight());
         }
 
+        try {
         if (thisHasFizzled) { // Fizzle
             if (sa.isBestow()) {
                 // 702.102e: if its target is illegal, the effect making it an Aura spell ends.
@@ -643,20 +668,34 @@ public class MagicStack /* extends MyObservable */ implements Iterable<SpellAbil
         } else if (sa.getApi() != null) {
             AbilityUtils.handleRemembering(sa);
             AbilityUtils.resolve(sa);
-            final Map<AbilityKey, Object> runParams = AbilityKey.mapFromCard(source);
-            runParams.put(AbilityKey.SpellAbility, sa);
-            game.getTriggerHandler().runTrigger(TriggerType.AbilityResolves, runParams, false);
+            if (getInstanceMatchingSpellAbilityID(sa) != null) {
+                final Map<AbilityKey, Object> runParams = AbilityKey.mapFromCard(source);
+                runParams.put(AbilityKey.SpellAbility, sa);
+                game.getTriggerHandler().runTrigger(TriggerType.AbilityResolves, runParams, false);
+            }
         } else {
             sa.resolve();
             // do creatures ETB from here?
         }
 
-        // Change controller back if it was changed
-        if (sa.getControlledByPlayer() != null) {
-            sa.getActivatingPlayer().removeController(sa.getControlledByPlayer().getLeft());
-            // Cleanup controlled by player states
-            sa.setControlledByPlayer(-1, null);
-            sa.setManaCostBeingPaid(null);
+        } finally {
+            // Restore temporary control even when a decision abandons the resolving object.
+            if (sa.getControlledByPlayer() != null) {
+                sa.getActivatingPlayer().removeController(sa.getControlledByPlayer().getLeft());
+                sa.setControlledByPlayer(-1, null);
+                sa.setManaCostBeingPaid(null);
+            }
+        }
+
+        if (getInstanceMatchingSpellAbilityID(sa) == null) {
+            // Leaving the game removed this particular object. Do not move its card back
+            // into a zone or announce that its unexecuted effects successfully resolved.
+            setResolving(false);
+            curResolvingCard = null;
+            unfreezeStack();
+            game.getPhaseHandler().onStackResolved();
+            game.copyLastState();
+            return;
         }
 
         game.fireEvent(new GameEventSpellResolved(sa, thisHasFizzled));
@@ -807,6 +846,13 @@ public class MagicStack /* extends MyObservable */ implements Iterable<SpellAbil
             if (si.getActivatingPlayer().equals(p)) {
                 remove(si);
             }
+        }
+        // A departing player's frozen items must not be resurrected by unfreezeStack().
+        for (SpellAbilityStackInstance si : Lists.newArrayList(frozenStack)) {
+            if (p.equals(si.getActivatingPlayer())) remove(si);
+        }
+        if (primaryAbility != null && p.equals(primaryAbility.getActivatingPlayer())) {
+            primaryAbility = null;
         }
         for (SpellAbility sa : Lists.newArrayList(simultaneousStackEntryList)) {
             Player activator = sa.getActivatingPlayer();

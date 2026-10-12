@@ -12,6 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
 /** Maintains a room-owner control connection and opens reverse tunnels on demand. */
@@ -52,6 +53,7 @@ public final class RelayHostSession implements AutoCloseable {
         Socket control = RelayLobbyClient.connect(endpoint);
         boolean success = false;
         try {
+            ConnectionAttempt.report(ConnectionAttempt.Stage.CREATING);
             RelayWire.writeFrame(control.getOutputStream(), RelayProtocol.REGISTER_ROOM, out -> {
                 out.writeInt(RelayProtocol.VERSION);
                 RelayWire.writeString(out, compatibilityVersion);
@@ -71,6 +73,7 @@ public final class RelayHostSession implements AutoCloseable {
             control.setSoTimeout(HEARTBEAT_TIMEOUT_MILLIS);
             RelayHostSession session = new RelayHostSession(endpoint, localForgePort,
                     roomId, ownerToken, control, failureListener);
+            ConnectionAttempt.track(session);
             success = true;
             return session;
         } finally {
@@ -122,13 +125,14 @@ public final class RelayHostSession implements AutoCloseable {
         Socket local = new Socket();
         Socket relay = null;
         try {
+            openSockets.add(local);
+            if (closed.get()) throw new IOException("Room closed");
             local.connect(new InetSocketAddress("127.0.0.1", localForgePort),
                     RelayLobbyClient.CONNECT_TIMEOUT_MILLIS);
             local.setTcpNoDelay(true);
-            openSockets.add(local);
-
             relay = RelayLobbyClient.connect(endpoint);
             openSockets.add(relay);
+            if (closed.get()) throw new IOException("Room closed");
             RelayWire.writeFrame(relay.getOutputStream(), RelayProtocol.HOST_TUNNEL, out -> {
                 out.writeInt(RelayProtocol.VERSION);
                 RelayWire.writeString(out, roomId);
@@ -139,14 +143,23 @@ public final class RelayHostSession implements AutoCloseable {
             RelayWire.requireType(ready, RelayProtocol.TUNNEL_READY);
             relay.setSoTimeout(0);
 
-            SocketBridge bridge = new SocketBridge(local, relay, tunnelExecutor);
+            final AtomicReference<SocketBridge> reference = new AtomicReference<>();
+            SocketBridge bridge = new SocketBridge(local, relay, tunnelExecutor, () -> {
+                SocketBridge ended = reference.get();
+                if (ended != null) bridges.remove(ended);
+            });
+            reference.set(bridge);
             bridges.add(bridge);
-        } catch (IOException e) {
+            if (bridge.isClosed()) bridges.remove(bridge);
+            if (closed.get()) bridge.close();
+        } catch (IOException | java.util.concurrent.RejectedExecutionException e) {
             closeQuietly(local);
             closeQuietly(relay);
-            if (!closed.get()) {
-                failureListener.accept(e);
-            }
+            // A guest cancelling or failing to connect must not close the owner's room.
+            // Only failure of the owner control connection is fatal to the room.
+        } finally {
+            openSockets.remove(local);
+            if (relay != null) openSockets.remove(relay);
         }
     }
 

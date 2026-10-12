@@ -24,14 +24,14 @@ public class FThreads {
     }
 
     public static void invokeInEdtLater(final Runnable proc) {
-        GuiBase.getInterface().invokeInEdtLater(proc);
+        GuiBase.getInterface().invokeInEdtLater(GuiRequestScope.capture(proc));
     }
 
     public static void invokeInEdtNowOrLater(final Runnable proc) {
         if (isGuiThread()) {
-            GuiBase.getInterface().invokeInEdtNow(proc);
+            GuiBase.getInterface().invokeInEdtNow(GuiRequestScope.capture(proc));
         } else {
-            GuiBase.getInterface().invokeInEdtLater(proc);
+            GuiBase.getInterface().invokeInEdtLater(GuiRequestScope.capture(proc));
         }
     }
 
@@ -48,13 +48,34 @@ public class FThreads {
      * @see fgd.SwingUtilities#invokeLater(Runnable)
      */
     public static void invokeInEdtAndWait(final Runnable proc) {
-        GuiBase.getInterface().invokeInEdtAndWait(proc);
+        GuiBase.getInterface().invokeInEdtAndWait(GuiRequestScope.capture(proc));
+    }
+
+    /** Synchronous choice boundary: no default/empty answer on a timed dismissal. */
+    public static <T> T callInEdtAndWaitChoice(final java.util.concurrent.Callable<T> choice) {
+        final GuiRequestScope scope = GuiRequestScope.current();
+        final GuiRequestScope.WaitRegistration wait = scope == null
+                ? GuiRequestScope.WaitRegistration.NONE : scope.beginWait();
+        final java.util.concurrent.FutureTask<T> future = new java.util.concurrent.FutureTask<>(choice);
+        try (wait) {
+            invokeInEdtAndWait(future);
+            wait.close();
+            if (scope != null) scope.checkActive();
+            return future.get();
+        } catch (final InterruptedException failure) {
+            Thread.currentThread().interrupt();
+            throw new IllegalStateException("Interrupted GUI choice", failure);
+        } catch (final java.util.concurrent.ExecutionException failure) {
+            if (failure.getCause() instanceof RuntimeException cause) throw cause;
+            if (failure.getCause() instanceof Error cause) throw cause;
+            throw new IllegalStateException("GUI choice failed", failure.getCause());
+        }
     }
 
     private static int backgroundThreadCount;
     public static void invokeInBackgroundThread(final Runnable proc) {
         //start thread name with "Game" so isGuiThread() returns false on GuiMobile
-        Thread t = new Thread(proc, "Game BT" + backgroundThreadCount);
+        Thread t = new Thread(GuiRequestScope.capture(proc), "Game BT" + backgroundThreadCount);
         t.setDaemon(true);
         t.start();
         backgroundThreadCount++;
@@ -65,7 +86,8 @@ public class FThreads {
     }
 
     public static void delayInEDT(final int milliseconds, final Runnable inputUpdater) {
-        final Runnable runInEdt = () -> FThreads.invokeInEdtNowOrLater(inputUpdater);
+        final Runnable captured = GuiRequestScope.capture(inputUpdater);
+        final Runnable runInEdt = () -> FThreads.invokeInEdtNowOrLater(captured);
         ThreadUtil.delay(milliseconds, runInEdt);
     }
 

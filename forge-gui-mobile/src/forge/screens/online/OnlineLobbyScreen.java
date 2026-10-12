@@ -9,8 +9,6 @@ import forge.assets.FSkinFont;
 import forge.card.DraftOptions;
 import forge.deck.Deck;
 import forge.deck.DeckProxy;
-import forge.deck.DeckType;
-import forge.deck.FDeckChooser;
 import forge.deck.FDeckEditor;
 import forge.gamemodes.limited.BoosterDraft;
 import forge.gamemodes.limited.LimitedPoolType;
@@ -37,12 +35,9 @@ import forge.gui.interfaces.ILobbyView;
 import forge.gui.util.SGuiChoose;
 import forge.gui.util.SOptionPane;
 import forge.item.PaperCard;
-import forge.itemmanager.ItemManagerConfig;
 import forge.localinstance.properties.ForgeConstants;
 import forge.model.FModel;
-import forge.screens.LoadingOverlay;
 import forge.screens.constructed.LobbyScreen;
-import forge.screens.constructed.PlayerPanel;
 import forge.screens.limited.NetworkDraftingProcessScreen;
 import forge.screens.match.MatchController;
 import forge.screens.online.OnlineMenu.OnlineScreen;
@@ -56,7 +51,6 @@ import forge.toolbox.FOverlay;
 import forge.util.Utils;
 import forge.relay.RelayProtocol;
 
-import java.io.IOException;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.ArrayList;
@@ -94,6 +88,7 @@ public class OnlineLobbyScreen extends LobbyScreen implements IOnlineLobby, IDra
     private NetworkEventView lastEventView;
     private boolean eventDrafted; // true after receiveEventPool marks draft done
     private NetworkDraftingProcessScreen activeDraftScreen;
+    private final NetworkEventDeckFilter eventDeckFilter = new NetworkEventDeckFilter();
 
     public OnlineLobbyScreen() {
         super(null, OnlineMenu.getMenu(), new OfflineLobby());
@@ -208,12 +203,12 @@ public class OnlineLobbyScreen extends LobbyScreen implements IOnlineLobby, IDra
             activeEventId = null;
             eventDrafted = false;
             refreshEventPanel();
-            updateDeckListFilter();
         }
         // Broadcast the mode so clients mirror it (their combo is read-only)
         if (sgl != null) sgl.setLimitedMode(isLimitedMode());
 
         updateModeVisibility();
+        updateDeckListFilter();
         updateActionButtons();
         revalidate();
     }
@@ -693,7 +688,14 @@ public class OnlineLobbyScreen extends LobbyScreen implements IOnlineLobby, IDra
             revalidate();
         } else {
             super.onActivate();
+            updateDeckListFilter();
         }
+    }
+
+    @Override
+    protected void onPlayerPanelInitialized(final int index) {
+        // The base constructor may finish a selector before our fields exist.
+        if (eventDeckFilter != null && cmbMode != null) updateDeckListFilter();
     }
 
     @Override
@@ -879,32 +881,13 @@ public class OnlineLobbyScreen extends LobbyScreen implements IOnlineLobby, IDra
     }
 
     private void updateDeckListFilter() {
-        FModel.getDecks().reloadNetworkEventDecks();
         String filterEventId = activeEventId != null ? activeEventId
                 : (currentEvent != null ? currentEvent.getEventId() : null);
-        List<DeckProxy> pool = DeckProxy.getAllNetworkEventDecks();
-        if (filterEventId != null && activeConformance) {
-            pool.removeIf(dp -> dp.getDeck() == null
-                    || !filterEventId.equals(DeckProxy.getEventTag(dp.getDeck(), "eventId")));
-        }
-        for (PlayerPanel panel : getPlayerPanels()) {
-            FDeckChooser chooser = panel.getDeckChooser();
-            if (chooser.getSelectedDeckType() != DeckType.NET_EVENT_DECK) {
-                chooser.setSelectedDeckType(DeckType.NET_EVENT_DECK);
-            }
-            DeckProxy prev = chooser.getLstDecks().getSelectedItem();
-            String prevName = (prev != null && prev.getDeck() != null) ? prev.getDeck().getName() : null;
-            chooser.getLstDecks().setPool(pool);
-            chooser.getLstDecks().setup(ItemManagerConfig.NET_EVENT_DECKS);
-            if (prevName != null) {
-                for (DeckProxy dp : pool) {
-                    if (dp.getDeck() != null && prevName.equals(dp.getDeck().getName())) {
-                        chooser.getLstDecks().setSelectedItem(dp);
-                        break;
-                    }
-                }
-            }
-        }
+        eventDeckFilter.refresh(getLobby(), getPlayerPanels(), isLimitedMode(), filterEventId,
+                activeConformance, () -> {
+                    FModel.getDecks().reloadNetworkEventDecks();
+                    return DeckProxy.getAllNetworkEventDecks();
+                });
     }
 
     private void activateDirect(final boolean hosting) {
@@ -912,38 +895,20 @@ public class OnlineLobbyScreen extends LobbyScreen implements IOnlineLobby, IDra
             NetConnectUtil.ensurePlayerName();
             final String address = hosting ? null : NetConnectUtil.getJoinServerUrl();
             if (!hosting && address == null) return;
+            final Long operationMillis = hosting ? forge.gamemodes.net.OperationClockSettings.prompt() : 0L;
+            if (operationMillis == null) return;
             FThreads.invokeInEdtLater(() -> {
                 isHost = hosting;
                 intentionalDisconnect.set(false);
                 setGameLobby(getLobby());
                 revalidate();
                 final IOnlineChatInterface chat = (IOnlineChatInterface) OnlineScreen.Chat.getScreen();
-                LoadingOverlay.runBackgroundTask(Forge.getLocalizer().getMessage(
-                        hosting ? "lblStartingServer" : "lblConnectingToServer"), () -> {
-                    try {
-                        ChatMessage result = hosting ? NetConnectUtil.host(this, chat)
-                                : NetConnectUtil.join(address, this, chat);
-                        String message = result.getMessage();
-                        if (ForgeConstants.INVALID_HOST_COMMAND.equals(message)
-                                || ForgeConstants.CLOSE_CONN_COMMAND.equals(message)
-                                || (message != null && message.startsWith(ForgeConstants.CONN_ERROR_PREFIX))) {
-                            String detail = ForgeConstants.INVALID_HOST_COMMAND.equals(message)
-                                    ? Forge.getLocalizer().getMessage("lblDetectedInvalidHostAddress", address)
-                                    : message.startsWith(ForgeConstants.CONN_ERROR_PREFIX)
-                                        ? message.substring(ForgeConstants.CONN_ERROR_PREFIX.length())
-                                        : Forge.getLocalizer().getMessage("UnableConnectToServer", address);
-                            FThreads.invokeInEdtLater(() -> resetAfterRelayFailure(detail));
-                            return;
-                        }
-                        FThreads.invokeInEdtLater(() -> {
-                            chat.addMessage(result);
-                            OnlineScreen.Lobby.update();
-                        });
-                    } catch (Exception e) {
-                        shutdownConnection();
-                        FThreads.invokeInEdtLater(() -> resetAfterRelayFailure(e.toString()));
-                    }
-                });
+                NetworkOperationDialog.run(Forge.getLocalizer().getMessage(
+                        hosting ? "lblStartingServer" : "lblConnectingToServer"),
+                        () -> hosting ? NetConnectUtil.host(this, chat, operationMillis) : NetConnectUtil.join(address, this, chat),
+                        result -> acceptConnectionResult(result, chat),
+                        e -> resetAfterRelayFailure(e.getMessage()),
+                        this::clearCancelledConnection);
             });
         });
     }
@@ -971,6 +936,13 @@ public class OnlineLobbyScreen extends LobbyScreen implements IOnlineLobby, IDra
                 return;
             }
             final int maxPlayers = Integer.parseInt(selectedPlayerLimit);
+            final List<String> formatLabels = forge.gamemodes.net.RelayRoomPresentation.FORMATS.stream()
+                    .map(forge.gamemodes.net.RelayRoomPresentation::formatLabel).toList();
+            final String selectedFormat = SOptionPane.showInputDialog(
+                    Forge.getLocalizer().getMessage("lblRoomTagNotice"),
+                    Forge.getLocalizer().getMessage("lblRoomFormat"), null, formatLabels.get(0), formatLabels, false);
+            if (selectedFormat == null) return;
+            final String format = forge.gamemodes.net.RelayRoomPresentation.FORMATS.get(formatLabels.indexOf(selectedFormat));
             final String password = SOptionPane.showInputDialog(
                     Forge.getLocalizer().getMessageorUseDefault(
                             "lblRelayPasswordOptionalPrompt", "Password (optional)"),
@@ -979,85 +951,55 @@ public class OnlineLobbyScreen extends LobbyScreen implements IOnlineLobby, IDra
             if (password == null) {
                 return;
             }
+            final Long operationMillis = forge.gamemodes.net.OperationClockSettings.prompt();
+            if (operationMillis == null) return;
             FThreads.invokeInEdtLater(() ->
-                    startRelayHost(roomName.trim(), password, maxPlayers));
+                    startRelayHost(roomName.trim(), format, password, maxPlayers, operationMillis));
         });
     }
 
     private void activateJoin() {
         if (!useRelay()) { activateDirect(false); return; }
-        final LoadingOverlay loader = new LoadingOverlay(
-                Forge.getLocalizer().getMessageorUseDefault(
-                        "lblLoadingRelayRooms", "Loading lobby rooms..."), true);
-        loader.show();
+        NetworkOperationDialog.run(
+                Forge.getLocalizer().getMessage("lblLoadingRelayRooms"),
+                NetConnectUtil::listRelayRooms,
+                rooms -> FThreads.invokeInBackgroundThread(() -> showRelayRoomPicker(rooms)),
+                e -> resetAfterRelayFailure(e.getMessage()), () -> { });
+    }
+
+    public void joinByRoomCode() {
         FThreads.invokeInBackgroundThread(() -> {
-            try {
-                final List<RelayProtocol.RoomSnapshot> rooms = NetConnectUtil.listRelayRooms();
-                FThreads.invokeInEdtAndWait(loader::hide);
-                showRelayRoomPicker(rooms);
-            } catch (IOException e) {
-                FThreads.invokeInEdtLater(() -> {
-                    loader.hide();
-                    showRelayError("lblRelayUnavailable", "Unable to reach the lobby server: %s", e);
-                });
-            }
+            NetConnectUtil.ensurePlayerName();
+            final String code = SOptionPane.showInputDialog(
+                    Forge.getLocalizer().getMessage("lblNetworkRoomCodePrompt"),
+                    Forge.getLocalizer().getMessage("lblNetworkJoinCode"));
+            if (code == null || code.isBlank()) return;
+            NetworkOperationDialog.run(Forge.getLocalizer().getMessage("lblLoadingRelayRooms"),
+                    () -> NetConnectUtil.findRelayRoom(code),
+                    rooms -> FThreads.invokeInBackgroundThread(() -> showRelayRoomPicker(rooms)),
+                    e -> resetAfterRelayFailure(e.getMessage()), () -> { });
         });
     }
 
-    private void startRelayHost(final String roomName, final String password,
-                                final int maxPlayers) {
+    private void startRelayHost(final String roomName, final String format, final String password,
+                                final int maxPlayers, final long operationMillis) {
         isHost = true;
+        intentionalDisconnect.set(false);
         setGameLobby(getLobby());
         revalidate();
-        final IOnlineChatInterface chatInterface =
-                (IOnlineChatInterface) OnlineScreen.Chat.getScreen();
-        // TLS registration runs in the background; NetConnectUtil marshals only
-        // libGDX lobby/view initialization back to the UI thread.
-        LoadingOverlay.runBackgroundTask(
-                Forge.getLocalizer().getMessageorUseDefault(
-                        "lblCreatingRelayRoom", "Creating lobby room..."), () -> {
-                    try {
-                        final ChatMessage result = NetConnectUtil.hostRelay(
-                                OnlineLobbyScreen.this, chatInterface, roomName,
-                                "Constructed", password, maxPlayers);
-                        FThreads.invokeInEdtLater(() -> {
-                            chatInterface.addMessage(result);
-                            OnlineScreen.Lobby.update();
-                        });
-                    } catch (IOException e) {
-                        FThreads.invokeInEdtLater(() -> {
-                            clearGameLobby();
-                            revalidate();
-                            showRelayError("lblRelayRoomCreateFailed",
-                                    "Unable to create lobby room: %s", e);
-                        });
-                    }
-                });
+        final IOnlineChatInterface chat = (IOnlineChatInterface) OnlineScreen.Chat.getScreen();
+        NetworkOperationDialog.run(Forge.getLocalizer().getMessage("lblCreatingRelayRoom"),
+                () -> NetConnectUtil.hostRelay(this, chat, roomName, format, password, maxPlayers, operationMillis),
+                result -> acceptConnectionResult(result, chat),
+                e -> resetAfterRelayFailure(e.getMessage()),
+                this::clearCancelledConnection);
     }
 
     private void showRelayRoomPicker(final List<RelayProtocol.RoomSnapshot> rooms) {
-        if (rooms.isEmpty()) {
-            SOptionPane.showMessageDialog(
-                    Forge.getLocalizer().getMessageorUseDefault(
-                            "lblNoRelayRooms", "There are no compatible rooms right now."));
-            return;
-        }
-        final List<String> labels = rooms.stream()
-                .map(OnlineLobbyScreen::relayRoomLabel).toList();
-        final String selected = SOptionPane.showInputDialog(
-                Forge.getLocalizer().getMessageorUseDefault(
-                        "lblSelectRelayRoom", "Select a room to join"),
-                Forge.getLocalizer().getMessageorUseDefault(
-                        "lblBrowseRelayRooms", "Browse Lobby"),
-                null, labels.get(0), labels, false);
-        if (selected == null) {
-            return;
-        }
-        final int index = labels.indexOf(selected);
-        if (index < 0) {
-            return;
-        }
-        final RelayProtocol.RoomSnapshot room = rooms.get(index);
+        RelayRoomBrowser.show(rooms, this::promptRelayJoin, this::activateJoin);
+    }
+
+    private void promptRelayJoin(final RelayProtocol.RoomSnapshot room) {
         String password = "";
         if (room.passwordProtected()) {
             password = SOptionPane.showInputDialog(
@@ -1074,62 +1016,49 @@ public class OnlineLobbyScreen extends LobbyScreen implements IOnlineLobby, IDra
     }
 
     private void startRelayJoin(final RelayProtocol.RoomSnapshot room, final String password) {
+        if (room.players() >= room.maxPlayers()) {
+            resetAfterRelayFailure(Forge.getLocalizer().getMessageorUseDefault(
+                    "lblNetworkRoomFull", "This room is full. Refresh the room list."));
+            return;
+        }
         isHost = false;
+        intentionalDisconnect.set(false);
         setGameLobby(getLobby());
         revalidate();
-        final IOnlineChatInterface chatInterface =
-                (IOnlineChatInterface) OnlineScreen.Chat.getScreen();
-        // Tunnel establishment and the Netty loopback connect are blocking; only
-        // lobby/view changes are dispatched to the libGDX UI thread.
-        LoadingOverlay.runBackgroundTask(
-                Forge.getLocalizer().getMessage("lblConnectingToServer"), () -> {
-                    try {
-                        final ChatMessage result = NetConnectUtil.joinRelay(
-                                room, password, OnlineLobbyScreen.this, chatInterface);
-                        final String message = result.getMessage();
-                        if (Objects.equals(message, ForgeConstants.CLOSE_CONN_COMMAND)
-                                || Objects.equals(message, ForgeConstants.INVALID_HOST_COMMAND)
-                                || (message != null && message.startsWith(
-                                        ForgeConstants.CONN_ERROR_PREFIX))) {
-                            final String detail = message != null && message.startsWith(
-                                    ForgeConstants.CONN_ERROR_PREFIX)
-                                    ? message.substring(ForgeConstants.CONN_ERROR_PREFIX.length())
-                                    : Forge.getLocalizer().getMessageorUseDefault(
-                                            "lblRelayJoinFailedShort",
-                                            "Unable to join room %s", room.name());
-                            FThreads.invokeInEdtLater(() -> resetAfterRelayFailure(detail));
-                            return;
-                        }
-                        FThreads.invokeInEdtLater(() -> {
-                            chatInterface.addMessage(result);
-                            OnlineScreen.Lobby.update();
-                        });
-                    } catch (IOException e) {
-                        final String detail = Forge.getLocalizer().getMessageorUseDefault(
-                                "lblRelayJoinFailed", "Unable to join lobby room: %s",
-                                e.getMessage());
-                        FThreads.invokeInEdtLater(() -> resetAfterRelayFailure(detail));
-                    }
-                });
+        final IOnlineChatInterface chat = (IOnlineChatInterface) OnlineScreen.Chat.getScreen();
+        NetworkOperationDialog.run(Forge.getLocalizer().getMessage("lblConnectingToServer"),
+                () -> NetConnectUtil.joinRelay(room, password, this, chat),
+                result -> acceptConnectionResult(result, chat),
+                e -> resetAfterRelayFailure(e.getMessage()),
+                this::clearCancelledConnection);
+    }
+
+    private void acceptConnectionResult(final ChatMessage result, final IOnlineChatInterface chat) {
+        final String message = result.getMessage();
+        if (Objects.equals(message, ForgeConstants.CLOSE_CONN_COMMAND)
+                || Objects.equals(message, ForgeConstants.INVALID_HOST_COMMAND)
+                || (message != null && message.startsWith(ForgeConstants.CONN_ERROR_PREFIX))) {
+            resetAfterRelayFailure(message != null && message.startsWith(ForgeConstants.CONN_ERROR_PREFIX)
+                    ? message.substring(ForgeConstants.CONN_ERROR_PREFIX.length())
+                    : Forge.getLocalizer().getMessage("lblConnectionError"));
+            return;
+        }
+        chat.addMessage(result);
+        OnlineScreen.Lobby.update();
+    }
+
+    private void clearCancelledConnection() {
+        clearGameLobby();
+        setClient(null);
+        ((IOnlineChatInterface) OnlineScreen.Chat.getScreen()).setGameClient(null);
+        revalidate();
     }
 
     private void resetAfterRelayFailure(final String detail) {
-        clearGameLobby();
-        revalidate();
-        FThreads.invokeInBackgroundThread(() -> SOptionPane.showErrorDialog(detail,
-                Forge.getLocalizer().getMessage("lblConnectionError")));
-    }
-
-    private void showRelayError(final String key, final String fallback, final IOException error) {
+        clearCancelledConnection();
         FThreads.invokeInBackgroundThread(() -> SOptionPane.showErrorDialog(
-                Forge.getLocalizer().getMessageorUseDefault(key, fallback, error.getMessage()),
+                detail == null ? Forge.getLocalizer().getMessage("lblConnectionError") : detail,
                 Forge.getLocalizer().getMessage("lblConnectionError")));
     }
 
-    private static String relayRoomLabel(final RelayProtocol.RoomSnapshot room) {
-        final String lock = room.passwordProtected() ? "[Password] " : "";
-        final String format = room.format().isBlank() ? "" : " · " + room.format();
-        return String.format("%s%s · %s · %d/%d%s", lock, room.name(), room.ownerName(),
-                room.players(), room.maxPlayers(), format);
-    }
 }

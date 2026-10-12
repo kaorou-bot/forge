@@ -20,6 +20,19 @@ public class FMagnifyView extends FDropDown {
     private TextRenderer renderer;
 
     public static void show(FDisplayObject owner0, String text0, FSkinColor foreColor0, FSkinColor backColor0, FSkinFont font0, boolean parseReminderText0) {
+        create(owner0, text0, foreColor0, backColor0, font0, parseReminderText0).show();
+    }
+
+    /** Keeps a handle for live values; updates never reopen a dismissed view. */
+    public static FMagnifyView showUpdatable(FDisplayObject owner0, String text0, FSkinColor foreColor0, FSkinColor backColor0, FSkinFont font0, boolean parseReminderText0) {
+        FMagnifyView view = create(owner0, text0, foreColor0, backColor0, font0, parseReminderText0);
+        // Remove from the original container even if a later update changes screens.
+        view.setDropDownContainer(view.getContainer());
+        view.show();
+        return view;
+    }
+
+    private static FMagnifyView create(FDisplayObject owner0, String text0, FSkinColor foreColor0, FSkinColor backColor0, FSkinFont font0, boolean parseReminderText0) {
         FMagnifyView view = new FMagnifyView();
         view.owner = owner0;
         view.text = text0;
@@ -27,7 +40,13 @@ public class FMagnifyView extends FDropDown {
         view.backColor = backColor0;
         view.font = font0;
         view.renderer = new TextRenderer(parseReminderText0);
-        view.show();
+        return view;
+    }
+
+    public void updateText(final String text0) {
+        if (!isVisible()) return;
+        text = text0;
+        update();
     }
     private FMagnifyView() {
     }

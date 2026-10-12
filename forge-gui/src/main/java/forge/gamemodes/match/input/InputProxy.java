@@ -68,7 +68,7 @@ public class InputProxy implements Observer {
             Input current = getInput();
             controller.getInputQueue().syncPoint();
             //System.out.printf("\t%s > showMessage @ %s/%s during %s%n", FThreads.debugGetCurrThreadId(), nextInput.getClass().getSimpleName(), current.getClass().getSimpleName(), game.getPhaseHandler().debugPrintState());
-            current.showMessageInitial();
+            if (current == nextInput) current.showMessageInitial();
         };
         FThreads.invokeInEdtLater(showMessage);
     }
@@ -157,7 +157,7 @@ public class InputProxy implements Observer {
     public final void alphaStrike() {
         final Input inp = getInput();
         if (inp instanceof InputAttack) {
-            ((InputAttack) inp).alphaStrike();
+            ((InputAttack) inp).runInputAction(((InputAttack) inp)::alphaStrike);
         }
     }
 

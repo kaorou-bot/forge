@@ -532,17 +532,29 @@ public class PhaseHandler implements java.io.Serializable, IHasForgeLog {
     }
 
     private void declareAttackersTurnBasedAction() {
-        final Player whoDeclares = Objects.requireNonNullElse(playerTurn.getDeclaresAttackers(), playerTurn);
+        final forge.game.player.PlayerDecisionFrame frame = forge.game.player.PlayerDecisionFrame.enter(
+                forge.game.player.PlayerDecisionFrame.Kind.PLAYER_ACTION, playerTurn, null);
+        try (frame) { declareAttackersInDecisionFrame(); }
+        catch (final forge.game.player.PlayerDecisionFrame.Aborted aborted) {
+            if (!frame.owns(aborted)) throw aborted;
+        } finally { combat.removeAbsentCombatants(); }
+    }
+
+    private void declareAttackersInDecisionFrame() {
+        Player whoDeclares = Objects.requireNonNullElse(playerTurn.getDeclaresAttackers(), playerTurn);
 
         if (CombatUtil.canAttack(playerTurn)) {
             boolean success = false;
             do {
-                if (game.isGameOver()) { // they just like to close window at any moment
+                if (game.isGameOver() || !playerTurn.isInGame()) {
                     return;
                 }
-
+                whoDeclares = Objects.requireNonNullElse(playerTurn.getDeclaresAttackers(), playerTurn);
+                if (!whoDeclares.isInGame()) whoDeclares = playerTurn;
                 whoDeclares.getController().declareAttackers(playerTurn, combat);
                 combat.removeAbsentCombatants();
+                if (!playerTurn.isInGame()) return;
+                if (!whoDeclares.isInGame()) continue;
 
                 success = CombatUtil.validateAttackers(combat);
                 if (!success) {
@@ -654,10 +666,11 @@ public class PhaseHandler implements java.io.Serializable, IHasForgeLog {
     }
 
     private void declareBlockersTurnBasedAction() {
-        Player p = playerTurn;
-
-        do {
-            p = game.getNextPlayerAfter(p);
+        for (final Player p : new java.util.ArrayList<>(game.getPlayersInTurnOrder(playerTurn))) {
+            if (p == playerTurn || !p.isInGame()) continue;
+            final forge.game.player.PlayerDecisionFrame frame = forge.game.player.PlayerDecisionFrame.enter(
+                    forge.game.player.PlayerDecisionFrame.Kind.PLAYER_ACTION, p, null);
+            try (frame) {
             // Apply Odric's effect here
             Player whoDeclaresBlockers = Objects.requireNonNullElse(p.getDeclaresBlockers(), p);
             if (combat.isPlayerAttacked(p)) {
@@ -734,9 +747,13 @@ public class PhaseHandler implements java.io.Serializable, IHasForgeLog {
                 blockers.put(ge, protectThisDefender);
             }
             game.fireEvent(new GameEventBlockersDeclared(p, blockers));
-        } while (p != playerTurn);
+            } catch (final forge.game.player.PlayerDecisionFrame.Aborted aborted) {
+                if (!frame.owns(aborted)) throw aborted;
+            } finally { combat.removeAbsentCombatants(); }
+        }
 
         // CR 509.2
+        combat.removeAbsentCombatants();
         combat.orderBlockersForDamageAssignment();
         // CR 509.3
         combat.orderAttackersForDamageAssignment();

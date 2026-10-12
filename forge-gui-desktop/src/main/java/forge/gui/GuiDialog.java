@@ -2,8 +2,6 @@ package forge.gui;
 
 import java.util.List;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.FutureTask;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -29,14 +27,7 @@ public class GuiDialog {
             return answer == 0;
         };
 
-        final FutureTask<Boolean> future = new FutureTask<>(confirmTask);
-        FThreads.invokeInEdtAndWait(future);
-        try {
-            return future.get();
-        } catch (final InterruptedException | ExecutionException e) { // should be no exception here
-            e.printStackTrace();
-        }
-        return false;
+        return FThreads.callInEdtAndWaitChoice(confirmTask);
     }
 
 }

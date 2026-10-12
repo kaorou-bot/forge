@@ -98,6 +98,11 @@ public class ProtocolGuiGame extends NetworkGuiGame implements IHasForgeLog {
         return paused;
     }
 
+    private static boolean isTimedDecision() {
+        final forge.gui.GuiRequestScope scope = forge.gui.GuiRequestScope.current();
+        return scope != null && scope.activity() instanceof TimedGameDecisions.Activity;
+    }
+
     /**
      * Reset delta sync state for reconnection.
      * After a client reconnects, it has no prior delta baseline,
@@ -164,7 +169,7 @@ public class ProtocolGuiGame extends NetworkGuiGame implements IHasForgeLog {
      * dialogs whose args carry the full question (e.g. plain-text confirms).
      */
     private <T> T sendAndWait(final ProtocolMethod method, final Object... args) {
-        if (paused) { return null; }
+        if (paused && !isTimedDecision()) { return null; }
         return sender.sendAndWait(method, args);
     }
 
@@ -174,7 +179,7 @@ public class ProtocolGuiGame extends NetworkGuiGame implements IHasForgeLog {
      * have to render the prompt. Game-thread-only.
      */
     private <T> T syncAndSendAndWait(final ProtocolMethod method, final Object... args) {
-        if (paused) { return null; }
+        if (paused && !isTimedDecision()) { return null; }
         updateGameView();
         return sender.sendAndWait(method, args);
     }

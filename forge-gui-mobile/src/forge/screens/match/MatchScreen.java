@@ -293,6 +293,13 @@ public class MatchScreen extends FScreen {
         return topPlayerPrompt;
     }
 
+    public void updateOperationClock(final String text) {
+        final float oldHeight = bottomPlayerPrompt.getPreferredHeight();
+        bottomPlayerPrompt.setOperationClock(text);
+        if (topPlayerPrompt != null) topPlayerPrompt.setOperationClock(text);
+        if (oldHeight != bottomPlayerPrompt.getPreferredHeight()) revalidate();
+    }
+
     public VLog getLog() {
         return log;
     }
@@ -350,16 +357,18 @@ public class MatchScreen extends FScreen {
     @Override
     protected void doLayout(float startY, float width, float height) {
         float scrollerWidth = width;
+        final float bottomHeight = bottomPlayerPrompt.getPreferredHeight();
         if (topPlayerPrompt != null) {
-            topPlayerPrompt.setBounds(0, 0, width, VPrompt.HEIGHT);
+            final float topHeight = topPlayerPrompt.getPreferredHeight();
+            topPlayerPrompt.setBounds(0, 0, width, topHeight);
             float menuBarWidth = getHeader().getHeight();
-            float menuBarHeight = height - 2 * VPrompt.HEIGHT;
-            getHeader().setBounds(width - menuBarHeight, height - VPrompt.HEIGHT, menuBarHeight, menuBarWidth); //adjust position prior to rotate transform
-            startY = VPrompt.HEIGHT;
+            float menuBarHeight = height - topHeight - bottomHeight;
+            getHeader().setBounds(width - menuBarHeight, height - bottomHeight, menuBarHeight, menuBarWidth); //adjust position prior to rotate transform
+            startY = topHeight;
             scrollerWidth -= menuBarWidth;
         }
-        scroller.setBounds(0, startY, scrollerWidth, height - VPrompt.HEIGHT - startY);
-        bottomPlayerPrompt.setBounds(0, height - VPrompt.HEIGHT, width, VPrompt.HEIGHT);
+        scroller.setBounds(0, startY, scrollerWidth, height - bottomHeight - startY);
+        bottomPlayerPrompt.setBounds(0, height - bottomHeight, width, bottomHeight);
     }
 
     @Override
@@ -369,10 +378,12 @@ public class MatchScreen extends FScreen {
 
     @Override
     public Rectangle getDropDownBoundary() {
+        final float bottomHeight = bottomPlayerPrompt.getPreferredHeight();
         if (topPlayerPrompt == null) {
-            return new Rectangle(0, 0, getWidth(), getHeight() - VPrompt.HEIGHT); //prevent covering prompt
+            return new Rectangle(0, 0, getWidth(), getHeight() - bottomHeight); //prevent covering prompt
         }
-        return new Rectangle(0, VPrompt.HEIGHT, scroller.getWidth(), getHeight() - 2 * VPrompt.HEIGHT);
+        final float topHeight = topPlayerPrompt.getPreferredHeight();
+        return new Rectangle(0, topHeight, scroller.getWidth(), getHeight() - topHeight - bottomHeight);
     }
 
     @Override

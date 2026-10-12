@@ -45,6 +45,11 @@ import java.util.*;
 import java.util.Map.Entry;
 
 public class HostedMatch {
+    private long operationTimeLimitMillis;
+    public void setOperationTimeLimitMillis(final long value) {
+        forge.gamemodes.net.OperationClockSettings.validate(value);
+        operationTimeLimitMillis = value;
+    }
     private Match match;
     private Game game;
     private String title;
@@ -288,7 +293,42 @@ public class HostedMatch {
                 currentGame.subscribeToEvents(playbackControl);
             }
             // Actually start the game!
-            match.startGame(currentGame, startGameHook);
+            forge.gamemodes.net.TimedGameDecisions operationClock = null;
+            final java.util.Set<IGuiGame> clockGuis = new java.util.HashSet<>();
+            for (final PlayerControllerHuman hc : humanControllers) clockGuis.add(hc.getGui());
+            try {
+                if (operationTimeLimitMillis > 0) {
+                    for (final IGuiGame gui : clockGuis) {
+                        if (gui instanceof forge.gamemodes.net.server.RemoteClientGuiGame remote) remote.getClient().setTimedGame(true);
+                    }
+                    operationClock = forge.gamemodes.net.TimedGameDecisions.start(currentGame, operationTimeLimitMillis,
+                            (controller, scope) -> {
+                                if (controller.getGui() instanceof forge.gamemodes.net.server.RemoteClientGuiGame remote) {
+                                    remote.getClient().watchInput(scope);
+                                } else scope.ready();
+                            }, snapshots -> {
+                                final String text = snapshots.stream().map(s -> {
+                                    final Player player = currentGame.getRegisteredPlayers().stream()
+                                            .filter(p -> p.getId() == s.player()).findFirst().orElse(null);
+                                    final long seconds = (s.remainingMillis() + 999) / 1000;
+                                    return (s.running() ? "▶ " : "") + (player == null ? s.player() : player.getName())
+                                            + " " + String.format(java.util.Locale.ROOT, "%02d:%02d", seconds / 60, seconds % 60);
+                                }).collect(java.util.stream.Collectors.joining("  |  "));
+                                for (final IGuiGame gui : clockGuis) forge.gui.FThreads.invokeInEdtLater(() -> {
+                                    if (forge.gamemodes.net.TimedGameDecisions.forGame(currentGame) != null) {
+                                        gui.updateOperationClockForGame(currentGame.getId(), text);
+                                    }
+                                });
+                            });
+                }
+                match.startGame(currentGame, startGameHook);
+            } finally {
+                if (operationClock != null) operationClock.close();
+                for (final IGuiGame gui : clockGuis) {
+                    if (gui instanceof forge.gamemodes.net.server.RemoteClientGuiGame remote) remote.getClient().setTimedGame(false);
+                    forge.gui.FThreads.invokeInEdtLater(() -> gui.updateOperationClockForGame(currentGame.getId(), ""));
+                }
+            }
             // this function waits?
             if (endGameHook != null){
                 endGameHook.run();

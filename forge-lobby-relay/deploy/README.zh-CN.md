@@ -16,7 +16,29 @@
 含 Linux systemd 服务文件、Nginx TLS 示例、Windows/Linux 本机启动脚本、源码构建目录及 SHA256SUMS。
 包中不含任何生产密钥、证书、云凭据或线上用户数据。`VERSION.txt` 标注构建及源码基线，`source/` 包含该服务端与协议模块的实际源码、测试和构建配置。
 
-## 本机快速检查（不向公网开放）
+## 新服务器一键部署（Linux / Docker Compose）
+
+适用于专用新服务器。先安装 Docker Engine、Compose v2，并准备好域名解析、入站 TCP 80（签发/续期）和选定 TLS 端口。需要 root、systemd、curl、openssl、timeout、ss、flock。脚本不自动安装 Docker、不更改防火墙，也不会停止其他业务来抢占端口。
+
+将发布包放在不带空格的固定路径，如 `/opt/forge-relay-bundle`，先预览：
+
+```sh
+bash deploy-one-click.sh --domain relay.example.com --email you@example.com
+# 核对预览后执行（会同意 Let's Encrypt 服务条款并申请证书）：
+sudo bash deploy-one-click.sh --domain relay.example.com --email you@example.com --apply
+```
+
+可用 `--port 8443` 改 TLS 端口。脚本验证包哈希、拒绝已有部署/端口占用，然后构建仅含 JRE 与服务 JAR 的容器，申请证书，启动中继和 Nginx TCP TLS 代理，检查健康与 TLS，并安装每天两次的续期定时器。容器运行有界日志；游戏协议端口不映射公网，健康端口仅映射到 127.0.0.1。**两台客户端实际建房/加入才算验收通过。**
+
+此路径使用容器内 Nginx，不修改系统 Nginx 配置。依赖镜像首次下载需要网络；中国大陆服务器需有可访问的合法镜像渠道，脚本不会擅自替换镜像源。现有手动 systemd 部署继续使用原流程，不能直接执行此脚本覆盖线上服务。
+
+失败后保留 `state/`、容器和日志以供排查，不自动删证书或停其他服务；修复后用 `docker compose --env-file state/settings.env logs` / `up -d` 排查，切勿反复申请证书。更新或重启会断开玩家，必须先安排维护窗口。不要删除整个包目录，续期服务引用其固定路径；`state/` 含私钥，不能随包再分发。
+
+手动续期：`sudo bash deploy-one-click.sh --renew`。查看定时器：`systemctl status forge-community-relay-renew.timer`。续期仅重载 TLS 配置，不重启中继。公开运行前可执行 `docker compose --env-file state/settings.env run --rm --service-ports certbot renew --dry-run` 验证签发链路。
+
+依据：[Docker Compose 服务与端口配置](https://docs.docker.com/reference/compose-file/services/)、[Certbot 容器与 standalone](https://eff-certbot.readthedocs.io/en/stable/install.html)、[Nginx stream TLS](https://nginx.org/en/docs/stream/ngx_stream_ssl_module.html)。此包提供新机安装流程，不承诺所有云镜像均已实机验证。
+
+## 本机快速检查（不向公网开放，非 Docker）
 
 解压至独立目录，在该目录打开终端：
 

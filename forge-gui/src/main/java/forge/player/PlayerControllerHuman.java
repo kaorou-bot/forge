@@ -117,6 +117,10 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
     private boolean mayLookAtAllCards = false;
 
     private IGuiGame gui;
+    private final Player operationClockPlayer;
+
+    /** Mind control charges the person actually making the decision, not their controlled opponent. */
+    public final Player getOperationClockPlayer() { return operationClockPlayer; }
 
     private final YieldController yieldController = new YieldController(this);
 
@@ -129,12 +133,14 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     public PlayerControllerHuman(final Game game0, final Player p, final LobbyPlayer lp) {
         super(game0, p, lp);
+        operationClockPlayer = p;
         inputProxy = new InputProxy(this);
         inputQueue = new InputQueue(game0.getView(), inputProxy);
     }
 
     public PlayerControllerHuman(final Player p, final LobbyPlayer lp, final PlayerControllerHuman owner) {
         super(owner.getGame(), p, lp);
+        operationClockPlayer = owner.getOperationClockPlayer();
         gui = owner.gui;
         inputProxy = owner.inputProxy;
         inputQueue = owner.getInputQueue();
@@ -215,6 +221,14 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
     @Override
     public SpellAbility getAbilityToPlay(final Card hostCard, final List<SpellAbility> abilities,
                                          final ITriggerEvent triggerEvent) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, null,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.PRIORITY,
+                () -> untimedGetAbilityToPlay(hostCard, abilities, triggerEvent),
+                next -> next.getAbilityToPlay(hostCard, forge.gamemodes.net.DecisionOptions.list(abilities), triggerEvent));
+    }
+
+    private SpellAbility untimedGetAbilityToPlay(final Card hostCard, final List<SpellAbility> abilities,
+                                         final ITriggerEvent triggerEvent) {
         spellViewCache = SpellAbilityView.getMap(abilities);
         if (getPlayer().isControlled() && getPlayer().getControllingPlayer().getController() instanceof PlayerControllerHuman pch) {
             // need to transfer to original controller or menu selection fails
@@ -284,6 +298,14 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
     @Override
     public Map<Card, Integer> assignCombatDamage(final Card attacker, final CardCollectionView blockers, final CardCollectionView remaining,
                                                  final int damageDealt, final GameEntity defender, final boolean overrideOrder) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, null,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedAssignCombatDamage(attacker, blockers, remaining, damageDealt, defender, overrideOrder),
+                next -> next.assignCombatDamage(attacker, forge.gamemodes.net.DecisionOptions.cards(blockers), forge.gamemodes.net.DecisionOptions.cards(remaining), damageDealt, defender, overrideOrder));
+    }
+
+    private Map<Card, Integer> untimedAssignCombatDamage(final Card attacker, final CardCollectionView blockers, final CardCollectionView remaining,
+                                                 final int damageDealt, final GameEntity defender, final boolean overrideOrder) {
         // Attacker is a poor name here, since the creature assigning damage
         // could just as easily be the blocker.
         final Map<Card, Integer> map = Maps.newHashMap();
@@ -320,6 +342,13 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public Map<GameEntity, Integer> divideShield(Card effectSource, Map<GameEntity, Integer> affected, int shieldAmount) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, null,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedDivideShield(effectSource, affected, shieldAmount),
+                next -> next.divideShield(effectSource, forge.gamemodes.net.DecisionOptions.map(affected), shieldAmount));
+    }
+
+    private Map<GameEntity, Integer> untimedDivideShield(Card effectSource, Map<GameEntity, Integer> affected, int shieldAmount) {
         final CardView vSource = CardView.get(effectSource);
         final Map<Object, Integer> vAffected = new HashMap<>(affected.size());
         for (Map.Entry<GameEntity, Integer> e : affected.entrySet()) {
@@ -340,6 +369,13 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public Map<Byte, Integer> specifyManaCombo(SpellAbility sa, ColorSet colorSet, int manaAmount, boolean different) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, sa,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedSpecifyManaCombo(sa, colorSet, manaAmount, different),
+                next -> next.specifyManaCombo(sa, colorSet, manaAmount, different));
+    }
+
+    private Map<Byte, Integer> untimedSpecifyManaCombo(SpellAbility sa, ColorSet colorSet, int manaAmount, boolean different) {
         final List<MagicColor.Color> choices = Lists.newArrayList(colorSet.getOrderedColors());
         final Map<Byte, Integer> remembered = macros().consumeRememberedManaCombo(choices, manaAmount, different);
         if (remembered != null) {
@@ -370,6 +406,13 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public Integer announceRequirements(final SpellAbility ability, int min, int max, final String announce) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, ability,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedAnnounceRequirements(ability, min, max, announce),
+                next -> next.announceRequirements(ability, min, max, announce));
+    }
+
+    private Integer untimedAnnounceRequirements(final SpellAbility ability, int min, int max, final String announce) {
         final Card host = ability.getHostCard();
         Cost cost = ability.getPayCosts();
 
@@ -401,11 +444,27 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
     @Override
     public CardCollectionView choosePermanentsToSacrifice(final SpellAbility sa, final int min, final int max,
                                                           final CardCollectionView valid, final String message) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, sa,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChoosePermanentsToSacrifice(sa, min, max, valid, message),
+                next -> next.choosePermanentsToSacrifice(sa, Math.min(min, forge.gamemodes.net.DecisionOptions.cards(valid).size()), Math.min(max, forge.gamemodes.net.DecisionOptions.cards(valid).size()), forge.gamemodes.net.DecisionOptions.cards(valid), message));
+    }
+
+    private CardCollectionView untimedChoosePermanentsToSacrifice(final SpellAbility sa, final int min, final int max,
+                                                          final CardCollectionView valid, final String message) {
         return choosePermanentsTo(min, max, valid, message, localizer.getMessage("lblSacrifice").toLowerCase(), sa);
     }
 
     @Override
     public CardCollectionView choosePermanentsToDestroy(final SpellAbility sa, final int min, final int max,
+                                                        final CardCollectionView valid, final String message) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, sa,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChoosePermanentsToDestroy(sa, min, max, valid, message),
+                next -> next.choosePermanentsToDestroy(sa, Math.min(min, forge.gamemodes.net.DecisionOptions.cards(valid).size()), Math.min(max, forge.gamemodes.net.DecisionOptions.cards(valid).size()), forge.gamemodes.net.DecisionOptions.cards(valid), message));
+    }
+
+    private CardCollectionView untimedChoosePermanentsToDestroy(final SpellAbility sa, final int min, final int max,
                                                         final CardCollectionView valid, final String message) {
         return choosePermanentsTo(min, max, valid, message, localizer.getMessage("lblDestroy"), sa);
     }
@@ -468,6 +527,14 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
     @Override
     public CardCollectionView chooseCardsForEffect(final CardCollectionView sourceList, final SpellAbility sa,
                                                    final String title, final int min, final int max, final boolean isOptional, Map<String, Object> params) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, sa,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseCardsForEffect(sourceList, sa, title, min, max, isOptional, params),
+                next -> next.chooseCardsForEffect(forge.gamemodes.net.DecisionOptions.cards(sourceList), sa, title, Math.min(min, forge.gamemodes.net.DecisionOptions.cards(sourceList).size()), Math.min(max, forge.gamemodes.net.DecisionOptions.cards(sourceList).size()), isOptional, params));
+    }
+
+    private CardCollectionView untimedChooseCardsForEffect(final CardCollectionView sourceList, final SpellAbility sa,
+                                                   final String title, final int min, final int max, final boolean isOptional, Map<String, Object> params) {
         // If only one card to choose, use a dialog box.
         // Otherwise, use the order dialog to be able to grab multiple cards in one shot
 
@@ -510,6 +577,13 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public List<Card> chooseContraptionsToCrank(List<Card> contraptions) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, null,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseContraptionsToCrank(contraptions),
+                next -> next.chooseContraptionsToCrank(forge.gamemodes.net.DecisionOptions.list(contraptions)));
+    }
+
+    private List<Card> untimedChooseContraptionsToCrank(List<Card> contraptions) {
         if(contraptions.isEmpty())
             return contraptions;
 
@@ -541,6 +615,12 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public boolean helpPayForAssistSpell(ManaCostBeingPaid cost, SpellAbility sa, int max, int requested) {
+        return forge.gamemodes.net.TimedGameDecisions.pay(this, sa,
+                () -> untimedHelpPayForAssistSpell(cost, sa, max, requested),
+                next -> next.helpPayForAssistSpell(cost, sa, max, requested));
+    }
+
+    private boolean untimedHelpPayForAssistSpell(ManaCostBeingPaid cost, SpellAbility sa, int max, int requested) {
         // This is like a mini-announce X
         String title = String.format("%s trying to cast (%s) How much would you like to help pay for Assist? (Max: %s)", sa.getActivatingPlayer(), sa, max);
         int willPay = chooseNumber(sa, title, 0, max);
@@ -574,11 +654,27 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public Player choosePlayerToAssistPayment(FCollectionView<Player> optionList, SpellAbility sa, String title, int max) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, sa,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChoosePlayerToAssistPayment(optionList, sa, title, max),
+                next -> next.choosePlayerToAssistPayment(forge.gamemodes.net.DecisionOptions.entities(optionList), sa, title, max));
+    }
+
+    private Player untimedChoosePlayerToAssistPayment(FCollectionView<Player> optionList, SpellAbility sa, String title, int max) {
         return chooseSingleEntityForEffect(optionList, null, sa, title, true, null, null);
     }
 
     @Override
     public <T extends GameEntity> T chooseSingleEntityForEffect(final FCollectionView<T> optionList,
+                                                                final DelayedReveal delayedReveal, final SpellAbility sa, final String title, final boolean isOptional,
+                                                                final Player targetedPlayer, Map<String, Object> params) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, sa,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseSingleEntityForEffect(optionList, delayedReveal, sa, title, isOptional, targetedPlayer, params),
+                next -> next.chooseSingleEntityForEffect(forge.gamemodes.net.DecisionOptions.entities(optionList), delayedReveal, sa, title, isOptional, targetedPlayer, params));
+    }
+
+    private <T extends GameEntity> T untimedChooseSingleEntityForEffect(final FCollectionView<T> optionList,
                                                                 final DelayedReveal delayedReveal, final SpellAbility sa, final String title, final boolean isOptional,
                                                                 final Player targetedPlayer, Map<String, Object> params) {
         // Human is supposed to read the message and understand from it what to choose
@@ -624,6 +720,14 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
     @Override
     public <T extends GameEntity> List<T> chooseEntitiesForEffect(final FCollectionView<T> optionList, final int min, final int max,
                                                                   final DelayedReveal delayedReveal, final SpellAbility sa, final String title, final Player targetedPlayer, Map<String, Object> params) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, sa,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseEntitiesForEffect(optionList, min, max, delayedReveal, sa, title, targetedPlayer, params),
+                next -> next.chooseEntitiesForEffect(forge.gamemodes.net.DecisionOptions.entities(optionList), Math.min(min, forge.gamemodes.net.DecisionOptions.entities(optionList).size()), Math.min(max, forge.gamemodes.net.DecisionOptions.entities(optionList).size()), delayedReveal, sa, title, targetedPlayer, params));
+    }
+
+    private <T extends GameEntity> List<T> untimedChooseEntitiesForEffect(final FCollectionView<T> optionList, final int min, final int max,
+                                                                  final DelayedReveal delayedReveal, final SpellAbility sa, final String title, final Player targetedPlayer, Map<String, Object> params) {
         // useful details for debugging problems with the mass select logic
         Sentry.setExtra("Card", sa.getCardView().toString());
         Sentry.setExtra("SpellAbility", sa.toString());
@@ -664,6 +768,13 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public int chooseNumber(final SpellAbility sa, final String title, final int min, final int max) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, sa,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseNumber(sa, title, min, max),
+                next -> next.chooseNumber(sa, title, min, max));
+    }
+
+    private int untimedChooseNumber(final SpellAbility sa, final String title, final int min, final int max) {
         if (min >= max) {
             return min;
         }
@@ -689,11 +800,27 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
     @Override
     public int chooseNumber(final SpellAbility sa, final String title, final List<Integer> choices,
                             final Player relatedPlayer) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, sa,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseNumber(sa, title, choices, relatedPlayer),
+                next -> next.chooseNumber(sa, title, forge.gamemodes.net.DecisionOptions.list(choices), relatedPlayer));
+    }
+
+    private int untimedChooseNumber(final SpellAbility sa, final String title, final List<Integer> choices,
+                            final Player relatedPlayer) {
         return getGui().one(title, choices);
     }
 
     @Override
     public SpellAbility chooseSingleSpellForEffect(final List<SpellAbility> spells, final SpellAbility sa,
+                                                   final String title, Map<String, Object> params) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, sa,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseSingleSpellForEffect(spells, sa, title, params),
+                next -> next.chooseSingleSpellForEffect(forge.gamemodes.net.DecisionOptions.list(spells), sa, title, params));
+    }
+
+    private SpellAbility untimedChooseSingleSpellForEffect(final List<SpellAbility> spells, final SpellAbility sa,
                                                    final String title, Map<String, Object> params) {
         if (spells.size() < 2) {
             return Iterables.getFirst(spells, null);
@@ -712,6 +839,13 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public List<SpellAbility> chooseSpellAbilitiesForEffect(List<SpellAbility> spells, SpellAbility sa, String title, int num, Map<String, Object> params) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, sa,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseSpellAbilitiesForEffect(spells, sa, title, num, params),
+                next -> next.chooseSpellAbilitiesForEffect(forge.gamemodes.net.DecisionOptions.list(spells), sa, title, num, params));
+    }
+
+    private List<SpellAbility> untimedChooseSpellAbilitiesForEffect(List<SpellAbility> spells, SpellAbility sa, String title, int num, Map<String, Object> params) {
         List<SpellAbility> result = Lists.newArrayList();
         // create a mapping between a spell's view and the spell itself
         Map<SpellAbilityView, SpellAbility> spellViewCache = SpellAbilityView.getMap(spells);
@@ -746,6 +880,14 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
     @Override
     public boolean confirmAction(final SpellAbility sa, final PlayerActionConfirmMode mode, final String message,
                                  List<String> options, Card cardToShow, Map<String, Object> params) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, sa,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedConfirmAction(sa, mode, message, options, cardToShow, params),
+                next -> next.confirmAction(sa, mode, message, forge.gamemodes.net.DecisionOptions.list(options), cardToShow, params));
+    }
+
+    private boolean untimedConfirmAction(final SpellAbility sa, final PlayerActionConfirmMode mode, final String message,
+                                 List<String> options, Card cardToShow, Map<String, Object> params) {
         // Another card should be displayed in the prompt on mouse over rather than the SA source
         if (cardToShow != null) {
             tempShowCard(cardToShow);
@@ -766,6 +908,14 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
     @Override
     public boolean confirmBidAction(final SpellAbility sa, final PlayerActionConfirmMode bidlife, final String string,
                                     final int bid, final Player winner) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, sa,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedConfirmBidAction(sa, bidlife, string, bid, winner),
+                next -> next.confirmBidAction(sa, bidlife, string, bid, winner));
+    }
+
+    private boolean untimedConfirmBidAction(final SpellAbility sa, final PlayerActionConfirmMode bidlife, final String string,
+                                    final int bid, final Player winner) {
         final boolean result = InputConfirm.confirm(this, sa, string + " " + localizer.getMessage("lblHighestBidder") + " " + winner);
         recordConfirm(sa, result);
         return result;
@@ -773,6 +923,13 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public boolean confirmStaticApplication(final Card hostCard, PlayerActionConfirmMode mode, final String message, final String logic) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, null,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedConfirmStaticApplication(hostCard, mode, message, logic),
+                next -> next.confirmStaticApplication(hostCard, mode, message, logic));
+    }
+
+    private boolean untimedConfirmStaticApplication(final Card hostCard, PlayerActionConfirmMode mode, final String message, final String logic) {
         final boolean result = InputConfirm.confirm(this, CardView.get(hostCard), message);
         recordConfirm(CardView.get(hostCard), result);
         return result;
@@ -787,6 +944,13 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public boolean confirmTrigger(final WrappedAbility wrapper) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, wrapper,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.TRIGGER,
+                () -> untimedConfirmTrigger(wrapper),
+                next -> next.confirmTrigger(wrapper));
+    }
+
+    private boolean untimedConfirmTrigger(final WrappedAbility wrapper) {
         final SpellAbility sa = wrapper.getWrappedAbility();
         final Trigger regtrig = wrapper.getTrigger();
         if (!isMacroActive()) {
@@ -838,6 +1002,13 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public Player chooseStartingPlayer(final boolean isFirstGame) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, null,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseStartingPlayer(isFirstGame),
+                next -> next.chooseStartingPlayer(isFirstGame));
+    }
+
+    private Player untimedChooseStartingPlayer(final boolean isFirstGame) {
         String prompt;
         if (isFirstGame) {
             prompt = localizer.getMessage("lblYouHaveWonTheCoinToss", player.getName());
@@ -861,6 +1032,13 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public CardCollection orderBlockers(final Card attacker, final CardCollection blockers) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, null,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedOrderBlockers(attacker, blockers),
+                next -> next.orderBlockers(attacker, forge.gamemodes.net.DecisionOptions.cards(blockers)));
+    }
+
+    private CardCollection untimedOrderBlockers(final Card attacker, final CardCollection blockers) {
         GameEntityViewMap<Card, CardView> gameCacheBlockers = GameEntityView.getMap(blockers);
         final CardView vAttacker = CardView.get(attacker);
         getGui().setPanelSelection(vAttacker);
@@ -873,6 +1051,13 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public List<Card> exertAttackers(List<Card> attackers) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, null,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedExertAttackers(attackers),
+                next -> next.exertAttackers(forge.gamemodes.net.DecisionOptions.list(attackers)));
+    }
+
+    private List<Card> untimedExertAttackers(List<Card> attackers) {
         GameEntityViewMap<Card, CardView> gameCacheExert = GameEntityView.getMap(attackers);
         List<CardView> chosen = getGui().order(localizer.getMessage("lblExertAttackersConfirm"), localizer.getMessage("lblExerted"),
                 0, gameCacheExert.size(), gameCacheExert.getTrackableKeys(), null, null, false);
@@ -884,6 +1069,13 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public List<Card> enlistAttackers(List<Card> attackers) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, null,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedEnlistAttackers(attackers),
+                next -> next.enlistAttackers(forge.gamemodes.net.DecisionOptions.list(attackers)));
+    }
+
+    private List<Card> untimedEnlistAttackers(List<Card> attackers) {
         GameEntityViewMap<Card, CardView> gameCacheExert = GameEntityView.getMap(attackers);
         List<CardView> chosen = getGui().order(localizer.getMessage("lblEnlistAttackersConfirm"), localizer.getMessage("lblEnlisted"),
                 0, gameCacheExert.size(), gameCacheExert.getTrackableKeys(), null, null, false);
@@ -895,6 +1087,13 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public List<CostPart> orderCosts(List<CostPart> costs) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, null,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedOrderCosts(costs),
+                next -> next.orderCosts(forge.gamemodes.net.DecisionOptions.list(costs)));
+    }
+
+    private List<CostPart> untimedOrderCosts(List<CostPart> costs) {
         if (!isFullControl(FullControlFlag.ChooseCostOrder) || costs.size() < 2) {
             return costs;
         }
@@ -905,6 +1104,13 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public CardCollection orderBlocker(final Card attacker, final Card blocker, final CardCollection oldBlockers) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, null,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedOrderBlocker(attacker, blocker, oldBlockers),
+                next -> next.orderBlocker(attacker, blocker, forge.gamemodes.net.DecisionOptions.cards(oldBlockers)));
+    }
+
+    private CardCollection untimedOrderBlocker(final Card attacker, final Card blocker, final CardCollection oldBlockers) {
         GameEntityViewMap<Card, CardView> gameCacheBlockers = GameEntityView.getMap(oldBlockers);
         final CardView vAttacker = CardView.get(attacker);
         getGui().setPanelSelection(vAttacker);
@@ -918,6 +1124,13 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public CardCollection orderAttackers(final Card blocker, final CardCollection attackers) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, null,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedOrderAttackers(blocker, attackers),
+                next -> next.orderAttackers(blocker, forge.gamemodes.net.DecisionOptions.cards(attackers)));
+    }
+
+    private CardCollection untimedOrderAttackers(final Card blocker, final CardCollection attackers) {
         GameEntityViewMap<Card, CardView> gameCacheAttackers = GameEntityView.getMap(attackers);
         final CardView vBlocker = CardView.get(blocker);
         getGui().setPanelSelection(vBlocker);
@@ -939,6 +1152,12 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
     }
 
     protected void reveal(final CardCollectionView cards, final ZoneType zone, final PlayerView owner, String message, boolean addSuffix) {
+        forge.gamemodes.net.TimedGameDecisions.choose(this, null,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.NOTICE,
+                () -> { untimedReveal(cards, zone, owner, message, addSuffix); return null; }, next -> null);
+    }
+
+    private void untimedReveal(final CardCollectionView cards, final ZoneType zone, final PlayerView owner, String message, boolean addSuffix) {
         yieldController.maybeInterruptOnReveal();
         if (StringUtils.isBlank(message)) {
             message = localizer.getMessage("lblLookCardInPlayerZone", "{player's}", zone.getTranslatedName().toLowerCase());
@@ -951,26 +1170,29 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
                     getLocalPlayerView(), owner), fm);
         } else {
             tempShowCards(cards);
-            TrackableCollection<CardView> collection = CardView.getCollection(cards);
-            // State the revealed cards and let the GUI show them, instead of listing their names in a dialog
-            final boolean revealInPrompt = zone == ZoneType.Hand
-                    && owner != getLocalPlayerView()
-                    && FModel.getPreferences().getPrefBoolean(FPref.UI_SELECT_FROM_CARD_DISPLAYS)
-                    && !getGui().isLibgdxPort();
-            if (revealInPrompt) {
-                getGui().showRevealedCards(collection);
-                final InputConfirm inp = new InputConfirm(this, fm,
-                        localizer.getMessage("lblOK"), localizer.getMessage("lblEndTurn"), true);
-                inp.showAndWait();
-                if (!inp.getResult()) {
-                    FThreads.invokeInEdtLater(this::autoPassUntilEndOfTurn);
+            try {
+                TrackableCollection<CardView> collection = CardView.getCollection(cards);
+                // State the revealed cards and let the GUI show them, instead of listing their names in a dialog
+                final boolean revealInPrompt = zone == ZoneType.Hand
+                        && owner != getLocalPlayerView()
+                        && FModel.getPreferences().getPrefBoolean(FPref.UI_SELECT_FROM_CARD_DISPLAYS)
+                        && !getGui().isLibgdxPort();
+                if (revealInPrompt) {
+                    getGui().showRevealedCards(collection);
+                    final InputConfirm inp = new InputConfirm(this, fm,
+                            localizer.getMessage("lblOK"), localizer.getMessage("lblEndTurn"), true);
+                    inp.showAndWait();
+                    if (!inp.getResult()) {
+                        FThreads.invokeInEdtLater(this::autoPassUntilEndOfTurn);
+                    }
+                } else {
+                    getGui().reveal(fm, collection);
                 }
-                getGui().hideRevealedCards();
-            } else {
-                getGui().reveal(fm, collection);
+                getGui().updateRevealedCards(collection);
+            } finally {
+                try { getGui().hideRevealedCards(); }
+                finally { endTempShowCards(); }
             }
-            getGui().updateRevealedCards(collection);
-            endTempShowCards();
         }
     }
 
@@ -998,6 +1220,13 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public ImmutablePair<CardCollection, CardCollection> arrangeForScry(final CardCollection topN) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, null,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedArrangeForScry(topN),
+                next -> next.arrangeForScry(forge.gamemodes.net.DecisionOptions.cards(topN)));
+    }
+
+    private ImmutablePair<CardCollection, CardCollection> untimedArrangeForScry(final CardCollection topN) {
         final ImmutablePair<CardCollection, CardCollection> remembered = macros().consumeRememberedScry(topN);
         if (remembered != null) {
             return remembered;
@@ -1047,6 +1276,13 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public ImmutablePair<CardCollection, CardCollection> arrangeForSurveil(final CardCollection topN) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, null,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedArrangeForSurveil(topN),
+                next -> next.arrangeForSurveil(forge.gamemodes.net.DecisionOptions.cards(topN)));
+    }
+
+    private ImmutablePair<CardCollection, CardCollection> untimedArrangeForSurveil(final CardCollection topN) {
         CardCollection toGrave = null;
         CardCollection toTop = null;
 
@@ -1089,6 +1325,13 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public boolean willPutCardOnTop(final Card c) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, null,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedWillPutCardOnTop(c),
+                next -> next.willPutCardOnTop(c));
+    }
+
+    private boolean untimedWillPutCardOnTop(final Card c) {
         final CardView view = CardView.get(c);
 
         tempShowCard(c);
@@ -1103,6 +1346,13 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public CardCollectionView orderMoveToZoneList(final CardCollectionView cards, final ZoneType destinationZone, final SpellAbility source) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, source,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedOrderMoveToZoneList(cards, destinationZone, source),
+                next -> next.orderMoveToZoneList(forge.gamemodes.net.DecisionOptions.cards(cards), destinationZone, source));
+    }
+
+    private CardCollectionView untimedOrderMoveToZoneList(final CardCollectionView cards, final ZoneType destinationZone, final SpellAbility source) {
         if (source == null || source.getApi() != ApiType.ReorderZone) {
             if (destinationZone == ZoneType.Graveyard) {
                 switch (FModel.getPreferences().getPref(FPref.UI_ALLOW_ORDER_GRAVEYARD_WHEN_NEEDED)) {
@@ -1176,6 +1426,15 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
     public CardCollectionView chooseCardsToDiscardFrom(final Player p, final SpellAbility sa,
                                                        final CardCollection valid, final int min, final int max,
                                                        final CardCollectionView visibleToChooser) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, sa,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseCardsToDiscardFrom(p, sa, valid, min, max, visibleToChooser),
+                next -> next.chooseCardsToDiscardFrom(p, sa, forge.gamemodes.net.DecisionOptions.cards(valid), Math.min(min, forge.gamemodes.net.DecisionOptions.cards(valid).size()), Math.min(max, forge.gamemodes.net.DecisionOptions.cards(valid).size()), forge.gamemodes.net.DecisionOptions.cards(visibleToChooser)));
+    }
+
+    private CardCollectionView untimedChooseCardsToDiscardFrom(final Player p, final SpellAbility sa,
+                                                       final CardCollection valid, final int min, final int max,
+                                                       final CardCollectionView visibleToChooser) {
         boolean optional = min == 0;
 
         if (p != player) {
@@ -1205,6 +1464,13 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public CardCollectionView chooseCardsToDelve(final int genericAmount, final CardCollection grave) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, null,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseCardsToDelve(genericAmount, grave),
+                next -> next.chooseCardsToDelve(genericAmount, forge.gamemodes.net.DecisionOptions.cards(grave)));
+    }
+
+    private CardCollectionView untimedChooseCardsToDelve(final int genericAmount, final CardCollection grave) {
         final int cardsInGrave = Math.min(genericAmount, grave.size());
         if (cardsInGrave == 0) {
             return CardCollection.EMPTY;
@@ -1243,6 +1509,14 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
     @Override
     public CardCollectionView chooseCardsToDiscardUnlessType(final int num, final CardCollectionView hand,
                                                              final String[] uTypes, final SpellAbility sa) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, sa,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseCardsToDiscardUnlessType(num, hand, uTypes, sa),
+                next -> next.chooseCardsToDiscardUnlessType(num, forge.gamemodes.net.DecisionOptions.cards(hand), uTypes, sa));
+    }
+
+    private CardCollectionView untimedChooseCardsToDiscardUnlessType(final int num, final CardCollectionView hand,
+                                                             final String[] uTypes, final SpellAbility sa) {
         final InputSelectEntitiesFromList<Card> target = new InputSelectEntitiesFromList<Card>(this, num, num, hand, sa) {
             private static final long serialVersionUID = -5774108410928795591L;
 
@@ -1279,6 +1553,13 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
      */
     @Override
     public Mana chooseManaFromPool(final List<Mana> manaChoices) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, null,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseManaFromPool(manaChoices),
+                next -> next.chooseManaFromPool(forge.gamemodes.net.DecisionOptions.list(manaChoices)));
+    }
+
+    private Mana untimedChooseManaFromPool(final List<Mana> manaChoices) {
         if (!isFullControl(FullControlFlag.ChooseManaPoolShard))
             return manaChoices.get(0);
         // TODO check if there are any special properties?
@@ -1300,6 +1581,13 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
      */
     @Override
     public String chooseSomeType(final String kindOfType, final SpellAbility sa, final Collection<String> validTypes, final boolean isOptional) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, sa,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseSomeType(kindOfType, sa, validTypes, isOptional),
+                next -> next.chooseSomeType(kindOfType, sa, validTypes, isOptional));
+    }
+
+    private String untimedChooseSomeType(final String kindOfType, final SpellAbility sa, final Collection<String> validTypes, final boolean isOptional) {
         final List<String> types = Lists.newArrayList(validTypes);
         if (kindOfType.equals("Creature")) {
             sortCreatureTypes(types);
@@ -1397,6 +1685,13 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public Sticker chooseSticker(List<Sticker> options, Card target, SpellAbility sa, boolean isOptional) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, sa,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseSticker(options, target, sa, isOptional),
+                next -> next.chooseSticker(forge.gamemodes.net.DecisionOptions.list(options), target, sa, isOptional));
+    }
+
+    private Sticker untimedChooseSticker(List<Sticker> options, Card target, SpellAbility sa, boolean isOptional) {
         String title = localizer.getMessage("lblChooseSticker", CardTranslation.getTranslatedName(target.getName()));
         final List<String> labels = Lists.newArrayList();
         final List<Integer> indices = Lists.newArrayList();
@@ -1418,12 +1713,26 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public Card chooseCardToKeepStickers(CardCollectionView options) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, null,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseCardToKeepStickers(options),
+                next -> next.chooseCardToKeepStickers(forge.gamemodes.net.DecisionOptions.cards(options)));
+    }
+
+    private Card untimedChooseCardToKeepStickers(CardCollectionView options) {
         return chooseSingleEntityForEffect(options, null, null,
                 localizer.getMessage("lblChooseCardToKeepStickers"), false, null, null);
     }
 
     @Override
     public int chooseStickerNamePosition(Sticker sticker, Card target) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, null,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseStickerNamePosition(sticker, target),
+                next -> next.chooseStickerNamePosition(sticker, target));
+    }
+
+    private int untimedChooseStickerNamePosition(Sticker sticker, Card target) {
         // CR 123.6a
         if (StringUtils.isBlank(target.getName()) || target.stickerWouldFillBlank()) {
             return 0;
@@ -1442,6 +1751,13 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public String chooseSector(Card assignee, String ai, List<String> sectors) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, null,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseSector(assignee, ai, sectors),
+                next -> next.chooseSector(assignee, ai, forge.gamemodes.net.DecisionOptions.list(sectors)));
+    }
+
+    private String untimedChooseSector(Card assignee, String ai, List<String> sectors) {
         String prompt;
         if (assignee != null) {
             String creature = assignee.getTranslatedName() + " (" + assignee.getId() + ")";
@@ -1454,6 +1770,13 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public int chooseSprocket(Card assignee, List<Integer> sprockets) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, null,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseSprocket(assignee, sprockets),
+                next -> next.chooseSprocket(assignee, forge.gamemodes.net.DecisionOptions.list(sprockets)));
+    }
+
+    private int untimedChooseSprocket(Card assignee, List<Integer> sprockets) {
         String cardName = assignee.getTranslatedName() + " (" + assignee.getId() + ")";
         String prompt = Localizer.getInstance().getMessage("lblAssignSprocket", cardName);
         int crankedNextTurn = (player.getCrankCounter() % 3) + 1;
@@ -1475,37 +1798,87 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public PlanarDice choosePDRollToIgnore(List<PlanarDice> rolls) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, null,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChoosePDRollToIgnore(rolls),
+                next -> next.choosePDRollToIgnore(forge.gamemodes.net.DecisionOptions.list(rolls)));
+    }
+
+    private PlanarDice untimedChoosePDRollToIgnore(List<PlanarDice> rolls) {
         return getGui().one(Localizer.getInstance().getMessage("lblChooseRollIgnore"), rolls);
     }
 
     @Override
     public Integer chooseRollToIgnore(List<Integer> rolls) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, null,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseRollToIgnore(rolls),
+                next -> next.chooseRollToIgnore(forge.gamemodes.net.DecisionOptions.list(rolls)));
+    }
+
+    private Integer untimedChooseRollToIgnore(List<Integer> rolls) {
         return getGui().one(Localizer.getInstance().getMessage("lblChooseRollIgnore"), rolls);
     }
 
     @Override
     public List<Integer> chooseDiceToReroll(List<Integer> rolls) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, null,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseDiceToReroll(rolls),
+                next -> next.chooseDiceToReroll(forge.gamemodes.net.DecisionOptions.list(rolls)));
+    }
+
+    private List<Integer> untimedChooseDiceToReroll(List<Integer> rolls) {
         return getGui().many(Localizer.getInstance().getMessage("lblChooseDiceToRerollTitle"),
                 Localizer.getInstance().getMessage("lblChooseDiceToRerollCaption"),0, rolls.size(), rolls, null);
     }
 
     @Override
     public Integer chooseRollToModify(List<Integer> rolls) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, null,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseRollToModify(rolls),
+                next -> next.chooseRollToModify(forge.gamemodes.net.DecisionOptions.list(rolls)));
+    }
+
+    private Integer untimedChooseRollToModify(List<Integer> rolls) {
         return getGui().oneOrNone(Localizer.getInstance().getMessage("lblChooseRollToModify"), rolls);
     }
 
     @Override
     public RollDiceEffect.DieRollResult chooseRollToSwap(List<RollDiceEffect.DieRollResult> rolls) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, null,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseRollToSwap(rolls),
+                next -> next.chooseRollToSwap(forge.gamemodes.net.DecisionOptions.list(rolls)));
+    }
+
+    private RollDiceEffect.DieRollResult untimedChooseRollToSwap(List<RollDiceEffect.DieRollResult> rolls) {
         return getGui().oneOrNone(Localizer.getInstance().getMessage("lblChooseRollToSwap"), rolls);
     }
 
     @Override
     public String chooseRollSwapValue(List<String> swapChoices, Integer currentResult, int power, int toughness) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, null,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseRollSwapValue(swapChoices, currentResult, power, toughness),
+                next -> next.chooseRollSwapValue(forge.gamemodes.net.DecisionOptions.list(swapChoices), currentResult, power, toughness));
+    }
+
+    private String untimedChooseRollSwapValue(List<String> swapChoices, Integer currentResult, int power, int toughness) {
         return getGui().oneOrNone(Localizer.getInstance().getMessage("lblChooseSwapPT", currentResult, power, toughness), swapChoices);
     }
 
     @Override
     public Object vote(final SpellAbility sa, final String prompt, final List<Object> options,
+                       final ListMultimap<Object, Player> votes, Player forPlayer, boolean optional) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, sa,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedVote(sa, prompt, options, votes, forPlayer, optional),
+                next -> next.vote(sa, prompt, forge.gamemodes.net.DecisionOptions.list(options), votes, forPlayer, optional));
+    }
+
+    private Object untimedVote(final SpellAbility sa, final String prompt, final List<Object> options,
                        final ListMultimap<Object, Player> votes, Player forPlayer, boolean optional) {
         if (sa.hasParam("Choices")) {
             return chooseSpellAbilitiesForEffect(Lists.newArrayList(IterableUtil.filter(options, SpellAbility.class)), sa, prompt, 1, null).get(0);
@@ -1524,6 +1897,14 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
     @Override
     public boolean confirmReplacementEffect(final ReplacementEffect replacementEffect, final SpellAbility effectSA,
                                             GameEntity affected, final String question) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, effectSA,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedConfirmReplacementEffect(replacementEffect, effectSA, affected, question),
+                next -> next.confirmReplacementEffect(replacementEffect, effectSA, affected, question));
+    }
+
+    private boolean untimedConfirmReplacementEffect(final ReplacementEffect replacementEffect, final SpellAbility effectSA,
+                                            GameEntity affected, final String question) {
         if (getGui().isLibgdxPort()) {
             CardView cardView;
             SpellAbilityView spellAbilityView = effectSA == null ? null : effectSA.getView();
@@ -1538,6 +1919,13 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public boolean mulliganKeepHand(final Player mulliganingPlayer, int cardsToReturn) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, null,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedMulliganKeepHand(mulliganingPlayer, cardsToReturn),
+                next -> next.mulliganKeepHand(mulliganingPlayer, cardsToReturn));
+    }
+
+    private boolean untimedMulliganKeepHand(final Player mulliganingPlayer, int cardsToReturn) {
         // TODO we should be passing tuckCards into Confirmation Dialog
         final InputConfirmMulligan inp = new InputConfirmMulligan(this, player, mulliganingPlayer);
         inp.showAndWait();
@@ -1546,6 +1934,13 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public CardCollectionView tuckCardsViaMulligan(CardCollectionView hand, int cardsToReturn) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, null,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedTuckCardsViaMulligan(hand, cardsToReturn),
+                next -> next.tuckCardsViaMulligan(forge.gamemodes.net.DecisionOptions.cards(hand), cardsToReturn));
+    }
+
+    private CardCollectionView untimedTuckCardsViaMulligan(CardCollectionView hand, int cardsToReturn) {
         final InputLondonMulligan inp = new InputLondonMulligan(this, player, cardsToReturn);
         inp.showAndWait();
         return inp.getSelectedCards();
@@ -1553,6 +1948,13 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public void declareAttackers(final Player attackingPlayer, final Combat combat) {
+        forge.gamemodes.net.TimedGameDecisions.choose(this, null,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.DECLARATION,
+                () -> { untimedDeclareAttackers(attackingPlayer, combat); return null; },
+                next -> { next.declareAttackers(attackingPlayer, combat); return null; });
+    }
+
+    private void untimedDeclareAttackers(final Player attackingPlayer, final Combat combat) {
         // CombatUtil.canAttack ensures we only get here when the player has a legal attacker
         // so APINA must never skip - the invocation itself is the available action. User
         // initiated yields (pass until end of turn) still skip when not-attacking is legal.
@@ -1571,6 +1973,13 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public void declareBlockers(final Player defender, final Combat combat) {
+        forge.gamemodes.net.TimedGameDecisions.choose(this, null,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.DECLARATION,
+                () -> { untimedDeclareBlockers(defender, combat); return null; },
+                next -> { next.declareBlockers(defender, combat); return null; });
+    }
+
+    private void untimedDeclareBlockers(final Player defender, final Combat combat) {
         // This input should not modify combat object itself, but should return user choice
         final InputBlock inpBlock = new InputBlock(this, defender, combat);
         inpBlock.showAndWait();
@@ -1695,6 +2104,13 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public List<SpellAbility> chooseSpellAbilityToPlay() {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, null,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.PRIORITY,
+                () -> untimedChooseSpellAbilityToPlay(),
+                next -> next.chooseSpellAbilityToPlay());
+    }
+
+    private List<SpellAbility> untimedChooseSpellAbilityToPlay() {
         netLog.trace("ENTRY for player {}, phase={}, isGameOver={}",
                 player.getName(), getGame().getPhaseHandler().getPhase(), getGame().isGameOver());
         final MagicStack stack = getGame().getStack();
@@ -1771,6 +2187,21 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public CardCollectionView chooseCardsToDiscardToMaximumHandSize(final int nDiscard) {
+        final forge.game.player.PlayerDecisionFrame frame = forge.game.player.PlayerDecisionFrame.enter(
+                forge.game.player.PlayerDecisionFrame.Kind.PLAYER_ACTION, player, null);
+        try (frame) {
+            return forge.gamemodes.net.TimedGameDecisions.choose(this, null,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseCardsToDiscardToMaximumHandSize(nDiscard),
+                next -> next.chooseCardsToDiscardToMaximumHandSize(nDiscard));
+        } catch (final forge.game.player.PlayerDecisionFrame.Aborted aborted) {
+            if (!frame.owns(aborted)) throw aborted;
+            // The departed player no longer has a cleanup discard obligation or hand.
+            return new CardCollection();
+        }
+    }
+
+    private CardCollectionView untimedChooseCardsToDiscardToMaximumHandSize(final int nDiscard) {
         final int max = player.getMaxHandSize();
 
         if (getGui().isLibgdxPort()) {
@@ -1802,6 +2233,13 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public CardCollectionView chooseCardsToRevealFromHand(int min, int max, final CardCollectionView valid) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, null,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseCardsToRevealFromHand(min, max, valid),
+                next -> next.chooseCardsToRevealFromHand(Math.min(min, forge.gamemodes.net.DecisionOptions.cards(valid).size()), Math.min(max, forge.gamemodes.net.DecisionOptions.cards(valid).size()), forge.gamemodes.net.DecisionOptions.cards(valid)));
+    }
+
+    private CardCollectionView untimedChooseCardsToRevealFromHand(int min, int max, final CardCollectionView valid) {
         max = Math.min(max, valid.size());
         min = Math.min(min, max);
         final InputSelectCardsFromList inp = new InputSelectCardsFromList(this, min, max, valid);
@@ -1820,6 +2258,13 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public List<SpellAbility> chooseSaToActivateFromOpeningHand(final List<SpellAbility> usableFromOpeningHand) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, null,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseSaToActivateFromOpeningHand(usableFromOpeningHand),
+                next -> next.chooseSaToActivateFromOpeningHand(forge.gamemodes.net.DecisionOptions.list(usableFromOpeningHand)));
+    }
+
+    private List<SpellAbility> untimedChooseSaToActivateFromOpeningHand(final List<SpellAbility> usableFromOpeningHand) {
         final CardCollection srcCards = new CardCollection();
         for (final SpellAbility sa : usableFromOpeningHand) {
             srcCards.add(sa.getHostCard());
@@ -1849,6 +2294,13 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public PlayerZone chooseStartingHand(List<PlayerZone> zones) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, null,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseStartingHand(zones),
+                next -> next.chooseStartingHand(forge.gamemodes.net.DecisionOptions.list(zones)));
+    }
+
+    private PlayerZone untimedChooseStartingHand(List<PlayerZone> zones) {
         // Create new zone objects in the UI temporarily.
         // Spawn a new input dialog, it works by selecting a card in the zone you want and clicking OK
         // The card will then extract the PlayerZone via the card that is chosen and return it to this function
@@ -1861,6 +2313,14 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public boolean chooseBinary(final SpellAbility sa, final String question, final BinaryChoiceType kindOfChoice,
+                                final Boolean defaultVal) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, sa,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseBinary(sa, question, kindOfChoice, defaultVal),
+                next -> next.chooseBinary(sa, question, kindOfChoice, defaultVal));
+    }
+
+    private boolean untimedChooseBinary(final SpellAbility sa, final String question, final BinaryChoiceType kindOfChoice,
                                 final Boolean defaultVal) {
         final List<String> labels;
         switch (kindOfChoice) {
@@ -1900,6 +2360,13 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public boolean chooseFlipResult(final SpellAbility sa, final Player flipper, final boolean call) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, sa,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseFlipResult(sa, flipper, call),
+                next -> next.chooseFlipResult(sa, flipper, call));
+    }
+
+    private boolean untimedChooseFlipResult(final SpellAbility sa, final Player flipper, final boolean call) {
         final List<String> labelsSrc = call ? List.of(localizer.getMessage("lblHeads"), localizer.getMessage("lblTails"))
                 : List.of(localizer.getMessage("lblWinTheFlip"), localizer.getMessage("lblLoseTheFlip"));
         return getGui().one(sa.getHostCard().getDisplayName() + " - " + localizer.getMessage("lblChooseAResult"), labelsSrc).equals(labelsSrc.get(0));
@@ -1907,6 +2374,14 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public Pair<SpellAbilityStackInstance, GameObject> chooseTarget(final SpellAbility saSpellskite,
+                                                                    final List<Pair<SpellAbilityStackInstance, GameObject>> allTargets) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, saSpellskite,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseTarget(saSpellskite, allTargets),
+                next -> next.chooseTarget(saSpellskite, forge.gamemodes.net.DecisionOptions.list(allTargets)));
+    }
+
+    private Pair<SpellAbilityStackInstance, GameObject> untimedChooseTarget(final SpellAbility saSpellskite,
                                                                     final List<Pair<SpellAbilityStackInstance, GameObject>> allTargets) {
         if (allTargets.size() < 2) {
             return Iterables.getFirst(allTargets, null);
@@ -1919,6 +2394,12 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public void notifyOfValue(final SpellAbility sa, final GameObject realtedTarget, final String value) {
+        forge.gamemodes.net.TimedGameDecisions.choose(this, sa,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.NOTICE,
+                () -> { untimedNotifyOfValue(sa, realtedTarget, value); return null; }, next -> null);
+    }
+
+    private void untimedNotifyOfValue(final SpellAbility sa, final GameObject realtedTarget, final String value) {
         yieldController.maybeInterruptOnReveal();
         final String message = MessageUtil.formatNotificationMessage(sa, player, realtedTarget, value);
         if (sa != null && sa.isManaAbility()) {
@@ -1944,6 +2425,14 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
      */
     @Override
     public List<AbilitySub> chooseModeForAbility(final SpellAbility sa, List<AbilitySub> possible, final int min, final int num,
+                                                 boolean allowRepeat) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, sa,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseModeForAbility(sa, possible, min, num, allowRepeat),
+                next -> next.chooseModeForAbility(sa, forge.gamemodes.net.DecisionOptions.list(possible), min, num, allowRepeat));
+    }
+
+    private List<AbilitySub> untimedChooseModeForAbility(final SpellAbility sa, List<AbilitySub> possible, final int min, final int num,
                                                  boolean allowRepeat) {
         if (!allowRepeat && min == num && num == possible.size()) {
             return possible;
@@ -2011,11 +2500,25 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public ColorSet chooseColors(final String message, final SpellAbility sa, final int min, final int max, ColorSet options) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, sa,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseColors(message, sa, min, max, options),
+                next -> next.chooseColors(message, sa, min, max, options));
+    }
+
+    private ColorSet untimedChooseColors(final String message, final SpellAbility sa, final int min, final int max, ColorSet options) {
         return ColorSet.fromEnums(getGui().getChoices(message, min, max, Lists.newArrayList(options.getOrderedColors())));
     }
 
     @Override
     public byte chooseColor(final String message, final SpellAbility sa, final ColorSet colors) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, sa,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseColor(message, sa, colors),
+                next -> next.chooseColor(message, sa, colors));
+    }
+
+    private byte untimedChooseColor(final String message, final SpellAbility sa, final ColorSet colors) {
         final int cntColors = colors.countColors();
         switch (cntColors) {
             case 0:
@@ -2029,6 +2532,13 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public byte chooseColorAllowColorless(final String message, final Card c, final ColorSet colors) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, null,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseColorAllowColorless(message, c, colors),
+                next -> next.chooseColorAllowColorless(message, c, colors));
+    }
+
+    private byte untimedChooseColorAllowColorless(final String message, final Card c, final ColorSet colors) {
         final int cntColors = 1 + colors.countColors();
         switch (cntColors) {
             case 1:
@@ -2064,6 +2574,14 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
     @Override
     public ICardFace chooseSingleCardFace(final SpellAbility sa, final String message, final Predicate<ICardFace> cpp,
                                           final String name) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, sa,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseSingleCardFace(sa, message, cpp, name),
+                next -> next.chooseSingleCardFace(sa, message, cpp, name));
+    }
+
+    private ICardFace untimedChooseSingleCardFace(final SpellAbility sa, final String message, final Predicate<ICardFace> cpp,
+                                          final String name) {
         FModel.getMagicDb().ensureAllCardsLoaded();
         List<CardFaceView> choices = FModel.getMagicDb().getCommonCards().streamAllFaces()
                 .filter(cpp)
@@ -2078,6 +2596,13 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public ICardFace chooseSingleCardFace(SpellAbility sa, List<ICardFace> faces, String message) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, sa,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseSingleCardFace(sa, faces, message),
+                next -> next.chooseSingleCardFace(sa, forge.gamemodes.net.DecisionOptions.list(faces), message));
+    }
+
+    private ICardFace untimedChooseSingleCardFace(SpellAbility sa, List<ICardFace> faces, String message) {
         Map<CardFaceView, ICardFace> mapped = faces.stream().collect(Collectors.toMap(CardFaceView::new, Function.identity(), (a, b) -> a, TreeMap::new));
         if (mapped.isEmpty())
             return null;
@@ -2088,6 +2613,14 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
     @Override
     public CounterType chooseCounterType(final List<CounterType> options, final SpellAbility sa, final String prompt,
                                          Map<String, Object> params) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, sa,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseCounterType(options, sa, prompt, params),
+                next -> next.chooseCounterType(forge.gamemodes.net.DecisionOptions.list(options), sa, prompt, params));
+    }
+
+    private CounterType untimedChooseCounterType(final List<CounterType> options, final SpellAbility sa, final String prompt,
+                                         Map<String, Object> params) {
         if (options.size() <= 1) {
             return Iterables.getFirst(options, null);
         }
@@ -2096,6 +2629,13 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public CardState chooseSingleCardState(SpellAbility sa, List<CardState> states, String message, Map<String, Object> params) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, sa,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseSingleCardState(sa, states, message, params),
+                next -> next.chooseSingleCardState(sa, forge.gamemodes.net.DecisionOptions.list(states), message, params));
+    }
+
+    private CardState untimedChooseSingleCardState(SpellAbility sa, List<CardState> states, String message, Map<String, Object> params) {
         if (states.size() <= 1) {
             return Iterables.getFirst(states, null);
         }
@@ -2106,6 +2646,13 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public String chooseKeywordForPump(final List<String> options, final SpellAbility sa, final String prompt, final Card tgtCard) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, sa,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseKeywordForPump(options, sa, prompt, tgtCard),
+                next -> next.chooseKeywordForPump(forge.gamemodes.net.DecisionOptions.list(options), sa, prompt, tgtCard));
+    }
+
+    private String untimedChooseKeywordForPump(final List<String> options, final SpellAbility sa, final String prompt, final Card tgtCard) {
         if (options.size() <= 1) {
             return Iterables.getFirst(options, null);
         }
@@ -2114,6 +2661,12 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public boolean confirmPayment(final CostPart costPart, final String question, SpellAbility sa) {
+        return forge.gamemodes.net.TimedGameDecisions.pay(this, sa,
+                () -> untimedConfirmPayment(costPart, question, sa),
+                next -> next.confirmPayment(costPart, question, sa));
+    }
+
+    private boolean untimedConfirmPayment(final CostPart costPart, final String question, SpellAbility sa) {
         if (getGui().isLibgdxPort()) {
             CardView cardView;
             try {
@@ -2141,6 +2694,13 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public ReplacementEffect chooseSingleReplacementEffect(final List<ReplacementEffect> possibleReplacers) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, null,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseSingleReplacementEffect(possibleReplacers),
+                next -> next.chooseSingleReplacementEffect(forge.gamemodes.net.DecisionOptions.list(possibleReplacers)));
+    }
+
+    private ReplacementEffect untimedChooseSingleReplacementEffect(final List<ReplacementEffect> possibleReplacers) {
         final ReplacementEffect first = possibleReplacers.get(0);
         if (possibleReplacers.size() == 1) {
             return first;
@@ -2254,6 +2814,13 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public StaticAbility chooseSingleStaticAbility(final List<StaticAbility> possibleStatics) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, null,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseSingleStaticAbility(possibleStatics),
+                next -> next.chooseSingleStaticAbility(forge.gamemodes.net.DecisionOptions.list(possibleStatics)));
+    }
+
+    private StaticAbility untimedChooseSingleStaticAbility(final List<StaticAbility> possibleStatics) {
         final StaticAbility first = possibleStatics.get(0);
         boolean isCostReduction = first.getMode().contains(StaticAbilityMode.ReduceCost);
         // return first option without prompting if all options are the same, or if they don't care about ordering costs
@@ -2269,6 +2836,13 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public String chooseProtectionType(final SpellAbility sa, final List<String> choices) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, sa,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseProtectionType(sa, choices),
+                next -> next.chooseProtectionType(sa, forge.gamemodes.net.DecisionOptions.list(choices)));
+    }
+
+    private String untimedChooseProtectionType(final SpellAbility sa, final List<String> choices) {
         return getGui().one(Localizer.getInstance().getMessage("lblChooseAProtection"), choices);
     }
 
@@ -2296,6 +2870,13 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public List<SpellAbility> orderSimultaneousSa(List<SpellAbility> activePlayerSAs) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, null,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.STACK_ORDER,
+                () -> untimedOrderSimultaneousSa(activePlayerSAs),
+                next -> next.orderSimultaneousSa(forge.gamemodes.net.DecisionOptions.list(activePlayerSAs)));
+    }
+
+    private List<SpellAbility> untimedOrderSimultaneousSa(List<SpellAbility> activePlayerSAs) {
         if (activePlayerSAs.size() < 2)
             return activePlayerSAs;
         boolean needPrompt = !activePlayerSAs.get(0).isTrigger();
@@ -2460,6 +3041,13 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public boolean chooseTargetsFor(final SpellAbility currentAbility) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, currentAbility,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseTargetsFor(currentAbility),
+                next -> next.chooseTargetsFor(currentAbility));
+    }
+
+    private boolean untimedChooseTargetsFor(final SpellAbility currentAbility) {
         final TargetSelection select = new TargetSelection(this, currentAbility);
         boolean canFilterMustTarget = true;
 
@@ -2540,6 +3128,13 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
      */
     @Override
     public TargetChoices chooseNewTargetsFor(final SpellAbility ability, Predicate<GameObject> filter, boolean optional) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, ability,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseNewTargetsFor(ability, filter, optional),
+                next -> next.chooseNewTargetsFor(ability, filter, optional));
+    }
+
+    private TargetChoices untimedChooseNewTargetsFor(final SpellAbility ability, Predicate<GameObject> filter, boolean optional) {
         final SpellAbility sa = ability.isWrapper() ? ((WrappedAbility) ability).getWrappedAbility() : ability;
         if (!sa.usesTargeting()) {
             return null;
@@ -2558,6 +3153,14 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public boolean chooseCardsPile(final SpellAbility sa, final CardCollectionView pile1,
+                                   final CardCollectionView pile2, final String faceUp) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, sa,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseCardsPile(sa, pile1, pile2, faceUp),
+                next -> next.chooseCardsPile(sa, forge.gamemodes.net.DecisionOptions.cards(pile1), forge.gamemodes.net.DecisionOptions.cards(pile2), faceUp));
+    }
+
+    private boolean untimedChooseCardsPile(final SpellAbility sa, final CardCollectionView pile1,
                                    final CardCollectionView pile2, final String faceUp) {
         final String p1Str = TextUtil.concatNoSpace("-- Pile 1 (", String.valueOf(pile1.size()), " cards) --");
         final String p2Str = TextUtil.concatNoSpace("-- Pile 2 (", String.valueOf(pile2.size()), " cards) --");
@@ -2664,6 +3267,12 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public boolean applyManaToCost(ManaCostBeingPaid toPay, SpellAbility ability, String prompt, ManaConversionMatrix matrix, boolean effect) {
+        return forge.gamemodes.net.TimedGameDecisions.pay(this, ability,
+                () -> untimedApplyManaToCost(toPay, ability, prompt, matrix, effect),
+                next -> next.applyManaToCost(toPay, ability, prompt, matrix, effect));
+    }
+
+    private boolean untimedApplyManaToCost(ManaCostBeingPaid toPay, SpellAbility ability, String prompt, ManaConversionMatrix matrix, boolean effect) {
         InputPayMana inpPayment = new InputPayManaOfCostPayment(this, toPay, ability, player, matrix, effect);
         inpPayment.setMessagePrefix(prompt);
         inpPayment.showAndWait();
@@ -2672,6 +3281,13 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public CardCollectionView chooseCardsForCost(CardCollectionView optionList, SpellAbility sa, CostPartWithList cpl, int amount, boolean isOptional, String prompt) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, sa,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseCardsForCost(optionList, sa, cpl, amount, isOptional, prompt),
+                next -> next.chooseCardsForCost(forge.gamemodes.net.DecisionOptions.cards(optionList), sa, cpl, Math.min(amount, forge.gamemodes.net.DecisionOptions.cards(optionList).size()), isOptional, prompt));
+    }
+
+    private CardCollectionView untimedChooseCardsForCost(CardCollectionView optionList, SpellAbility sa, CostPartWithList cpl, int amount, boolean isOptional, String prompt) {
         InputSelectCardsFromList inp = new InputSelectCardsFromList(this, amount, amount, optionList, sa);
         inp.setMessage(prompt);
         inp.setCancelAllowed(isOptional);
@@ -2692,6 +3308,14 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
     @Override
     public Map<Card, ManaCostShard> chooseCardsForConvokeOrImprovise(final SpellAbility sa, final ManaCost manaCost,
                                                                      final CardCollectionView untappedCards, boolean artifacts, boolean creatures, Integer maxReduction) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, sa,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseCardsForConvokeOrImprovise(sa, manaCost, untappedCards, artifacts, creatures, maxReduction),
+                next -> next.chooseCardsForConvokeOrImprovise(sa, manaCost, forge.gamemodes.net.DecisionOptions.cards(untappedCards), artifacts, creatures, maxReduction));
+    }
+
+    private Map<Card, ManaCostShard> untimedChooseCardsForConvokeOrImprovise(final SpellAbility sa, final ManaCost manaCost,
+                                                                     final CardCollectionView untappedCards, boolean artifacts, boolean creatures, Integer maxReduction) {
         final InputSelectCardsForConvokeOrImprovise inp = new InputSelectCardsForConvokeOrImprovise(this, player,
                 sa, manaCost, untappedCards, artifacts, creatures, maxReduction);
         inp.showAndWait();
@@ -2700,6 +3324,14 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public String chooseCardName(final SpellAbility sa, final Predicate<ICardFace> cpp, final String valid,
+                                 final String message) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, sa,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseCardName(sa, cpp, valid, message),
+                next -> next.chooseCardName(sa, cpp, valid, message));
+    }
+
+    private String untimedChooseCardName(final SpellAbility sa, final Predicate<ICardFace> cpp, final String valid,
                                  final String message) {
         while (true) {
             final ICardFace cardFace = chooseSingleCardFace(sa, message, cpp, sa.getHostCard().getName());
@@ -2721,10 +3353,28 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
     public Card chooseSingleCardForZoneChange(final ZoneType destination, final List<ZoneType> origin,
                                               final SpellAbility sa, final CardCollection fetchList, final DelayedReveal delayedReveal,
                                               final String selectPrompt, final boolean isOptional, final Player decider) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, sa,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseSingleCardForZoneChange(destination, origin, sa, fetchList, delayedReveal, selectPrompt, isOptional, decider),
+                next -> next.chooseSingleCardForZoneChange(destination, forge.gamemodes.net.DecisionOptions.list(origin), sa, forge.gamemodes.net.DecisionOptions.cards(fetchList), delayedReveal, selectPrompt, isOptional, decider));
+    }
+
+    private Card untimedChooseSingleCardForZoneChange(final ZoneType destination, final List<ZoneType> origin,
+                                              final SpellAbility sa, final CardCollection fetchList, final DelayedReveal delayedReveal,
+                                              final String selectPrompt, final boolean isOptional, final Player decider) {
         return chooseSingleEntityForEffect(fetchList, delayedReveal, sa, selectPrompt, isOptional, decider, null);
     }
 
     public List<Card> chooseCardsForZoneChange(final ZoneType destination, final List<ZoneType> origin,
+                                               final SpellAbility sa, final CardCollection fetchList, final int min, final int max, final DelayedReveal delayedReveal,
+                                               final String selectPrompt, final Player decider) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, sa,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseCardsForZoneChange(destination, origin, sa, fetchList, min, max, delayedReveal, selectPrompt, decider),
+                next -> next.chooseCardsForZoneChange(destination, forge.gamemodes.net.DecisionOptions.list(origin), sa, forge.gamemodes.net.DecisionOptions.cards(fetchList), Math.min(min, forge.gamemodes.net.DecisionOptions.cards(fetchList).size()), Math.min(max, forge.gamemodes.net.DecisionOptions.cards(fetchList).size()), delayedReveal, selectPrompt, decider));
+    }
+
+    private List<Card> untimedChooseCardsForZoneChange(final ZoneType destination, final List<ZoneType> origin,
                                                final SpellAbility sa, final CardCollection fetchList, final int min, final int max, final DelayedReveal delayedReveal,
                                                final String selectPrompt, final Player decider) {
         return chooseEntitiesForEffect(fetchList, min, max, delayedReveal, sa, selectPrompt, decider, null);
@@ -2795,7 +3445,7 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
     @Override
     public void useMana(final byte mana) {
         if (inputQueue.getInput() instanceof InputPayMana ipm) {
-            ipm.useManaFromPool(mana);
+            ipm.runInputAction(() -> ipm.useManaFromPool(mana));
         }
     }
 
@@ -3747,12 +4397,26 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public String chooseCardName(SpellAbility sa, List<ICardFace> faces, String message) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, sa,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseCardName(sa, faces, message),
+                next -> next.chooseCardName(sa, forge.gamemodes.net.DecisionOptions.list(faces), message));
+    }
+
+    private String untimedChooseCardName(SpellAbility sa, List<ICardFace> faces, String message) {
         ICardFace face = chooseSingleCardFace(sa, faces, message);
         return face == null ? "" : face.getName();
     }
 
     @Override
     public List<Card> chooseCardsForSplice(SpellAbility sa, List<Card> cards) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, sa,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseCardsForSplice(sa, cards),
+                next -> next.chooseCardsForSplice(sa, forge.gamemodes.net.DecisionOptions.list(cards)));
+    }
+
+    private List<Card> untimedChooseCardsForSplice(SpellAbility sa, List<Card> cards) {
         GameEntityViewMap<Card, CardView> gameCacheSplice = GameEntityView.getMap(cards);
 
         List<CardView> chosen = getGui().many(
@@ -3777,12 +4441,26 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
      */
     @Override
     public List<OptionalCostValue> chooseOptionalCosts(SpellAbility choosen, List<OptionalCostValue> optionalCost) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, choosen,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseOptionalCosts(choosen, optionalCost),
+                next -> next.chooseOptionalCosts(choosen, forge.gamemodes.net.DecisionOptions.list(optionalCost)));
+    }
+
+    private List<OptionalCostValue> untimedChooseOptionalCosts(SpellAbility choosen, List<OptionalCostValue> optionalCost) {
         return getGui().many(localizer.getMessage("lblChooseOptionalCosts"), localizer.getMessage("lblOptionalCosts"), 0, optionalCost.size(),
                 optionalCost, choosen.getHostCard().getView());
     }
 
     @Override
     public int chooseNumberForKeywordCost(SpellAbility sa, Cost cost, KeywordInterface keyword, String prompt, int max) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, sa,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseNumberForKeywordCost(sa, cost, keyword, prompt, max),
+                next -> next.chooseNumberForKeywordCost(sa, cost, keyword, prompt, max));
+    }
+
+    private int untimedChooseNumberForKeywordCost(SpellAbility sa, Cost cost, KeywordInterface keyword, String prompt, int max) {
         if (max <= 0) {
             return 0;
         }
@@ -3796,6 +4474,13 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public int chooseNumberForCostReduction(final SpellAbility sa, final int min, final int max) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, sa,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseNumberForCostReduction(sa, min, max),
+                next -> next.chooseNumberForCostReduction(sa, min, max));
+    }
+
+    private int untimedChooseNumberForCostReduction(final SpellAbility sa, final int min, final int max) {
         if (isFullControl(FullControlFlag.ChooseCostReductionOrderAndVariableAmount)) {
             return chooseNumber(sa, localizer.getMessage("lblChooseAmountCostReduction"), min, max);
         }
@@ -3804,6 +4489,13 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
 
     @Override
     public CardCollection chooseCardsForEffectMultiple(Map<String, CardCollection> validMap, SpellAbility sa, String title, boolean isOptional) {
+        return forge.gamemodes.net.TimedGameDecisions.choose(this, sa,
+                forge.gamemodes.net.TimedGameDecisions.Purpose.CHOICE,
+                () -> untimedChooseCardsForEffectMultiple(validMap, sa, title, isOptional),
+                next -> next.chooseCardsForEffectMultiple(validMap, sa, title, isOptional));
+    }
+
+    private CardCollection untimedChooseCardsForEffectMultiple(Map<String, CardCollection> validMap, SpellAbility sa, String title, boolean isOptional) {
         CardCollection result = new CardCollection();
         for (Map.Entry<String, CardCollection> e : validMap.entrySet()) {
             result.addAll(chooseCardsForEffect(e.getValue(), sa, title + " (" + e.getKey() + ")", 0, 1, isOptional, null));

@@ -65,6 +65,14 @@ public class VPrompt implements IVDoc<CPrompt> {
     private final FScrollPane messageScroller = new FScrollPane(tarMessage, false,
     		ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
     private final JLabel lblGames;
+    private final JLabel lblOperationClock = new FLabel.Builder().fontSize(13).build();
+    public void setOperationClock(final String text) {
+        lblOperationClock.setText(text);
+        lblOperationClock.setToolTipText("<html>" + text.replace("&", "&amp;").replace("<", "&lt;")
+                .replace(">", "&gt;").replace("  |  ", "<br>") + "</html>");
+        lblOperationClock.setVisible(!text.isEmpty());
+        if (parentCell != null) { parentCell.getBody().revalidate(); parentCell.getBody().repaint(); }
+    }
     private CardView card = null;
 
     public void setCardView(final CardView card) {
@@ -95,6 +103,8 @@ public class VPrompt implements IVDoc<CPrompt> {
                 .fontAlign(SwingConstants.CENTER)
                 .opaque()
                 .build();
+
+        lblOperationClock.setVisible(false);
 
         btnOK.addKeyListener(buttonKeyAdapter);
         btnCancel.addKeyListener(buttonKeyAdapter);
@@ -133,6 +143,7 @@ public class VPrompt implements IVDoc<CPrompt> {
         lblGames.setText(localizer.getMessage("lblGameSetup"));
 
         container.add(messageScroller, "span 2, w 10:100%, h 0:100%");
+        container.add(lblOperationClock, "span 2, w 10:100%, h 20px!, hidemode 3");
 
         boolean largerButtons = prefs.getPrefBoolean(FPref.UI_TOUCHSCREEN_OPTIMIZE);
         String constraints = largerButtons ? "w 10:50%, h 40%:40%:60px" : "w 10:50%, hmin 24px";

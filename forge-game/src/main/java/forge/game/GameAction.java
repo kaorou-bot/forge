@@ -2250,7 +2250,8 @@ public class GameAction {
         reveal(cards, zt, cardOwner, dontRevealToOwner, messagePrefix, true);
     }
     public void reveal(CardCollectionView cards, ZoneType zt, Player cardOwner, boolean dontRevealToOwner, String messagePrefix, boolean msgAddSuffix) {
-        for (Player p : game.getPlayers()) {
+        for (Player p : new PlayerCollection(game.getPlayers())) {
+            if (!p.isInGame()) continue;
             if (dontRevealToOwner && cardOwner == p) {
                 continue;
             }
@@ -2286,8 +2287,8 @@ public class GameAction {
             value = TextUtil.fastReplace(value, "CARDNAME", name);
             value = TextUtil.fastReplace(value, "NICKNAME", Lang.getInstance().getNickName(name));
         }
-        for (Player p : game.getPlayers()) {
-            if (playerExcept == p) continue;
+        for (Player p : new PlayerCollection(game.getPlayers())) {
+            if (playerExcept == p || !p.isInGame()) continue;
             p.getController().notifyOfValue(saSource, relatedTarget, value);
         }
     }
@@ -2371,6 +2372,7 @@ public class GameAction {
                 new MulliganService(first).perform();
             }
             if (game.isGameOver()) { break; } // conceded during "mulligan" prompt
+            if (!first.isInGame()) first = game.getNextPlayerAfter(first);
 
             game.setAge(GameStage.Play);
 

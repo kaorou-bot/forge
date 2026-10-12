@@ -5,6 +5,7 @@ import forge.game.player.PlayerView;
 import forge.gamemodes.net.CompatibleObjectDecoder;
 import forge.gamemodes.net.CompatibleObjectEncoder;
 import forge.gamemodes.net.NetworkLogConfig;
+import forge.relay.client.ConnectionAttempt;
 import forge.util.IHasForgeLog;
 import forge.gamemodes.net.ReplyPool;
 import forge.gamemodes.net.event.*;
@@ -25,12 +26,15 @@ import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.handler.timeout.IdleStateHandler;
 
 import java.util.List;
+import java.net.InetSocketAddress;
+import java.util.concurrent.Callable;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-public class FGameClient implements IToServer, IHasForgeLog {
+public class FGameClient implements IToServer, IHasForgeLog, AutoCloseable {
 
     public enum ReconnectState { CONNECTED, RECONNECTING, FAILED, SEAT_LOST }
 
@@ -54,7 +58,7 @@ public class FGameClient implements IToServer, IHasForgeLog {
     static final int HEARTBEAT_INTERVAL_SECONDS = Integer.getInteger("forge.net.heartbeatInterval", 15);
     static final int READER_IDLE_SECONDS = 45;
     private static final int[] BACKOFF_SECONDS = {1, 5, 15, 45, 60};
-    private static final int RESUME_WATCH_SECONDS = 5;
+    private static final int RESUME_WATCH_SECONDS = 20;
     private final IGuiGame clientGui;
     private final String hostname;
     private final Integer port;
@@ -65,6 +69,14 @@ public class FGameClient implements IToServer, IHasForgeLog {
     private volatile boolean disconnectSimulated;
     private volatile Channel channel;
     private AutoCloseable externalTransport;
+    private Callable<InetSocketAddress> reconnectTransport;
+    private volatile ConnectionAttempt reconnectAttempt;
+    private volatile boolean inMatch;
+    private volatile long lastReceivedNanos = System.nanoTime();
+    private volatile long heartbeatSentNanos;
+    private volatile long roundTripMillis = -1;
+    private final CountDownLatch initialLobby = new CountDownLatch(1);
+    private volatile boolean loginAccepted;
     private ReconnectState reconnectState = ReconnectState.CONNECTED;
     private boolean shuttingDown = false;
     private final Object reconnectLock = new Object();
@@ -75,6 +87,7 @@ public class FGameClient implements IToServer, IHasForgeLog {
     });
     private volatile ScheduledFuture<?> resumeWatch;
     private volatile ScheduledFuture<?> pendingAttempt;
+    private ScheduledFuture<?> foregroundWatch;
 
     public FGameClient(String username, IGuiGame clientGui, String hostname, int port) {
         this.username = username;
@@ -95,18 +108,28 @@ public class FGameClient implements IToServer, IHasForgeLog {
     }
 
     public void connect() {
-        final EventLoopGroup group = new NioEventLoopGroup();
+        connect(new InetSocketAddress(hostname, port));
+    }
+
+    private void connect(final InetSocketAddress address) {
+        final EventLoopGroup group = new NioEventLoopGroup(1);
         boolean attached = false;
         try {
             final Bootstrap b = new Bootstrap()
              .group(group)
              .channel(NioSocketChannel.class)
+             .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 10_000)
+             .option(ChannelOption.TCP_NODELAY, true)
              .handler(new ChannelInitializer<SocketChannel>() {
                 @Override
                 public void initChannel(final SocketChannel ch) throws Exception {
+                    synchronized (reconnectLock) {
+                        if (shuttingDown) { ch.close(); return; }
+                        channel = ch;
+                    }
                     final ChannelPipeline pipeline = ch.pipeline();
                     pipeline.addLast(
-                            new LoggingHandler(LogLevel.INFO),
+                            new LoggingHandler(LogLevel.DEBUG),
                             new CompatibleObjectEncoder(null), // Client doesn't need byte tracking
                             new CompatibleObjectDecoder(9766*1024, ClassResolvers.cacheDisabled(null)),
                             new IdleStateHandler(READER_IDLE_SECONDS, HEARTBEAT_INTERVAL_SECONDS, 0, TimeUnit.SECONDS),
@@ -117,7 +140,14 @@ public class FGameClient implements IToServer, IHasForgeLog {
              });
 
             // Start the connection attempt.
-            final Channel newChannel = b.connect(this.hostname, this.port).sync().channel();
+            final ChannelFuture connecting = b.connect(address);
+            try {
+                ConnectionAttempt.track((AutoCloseable) () -> connecting.channel().close());
+                ConnectionAttempt.report(ConnectionAttempt.Stage.CONNECTING_GAME);
+            } catch (java.io.IOException e) {
+                throw new RuntimeException(e);
+            }
+            final Channel newChannel = connecting.sync().channel();
             synchronized (reconnectLock) {
                 if (shuttingDown) {
                     newChannel.close();
@@ -153,6 +183,8 @@ public class FGameClient implements IToServer, IHasForgeLog {
 
     public void close() {
         beginShutdown();
+        initialLobby.countDown();
+        replies.cancelAll();
         if (channel != null)
             channel.close();
         if (externalTransport != null) {
@@ -169,8 +201,76 @@ public class FGameClient implements IToServer, IHasForgeLog {
     }
 
     /** Close this transport together with the Forge connection (for example a relay proxy). */
-    public void setExternalTransport(AutoCloseable externalTransport) {
-        this.externalTransport = externalTransport;
+    public void setExternalTransport(AutoCloseable transport) {
+        final AutoCloseable previous;
+        synchronized (reconnectLock) {
+            previous = externalTransport;
+            externalTransport = shuttingDown ? null : transport;
+            if (shuttingDown) closeTransport(transport);
+        }
+        closeTransport(previous);
+    }
+
+    public void setReconnectTransport(final Callable<InetSocketAddress> factory) {
+        reconnectTransport = factory;
+    }
+
+    private static void closeTransport(final AutoCloseable transport) {
+        if (transport == null) return;
+        try {
+            transport.close();
+        } catch (Exception ignored) {
+            // The channel may already have been closed by the remote peer.
+        }
+    }
+
+    void setInMatch(final boolean value) {
+        inMatch = value;
+    }
+
+    public void awaitInitialLobby() throws java.io.IOException {
+        try {
+            if (!initialLobby.await(20, TimeUnit.SECONDS) || !loginAccepted) {
+                throw new java.io.IOException(forge.util.Localizer.getInstance().getMessage(
+                        "lblNetworkHostDidNotAccept"));
+            }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new java.io.InterruptedIOException("Connection interrupted");
+        }
+    }
+
+    public String connectionDiagnostics() {
+        return "state=" + getReconnectState() + "\ntransport="
+                + (reconnectTransport == null ? "direct" : "relay")
+                + "\nrttMs=" + roundTripMillis + "\nlastReceiveMs="
+                + TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - lastReceivedNanos)
+                + "\ninMatch=" + inMatch;
+    }
+
+    /** Probe the existing connection after Android returns to the foreground. */
+    public void onForeground() {
+        synchronized (reconnectLock) {
+            if (shuttingDown || !loginAccepted || reconnectState != ReconnectState.CONNECTED) return;
+            final Channel ch = channel;
+            if (ch == null || !ch.isActive()) {
+                onDisconnected();
+                return;
+            }
+            if (foregroundWatch != null) foregroundWatch.cancel(false);
+            final long lastReceive = lastReceivedNanos;
+            ch.eventLoop().execute(() -> sendHeartbeat(ch));
+            foregroundWatch = reconnectScheduler.schedule(() -> {
+                if (isActiveChannel(ch) && lastReceivedNanos == lastReceive) ch.close();
+            }, 8, TimeUnit.SECONDS);
+        }
+    }
+
+    private void sendHeartbeat(final Channel ch) {
+        if (heartbeatSentNanos == 0) heartbeatSentNanos = System.nanoTime();
+        ch.writeAndFlush(new HeartbeatEvent()).addListener(f -> {
+            if (!f.isSuccess()) ch.close();
+        });
     }
 
     @Override
@@ -185,6 +285,9 @@ public class FGameClient implements IToServer, IHasForgeLog {
      * server replays the current Input prompt on resume.
      */
     private boolean trySend(final NetEvent event) {
+        if (event instanceof GuiGameEvent && getReconnectState() != ReconnectState.CONNECTED) {
+            return false; // Never replay actions clicked against the pre-reconnect state.
+        }
         if (disconnectSimulated) {
             return false;
         }
@@ -194,7 +297,7 @@ public class FGameClient implements IToServer, IHasForgeLog {
             netLog.warn("Client not connected (state={}), dropped {}", getReconnectState(), event);
             return false;
         }
-        netLog.info("Client sent {}", event);
+        netLog.debug("Client sent {}", event);
         final CompatibleObjectEncoder encoder = ch.pipeline().get(CompatibleObjectEncoder.class);
         if (encoder == null) {
             netLog.error("No encoder in client pipeline for {}", event);
@@ -207,7 +310,9 @@ public class FGameClient implements IToServer, IHasForgeLog {
             netLog.error(e, "Client encode error for {}", event);
             return false;
         }
-        ch.writeAndFlush(encoded);
+        ch.writeAndFlush(encoded).addListener(f -> {
+            if (!f.isSuccess()) ch.close();
+        });
         return true;
     }
 
@@ -263,7 +368,7 @@ public class FGameClient implements IToServer, IHasForgeLog {
         }
 
         // Wait for reply
-        return replies.get(event.getId());
+        return replies.get(event.getId(), 5_000);
     }
 
     List<ILobbyListener> getLobbyListeners() {
@@ -316,6 +421,10 @@ public class FGameClient implements IToServer, IHasForgeLog {
      */
     void onDisconnected() {
         synchronized (reconnectLock) {
+            if (!loginAccepted) {
+                initialLobby.countDown();
+                return;
+            }
             if (shuttingDown || reconnectState != ReconnectState.CONNECTED) {
                 return;
             }
@@ -325,6 +434,7 @@ public class FGameClient implements IToServer, IHasForgeLog {
             channel.close();
         }
         channel = null;
+        replies.cancelAll();
         notifyReconnectState(ReconnectState.RECONNECTING, 0, BACKOFF_SECONDS[0]);
         scheduleAttempt(0);
     }
@@ -332,16 +442,25 @@ public class FGameClient implements IToServer, IHasForgeLog {
     public void beginShutdown() {
         synchronized (reconnectLock) {
             shuttingDown = true;
+            if (foregroundWatch != null) foregroundWatch.cancel(false);
         }
+        cancelResumeWatch();
+        final ScheduledFuture<?> pending = pendingAttempt;
+        if (pending != null) pending.cancel(false);
+        final ConnectionAttempt attempt = reconnectAttempt;
+        if (attempt != null) attempt.cancel();
     }
 
     private void scheduleAttempt(final int attemptIndex) {
-        if (attemptIndex >= BACKOFF_SECONDS.length) {
-            transitionToFailed();
-            return;
+        synchronized (reconnectLock) {
+            if (shuttingDown || reconnectState != ReconnectState.RECONNECTING) return;
+            if (attemptIndex >= BACKOFF_SECONDS.length) {
+                transitionToFailed();
+                return;
+            }
+            pendingAttempt = reconnectScheduler.schedule(() -> attemptReconnect(attemptIndex),
+                    BACKOFF_SECONDS[attemptIndex], TimeUnit.SECONDS);
         }
-        pendingAttempt = reconnectScheduler.schedule(() -> attemptReconnect(attemptIndex),
-                BACKOFF_SECONDS[attemptIndex], TimeUnit.SECONDS);
     }
 
     private void attemptReconnect(final int attemptIndex) {
@@ -353,21 +472,40 @@ public class FGameClient implements IToServer, IHasForgeLog {
         netLog.info("[Reconnect] Attempt {}/{} - connecting to {}:{}",
                 attemptIndex + 1, BACKOFF_SECONDS.length, hostname, port);
         try {
-            connect();
+            notifyReconnectState(ReconnectState.RECONNECTING, attemptIndex, 0);
+            final Channel previous = channel;
+            channel = null;
+            if (previous != null) previous.close().sync();
+            final ConnectionAttempt attempt = new ConnectionAttempt(stage -> { });
+            reconnectAttempt = attempt;
+            synchronized (reconnectLock) {
+                if (shuttingDown) attempt.cancel();
+            }
+            attempt.run(() -> {
+                InetSocketAddress address = reconnectTransport == null
+                        ? new InetSocketAddress(hostname, port) : reconnectTransport.call();
+                connect(address);
+                return null;
+            });
             awaitResumeOrLobby(attemptIndex);
         } catch (Exception e) {
             netLog.info("[Reconnect] Attempt {} failed: {}", attemptIndex + 1, e.getMessage());
             continueOrFail(attemptIndex);
+        } finally {
+            reconnectAttempt = null;
         }
     }
 
     private void awaitResumeOrLobby(final int attemptIndex) {
         cancelResumeWatch();
-        resumeWatch = reconnectScheduler.schedule(() -> {
-            netLog.info("[Reconnect] Attempt {} - no response in {}s",
-                    attemptIndex + 1, RESUME_WATCH_SECONDS);
-            continueOrFail(attemptIndex);
-        }, RESUME_WATCH_SECONDS, TimeUnit.SECONDS);
+        synchronized (reconnectLock) {
+            if (shuttingDown || reconnectState != ReconnectState.RECONNECTING) return;
+            resumeWatch = reconnectScheduler.schedule(() -> {
+                netLog.info("[Reconnect] Attempt {} - no response in {}s",
+                        attemptIndex + 1, RESUME_WATCH_SECONDS);
+                continueOrFail(attemptIndex);
+            }, RESUME_WATCH_SECONDS, TimeUnit.SECONDS);
+        }
     }
 
     private void cancelResumeWatch() {
@@ -392,9 +530,12 @@ public class FGameClient implements IToServer, IHasForgeLog {
 
     private void transitionToFailed() {
         synchronized (reconnectLock) {
-            if (reconnectState != ReconnectState.RECONNECTING) return;
+            if (shuttingDown || reconnectState != ReconnectState.RECONNECTING) return;
             reconnectState = ReconnectState.FAILED;
         }
+        final Channel previous = channel;
+        channel = null;
+        if (previous != null) previous.close();
         notifyReconnectState(ReconnectState.FAILED, -1, 0);
     }
 
@@ -427,6 +568,11 @@ public class FGameClient implements IToServer, IHasForgeLog {
             if (reconnectState != ReconnectState.RECONNECTING) return;
             shuttingDown = true;
         }
+        final Channel previous = channel;
+        channel = null;
+        if (previous != null) previous.close();
+        replies.cancelAll();
+        beginShutdown();
         cancelResumeWatch();
         final ScheduledFuture<?> pending = pendingAttempt;
         if (pending != null) {
@@ -447,12 +593,11 @@ public class FGameClient implements IToServer, IHasForgeLog {
      */
     public void rejoinManually() {
         synchronized (reconnectLock) {
-            if (reconnectState != ReconnectState.FAILED) return;
+            if (shuttingDown || reconnectState != ReconnectState.FAILED) return;
             reconnectState = ReconnectState.RECONNECTING;
-            shuttingDown = false;
+            pendingAttempt = reconnectScheduler.schedule(() -> attemptReconnect(0), 0, TimeUnit.SECONDS);
         }
         notifyReconnectState(ReconnectState.RECONNECTING, 0, 0);
-        reconnectScheduler.execute(() -> attemptReconnect(0));
     }
 
     /**
@@ -469,7 +614,13 @@ public class FGameClient implements IToServer, IHasForgeLog {
     private class MessageHandler extends ChannelInboundHandlerAdapter {
         @Override
         public void channelRead(final ChannelHandlerContext ctx, final Object msg) throws Exception {
+            if (!isActiveChannel(ctx.channel())) return;
+            lastReceivedNanos = System.nanoTime();
             if (msg instanceof HeartbeatEvent) {
+                if (heartbeatSentNanos != 0) {
+                    roundTripMillis = TimeUnit.NANOSECONDS.toMillis(lastReceivedNanos - heartbeatSentNanos);
+                    heartbeatSentNanos = 0;
+                }
                 // Echo from server; its only purpose is to keep our READER_IDLE timer from firing
                 return;
             }
@@ -492,11 +643,14 @@ public class FGameClient implements IToServer, IHasForgeLog {
                 return;
             }
             if (msg instanceof LobbyUpdateEvent event) {
+                loginAccepted = true;
+                initialLobby.countDown();
                 // Suppress lobby UI updates while reconnecting so the lobby screen doesn't flash
                 // back over the in-game UI; the resume payload (setGameView) is what tells us
                 // we're back in the match. Seat-lost is signaled explicitly via SeatLostEvent.
                 if (isActiveChannel(ctx.channel()) && getReconnectState() == ReconnectState.RECONNECTING) {
-                    return;
+                    if (inMatch) return;
+                    onResumeResponseReceived();
                 }
                 for (final ILobbyListener listener : lobbyListeners) {
                     listener.update(event.getState(), event.getSlot());
@@ -512,7 +666,7 @@ public class FGameClient implements IToServer, IHasForgeLog {
         public void userEventTriggered(final ChannelHandlerContext ctx, final Object evt) throws Exception {
             if (evt instanceof IdleStateEvent ise) {
                 if (ise.state() == IdleState.WRITER_IDLE) {
-                    ctx.writeAndFlush(new HeartbeatEvent());
+                    sendHeartbeat(ctx.channel());
                 } else if (ise.state() == IdleState.READER_IDLE) {
                     ctx.close();
                 }
@@ -528,7 +682,7 @@ public class FGameClient implements IToServer, IHasForgeLog {
                 onDisconnected();
                 final boolean notifyListeners;
                 synchronized (reconnectLock) {
-                    notifyListeners = !shuttingDown && reconnectState != ReconnectState.RECONNECTING;
+                    notifyListeners = loginAccepted && !shuttingDown && reconnectState != ReconnectState.RECONNECTING;
                 }
                 if (notifyListeners) {
                     for (final ILobbyListener listener : lobbyListeners) {

@@ -24,7 +24,6 @@ import java.awt.image.BufferedImage;
 import java.util.*;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.concurrent.atomic.AtomicReference;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JOptionPane;
@@ -1159,6 +1158,8 @@ public final class CMatchUI
         notePromptMessage(message);
     }
 
+    @Override public void updateOperationClock(final String text) { cPrompt.getView().setOperationClock(text); }
+
     @Override
     public void showPromptMessage(PlayerView playerView, String message, CardView card) {
         cancelWaitingTimer();
@@ -1201,12 +1202,10 @@ public final class CMatchUI
             return ImmutableMap.of(firstBlocker, damage);
         }
 
-        final AtomicReference<Map<CardView, Integer>> result = new AtomicReference<>();
-        FThreads.invokeInEdtAndWait(() -> {
+        return FThreads.callInEdtAndWaitChoice(() -> {
             final VAssignCombatDamage v = new VAssignCombatDamage(CMatchUI.this, attacker, blockers, damage, defender, overrideOrder, maySkip);
-            result.set(v.getDamageMap());
+            return v.getDamageMap();
         });
-        return result.get();
     }
 
     @Override
@@ -1216,12 +1215,10 @@ public final class CMatchUI
             return Collections.emptyMap();
         }
 
-        final AtomicReference<Map<Object, Integer>> result = new AtomicReference<>();
-        FThreads.invokeInEdtAndWait(() -> {
+        return FThreads.callInEdtAndWaitChoice(() -> {
             final VAssignGenericAmount v = new VAssignGenericAmount(CMatchUI.this, effectSource, target, amount, atLeastOne, amountLabel);
-            result.set(v.getAssignedMap());
+            return v.getAssignedMap();
         });
-        return result.get();
     }
 
     @Override

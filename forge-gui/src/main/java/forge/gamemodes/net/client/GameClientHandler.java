@@ -6,7 +6,11 @@ import forge.game.player.PlayerView;
 import forge.gamemodes.net.CompatibleObjectDecoder;
 import forge.gamemodes.net.CompatibleObjectEncoder;
 import forge.gamemodes.net.GameProtocolHandler;
+import forge.gamemodes.net.GuiRequestControl;
 import forge.gui.GuiBase;
+import forge.gui.GuiRequestScope;
+import forge.gamemodes.net.event.GuiGameEvent;
+import forge.gamemodes.net.event.ReplyEvent;
 import forge.util.IHasForgeLog;
 import forge.gamemodes.net.IRemote;
 import forge.gamemodes.net.ProtocolMethod;
@@ -31,6 +35,8 @@ final class GameClientHandler extends GameProtocolHandler<IGuiGame> implements I
     private final FGameClient client;
     private final IGuiGame gui;
     private Tracker tracker;
+    private volatile boolean clockProtocol;
+    private final java.util.Map<Integer, GuiRequestScope> pendingChoices = new java.util.concurrent.ConcurrentHashMap<>();
 
     public GameClientHandler(final FGameClient client) {
         super(true);
@@ -50,8 +56,88 @@ final class GameClientHandler extends GameProtocolHandler<IGuiGame> implements I
     }
 
     @Override
+    protected void sendReply(final ChannelHandlerContext ctx, final ReplyEvent event) {
+        // Never re-route an old invocation through FGameClient's replacement channel.
+        if (isCurrentConnection(ctx) && ctx.channel().isActive()) ctx.channel().writeAndFlush(event);
+    }
+
+    @Override
     protected IGuiGame getToInvoke(final ChannelHandlerContext ctx) {
         return gui;
+    }
+
+    @Override
+    protected boolean isCurrentConnection(final ChannelHandlerContext ctx) {
+        return client.isActiveChannel(ctx.channel());
+    }
+
+    @Override
+    protected Runnable decorateInvocation(final ChannelHandlerContext ctx, final GuiGameEvent event,
+                                          final Runnable invocation) {
+        final ProtocolMethod method = event.getMethod();
+        if (method.getReturnType().equals(Void.TYPE) && method != ProtocolMethod.message
+                && method != ProtocolMethod.showErrorDialog) {
+            return super.decorateInvocation(ctx, event, invocation);
+        }
+        final GuiRequestScope scope = new GuiRequestScope(new GuiRequestScope.Activity() {
+            @Override public void ready() {
+                if (clockProtocol) sendReply(ctx, GuiRequestControl.ready(event.getId()));
+            }
+        });
+        pendingChoices.put(event.getId(), scope); // Include work not yet shown on the UI thread.
+        return GuiRequestScope.bind(scope, () -> {
+            try {
+                if (!scope.isCancelled() && ctx.channel().isActive() && isCurrentConnection(ctx)) invocation.run();
+            } finally {
+                pendingChoices.remove(event.getId(), scope);
+                scope.close();
+            }
+        });
+    }
+
+    private void cancelPendingChoices() {
+        for (final GuiRequestScope scope : pendingChoices.values()) scope.close();
+        pendingChoices.clear();
+    }
+
+    @Override
+    protected void handleGuiRequestControl(final ChannelHandlerContext ctx, final Object value) {
+        if (GuiRequestControl.HELLO.equals(value)) { clockProtocol = true; return; }
+        final Integer barrier = GuiRequestControl.requestId(value, "barrier:");
+        if (barrier != null && clockProtocol) {
+            forge.gui.FThreads.invokeInEdtLater(() -> {
+                if (isCurrentConnection(ctx)) sendReply(ctx, GuiRequestControl.ready(barrier));
+            });
+            return;
+        }
+        if (clockProtocol && value instanceof String text && text.startsWith("clock:")) {
+            final int split = text.indexOf(':', 6);
+            if (split < 0 || text.length() > 2080) return;
+            try {
+                final int gameId = Integer.parseInt(text.substring(6, split));
+                final String display = text.substring(split + 1);
+                forge.gui.FThreads.invokeInEdtLater(() -> {
+                    if (isCurrentConnection(ctx)) gui.updateOperationClockForGame(gameId, display);
+                });
+            } catch (final NumberFormatException ignored) { }
+            return;
+        }
+        final Integer id = GuiRequestControl.cancelledRequest(value);
+        if (id == null) return;
+        final GuiRequestScope scope = pendingChoices.get(id);
+        if (scope != null) scope.close();
+    }
+
+    @Override
+    public void channelInactive(final ChannelHandlerContext ctx) throws Exception {
+        cancelPendingChoices(); // This handler belongs to this channel, not its replacement.
+        super.channelInactive(ctx);
+    }
+
+    @Override
+    public void handlerRemoved(final ChannelHandlerContext ctx) throws Exception {
+        cancelPendingChoices();
+        super.handlerRemoved(ctx);
     }
 
     @Override
@@ -94,12 +180,9 @@ final class GameClientHandler extends GameProtocolHandler<IGuiGame> implements I
                         updateTrackers(new Object[]{gameView});
                     }
                 }
-                if (client.isActiveChannel(ctx.channel())
-                        && client.getReconnectState() == FGameClient.ReconnectState.RECONNECTING) {
-                    client.onResumeResponseReceived();
-                }
                 break;
             case openView:
+                client.setInMatch(true);
                 gui.setNetGame();
                 final TrackableCollection<PlayerView> myPlayers = (TrackableCollection<PlayerView>) args[0];
                 for (PlayerView myPlayer : myPlayers) {
@@ -108,6 +191,10 @@ final class GameClientHandler extends GameProtocolHandler<IGuiGame> implements I
                     }
                 }
                 client.setGameControllers(myPlayers);
+                break;
+            case finishGame:
+                cancelPendingChoices();
+                client.setInMatch(false);
                 break;
             default:
                 break;
@@ -127,6 +214,14 @@ final class GameClientHandler extends GameProtocolHandler<IGuiGame> implements I
                 refreshTrackerCardViews(gv);
             }
             replicateProps(args);
+        }
+    }
+
+    @Override
+    protected void afterCall(final ChannelHandlerContext ctx, final ProtocolMethod method) {
+        // Resume controls only after the authoritative snapshot has been applied on the UI thread.
+        if (method == ProtocolMethod.setGameView && client.isActiveChannel(ctx.channel())) {
+            client.onResumeResponseReceived();
         }
     }
 
@@ -218,7 +313,7 @@ final class GameClientHandler extends GameProtocolHandler<IGuiGame> implements I
                 loginName,
                 Integer.parseInt(FModel.getPreferences().getPref(FPref.UI_AVATARS).split(",")[0]),
                 Integer.parseInt(FModel.getPreferences().getPref(FPref.UI_SLEEVES).split(",")[0]),
-                BuildInfo.getVersionString(),
+                GuiRequestControl.loginVersion(BuildInfo.getVersionString()),
                 GuiBase.getInterface().isLibgdxPort()
         ));
     }

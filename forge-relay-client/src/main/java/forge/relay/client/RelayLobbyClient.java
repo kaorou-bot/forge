@@ -25,6 +25,7 @@ public final class RelayLobbyClient {
     public static List<RelayProtocol.RoomSnapshot> listRooms(
             RelayEndpoint endpoint, String compatibilityVersion) throws IOException {
         try (Socket socket = connect(endpoint)) {
+            ConnectionAttempt.report(ConnectionAttempt.Stage.LISTING);
             RelayWire.writeFrame(socket.getOutputStream(), RelayProtocol.LIST_ROOMS, out -> {
                 out.writeInt(RelayProtocol.VERSION);
                 RelayWire.writeString(out, compatibilityVersion);
@@ -53,15 +54,20 @@ public final class RelayLobbyClient {
     }
 
     static Socket connect(RelayEndpoint endpoint) throws IOException {
-        Socket socket = new Socket();
+        ConnectionAttempt.report(ConnectionAttempt.Stage.CONNECTING);
+        Socket socket = ConnectionAttempt.track(new Socket());
         boolean success = false;
         try {
             socket.connect(new InetSocketAddress(endpoint.host(), endpoint.port()), CONNECT_TIMEOUT_MILLIS);
+            socket.setSoTimeout(CONTROL_TIMEOUT_MILLIS);
             if (endpoint.tls()) {
+                ConnectionAttempt.report(ConnectionAttempt.Stage.SECURING);
                 SSLSocketFactory factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
                 SSLSocket tlsSocket = (SSLSocket) factory.createSocket(
                         socket, endpoint.host(), endpoint.port(), true);
                 socket = tlsSocket;
+                ConnectionAttempt.track(tlsSocket);
+                tlsSocket.setSoTimeout(CONTROL_TIMEOUT_MILLIS);
                 // Android 14's Conscrypt TLS 1.3 client can leave small responses
                 // from a persistent Nginx stream connection unread until the peer
                 // closes the connection. Lobby list requests appeared to work only

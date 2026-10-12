@@ -253,10 +253,13 @@ public class FOptionPane extends FDialog {
     }
 
     public void setResult(final int option) {
-        hide();
-        if (callback != null) {
-            callback.accept(option);
-        }
+        // Covers list/keyboard actions as well as buttons; callbacks can open another choice.
+        runRequestAction(() -> {
+            hide();
+            if (callback != null) {
+                callback.accept(option);
+            }
+        });
     }
 
     public void setMessage(final String message) {

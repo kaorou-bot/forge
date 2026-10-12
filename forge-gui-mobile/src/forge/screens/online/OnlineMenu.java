@@ -75,6 +75,10 @@ public class OnlineMenu extends FPopupMenu {
             Disconnect.item.setEnabled(getGameLobby() != null);
             ServerUrl.item.setEnabled(HostingServer.isHosting() && FServerManager.getInstance() != null
                     && !FServerManager.getInstance().isRelayHosting());
+            // Landscape keeps this menu visible: rebuild its connection-specific entries now.
+            if (menu != null) {
+                FThreads.invokeInEdtNowOrLater(menu::refreshConnectionState);
+            }
         }
     }
 
@@ -111,6 +115,12 @@ public class OnlineMenu extends FPopupMenu {
     private OnlineMenu() {
     }
 
+    private void refreshConnectionState() {
+        if (isVisible()) {
+            updateSizeAndPosition();
+        }
+    }
+
     private static void handleDisconnect() {
         FOptionPane.showConfirmDialog(
                 Forge.getLocalizer().getMessage("lblLeaveLobbyDescription"),
@@ -132,6 +142,19 @@ public class OnlineMenu extends FPopupMenu {
         for (OnlineScreen ngs : OnlineScreen.values()) {
             addItem(ngs.item);
             ngs.item.setSelected(currentScreen == ngs.screen);
+        }
+        if (getGameLobby() == null) {
+            addItem(new FMenuItem(Forge.getLocalizer().getMessage("lblNetworkJoinCode"), FSkinImage.INFORMATION,
+                    e -> ((OnlineLobbyScreen) OnlineScreen.Lobby.getScreen()).joinByRoomCode()));
+        }
+        final String code = forge.gamemodes.net.NetConnectUtil.getHostedRoomCode();
+        if (!code.isEmpty()) {
+            addItem(new FMenuItem(Forge.getLocalizer().getMessage("lblNetworkCopyRoomCode"), FSkinImage.INFORMATION,
+                    e -> forge.gui.GuiBase.getInterface().copyToClipboard(code)));
+        }
+        if (OnlineLobbyScreen.getfGameClient() != null || HostingServer.isHosting()) {
+            addItem(new FMenuItem(Forge.getLocalizer().getMessage("lblNetworkDiagnostics"), FSkinImage.INFORMATION,
+                    e -> forge.gamemodes.net.NetworkDiagnostics.show(OnlineLobbyScreen.getfGameClient(), null)));
         }
     }
 }

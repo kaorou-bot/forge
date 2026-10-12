@@ -9,6 +9,7 @@ import forge.StaticData;
 import forge.game.Game;
 import forge.game.GameType;
 import forge.game.player.Player;
+import forge.game.player.PlayerDecisionFrame;
 
 public class MulliganService {
     Player firstPlayer;
@@ -70,37 +71,45 @@ public class MulliganService {
         do {
             allKept = true;
             for (AbstractMulligan mulligan : mulligans) {
-                if (mulligan.hasKept()) {
-                    continue;
-                }
-
-                Player p = mulligan.getPlayer();
-
-                boolean keep = !mulligan.canMulligan() ||
-                        p.getController().mulliganKeepHand(
-                                firstPlayer,
-                                mulligan.tuckCardsDuringMulligan()
-                        );
-
-                if (game.isGameOver()) {
-                    // conceded during mulligan prompt
-                    return;
-                }
-
-                if (keep) {
-                    mulligan.keep();
-                    continue;
-                }
-
-                allKept = false;
-                mulligan.mulligan();
+                if (game.isGameOver()) return;
+                if (mulligan.hasKept() || !mulligan.getPlayer().isInGame()) continue;
+                if (!firstPlayer.isInGame()) firstPlayer = game.getNextPlayerAfter(firstPlayer);
+                if (runPlayerMulligan(mulligan)) allKept = false;
             }
         } while (!allKept);
     }
 
+    /** Returns true only when a surviving player took another mulligan. */
+    private boolean runPlayerMulligan(final AbstractMulligan mulligan) {
+        final Player p = mulligan.getPlayer();
+        final PlayerDecisionFrame frame = PlayerDecisionFrame.enter(PlayerDecisionFrame.Kind.PLAYER_ACTION, p, null);
+        try (frame) {
+            final boolean keep = !mulligan.canMulligan()
+                    || p.getController().mulliganKeepHand(firstPlayer, mulligan.tuckCardsDuringMulligan());
+            if (game.isGameOver() || !p.isInGame()) return false;
+            if (keep) {
+                mulligan.keep();
+                return false;
+            }
+            mulligan.mulligan();
+            return p.isInGame();
+        } catch (final PlayerDecisionFrame.Aborted aborted) {
+            if (!frame.owns(aborted)) throw aborted;
+            return false;
+        }
+    }
+
     private void runPostMulligans() {
         for (AbstractMulligan mulligan : mulligans) {
-            mulligan.afterMulligan();
+            if (game.isGameOver()) return;
+            if (!mulligan.getPlayer().isInGame()) continue;
+            final PlayerDecisionFrame frame = PlayerDecisionFrame.enter(
+                    PlayerDecisionFrame.Kind.PLAYER_ACTION, mulligan.getPlayer(), null);
+            try (frame) {
+                mulligan.afterMulligan();
+            } catch (final PlayerDecisionFrame.Aborted aborted) {
+                if (!frame.owns(aborted)) throw aborted;
+            }
         }
     }
 }

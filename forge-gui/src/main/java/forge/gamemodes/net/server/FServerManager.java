@@ -158,6 +158,8 @@ public final class FServerManager implements IHasForgeLog, HostingServer.Server 
     private IDraftEventHandler draftHandler;
     private int port;
     private AutoCloseable externalTransport;
+    private volatile boolean stopping;
+    private long serverGeneration;
     private static final Localizer localizer = Localizer.getInstance();
     private final Thread shutdownHook = new Thread(() -> {
         if (HostingServer.isHosting()) {
@@ -235,7 +237,9 @@ public final class FServerManager implements IHasForgeLog, HostingServer.Server 
         startServer(port, false);
     }
 
-    private void startServer(final int port, final boolean directHosting) {
+    private synchronized void startServer(final int port, final boolean directHosting) {
+        stopping = false;
+        final long generation = ++serverGeneration;
         this.port = port;
         String UPnPOption = directHosting
                 ? FModel.getNetPreferences().getPref(ForgeNetPreferences.FNetPref.UPnP)
@@ -283,7 +287,9 @@ public final class FServerManager implements IHasForgeLog, HostingServer.Server 
                 } catch (final InterruptedException e) {
                     netLog.error(e, "Server channel error");
                 } finally {
-                    stopServer();
+                    synchronized (FServerManager.this) {
+                        if (generation == serverGeneration) stopServer();
+                    }
                 }
             }).start();
             if (startUPnP) {
@@ -327,6 +333,8 @@ public final class FServerManager implements IHasForgeLog, HostingServer.Server 
         if (!HostingServer.isHosting()) {
             return;
         }
+        stopping = true;
+        ++serverGeneration;
         // Cancel all reconnect timers
         for (final Timer timer : reconnectTimers.values()) {
             timer.cancel();
@@ -354,6 +362,14 @@ public final class FServerManager implements IHasForgeLog, HostingServer.Server 
         } catch (final InterruptedException e) {
             Thread.currentThread().interrupt();
         }
+        // In-flight disconnect callbacks may have passed their initial guard before shutdown.
+        // Drain their records only after both event loops have stopped.
+        for (final Timer timer : reconnectTimers.values()) timer.cancel();
+        reconnectTimers.clear();
+        for (final RemoteClient client : disconnectedClients.values()) client.setTimedGame(false);
+        for (final RemoteClient client : clients.values()) client.setTimedGame(false);
+        disconnectedClients.clear();
+        clients.clear();
         if (upnpService != null) {
             try {
                 upnpService.shutdown();
@@ -368,9 +384,9 @@ public final class FServerManager implements IHasForgeLog, HostingServer.Server 
         }
         HostingServer.set(null);
         NetworkLogConfig.deactivateNetworkLogging();
-        // create new EventLoopGroups for potential restart
-        bossGroup = new NioEventLoopGroup(1);
-        workerGroup = new NioEventLoopGroup();
+        // Allocate fresh selectors only when another room is actually opened.
+        bossGroup = null;
+        workerGroup = null;
     }
 
     /** Compatibility API for the desktop and relay clients. */
@@ -455,6 +471,7 @@ public final class FServerManager implements IHasForgeLog, HostingServer.Server 
      */
     @Override
     public AfkTimeout armAfkTimeout(final PlayerControllerHuman controller, final InputSynchronized input) {
+        if (forge.gamemodes.net.TimedGameDecisions.forGame(controller.getGame()) != null) return AfkTimeout.NOOP;
         if (!HostingServer.isHosting() || localLobby == null) {
             return AfkTimeout.NOOP;
         }
@@ -494,7 +511,7 @@ public final class FServerManager implements IHasForgeLog, HostingServer.Server 
                         "lblAfkAutoPass", displayName, fullMinutes + ":00")));
             }
             if (remoteClient != null) {
-                remoteClient.getReplyPool().cancelAll();
+                remoteClient.cancelPendingReplies();
             }
             input.stop();
         }, timeoutMs, TimeUnit.MILLISECONDS);
@@ -997,10 +1014,17 @@ public final class FServerManager implements IHasForgeLog, HostingServer.Server 
             pch.getInputQueue().updateObservers();
             netLog.info("[Reconnect] Replayed current prompt for slot {}", slotIndex);
         }
+        client.resyncComplete();
+        if (pch != null) {
+            final var clock = forge.gamemodes.net.TimedGameDecisions.forGame(pch.getGame());
+            if (clock != null) clock.connected(pch.getOperationClockPlayer().getId(), true);
+        }
     }
 
     private void handleReconnectTimeout(final String username) {
         reconnectTimers.remove(username);
+        final RemoteClient timedClient = disconnectedClients.get(username);
+        if (timedClient != null && timedClient.isTimedGame()) return;
         final RemoteClient client = disconnectedClients.remove(username);
         if (client == null) { return; }
 
@@ -1020,6 +1044,7 @@ public final class FServerManager implements IHasForgeLog, HostingServer.Server 
     }
 
     public void convertToAI(final RemoteClient client) {
+        if (client.isTimedGame()) return; // Never replace the agreed loss-on-expiry rule with AI.
         final int slotIndex = client.getIndex();
         final PlayerControllerHuman pch = findRemoteController(slotIndex);
         // The instanceof check filters out LOCAL host slots — only convert remote players
@@ -1126,6 +1151,12 @@ public final class FServerManager implements IHasForgeLog, HostingServer.Server 
                 // Check if this is a reconnecting player
                 final RemoteClient disconnected = disconnectedClients.remove(username);
                 if (disconnected != null) {
+                    if (disconnected.isTimedGame() && !forge.gamemodes.net.GuiRequestControl.supportsClock(event.getVersion())) {
+                        disconnectedClients.put(username, disconnected);
+                        broadcastTo(MessageEvent.warning(Localizer.getInstance().getMessage("lblOperationClockUpgrade")), client);
+                        ctx.close();
+                        return;
+                    }
                     // Cancel timeout timer
                     final Timer timer = reconnectTimers.remove(username);
                     if (timer != null) {
@@ -1137,6 +1168,10 @@ public final class FServerManager implements IHasForgeLog, HostingServer.Server 
 
                     // Swap channel on the original RemoteClient
                     disconnected.swapChannel(ctx.channel());
+                    disconnected.negotiateClock(ctx.channel(), event.getVersion());
+                    if (forge.gamemodes.net.GuiRequestControl.supportsCancellation(event.getVersion())) {
+                        disconnected.enableRequestCancellation(ctx.channel());
+                    }
 
                     // Re-register under the new channel
                     clients.put(ctx.channel(), disconnected);
@@ -1179,13 +1214,18 @@ public final class FServerManager implements IHasForgeLog, HostingServer.Server 
                     } else {
                         client.setIndex(index);
                         client.setLibgdx(event.isLibgdx());
+                        client.negotiateClock(ctx.channel(), event.getVersion());
+                        if (forge.gamemodes.net.GuiRequestControl.supportsCancellation(event.getVersion())) {
+                            client.enableRequestCancellation(ctx.channel());
+                        }
                         if (index > 0) {
                             broadcast(new MessageEvent(String.format("%s joined the lobby.", username)));
+                            broadcastTo(new MessageEvent(forge.gamemodes.net.OperationClockSettings.describe(localLobby.getOperationTimeLimitMillis())), client);
                             broadcastTo(new MessageEvent(formatAfkTimeoutMessage()),
                                     Collections.singleton(client));
                         }
                         // Warn if client version differs from host
-                        final String clientVersion = event.getVersion();
+                        final String clientVersion = forge.gamemodes.net.GuiRequestControl.baseVersion(event.getVersion());
                         final String hostVersion = BuildInfo.getVersionString();
                         if (clientVersion == null) {
                             broadcast(MessageEvent.warning(String.format(
@@ -1269,10 +1309,22 @@ public final class FServerManager implements IHasForgeLog, HostingServer.Server 
                 super.channelInactive(ctx);
                 return;
             }
+            if (stopping) {
+                client.setTimedGame(false);
+                client.getReplyPool().close();
+                super.channelInactive(ctx);
+                return;
+            }
 
-            // Cancel any pending replies immediately to unblock game thread
-            netLog.info("[Disconnect] Canceling pending replies for disconnected client");
-            client.getReplyPool().cancelAll();
+            client.disconnected();
+            final PlayerControllerHuman timedController = findRemoteController(client.getIndex());
+            if (timedController != null) {
+                final var clock = forge.gamemodes.net.TimedGameDecisions.forGame(timedController.getGame());
+                if (clock != null) clock.connected(timedController.getOperationClockPlayer().getId(), false);
+            }
+            // Legacy waits only; timed logical waits survive on RemoteClient until reply/expiry.
+            // Restoring arbitrary modal choices needs a separate protocol lifecycle.
+            client.getReplyPool().close();
 
             final String username = client.getUsername();
             final int playerIndex = client.getIndex();
@@ -1287,6 +1339,11 @@ public final class FServerManager implements IHasForgeLog, HostingServer.Server 
                 // Match is active — pause, store for reconnect, run 5-minute reclaim timer.
                 pauseRemoteClientGuiGame(client);
                 disconnectedClients.put(username, client);
+                if (client.isTimedGame()) {
+                    broadcast(MessageEvent.warning(username + ": " + Localizer.getInstance().getMessage("lblClockDisconnected")));
+                    super.channelInactive(ctx);
+                    return;
+                }
 
                 // Start periodic countdown timer (ticks every 30s)
                 final int[] remaining = {RECONNECT_TIMEOUT_SECONDS};

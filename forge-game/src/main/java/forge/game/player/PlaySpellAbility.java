@@ -78,6 +78,16 @@ public class PlaySpellAbility {
      *            a {@link SpellAbility} object.
      */
     public static boolean playSpellAbility(final PlayerController controller, final Player p, SpellAbility sa) {
+        final PlayerDecisionFrame frame = PlayerDecisionFrame.enter(PlayerDecisionFrame.Kind.CAST, p, sa);
+        try (frame) {
+            return playSpellAbilityInFrame(controller, p, sa);
+        } catch (final PlayerDecisionFrame.Aborted aborted) {
+            if (!frame.owns(aborted)) throw aborted;
+            return false;
+        }
+    }
+
+    private static boolean playSpellAbilityInFrame(final PlayerController controller, final Player p, SpellAbility sa) {
         //FThreads.assertExecutedByEdt(false); //TODO: Find a new home for this.
 
         // Should I be storing state here? It should be the same as last stored state though?
@@ -118,7 +128,7 @@ public class PlaySpellAbility {
 
         final PlaySpellAbility req = new PlaySpellAbility(controller, sa);
         if (!req.playAbility(true, false, false)) {
-            if (!controller.getGame().EXPERIMENTAL_RESTORE_SNAPSHOT) {
+            if (p.isInGame() && !controller.getGame().EXPERIMENTAL_RESTORE_SNAPSHOT) {
                 Card rollback = p.getGame().getCardState(source);
                 if (castFaceDown) {
                     rollback.setFaceDown(false);
@@ -154,6 +164,19 @@ public class PlaySpellAbility {
     }
 
     public static boolean payCostDuringAbilityResolve(final PlayerController controller, final Player p, final Cost cost, SpellAbility sourceAbility, String prompt) {
+        final PlayerDecisionFrame frame = PlayerDecisionFrame.enter(PlayerDecisionFrame.Kind.COST, p, sourceAbility);
+        try (frame) {
+            if (!p.isInGame()) return false;
+            return payCostDuringAbilityResolveInFrame(controller, p, cost, sourceAbility, prompt);
+        } catch (final PlayerDecisionFrame.Aborted aborted) {
+            if (!frame.owns(aborted)) throw aborted;
+            // CR 800.4f: an absent player cannot pay a cost. The caller's unless/subability
+            // logic still runs; do not unwind the other player's entire resolving spell.
+            return false;
+        }
+    }
+
+    private static boolean payCostDuringAbilityResolveInFrame(final PlayerController controller, final Player p, final Cost cost, SpellAbility sourceAbility, String prompt) {
         final Card source = sourceAbility.getHostCard();
         // Only human player pays this way
         Card current = null; // Used in spells with RepeatEach effect to distinguish cards, Cut the Tethers
@@ -208,7 +231,7 @@ public class PlaySpellAbility {
                     || part instanceof CostMill
                     || part instanceof CostSacrifice
                     || part instanceof CostCollectEvidence) {
-                PaymentDecision pd = part.accept(hcd);
+                PaymentDecision pd = hcd.decide(part);
 
                 if (pd == null) {
                     return false;
@@ -222,7 +245,7 @@ public class PlaySpellAbility {
                 if (!p.getController().confirmPayment(part, Localizer.getInstance().getMessage("lblDoyouWantTo") + " " + desc + "?" + orString, sourceAbility)) {
                     return false;
                 }
-                PaymentDecision pd = part.accept(hcd);
+                PaymentDecision pd = hcd.decide(part);
 
                 if (pd == null) {
                     return false;
@@ -451,6 +474,32 @@ public class PlaySpellAbility {
     }
 
     public static boolean payManaCost(final PlayerController controller, final ManaCost realCost, final CostPartMana mc, final SpellAbility ability, final Player activator, String prompt, ManaConversionMatrix matrix, boolean effect) {
+        boolean returnedNormally = false;
+        try {
+            final boolean paid = payManaCostInFrame(controller, realCost, mc, ability, activator, prompt, matrix, effect);
+            returnedNormally = true;
+            return paid;
+        } finally {
+            if (!returnedNormally) clearAbandonedManaReservations(ability);
+        }
+    }
+
+    /** Release reservations only; this must never sacrifice, exile, refund, or restore a snapshot. */
+    static void clearAbandonedManaReservations(final SpellAbility ability) {
+        final Card offering = ability.getSacrificedAsOffering();
+        final Card emerge = ability.getSacrificedAsEmerge();
+        try {
+            if (offering != null) offering.setUsedToPay(false);
+        } finally {
+            try { ability.resetSacrificedAsOffering(); }
+            finally {
+                try { if (emerge != null) emerge.setUsedToPay(false); }
+                finally { ability.resetSacrificedAsEmerge(); }
+            }
+        }
+    }
+
+    private static boolean payManaCostInFrame(final PlayerController controller, final ManaCost realCost, final CostPartMana mc, final SpellAbility ability, final Player activator, String prompt, ManaConversionMatrix matrix, boolean effect) {
         final Card source = ability.getHostCard();
         ManaCostBeingPaid toPay = new ManaCostBeingPaid(realCost);
 
@@ -500,6 +549,10 @@ public class PlaySpellAbility {
             // Input is somehow clearing out the offering card?
 
             if (!controller.applyManaToCost(toPay, ability, prompt, matrix, effect)) {
+                if (!activator.isInGame()) {
+                    clearAbandonedManaReservations(ability);
+                    return false;
+                }
                 return handleOfferingConvokeAndDelve(ability, cardsToDelve, true);
             }
 
@@ -579,6 +632,44 @@ public class PlaySpellAbility {
     }
 
     public final boolean playAbility(final boolean mayChooseTargets, final boolean isFree, final boolean skipStack) {
+        final Player player = ability.getActivatingPlayer();
+        final Game game = player.getGame();
+        final boolean wasFrozen = game.getStack().isFrozen();
+        final PlayerDecisionFrame frame = PlayerDecisionFrame.enter(PlayerDecisionFrame.Kind.CAST, player, ability);
+        boolean cancelledWait = false;
+        try (frame) {
+            if (!player.isInGame()) return false;
+            return playAbilityInFrame(mayChooseTargets, isFree, skipStack);
+        } catch (final PlayerDecisionFrame.Aborted aborted) {
+            if (!frame.owns(aborted)) throw aborted;
+            return false;
+        } catch (final RuntimeException failure) {
+            cancelledWait = failure instanceof DecisionWaitCancelled;
+            throw failure;
+        } finally {
+            if (!player.isInGame() || cancelledWait) {
+                // The player's objects have left. A snapshot rollback/refund would restore
+                // invalid cards or erase other players' already executed costs/triggers.
+                try { game.clearTopLibsCast(ability); }
+                finally {
+                    try { clearAbandonedManaReservations(ability); }
+                    finally {
+                        try { player.getManaPool().restoreColorReplacements(); }
+                        finally {
+                            try {
+                                if (!player.isInGame()) game.getStack().removeInstancesControlledBy(player);
+                            } finally {
+                                if (cancelledWait) game.getStack().abandonInputFreeze(ability, wasFrozen);
+                                else if (!wasFrozen) game.getStack().unfreezeStack();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private boolean playAbilityInFrame(final boolean mayChooseTargets, final boolean isFree, final boolean skipStack) {
         final Player player = ability.getActivatingPlayer();
         final Game game = player.getGame();
         boolean refreeze = game.getStack().isFrozen();
@@ -683,6 +774,8 @@ public class PlaySpellAbility {
         final boolean prerequisitesMet = preCostRequisites && (isFree || payment.payCost(controller.getCostDecisionMaker(player, ability, ability.isTrigger())));
 
         game.clearTopLibsCast(ability);
+
+        if (!player.isInGame()) return false;
 
         if (!prerequisitesMet) {
             // Would love to restore game state when undoing a trigger rather than just declining all costs.

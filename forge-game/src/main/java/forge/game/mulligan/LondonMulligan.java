@@ -26,7 +26,9 @@ public class LondonMulligan extends AbstractMulligan {
         int tuckingCards = tuckCardsDuringMulligan();
         CardCollection hand = new CardCollection(player.getCardsIn(ZoneType.Hand));
 
-        for (final Card c : player.getController().tuckCardsViaMulligan(hand, tuckingCards)) {
+        final forge.game.card.CardCollectionView tucked = player.getController().tuckCardsViaMulligan(hand, tuckingCards);
+        if (!player.isInGame() || player.getGame().isGameOver()) return;
+        for (final Card c : tucked) {
             player.getGame().getAction().moveToLibrary(c, -1, null);
         }
     }

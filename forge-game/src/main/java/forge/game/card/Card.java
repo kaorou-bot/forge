@@ -6223,6 +6223,10 @@ public class Card extends GameEntity implements Comparable<Card>, IHasSVars, ITr
         view.updateAssignedDamage(this);
     }
 
+    public final void removeAssignedDamage(final Card source) {
+        if (assignedDamageMap.remove(source) != null) view.updateAssignedDamage(this);
+    }
+
     public final int getTotalAssignedDamage() {
         int total = 0;
         for (Integer assignedDamage : assignedDamageMap.values()) {

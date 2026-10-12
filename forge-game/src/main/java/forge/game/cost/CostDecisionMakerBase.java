@@ -19,6 +19,8 @@ public abstract class CostDecisionMakerBase implements ICostVisitor<PaymentDecis
     }
 
     public Player getPlayer() { return player; }
+    /** One decision boundary, independent of whether this visitor pays immediately. */
+    public PaymentDecision decide(final CostPart part) { return part.accept(this); }
     public abstract boolean paysRightAfterDecision();
     public boolean isEffect() {
         return effect;

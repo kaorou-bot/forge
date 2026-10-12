@@ -461,6 +461,14 @@ public class YieldController {
         ctrl.sendYieldUpdate(new YieldUpdate.SetAutoPassUntilEndOfTurn(local, true));
     }
 
+    /** Explicit cancellation also works for a remote controller without a local owner. */
+    public static void cancelActiveYields(final IGameController ctrl, final PlayerView local) {
+        if (ctrl == null || local == null) return;
+        ctrl.sendYieldUpdate(new YieldUpdate.ClearMarker(local));
+        ctrl.sendYieldUpdate(new YieldUpdate.StackYield(local, false, false));
+        ctrl.sendYieldUpdate(new YieldUpdate.SetAutoPassUntilEndOfTurn(local, false));
+    }
+
     /** Eager check at REVEAL/notifyOfValue call sites — no GameEventReveal exists. */
     public void maybeInterruptOnReveal() {
         if (!getBoolPref(FPref.YIELD_INTERRUPT_ON_REVEAL)) return;

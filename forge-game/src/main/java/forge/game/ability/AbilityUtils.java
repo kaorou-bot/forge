@@ -1304,6 +1304,24 @@ public class AbilityUtils {
             return;
         }
 
+        final forge.game.player.PlayerDecisionFrame frame = forge.game.player.PlayerDecisionFrame.enter(
+                forge.game.player.PlayerDecisionFrame.Kind.RESOLVE, sa.getActivatingPlayer(), sa);
+        try (frame) {
+            resolveInDecisionFrame(sa);
+        } catch (final forge.game.player.PlayerDecisionFrame.Aborted aborted) {
+            if (!frame.owns(aborted)) throw aborted;
+            // Only the decision broker may abort this frame after verifying that the
+            // resolving object left the game. Never replay an already partially run effect.
+        }
+    }
+
+    private static void checkDecisionObject() {
+        final forge.game.player.PlayerDecisionFrame frame = forge.game.player.PlayerDecisionFrame.current();
+        if (frame != null && frame.isAbandoned()) frame.abort();
+    }
+
+    private static void resolveInDecisionFrame(final SpellAbility sa) {
+
         Player pl = sa.getActivatingPlayer();
         final Game game = pl.getGame();
 
@@ -1312,7 +1330,8 @@ public class AbilityUtils {
             game.getTriggerHandler().resetActiveTriggers();
         }
 
-        resolvePreAbilities(sa, game);
+          resolvePreAbilities(sa, game);
+          checkDecisionObject();
 
         // count times ability resolves this turn
         if (!sa.isWrapper() && sa.isAbility()) {
@@ -1323,8 +1342,9 @@ public class AbilityUtils {
         }
 
         final ApiType api = sa.getApi();
-        if (api == null) {
-            sa.resolve();
+          if (api == null) {
+              sa.resolve();
+              checkDecisionObject();
             if (sa.getSubAbility() != null) {
                 resolve(sa.getSubAbility());
             }
@@ -1358,6 +1378,7 @@ public class AbilityUtils {
     }
 
     private static void resolveSubAbilities(final SpellAbility sa, final Game game) {
+        checkDecisionObject();
         final AbilitySub abSub = sa.getSubAbility();
         if (abSub == null || sa.isWrapper()) {
             return;
@@ -1378,6 +1399,7 @@ public class AbilityUtils {
     }
 
     private static void resolveApiAbility(final SpellAbility sa, final Game game) {
+        checkDecisionObject();
         final Card card = sa.getHostCard();
 
         String msg = "AbilityUtils:resolveApiAbility: try to resolve API ability";
@@ -1433,6 +1455,7 @@ public class AbilityUtils {
                 cost = new Cost("PayLife<" + halfup + ">", true);
             }
             alreadyPaid |= payer.getController().payCostToPreventEffect(cost, sa, alreadyPaid, allPayers);
+            checkDecisionObject();
         }
 
         if (alreadyPaid == isSwitched) {

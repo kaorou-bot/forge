@@ -5,6 +5,8 @@ import com.badlogic.gdx.utils.Align;
 
 import forge.Forge;
 import forge.Graphics;
+import forge.gui.FThreads;
+import forge.gui.GuiRequestScope;
 import forge.animation.ForgeAnimation;
 import forge.assets.FSkinColor;
 import forge.assets.FSkinColor.Colors;
@@ -60,6 +62,10 @@ public abstract class FDialog extends FOverlay {
     private float revealPercent = 0;
     private float lastDy = 0;
     private boolean finishedFirstReveal;
+    private final GuiRequestScope requestScope = GuiRequestScope.current();
+    private final Runnable requestReady = requestScope == null ? () -> { } : requestScope.captureReadiness();
+    private GuiRequestScope.Registration requestRegistration = GuiRequestScope.Registration.NONE;
+    private boolean countedVisible;
 
     protected FDialog(String title0, int buttonCount0) {
         buttonCount = buttonCount0;
@@ -119,23 +125,40 @@ public abstract class FDialog extends FOverlay {
         if (this.isVisible() == visible0) { return; }
 
         if (visible0) {
+            if (requestScope != null) {
+                if (requestScope.isCancelled()) return;
+                requestRegistration = requestScope.onCancel(() -> FThreads.invokeInEdtLater(
+                        requestScope.guardCleanup(() -> setVisible(false))));
+            }
             openDialogCount++;
+            countedVisible = true;
             MatchController.instance.cancelAwaitNextInput(); //ensure "Waiting for opponent..." prompt doesn't appear while dialog awaiting input
         }
-        else if (openDialogCount > 0) {
-            openDialogCount--;
+        else {
+            requestRegistration.close();
+            requestRegistration = GuiRequestScope.Registration.NONE;
+            // Overlay hiding can be deferred for one animation tick; count this dialog only once.
+            if (countedVisible) {
+                if (openDialogCount > 0) openDialogCount--;
+                countedVisible = false;
+            }
         }
         super.setVisible(visible0);
+        if (visible0) requestReady.run();
     }
 
     protected abstract float layoutAndGetHeight(float width, float maxHeight);
+
+    protected final void runRequestAction(final Runnable action) {
+        GuiRequestScope.runAction(requestScope, action);
+    }
 
     protected void initButton(int index, String text, FEventHandler command) {
         FButton button = getButton(index);
         if (button == null) { return; }
 
         button.setText(text);
-        button.setCommand(command);
+        button.setCommand(e -> runRequestAction(() -> command.handleEvent(e)));
         button.setEnabled(true);
         if (button == btnMiddle) { //allow middle button to be sized to fit text
             button.setWidth(button.getAutoSizeBounds().width * 1.25f);

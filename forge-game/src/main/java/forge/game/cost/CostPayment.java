@@ -134,6 +134,18 @@ public class CostPayment extends ManaConversionMatrix {
     }
 
     public boolean payCost(final CostDecisionMakerBase decisionMaker) {
+        final forge.game.player.PlayerDecisionFrame frame = forge.game.player.PlayerDecisionFrame.enter(
+                forge.game.player.PlayerDecisionFrame.Kind.COST, decisionMaker.getPlayer(), ability);
+        try (frame) {
+            return payCostInFrame(decisionMaker);
+        } catch (final forge.game.player.PlayerDecisionFrame.Aborted aborted) {
+            if (!frame.owns(aborted)) throw aborted;
+            return false;
+        }
+    }
+
+    private boolean payCostInFrame(final CostDecisionMakerBase decisionMaker) {
+        if (!decisionMaker.getPlayer().isInGame()) return false;
         adjustedCost = CostAdjustment.adjust(cost, ability, decisionMaker.isEffect());
         List<CostPart> costParts = adjustedCost.getCostPartsWithZeroMana();
 
@@ -149,7 +161,8 @@ public class CostPayment extends ManaConversionMatrix {
             try {
                 game.costPaymentStack.push(part, this);
 
-                PaymentDecision pd = part.accept(decisionMaker);
+                PaymentDecision pd = decisionMaker.decide(part);
+                if (!decisionMaker.getPlayer().isInGame()) return false;
 
                 // Right before we start paying as decided, we need to transfer the CostPayments matrix over?
                 if (pd != null) {
@@ -191,7 +204,7 @@ public class CostPayment extends ManaConversionMatrix {
         final Game game = decisionMaker.getPlayer().getGame();
 
         for (final CostPart part : parts) {
-            PaymentDecision decision = part.accept(decisionMaker);
+            PaymentDecision decision = decisionMaker.decide(part);
             if (null == decision) return false;
 
             try {

@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
-import java.util.concurrent.FutureTask;
 
 import javax.swing.JList;
 import javax.swing.WindowConstants;
@@ -211,14 +210,7 @@ public class GuiChoose {
             return c.getSelectedValues();
         };
 
-        final FutureTask<List<T>> future = new FutureTask<>(showChoice);
-        FThreads.invokeInEdtAndWait(future);
-        try {
-            return future.get();
-        } catch (final Exception e) { // should be no exception here
-            e.printStackTrace();
-        }
-        return null;
+        return FThreads.callInEdtAndWaitChoice(showChoice);
     }
 
     public static <T extends Comparable<? super T>> List<T> sideboard(final CMatchUI matchUI, final List<T> sideboard, final List<T> deck, final String message) {
@@ -261,14 +253,7 @@ public class GuiChoose {
             return new OrderResult<>(objects, remember);
         };
 
-        final FutureTask<OrderResult<T>> ft = new FutureTask<>(callable);
-        FThreads.invokeInEdtAndWait(ft);
-        try {
-            return ft.get();
-        } catch (final Exception e) {
-            e.printStackTrace();
-        }
-        return new OrderResult<>(null, false);
+        return FThreads.callInEdtAndWaitChoice(callable);
     }
 
     public static List<CardView> manipulateCardList(final CMatchUI gui, final String title, final Iterable<CardView> cards, final Iterable<CardView> manipulable, 
@@ -285,16 +270,11 @@ public class GuiChoose {
             return tempArea.getCards();
         }
     };
-	final FutureTask<List<CardView>> ft = new FutureTask<>(callable);
-        FThreads.invokeInEdtAndWait(ft);
-	gui.clearSelectables();
         try {
-            List<CardView> result = ft.get();
-            return result;
-        } catch (final Exception e) { // we have waited enough
-            e.printStackTrace();
+            return FThreads.callInEdtAndWaitChoice(callable);
+        } finally {
+            gui.clearSelectables();
         }
-        return null;
     }
 
 }

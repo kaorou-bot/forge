@@ -37,6 +37,7 @@ import javax.swing.JRootPane;
 import javax.swing.SwingUtilities;
 
 import forge.Singletons;
+import forge.gui.GuiRequestScope;
 import forge.localinstance.skin.FSkinProp;
 import forge.toolbox.FMouseAdapter;
 import forge.toolbox.FPanel;
@@ -74,6 +75,9 @@ public class FDialog extends SkinnedDialog implements ITitleBarOwner, KeyEventDi
     private final FPanel innerPanel;
     private JComponent defaultFocus;
     private final boolean allowResize;
+    private final GuiRequestScope requestScope = GuiRequestScope.current();
+    private final Runnable requestReady = requestScope == null ? () -> { } : requestScope.captureReadiness();
+    private GuiRequestScope.Registration requestRegistration = GuiRequestScope.Registration.NONE;
 
     public FDialog() {
         this(true, false, "dialog");
@@ -177,6 +181,11 @@ public class FDialog extends SkinnedDialog implements ITitleBarOwner, KeyEventDi
         if (isVisible() == visible) { return; }
 
         if (visible) {
+            if (requestScope != null) {
+                if (requestScope.isCancelled()) return;
+                requestRegistration = requestScope.onCancel(() -> SwingUtilities.invokeLater(
+                        requestScope.guardCleanup(this::dispose)));
+            }
             FMouseAdapter.forceMouseUp(); //ensure mouse up handled if dialog shown between mouse down and mouse up
 
             if (openModals.isEmpty()) {
@@ -197,16 +206,21 @@ public class FDialog extends SkinnedDialog implements ITitleBarOwner, KeyEventDi
             }
         }
         else {
+            requestRegistration.close();
+            requestRegistration = GuiRequestScope.Registration.NONE;
             KeyboardFocusManager.getCurrentKeyboardFocusManager().removeKeyEventDispatcher(this);
             if (isModal()) {
-                openModals.pop();
+                openModals.remove(this); // Cancellation may close a request below another modal.
                 if (openModals.isEmpty()) {
                     backdropPanel.setVisible(false);
                     Singletons.getView().getNavigationBar().setMenuShortcutsEnabled(true);
                 }
             }
         }
-        super.setVisible(visible);
+        // setVisible(true) enters Swing's nested event pump for a modal dialog. Keep the
+        // owner in this instance, but never lend its identity to unrelated AWT events.
+        if (visible) requestReady.run();
+        GuiRequestScope.runWithoutContext(() -> super.setVisible(visible));
     }
 
     public void setDefaultFocus(final JComponent comp) {

@@ -39,7 +39,30 @@ public class VPrompt extends FContainer {
 
     private final FButton btnOk, btnCancel;
     private final MessageLabel lblMessage;
+    private final ClockLabel lblClock;
     private String message;
+    private String operationClock = "";
+    private FMagnifyView clockDetails;
+    private static final float CLOCK_HEIGHT = Utils.scale(24);
+    public void setOperationClock(final String text) {
+        operationClock = text;
+        lblClock.setVisible(!text.isEmpty());
+        if (clockDetails != null) {
+            if (text.isEmpty()) {
+                clockDetails.hide();
+                clockDetails = null;
+            } else if (clockDetails.isVisible()) {
+                clockDetails.updateText(getOperationClockDetails());
+            } else {
+                clockDetails = null;
+            }
+        }
+    }
+    private String getOperationClockDetails() {
+        return forge.util.Localizer.getInstance().getMessage("lblOperationClock")
+                + "\n" + operationClock.replace("  |  ", "\n");
+    }
+    public float getPreferredHeight() { return HEIGHT + (operationClock.isEmpty() ? 0 : CLOCK_HEIGHT); }
     private CardView card;
 
     public void setCardView(final CardView card) {
@@ -47,6 +70,8 @@ public class VPrompt extends FContainer {
     }
 
     public VPrompt(String okText, String cancelText, FEventHandler okCommand, FEventHandler cancelCommand) {
+        lblClock = add(new ClockLabel());
+        lblClock.setVisible(false);
         lblMessage = add(new MessageLabel());
         lblMessage.setLeft(BTN_WIDTH);
         lblMessage.setHeight(HEIGHT);
@@ -87,6 +112,11 @@ public class VPrompt extends FContainer {
 
     @Override
     protected void doLayout(float width, float height) {
+        final float clockHeight = operationClock.isEmpty() ? 0 : CLOCK_HEIGHT;
+        lblClock.setBounds(0, 0, width, clockHeight);
+        lblMessage.setTop(clockHeight);
+        btnOk.setTop(clockHeight);
+        btnCancel.setTop(clockHeight);
         lblMessage.setWidth(width - 2 * BTN_WIDTH);
         if (Forge.reversedPrompt) {
             btnOk.setCorner(Corner.BottomRight);
@@ -144,6 +174,41 @@ public class VPrompt extends FContainer {
                 float h = getHeight() - 2 * PADDING;
                 renderer.drawText(g, message, FONT, getForeColor(), x, y, w, h, y, h, true, Align.center, true);
             }
+        }
+    }
+
+    /** Separate from the decision text: eight clocks must never shrink an action prompt. */
+    private class ClockLabel extends FDisplayObject {
+        private final FSkinFont font = FSkinFont.get(13);
+        private String cachedText = "";
+        private String fittedText = "";
+        private float cachedWidth = -1;
+
+        @Override public boolean tap(float x, float y, int count) {
+            if (operationClock.isEmpty()) return true;
+            if (clockDetails != null) clockDetails.hide();
+            clockDetails = FMagnifyView.showUpdatable(this, getOperationClockDetails(),
+                    getForeColor(), getBackColor(), FONT, false);
+            return true;
+        }
+
+        @Override public void draw(Graphics g) {
+            final float width = Math.max(0, getWidth() - 2 * PADDING);
+            final String text = forge.util.Localizer.getInstance().getMessage("lblOperationClockExpand") + "  " + operationClock;
+            if (!text.equals(cachedText) || cachedWidth != width) {
+                cachedText = text;
+                cachedWidth = width;
+                fittedText = text;
+                if (font.getBounds(fittedText).width > width) {
+                    int end = text.length();
+                    while (end > 0 && font.getBounds(text.substring(0, end) + "…").width > width) {
+                        end = text.offsetByCodePoints(end, -1);
+                    }
+                    fittedText = end == 0 ? "" : text.substring(0, end) + "…";
+                }
+            }
+            g.drawText(fittedText, font, getForeColor(), PADDING, 0, width, getHeight(), false, Align.left, true);
+            g.drawLine(1, getForeColor(), 0, getHeight() - 1, getWidth(), getHeight() - 1);
         }
     }
 }

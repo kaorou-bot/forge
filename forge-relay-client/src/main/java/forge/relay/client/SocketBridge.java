@@ -16,10 +16,16 @@ final class SocketBridge implements AutoCloseable {
     private final Socket second;
     private final AtomicInteger openDirections = new AtomicInteger(2);
     private final AtomicBoolean closed = new AtomicBoolean();
+    private final Runnable onClose;
 
     SocketBridge(Socket first, Socket second, Executor executor) {
+        this(first, second, executor, () -> { });
+    }
+
+    SocketBridge(Socket first, Socket second, Executor executor, Runnable onClose) {
         this.first = first;
         this.second = second;
+        this.onClose = onClose;
         executor.execute(() -> copy(first, second));
         executor.execute(() -> copy(second, first));
     }
@@ -57,7 +63,10 @@ final class SocketBridge implements AutoCloseable {
         }
         closeQuietly(first);
         closeQuietly(second);
+        onClose.run();
     }
+
+    boolean isClosed() { return closed.get(); }
 
     private static void closeQuietly(Socket socket) {
         try {
