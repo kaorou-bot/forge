@@ -54,7 +54,10 @@ public abstract class GameProtocolHandler<T> extends ChannelInboundHandlerAdapte
     public final void channelRead(final ChannelHandlerContext ctx, final Object msg) {
         if (!isCurrentConnection(ctx)) return;
         final String[] catchedError = {""};
-        netLog.debug("Received: {}", msg);
+        // NetworkGuiGame.applyDelta logs each delta itself
+        if (!(msg instanceof GuiGameEvent delta && delta.getMethod() == ProtocolMethod.applyDelta)) {
+            netLog.info("Received: {}", msg);
+        }
         if (msg instanceof ReplyEvent event) {
             if (event.getIndex() == GuiRequestControl.INDEX) {
                 handleGuiRequestControl(ctx, event.getReply());

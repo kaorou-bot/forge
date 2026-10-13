@@ -93,6 +93,8 @@ public interface IGuiGame {
 
     /** Plays a coin flip animation and blocks until it finishes. No-op by default. */
     default void showCoinFlip(boolean heads, String caption, boolean waitForTap) {}
+    default void showFlipOntoBattlefield(CardView flipped, CardView target, List<CardView> hit, List<CardView> battlefield, int timesFlipped) {}
+    default void endFlipOntoBattlefield(CardView flipped) {}
 
     void flashIncorrectAction();
     void alertUser();
@@ -111,6 +113,9 @@ public interface IGuiGame {
     default void hideManaPool(PlayerView player) {}
 
     default void updateStack() {}
+
+    /** The game was rewound in place by undo: drop any animation/transient UI state tied to the old timeline. Called on the EDT before the refresh. */
+    default void onSnapshotRestored() {}
 
     default void notifyStackAddition(final GameEventSpellAbilityCast event) {}
     default void notifyStackRemoval(final GameEventSpellRemovedFromStack event) {}
@@ -297,9 +302,6 @@ public interface IGuiGame {
 
     void awaitNextInput();
     void cancelAwaitNextInput();
-
-    /** Signal to start a client-side elapsed timer for waiting display. */
-    void showWaitingTimer(PlayerView forPlayer, String waitingForPlayerName);
 
     void updateAutoPassPrompt();
 

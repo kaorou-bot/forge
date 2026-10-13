@@ -27,6 +27,7 @@ import forge.util.FSerializableFunction;
 import forge.util.ITriggerEvent;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -110,7 +111,6 @@ public class ProtocolGuiGame extends NetworkGuiGame implements IHasForgeLog {
      */
     public void resetForReconnect() {
         initialSyncSent = false;
-        objectsRegistered = false;
         fallbackLogged = false;
         syncManager.reset();
     }
@@ -159,7 +159,8 @@ public class ProtocolGuiGame extends NetworkGuiGame implements IHasForgeLog {
         if (paused) { return; }
         // if this gets provided with new object views while more updates got chained (e.g. revealing what got bounced):
         // the client may not be quick enough to replace it in the EDT before this passes IO lookup, so take the safer route
-        boolean pendingZoneChange = !getForwarder().hasPendingZoneChange(args);
+        // The forwarder is gone by the time a game's end is announced, and with it anything pending
+        boolean pendingZoneChange = forwarder == null || !forwarder.hasPendingZoneChange(args);
         updateGameView();
         sender.send(method, pendingZoneChange, args);
     }
@@ -511,9 +512,16 @@ public class ProtocolGuiGame extends NetworkGuiGame implements IHasForgeLog {
         return false;
     }
 
+    // Client draws the waiting prompt. send, not syncAndSend, because the game thread may be live
     @Override
-    public void showWaitingTimer(final PlayerView forPlayer, final String waitingForPlayerName) {
-        send(ProtocolMethod.showWaitingTimer, forPlayer, waitingForPlayerName);
+    public void awaitNextInput() {
+        send(ProtocolMethod.awaitNextInput);
+    }
+
+    @Override
+    public void updateAutoPassPrompt() {
+        // Client's waiting prompt includes the yield line, so the same notice covers it
+        if (currentYieldMessage() != null) awaitNextInput();
     }
 
     @Override
@@ -529,8 +537,11 @@ public class ProtocolGuiGame extends NetworkGuiGame implements IHasForgeLog {
                 syncControlledPlayer(pc);
             }
         }
+        // Repeated event types are counted: [GameEventManaPool x6, GameEventAddLog x3]
         netLog.info("Sending batch of {}: [{}]", events.size(),
-                events.stream().map(e -> e.getClass().getSimpleName()).collect(Collectors.joining(", ")));
+                events.stream().collect(Collectors.groupingBy(e -> e.getClass().getSimpleName(), LinkedHashMap::new, Collectors.counting()))
+                        .entrySet().stream().map(e -> e.getValue() == 1 ? e.getKey() : e.getKey() + " x" + e.getValue())
+                        .collect(Collectors.joining(", ")));
         // When GameEventGameStarted arrives, prepareAllZones has completed —
         // commanders are placed and zones are populated. Register consumers on
         // any objects not yet tracked (without clearing dirty bits).
@@ -545,6 +556,13 @@ public class ProtocolGuiGame extends NetworkGuiGame implements IHasForgeLog {
                     break;
                 }
             }
+        }
+        // Undo rewinds the game in place and writes fields directly, bypassing the dirty tracking the delta
+        // sync relies on, so the client would never hear about most of the changes. Re-send the whole view
+        // (the same thing a checksum resync does) before the events that tell the client's GUI to rebuild.
+        if (useDeltaSync && initialSyncSent && objectsRegistered && events.stream()
+                .anyMatch(e -> e instanceof forge.game.event.GameEventSnapshotRestored r && !r.start())) {
+            sendFullState();
         }
         if (useDeltaSync && initialSyncSent && objectsRegistered) {
             // Bundle events with delta so they're applied atomically:
