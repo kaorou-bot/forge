@@ -13,6 +13,7 @@ import forge.assets.FSkinColor.Colors;
 import forge.assets.FSkinFont;
 import forge.assets.FSkinTexture;
 import forge.screens.FScreen;
+import forge.screens.match.MatchController;
 import forge.screens.match.views.VPrompt;
 import forge.toolbox.FButton.Corner;
 import forge.toolbox.FEvent.FEventHandler;
