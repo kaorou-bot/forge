@@ -17,6 +17,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Clipboard;
 import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.Timer;
 import forge.adventure.scene.*;
 import forge.adventure.stage.MapStage;
 import forge.adventure.stage.WorldStage;
@@ -34,7 +35,9 @@ import forge.error.ExceptionHandler;
 import forge.gamemodes.limited.BoosterDraft;
 import forge.gui.FThreads;
 import forge.gui.GuiBase;
+import forge.gui.download.CdnUuidCache;
 import forge.gui.error.BugReporter;
+import forge.gui.util.SOptionPane;
 import forge.interfaces.IDeviceAdapter;
 import forge.localinstance.properties.ForgeConstants;
 import forge.localinstance.properties.ForgePreferences;
@@ -49,14 +52,10 @@ import forge.screens.home.NewGameMenu;
 import forge.screens.match.DiceOverlay;
 import forge.screens.match.MatchController;
 import forge.screens.match.MatchScreen;
+import forge.screens.settings.CardImageBrowserScreen;
 import forge.sound.MusicPlaylist;
 import forge.sound.SoundSystem;
-import forge.toolbox.FContainer;
-import forge.toolbox.FDialog;
-import forge.toolbox.FDisplayObject;
-import forge.toolbox.FGestureAdapter;
-import forge.toolbox.FOptionPane;
-import forge.toolbox.FOverlay;
+import forge.toolbox.*;
 import forge.util.*;
 import io.sentry.ScopeType;
 import io.sentry.Sentry;
@@ -130,6 +129,7 @@ public class Forge implements ApplicationListener {
     public static int mouseButtonID = 0;
     public static InputProcessor inputProcessor;
     private static Cursor cursor0, cursor1, cursor2, cursorA0, cursorA1, cursorA2;
+    public static boolean forcedEnglishonCJKMissing = false;
     public static boolean createNewAdventureMap = false;
     private static Localizer localizer;
     private static boolean desktopAutoOrientation = true;
@@ -193,12 +193,6 @@ public class Forge implements ApplicationListener {
 
         ((GuiMobile) GuiBase.getInterface()).captureGlThread();
 
-        // Install complete bundled files before splash/font loading. A killed copy
-        // must not leave truncated language/font files for the next cold start.
-        System.out.println("[startup] Preparing bundled language and font files");
-        AssetsDownloader.prepareBundledFiles();
-        System.out.println("[startup] Bundled files ready; initializing graphics");
-
         if (!GuiBase.isAndroid() || (androidVersion > 25 && totalDeviceRAM > 3400)) {
             allowCardBG = true;
         }
@@ -243,7 +237,6 @@ public class Forge implements ApplicationListener {
         }
         if (!initialized)
             FSkin.loadLight(skinName, getSplashScreen());
-        System.out.println("[startup] Splash skin ready");
 
         textureFiltering = getForgePreferences().getPrefBoolean(FPref.UI_LIBGDX_TEXTURE_FILTERING);
         showFPS = getForgePreferences().getPrefBoolean(FPref.UI_SHOW_FPS);
@@ -272,15 +265,16 @@ public class Forge implements ApplicationListener {
             Runnable runnable = () -> {
                 safeToClose = false;
                 ImageKeys.setIsLibGDXPort(GuiBase.getInterface().isLibgdxPort());
+                FModel.progressCeiling = 850; //the card databases fill the bar to 85%, the steps below take it from there
                 FModel.initialize(getSplashScreen().getProgressBar(), null);
 
-                getSplashScreen().getProgressBar().setDescription(getLocalizer().getMessage("lblLoadingFonts"));
+                splashStep(getLocalizer().getMessage("lblLoadingFonts"), 850);
                 FSkinFont.preloadAll(locale);
 
-                getSplashScreen().getProgressBar().setDescription(getLocalizer().getMessage("lblLoadingCardTranslations"));
+                splashStep(getLocalizer().getMessage("lblLoadingCardTranslations"), 900);
                 CardTranslation.preloadTranslation(locale, ForgeConstants.LANG_DIR);
 
-                getSplashScreen().getProgressBar().setDescription(getLocalizer().getMessage("lblPrepareDatabase"));
+                splashStep(getLocalizer().getMessage("lblPrepareDatabase"), 940);
                 Gdx.app.postRunnable(this::afterDbLoaded);
             };
             //see if app or assets need updating
@@ -371,7 +365,32 @@ public class Forge implements ApplicationListener {
             System.out.println(fScreen.toString());*/
     }
 
+    /**
+     * First run (or cache cleared): offer the one-time bulk CDN sync so later card image
+     * downloads resolve instantly instead of one Scryfall set at a time. Call only once a real
+     * home/adventure screen is open -- not while the mode-selector splash is still showing.
+     */
+    public static void maybePromptForBulkCdnSync() {
+        // don't prompt if the game starts in adventure to prevent the prompt appearing on adventure loading screen
+        if (isMobileAdventureMode)
+            return;
+        if (!CdnUuidCache.shouldPromptForBulkSync()) {
+            return;
+        }
+        FThreads.invokeInBackgroundThread(() -> {
+            boolean confirmed = SOptionPane.showConfirmDialog(
+                    getLocalizer().getMessage("lblFirstRunBulkCdnPrompt"),
+                    "Forge", "Download Now", "Not Now", true);
+            CdnUuidCache.markBulkSyncPromptAnswered();
+            if (confirmed) {
+                CardImageBrowserScreen.openAndAutoStartBulkSync();
+            }
+        });
+    }
+
     public static void openHomeDefault() {
+        //default to English only if CJK is missing
+        getLocalizer().setEnglish(forcedEnglishonCJKMissing);
         FSkinTexture.invalidateAdventureTextures();
         GuiBase.setAdventureDirectory(null);
         clearScreenStack();
@@ -386,6 +405,8 @@ public class Forge implements ApplicationListener {
     }
 
     public static void openAdventure() {
+        //default to english since it doesn't have CJK fonts, it will be updated on Forgescene enter/exit
+        getLocalizer().setEnglish(forcedEnglishonCJKMissing);
         //continuous rendering is needed for adventure mode
         startContinuousRendering();
         FSkinTexture.invalidateAdventureTextures();
@@ -412,11 +433,24 @@ public class Forge implements ApplicationListener {
             e.printStackTrace();
         }
     }
+    //Moves the splash bar forward (never back). Goes through the EDT so it stays in order with the FModel progress
+    //updates, which are posted there too, instead of racing them from the loader thread. A null description keeps the old one.
+    private void splashStep(final String description, final int value) {
+        FThreads.invokeInEdtLater(() -> {
+            final SplashScreen splash = getSplashScreen();
+            if (splash == null) { return; }
+            final FProgressBar bar = splash.getProgressBar();
+            if (description != null) { bar.setDescription(description); }
+            bar.setMaximum(1000);
+            if (value > bar.getValue()) { bar.setValue(value); }
+        });
+    }
     protected void afterDbLoaded() {
         if (GuiBase.isAndroid() && autoCache)
-            getSplashScreen().getProgressBar().setDescription(getLocalizer().getMessage("lblFinishingStartup") + "\nDetected RAM: " + totalDeviceRAM + "MB. Cache size: " + cacheSize);
+            getSplashScreen().getProgressBar().setDescription(getLocalizer().getMessage("lblFinishingStartup") + " - Detected RAM: " + totalDeviceRAM + "MB. Cache size: " + cacheSize);
         else
             getSplashScreen().getProgressBar().setDescription(getLocalizer().getMessage("lblFinishingStartup"));
+        splashStep(null, 970); //skin and drafts still have to load, so do not show 100% yet
         //override transition & title bg
         try {
             FileHandle transitionFile = Config.instance().getFile("ui/transition.png");
@@ -441,39 +475,57 @@ public class Forge implements ApplicationListener {
 
         FThreads.invokeInBackgroundThread(() -> FThreads.invokeInEdtLater(() -> {
             //load skin full
-            FSkin.loadFull(splashScreen);
+            FSkin.loadFull(getSplashScreen());
             FThreads.invokeInBackgroundThread(() -> {
                 //load Drafts
                 preloadBoosterDrafts();
-                FThreads.invokeInEdtLater(() -> {
-                    if (selector.equals("Adventure")) {
-                        //preload adventure resources to speedup startup if selector is adventure. Needs in edt when setting up worldstage
-                        loadAdventureResources(false);
-                        isMobileAdventureMode = true;
-                    }
-                    //selection transition
-                    setTransitionScreen(new TransitionScreen(() -> {
-                        if (createNewAdventureMap) {
-                            openAdventure();
-                            clearSplashScreen();
-                        } else {
-                            if (selector.equals("Classic")) {
-                                openHomeDefault();
-                                clearSplashScreen();
-                            } else if (selector.equals("Adventure")) {
-                                openAdventure();
-                                clearSplashScreen();
-                            } else if (splashScreen != null) {
-                                splashScreen.setShowModeSelector(true);
-                            } else {//default mode in case splashscreen is null at some point as seen on resume..
-                                openHomeDefault();
-                                clearSplashScreen();
+                splashStep(null, 1000);
+                final long giveUpAt = System.currentTimeMillis() + 2000; //never hold the splash if the bar cannot settle (no frames drawn, odd maximum)
+                Timer.schedule(new Timer.Task() {
+                    @Override public void run() {
+                        final SplashScreen splash = getSplashScreen();
+                        if (splash != null && !splash.isBarSettled() && System.currentTimeMillis() < giveUpAt) { Timer.schedule(this, 0.03f); return; }
+                        Gdx.graphics.requestRendering();
+                        Gdx.app.postRunnable(() -> {
+                            if (selector.equals("Adventure")) {
+                                //preload adventure resources to speedup startup if selector is adventure. Needs in edt when setting up worldstage
+                                loadAdventureResources(false);
+                                isMobileAdventureMode = true;
                             }
-                        }
-                        safeToClose = true;
-                        clearTransitionScreen();
-                    }, ScreenUtil.getInstance().takeScreenshot(), false, false, true, false));
-                });
+                            //selection transition
+                            setTransitionScreen(new TransitionScreen(() -> {
+                                boolean openedRealScreen;
+                                if (createNewAdventureMap) {
+                                    openAdventure();
+                                    clearSplashScreen();
+                                    openedRealScreen = true;
+                                } else {
+                                    if (selector.equals("Classic")) {
+                                        openHomeDefault();
+                                        clearSplashScreen();
+                                        openedRealScreen = true;
+                                    } else if (selector.equals("Adventure")) {
+                                        openAdventure();
+                                        clearSplashScreen();
+                                        openedRealScreen = true;
+                                    } else if (splashScreen != null) {
+                                        splashScreen.setShowModeSelector(true);
+                                        openedRealScreen = false;
+                                    } else {//default mode in case splashscreen is null at some point as seen on resume..
+                                        openHomeDefault();
+                                        clearSplashScreen();
+                                        openedRealScreen = true;
+                                    }
+                                }
+                                safeToClose = true;
+                                clearTransitionScreen();
+                                if (openedRealScreen) {
+                                    maybePromptForBulkCdnSync();
+                                }
+                            }, ScreenUtil.getInstance().takeScreenshot(), false, false, true, false));
+                        });
+                    }
+                }, 0.03f);
             });
         }));
     }
@@ -606,6 +658,13 @@ public class Forge implements ApplicationListener {
         }
     }
 
+    public static void setForcedEnglishonCJKMissing() {
+        if (!forcedEnglishonCJKMissing) {
+            forcedEnglishonCJKMissing = true;
+            getLocalizer().setEnglish(forcedEnglishonCJKMissing);
+            System.err.println("Forge switches to English due to an error generating CJK Fonts. Language: "+locale);
+        }
+    }
     public static void showMenu() {
         if (isMobileAdventureMode)
             return;
@@ -973,9 +1032,6 @@ public class Forge implements ApplicationListener {
     public void resume() {
         lifecycleClosing = false;
         setWindowFocus(true);
-        final forge.gamemodes.net.client.FGameClient networkClient =
-                forge.screens.online.OnlineLobbyScreen.getfGameClient();
-        if (networkClient != null) networkClient.onForeground();
         try {
             Texture.setAssetManager(getAssets().manager());
             needsUpdate = true;
@@ -993,6 +1049,7 @@ public class Forge implements ApplicationListener {
     @Override
     public void dispose() {
         // Explicit exit and Android backend destruction can both call dispose.
+        // The second callback must not tear down screens or lazily recreate overlays.
         if (isDisposed) {
             return;
         }

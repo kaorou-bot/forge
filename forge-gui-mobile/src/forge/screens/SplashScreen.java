@@ -45,6 +45,14 @@ public class SplashScreen extends FContainer {
         return progressBar;
     }
 
+    /**
+     * The classic splash draws the progress bar directly, so its final value is
+     * the point at which the startup transition may safely continue.
+     */
+    public boolean isBarSettled() {
+        return progressBar.getValue() >= progressBar.getMaximum();
+    }
+
     public void setSplashTexture(TextureRegion textureRegion) {
         splashTexture = textureRegion;
     }

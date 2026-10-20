@@ -1,11 +1,16 @@
 package forge.screens.match.views;
 
 import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.badlogic.gdx.Gdx;
 import forge.MobileTestEnvironment;
+import forge.assets.FSkin;
 import forge.assets.FSkinFont;
+import forge.assets.FSkinImageInterface;
 import forge.assets.TextRenderer;
+import forge.localinstance.skin.FSkinProp;
 import forge.menu.FMagnifyView;
 import forge.toolbox.FButton;
 import forge.toolbox.FDisplayObject;
@@ -24,6 +29,7 @@ import static org.mockito.Mockito.*;
 /** Real prompt, magnify view, layout and container lifecycle; only graphics are substituted. */
 public class VPromptOperationClockTest {
     private MockedStatic<FSkinFont> fonts;
+    private MockedStatic<FSkin> skins;
     private MockedStatic<FOverlay> overlays;
     private MockedConstruction<TextRenderer> renderers;
     private MockedConstruction<FButton> buttons;
@@ -57,6 +63,11 @@ public class VPromptOperationClockTest {
         fonts = mockStatic(FSkinFont.class);
         fonts.when(() -> FSkinFont.get(anyInt())).thenReturn(font);
         fonts.when(() -> FSkinFont._get(anyInt())).thenReturn(font);
+        // CancelButton is an FButton subclass, so mockConstruction(FButton.class)
+        // does not intercept its constructor. Keep FSkinImage setup off native Pixmap.
+        final Map<FSkinProp, FSkinImageInterface> images = new HashMap<>();
+        skins = mockStatic(FSkin.class);
+        skins.when(FSkin::getImages).thenReturn(images);
         renderers = mockConstruction(TextRenderer.class, (renderer, context) ->
             when(renderer.getWrappedBounds(anyString(), any(), anyFloat())).thenAnswer(call ->
                 new TextBounds(200, ((String) call.getArgument(0)).split("\\n").length * 18f)));
@@ -74,6 +85,7 @@ public class VPromptOperationClockTest {
     public void release() {
         if (overlays != null) { overlays.close(); overlays = null; }
         if (buttons != null) { buttons.close(); buttons = null; }
+        if (skins != null) { skins.close(); skins = null; }
         if (renderers != null) { renderers.close(); renderers = null; }
         if (fonts != null) { fonts.close(); fonts = null; }
         Gdx.graphics = originalGraphics;

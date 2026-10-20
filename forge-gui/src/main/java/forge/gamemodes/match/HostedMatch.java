@@ -20,6 +20,7 @@ import forge.game.player.PlayerView;
 import forge.game.player.RegisteredPlayer;
 import forge.gamemodes.net.NetworkGameEventListener;
 import forge.gamemodes.net.server.HostingServer;
+import forge.gamemodes.replay.ReplaySession;
 import forge.gamemodes.quest.QuestController;
 import forge.gui.FThreads;
 import forge.gui.GuiBase;
@@ -256,6 +257,8 @@ public class HostedMatch {
             }
         }
 
+        final ReplaySession replay = ReplaySession.begin(game, humanControllers);
+
         for (final Entry<IGuiGame, Collection<PlayerView>> e : playersPerGui.asMap().entrySet()) {
             e.getKey().openView(new TrackableCollection<>(e.getValue()));
         }
@@ -321,7 +324,14 @@ public class HostedMatch {
                                 });
                             });
                 }
-                match.startGame(currentGame, startGameHook);
+                try {
+                    match.startGame(currentGame, startGameHook);
+                } catch (final RuntimeException | Error ex) {
+                    if (replay != null) {
+                        replay.abort();
+                    }
+                    throw ex;
+                }
             } finally {
                 if (operationClock != null) operationClock.close();
                 for (final IGuiGame gui : clockGuis) {
@@ -343,6 +353,10 @@ public class HostedMatch {
                         fwd.flush();
                     }
                 }
+            }
+
+            if (replay != null) {
+                replay.finish();
             }
 
             // After game is over...

@@ -107,7 +107,7 @@ public abstract class GameProtocolHandler<T> extends ChannelInboundHandlerAdapte
                 final long queueDelayMs = startMs - receiveTimeMs;
                 if (returnType.equals(Void.TYPE)) {
                     try {
-                        method.invoke(toInvoke, args);
+                        method.invoke(protocolMethod.receiver(toInvoke), args);
                         afterCall(ctx, protocolMethod);
                     } catch (final IllegalAccessException | IllegalArgumentException e) {
                         netLog.error("Unknown protocol method {} args={}", methodName, describeArgs(args));

@@ -25,6 +25,7 @@ import forge.game.player.Player;
 import forge.game.player.PlayerView;
 import forge.game.spellability.SpellAbility;
 import forge.game.spellability.SpellAbilityView;
+import forge.gamemodes.match.Selection;
 import forge.localinstance.properties.ForgePreferences;
 import forge.gui.GuiRequestScope;
 import forge.model.FModel;
@@ -140,14 +141,26 @@ public abstract class InputBase implements java.io.Serializable, Input {
     // showMessage() is always the first method called
     @Override
     public final void showMessageInitial() {
+        finished = false;
         runInputAction(() -> {
             controller.cancelAwaitNextInput();
             showMessage();
+            showSelection();
             if (!isFinished() && requestScope() != null) requestScope().inputReady();
         });
     }
 
     protected abstract void showMessage();
+
+    /** What this prompt marks. */
+    protected Selection getSelection() {
+        return Selection.NONE;
+    }
+
+    /** Sends this prompt's marks, preserving targets chosen while a spell cost is paid. */
+    protected final void showSelection() {
+        controller.getGui().setSelection(getSelection().withChosen(controller.getKeptMarks()));
+    }
 
     @Override
     public final void selectPlayer(final Player player, final ITriggerEvent triggerEvent) {

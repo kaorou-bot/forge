@@ -136,7 +136,7 @@ public class InputCancellationLifecycleTest {
             scope.cancel(GuiRequestScope.Reason.TIMED_OUT);
             assertTimeout(waiting.result());
             Assert.assertEquals(answersConsumed.get(), 0);
-            verify(h.gui).clearSelectables();
+            verify(h.gui).setSelection(any());
             Assert.assertNull(h.queue.getInput());
         }
     }

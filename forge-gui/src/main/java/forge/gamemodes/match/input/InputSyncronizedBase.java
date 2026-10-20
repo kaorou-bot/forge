@@ -1,6 +1,7 @@
 package forge.gamemodes.match.input;
 
 import forge.util.IHasForgeLog;
+import forge.gamemodes.match.Selection;
 import forge.gui.FThreads;
 import forge.gui.GuiRequestScope;
 import forge.player.PlayerControllerHuman;
@@ -109,6 +110,7 @@ public abstract class InputSyncronizedBase extends InputBase implements InputSyn
             throw failure;
         } finally {
             try {
+                getController().getGui().setSelection(Selection.ofChosen(getController().getKeptMarks()));
                 FThreads.invokeInEdtNowOrLater(this::setFinished);
             } finally {
                 try { getController().getInputQueue().removeInput(this); }

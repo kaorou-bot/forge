@@ -65,6 +65,7 @@ import forge.gamemodes.match.DeclineScope;
 import forge.gamemodes.match.DrawOfferCoordinator;
 import forge.gamemodes.match.DrawOfferMessage;
 import forge.gamemodes.match.NextGameDecision;
+import forge.gamemodes.match.Selection;
 import forge.gamemodes.match.YieldController;
 import forge.gamemodes.match.YieldUpdate;
 import forge.gamemodes.match.input.*;
@@ -87,6 +88,7 @@ import forge.localinstance.properties.ForgeConstants;
 import forge.localinstance.properties.ForgePreferences.FPref;
 import forge.model.FModel;
 import forge.trackable.TrackableCollection;
+import forge.trackable.TrackableObject;
 import forge.util.*;
 import forge.util.collect.FCollection;
 import forge.util.collect.FCollectionView;
@@ -3067,6 +3069,24 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
     }
 
     private boolean untimedChooseTargetsFor(final SpellAbility currentAbility) {
+        final boolean result = chooseTargetsForStep(currentAbility);
+        // Keep selected targets visible through later targeting steps and spell-cost payment.
+        if (result && keepTargetsMarked && !TargetingProgress.hasLaterTargetingStep(currentAbility)) {
+            keptMarks.addAll(TargetingProgress.chosenTargets(currentAbility));
+            getGui().setSelection(Selection.ofChosen(keptMarks));
+        }
+        return result;
+    }
+
+    /** True while a spell is being cast: target marks persist until its cost is paid. */
+    private boolean keepTargetsMarked;
+    private final List<TrackableObject> keptMarks = new ArrayList<>();
+
+    public List<TrackableObject> getKeptMarks() {
+        return keptMarks;
+    }
+
+    private boolean chooseTargetsForStep(final SpellAbility currentAbility) {
         final TargetSelection select = new TargetSelection(this, currentAbility);
         boolean canFilterMustTarget = true;
 
@@ -3475,6 +3495,19 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
             macros().addRememberedAction(new SelectCardAction(cardView));
         }
         return selected;
+    }
+
+    @Override
+    public void selectStackItem(final StackItemView item) {
+        if (item == null || !(inputProxy.getInput() instanceof InputSelectStackItems)) {
+            return;
+        }
+        for (final SpellAbilityStackInstance si : getGame().getStack()) {
+            if (si.getId() == item.getId()) {
+                inputProxy.selectAbility(si.getSpellAbility());
+                return;
+            }
+        }
     }
 
     @Override

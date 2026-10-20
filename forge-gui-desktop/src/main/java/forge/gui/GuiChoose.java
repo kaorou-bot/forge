@@ -6,11 +6,14 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.FutureTask;
 
 import javax.swing.JList;
 import javax.swing.WindowConstants;
 
 import org.apache.commons.lang3.StringUtils;
+
+import com.google.common.collect.Lists;
 
 import forge.card.CardStateName;
 import forge.card.ICardFace;
@@ -19,6 +22,7 @@ import forge.game.card.Card;
 import forge.game.card.CardFaceView;
 import forge.game.card.CardView;
 import forge.game.card.CardView.CardStateView;
+import forge.gamemodes.match.Selection;
 import forge.item.InventoryItem;
 import forge.item.PaperCard;
 import forge.model.FModel;
@@ -210,7 +214,14 @@ public class GuiChoose {
             return c.getSelectedValues();
         };
 
-        return FThreads.callInEdtAndWaitChoice(showChoice);
+        final FutureTask<List<T>> future = new FutureTask<>(showChoice);
+        FThreads.invokeInEdtAndWait(future);
+        try {
+            return future.get();
+        } catch (final Exception e) { // should be no exception here
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public static <T extends Comparable<? super T>> List<T> sideboard(final CMatchUI matchUI, final List<T> sideboard, final List<T> deck, final String message) {
@@ -253,27 +264,35 @@ public class GuiChoose {
             return new OrderResult<>(objects, remember);
         };
 
-        return FThreads.callInEdtAndWaitChoice(callable);
+        final FutureTask<OrderResult<T>> ft = new FutureTask<>(callable);
+        FThreads.invokeInEdtAndWait(ft);
+        try {
+            return ft.get();
+        } catch (final Exception e) {
+            e.printStackTrace();
+        }
+        return new OrderResult<>(null, false);
     }
 
     public static List<CardView> manipulateCardList(final CMatchUI gui, final String title, final Iterable<CardView> cards, final Iterable<CardView> manipulable, 
 						    final boolean toTop, final boolean toBottom, final boolean toAnywhere) {
-	gui.setSelectables(manipulable, 0, 0);
-	@SuppressWarnings("Convert2Lambda") // Avoid lambdas to maintain compatibility with Android 5 API
-    final Callable<List<CardView>> callable = new Callable<List<CardView>>() {
-        @Override
-        public List<CardView> call()  {
-            ListCardArea tempArea = ListCardArea.show(gui,title,cards,manipulable,toTop,toBottom,toAnywhere);
+        final Selection before = gui.getSelection();
+        gui.setSelection(new Selection(Lists.newArrayList(manipulable), 0, 0, before.targets(), before.chosen()));
+        @SuppressWarnings("Convert2Lambda") // Avoid lambdas to maintain compatibility with Android 5 API
+        final Callable<List<CardView>> callable = new Callable<List<CardView>>() {
+            @Override
+            public List<CardView> call()  {
+                ListCardArea tempArea = ListCardArea.show(gui,title,cards,manipulable,toTop,toBottom,toAnywhere);
 
-            //		tempArea.pack();
-            tempArea.setVisible(true);
-            return tempArea.getCards();
-        }
-    };
+                //		tempArea.pack();
+                tempArea.setVisible(true);
+                return tempArea.getCards();
+            }
+        };
         try {
             return FThreads.callInEdtAndWaitChoice(callable);
         } finally {
-            gui.clearSelectables();
+            gui.setSelection(before);
         }
     }
 
