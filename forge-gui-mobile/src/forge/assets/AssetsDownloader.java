@@ -385,7 +385,8 @@ public class AssetsDownloader {
         }
     }
 
-    private static void installBundledLocalizationOverrides() {
+    /** Install APK translations before Localizer first reads the external resource directory. */
+    public static void prepareBundledLocalization() {
         if (!GuiBase.isAndroid()) {
             return;
         }
@@ -396,6 +397,13 @@ public class AssetsDownloader {
             if (bundledFile.exists()) {
                 installAtomically(bundledFile, destination.child(fileName));
             }
+        }
+    }
+
+    private static void installBundledLocalizationOverrides() {
+        prepareBundledLocalization();
+        if (!GuiBase.isAndroid()) {
+            return;
         }
         // Do not force a full resource download merely for new coin/dice artwork.
         // Preserve existing skin files, and install missing bundled files atomically.

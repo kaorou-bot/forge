@@ -191,6 +191,10 @@ public class Forge implements ApplicationListener {
 
         GuiBase.setIsAndroid(Gdx.app.getType() == Application.ApplicationType.Android);
 
+        // New UI strings shipped in the APK must be available even with an older assets.zip.
+        // This only installs localization; it does not change font or texture startup.
+        AssetsDownloader.prepareBundledLocalization();
+
         ((GuiMobile) GuiBase.getInterface()).captureGlThread();
 
         if (!GuiBase.isAndroid() || (androidVersion > 25 && totalDeviceRAM > 3400)) {
@@ -212,7 +216,7 @@ public class Forge implements ApplicationListener {
         if (Files.exists(Paths.get(ForgeConstants.DEFAULT_SKINS_DIR+ForgeConstants.ADV_TEXTURE_BG_FILE)))
             selector = getForgePreferences().getPref(FPref.UI_SELECTOR_MODE);
 
-        //screenWidth and screenHeight should be set initially and only change upon restarting the app
+        // Initial surface dimensions; resize() also updates them after asynchronous Android rotation.
         screenWidth = Gdx.app.getGraphics().getWidth();
         screenHeight = Gdx.app.getGraphics().getHeight();
         //set Classic Mode camera and position
@@ -1004,6 +1008,18 @@ public class Forge implements ApplicationListener {
     @Override
     public void resize(int width, int height) {
         try {
+            // Android's requested rotation is asynchronous. Do not retain the splash's
+            // old landscape dimensions when the selected portrait surface arrives.
+            if (width > 0 && height > 0) {
+                screenWidth = width;
+                screenHeight = height;
+                if (camera != null) {
+                    camera.viewportWidth = width;
+                    camera.viewportHeight = height;
+                    camera.position.set(width / 2f, height / 2f, 0);
+                    camera.update();
+                }
+            }
             if (currentScreen != null) {
                 currentScreen.setSize(width, height);
             } else if (splashScreen != null) {
@@ -1055,6 +1071,9 @@ public class Forge implements ApplicationListener {
         }
         lifecycleClosing = true;
         isDisposed = true;
+        // The current screen may be a child deck viewer/statistics page. Invalidate
+        // tournament work even when its owning screen is only in the back stack.
+        forge.deck.tournament.TournamentBrowser.closeAll();
         if (currentScreen != null) {
             currentScreen.onClose(null);
             currentScreen = null;

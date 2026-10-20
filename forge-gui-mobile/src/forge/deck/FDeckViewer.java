@@ -24,6 +24,10 @@ public class FDeckViewer extends FScreen {
         @Override
         protected void buildMenu() {
             Deck deck = deckViewer.deck;
+            if (deckViewer.saveAction != null) {
+                addItem(new FMenuItem(forge.deck.tournament.TournamentBrowser.text("saveMenu", "Save to my decks…"),
+                        FSkinImage.HDEXPORT, e -> deckViewer.saveAction.run()));
+            }
             for (Entry<DeckSection, CardPool> entry : deck) {
                 final DeckSection section = entry.getKey();
                 final CardPool pool = entry.getValue();
@@ -65,6 +69,7 @@ public class FDeckViewer extends FScreen {
     }
 
     private final Deck deck;
+    private final Runnable saveAction;
     private final CardManager cardManager;
     private DeckSection currentSection;
 
@@ -75,6 +80,12 @@ public class FDeckViewer extends FScreen {
         show(deck0, noPreload, false);
     }
     public static void show(final Deck deck0, boolean noPreload, boolean showRanking) {
+        show(deck0, noPreload, showRanking, null);
+    }
+    public static void show(final Deck deck0, Runnable saveAction) {
+        show(deck0, true, false, saveAction);
+    }
+    private static void show(final Deck deck0, boolean noPreload, boolean showRanking, Runnable saveAction) {
         if (deck0 == null) { return; }
 
         if (!noPreload) {
@@ -82,12 +93,12 @@ public class FDeckViewer extends FScreen {
             ImageCache.getInstance().preloadCache(deck0);
         }
 
-        deckViewer = new FDeckViewer(deck0, showRanking);
+        deckViewer = new FDeckViewer(deck0, showRanking, saveAction);
         deckViewer.setRotate180(MatchController.getView() != null && MatchController.getView().isTopHumanPlayerActive());
         Forge.openScreen(deckViewer);
     }
 
-    private FDeckViewer(Deck deck0, boolean showRanking) {
+    private FDeckViewer(Deck deck0, boolean showRanking, Runnable saveAction) {
         super(new MenuHeader(deck0.getName(), menu) {
             @Override
             protected boolean displaySidebarForLandscapeMode() {
@@ -95,6 +106,7 @@ public class FDeckViewer extends FScreen {
             }
         });
         deck = deck0;
+        this.saveAction = saveAction;
         cardManager = new CardManager(false);
         cardManager.setPool(deck.getMain());
         cardManager.setShowRanking(showRanking);

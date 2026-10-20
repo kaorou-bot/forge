@@ -393,6 +393,11 @@ public class Main extends AndroidApplication {
 
     private void loadGame(final HWInfo hwInfo, final String title, final String steps, boolean isLandscape, AndroidAdapter adapter, boolean permissiongranted, boolean isTabletDevice, AndroidApplicationConfiguration config, boolean exception, String msg) {
         try {
+            // Apply BOTH directions before libGDX initialization, including the low-memory
+            // warning / "run anyway" paths which bypass the normal splash transition.
+            Main.this.setRequestedOrientation(isLandscape
+                    ? ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
+                    : ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
             final Handler handler = new Handler();
             forgeLogo = findViewById(resId("id", "logo_id"));
             activeView = findViewById(resId("id", "mainview"));
@@ -408,13 +413,6 @@ public class Main extends AndroidApplication {
                         if (!permissiongranted || exception) {
                             displayMessage(forgeLogo, adapter, exception, msg, false);
                         } else if (title.isEmpty() && steps.isEmpty()) {
-                            if (isLandscape) {
-                                Main.this.setRequestedOrientation(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ?
-                                        ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE : //Oreo and above has virtual back/menu buttons
-                                        ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-                            } else {
-                                Main.this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
-                            }
                             crossfade(forgeView, forgeLogo);
                         } else {
                             if (sharedPreferences.getBoolean("run_anyway", false)) {
@@ -579,14 +577,12 @@ public class Main extends AndroidApplication {
 
         if (!Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
             String message = getDeviceName() + "\n" + "Android " + Build.VERSION.RELEASE + "\n" + "RAM " + totalRAM + "MB" + "\n" + "LibGDX " + Version.VERSION + "\n" + "Can't access external storage";
-            Main.this.setRequestedOrientation(Main.this.getResources().getConfiguration().orientation);
             loadGame(hwInfo, "", "", false, adapter, permissiongranted, isTabletDevice, config, true, message);
             return;
         }
         ASSETS_DIR = Build.VERSION.SDK_INT > Build.VERSION_CODES.Q ? getContext().getObbDir() + "/Forge/" : Environment.getExternalStorageDirectory() + "/Forge/";
         if (!FileUtil.ensureDirectoryExists(ASSETS_DIR)) {
             String message = getDeviceName() + "\n" + "Android " + Build.VERSION.RELEASE + "\n" + "RAM " + totalRAM + "MB" + "\n" + "LibGDX " + Version.VERSION + "\n" + "Can't access external storage\nPath: " + ASSETS_DIR;
-            Main.this.setRequestedOrientation(Main.this.getResources().getConfiguration().orientation);
             loadGame(hwInfo, "", "", false, adapter, permissiongranted, isTabletDevice, config, true, message);
             return;
         }
@@ -598,7 +594,6 @@ public class Main extends AndroidApplication {
                 FileUtil.writeFile(noMediaFile, "");
             } catch (Exception e) {
                 String message = getDeviceName() + "\n" + "Android " + Build.VERSION.RELEASE + "\n" + "RAM " + totalRAM + "MB" + "\n" + "LibGDX " + Version.VERSION + "\n" + "Can't read/write to storage";
-                Main.this.setRequestedOrientation(Main.this.getResources().getConfiguration().orientation);
                 loadGame(hwInfo, "", "", false, adapter, permissiongranted, isTabletDevice, config, true, message);
                 return;
             }
@@ -613,9 +608,6 @@ public class Main extends AndroidApplication {
         String lowV = Build.VERSION.SDK_INT < Build.VERSION_CODES.R ? "\nAPI: Android 11 or higher" : "";
         // also show minimum Device RAM
         String lowM = totalRAM < 3500 ? "\nRAM: 4GB RAM or higher" : "";
-        if (landscapeMode && Build.VERSION.SDK_INT > Build.VERSION_CODES.Q) { //Android 11 onwards
-            Main.this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
-        }
         loadGame(hwInfo, info, lowV + lowM, landscapeMode, adapter, permissiongranted, isTabletDevice, config, false, "");
     }
 

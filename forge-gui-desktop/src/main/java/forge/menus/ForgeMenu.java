@@ -80,6 +80,9 @@ public final class ForgeMenu {
         add(HelpMenu.getMenu());
         addSeparator();
         add(OnlineMenu.getMenu());
+        JMenuItem tournament = new JMenuItem(forge.deck.tournament.TournamentBrowser.title());
+        tournament.addActionListener(e -> forge.screens.home.TournamentDialog.showBrowser());
+        add(tournament);
         add(getMenuItem_Replays());
         addSeparator();
         add(getMenuItem_Restart());

@@ -57,14 +57,20 @@ public class FDeckViewer extends FDialog {
     }
 
     public static void show(final Deck deck, final boolean showCommanderBracket) {
+        show(deck, showCommanderBracket, null);
+    }
+    public static void show(final Deck deck, final Runnable saveAction) {
+        show(deck, false, saveAction);
+    }
+    private static void show(final Deck deck, final boolean showCommanderBracket, final Runnable saveAction) {
         if (deck == null) { return; }
 
-        final FDeckViewer deckViewer = new FDeckViewer(deck, showCommanderBracket);
+        final FDeckViewer deckViewer = new FDeckViewer(deck, showCommanderBracket, saveAction);
         deckViewer.setVisible(true);
         deckViewer.dispose();
     }
 
-    private FDeckViewer(final Deck deck0, final boolean showCommanderBracket) {
+    private FDeckViewer(final Deck deck0, final boolean showCommanderBracket, final Runnable saveAction) {
         this.deck = deck0;
         this.setTitle(deck.getName());
         this.cardManager = new CardManager(null, false, false, false) {
@@ -155,6 +161,15 @@ public class FDeckViewer extends FDialog {
         buttonPanel.add(this.btnCopyToClipboard, "w 200px!, h 26px!, gapright 5px");
         buttonPanel.add(this.btnChangeSection, "w 200px!, h 26px!");
 
+        if (saveAction != null) {
+            FButton menuButton = new FButton("⋮");
+            JPopupMenu menu = new JPopupMenu();
+            JMenuItem saveItem = new JMenuItem(forge.deck.tournament.TournamentBrowser.text("saveMenu", "Save to my decks…"));
+            saveItem.addActionListener(e -> saveAction.run());
+            menu.add(saveItem);
+            menuButton.addActionListener(e -> menu.show(menuButton, 0, menuButton.getHeight()));
+            this.add(menuButton, "span 2, alignx right, wrap");
+        }
         this.add(new ItemManagerContainer(this.cardManager), "push, grow, gapright 10px, gapbottom 10px");
         this.add(cardPanel, "wrap");
         this.add(buttonPanel);

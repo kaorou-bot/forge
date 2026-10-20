@@ -61,6 +61,7 @@ public class HomeScreen extends FScreen {
     ).iconInBackground().iconScaleFactor(1).build());
     private final ButtonScroller buttonScroller = add(new ButtonScroller());
     private final List<MenuButton> buttons = new ArrayList<>();
+    private MenuButton tournamentButton;
     private int activeButtonIndex, baseButtonCount;
     private FDeckChooser deckManager;
     private boolean QuestCommander = false;
@@ -118,6 +119,14 @@ public class HomeScreen extends FScreen {
                     Forge.getLocalizer().getMessage("lblCommunitySupportDescription", CommunityEditionInfo.QQ_GROUP),
                     Forge.getLocalizer().getMessage("lblCommunitySupport"));
         }));
+        // Keep existing menu indices stable; this is a top-level destination, not a game mode.
+        final int tournamentIndex = buttons.size();
+        addButton(forge.deck.tournament.TournamentBrowser.title(), e -> {
+            activeButtonIndex = tournamentIndex;
+            Forge.lastButtonIndex = activeButtonIndex;
+            Forge.openScreen(new TournamentScreen());
+        });
+        tournamentButton = buttons.get(tournamentIndex);
         baseButtonCount = buttons.size();
     }
 
@@ -189,13 +198,13 @@ public class HomeScreen extends FScreen {
         float buttonHeight = buttons.get(0).getFont().getCapHeight() * 3.5f;
         float x = PADDING;
         float dy = buttonHeight + PADDING;
-        float y = height - buttons.size() * dy;
+        float y = Math.max(PADDING, height - buttons.size() * dy);
 
         buttonScroller.buttonHeight = buttonHeight;
         buttonScroller.padding = PADDING;
         buttonScroller.setBounds(x, y, buttonWidth, height - y);
 
-        float logoSize = y - 2 * PADDING;
+        float logoSize = Math.max(0, y - 2 * PADDING);
         y = PADDING;
         if (logoSize > buttonWidth) {
             y += (logoSize - buttonWidth) / 2;
@@ -280,7 +289,14 @@ public class HomeScreen extends FScreen {
         protected ScrollBounds layoutAndGetScrollBounds(float visibleWidth, float visibleHeight) {
             float y = 0;
             float dy = buttonHeight + padding;
-            for (MenuButton button : buttons) {
+            // Keep legacy navigation indices (including Quest/Conquest) stable,
+            // while displaying tournament browsing immediately below Deck Manager.
+            List<MenuButton> displayOrder = new ArrayList<>(buttons);
+            if (tournamentButton != null) {
+                displayOrder.remove(tournamentButton);
+                displayOrder.add(4, tournamentButton);
+            }
+            for (MenuButton button : displayOrder) {
                 button.setBounds(0, y, visibleWidth, buttonHeight);
                 y += dy;
             }
