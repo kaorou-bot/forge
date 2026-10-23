@@ -57,21 +57,21 @@
   </object>
   <object id="92" template="../../../../common/maps/obj/enemy.tx" x="330.66" y="575.497">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
 	{
-		"text": "Welcome {var=player_name}, I see you are here to look at some of our fine birds. You must be pretty smart to come to us, since our prices are indeed unmatched compared to those of other sellers in Shandalar!",
+		"text": "Welcome {var=player_name}, I see you are here to look at some of our fine birds. You must be pretty smart to come to us, since our prices are indeed unmatched compared to those of other sellers in Shandalar!", "loctext": "adv.aerie_aerie_0.92.d.n0.text",
 		"options": [
 			{
-				"name": "Who are you?",
-				"text": "I'm a worker of the aerie guild, we are one of the biggest conglomerate of breeders of the various bird species of Shandalar. We have a few breeding sites like this scattered around the various biomes of Shandalar. My task is to sell those birds to eager adventurers like you. So take a look around.",
+				"name": "Who are you?", "locname": "adv.aerie_aerie_0.92.d.n2.name",
+				"text": "I'm a worker of the aerie guild, we are one of the biggest conglomerate of breeders of the various bird species of Shandalar. We have a few breeding sites like this scattered around the various biomes of Shandalar. My task is to sell those birds to eager adventurers like you. So take a look around.", "loctext": "adv.aerie_aerie_0.92.d.n1.text",
 				"options": [
 					{
-						"name": "Am I allowed to enter the aerie?",
-						"text": "I'm afraid to say to you that you are not allowed to do that. Our guild is very protective of its breeding practices, which have been developed over a span of more than thousands of years. Because of that, we don't want our competitors peeking into our business. If anyone without permission enters the aerie, that person will be reprimanded by the various guards and even the birds, who have been trained to attack unwanted intruders.'",
+						"name": "Am I allowed to enter the aerie?", "locname": "adv.aerie_aerie_0.92.d.n4.name",
+						"text": "I'm afraid to say to you that you are not allowed to do that. Our guild is very protective of its breeding practices, which have been developed over a span of more than thousands of years. Because of that, we don't want our competitors peeking into our business. If anyone without permission enters the aerie, that person will be reprimanded by the various guards and even the birds, who have been trained to attack unwanted intruders.'", &quot;loctext&quot;:&quot;adv.oldborder.explore.000&quot;,
 						"options": [
 							{
-								"name": "Thanks for the information, goodbye",
-								"text": "Leave"
+								"name": "Thanks for the information, goodbye", &quot;locname&quot;:&quot;adv.oldborder.explore.001&quot;,
+								"text": "Leave", "loctext": "adv.shared.leave"
 							}
 						]
 					}

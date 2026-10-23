@@ -318,22 +318,22 @@
   </object>
   <object id="82" template="../../../../common/maps/obj/dialog.tx" type="dialog" gid="11530" x="240.774" y="383.06" width="27.7319" height="14.6679" visible="1">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
   {
-    "text": "You approach a cobweb covered coffin lying at the center of the room.",
+    "text": "You approach a cobweb covered coffin lying at the center of the room.", &quot;loctext&quot;:&quot;adv.oldborder.explore.168&quot;,
     "options": [
-      { "name": "Walk away" },
+      { "name": "Walk away", "locname": "adv.shared.walk_away" },
       {
-        "name": "Take a closer look at the rusty coffin",
-        "text": "You sense an immense amount of power radiating from the coffin. You also begin to note the various unholy symbols engraved around the base of coffin.",
+        "name": "Take a closer look at the rusty coffin", "locname": "adv.vampirecastle_vampirecastle_grave_3.67.d.n3.name",
+        "text": "You sense an immense amount of power radiating from the coffin. You also begin to note the various unholy symbols engraved around the base of coffin.", "loctext": "adv.vampirecastle_vampirecastle_grave_3.67.d.n2.text",
         "options": [
-          { "name": "Walk away" },
+          { "name": "Walk away", "locname": "adv.shared.walk_away" },
           {
-            "name": "Open the coffin",
-            "text": "As you open the coffin, a giant mole rat jumps from the coffin looking at you very annoyed and angry",
+            "name": "Open the coffin", "locname": "adv.vampirecastle_vampirecastle_grave_3.67.d.n6.name",
+            "text": "As you open the coffin, a giant mole rat jumps from the coffin looking at you very annoyed and angry", &quot;loctext&quot;:&quot;adv.oldborder.explore.169&quot;,
             "options": [
               {
-                "name": "Time for some pest control!",
+                "name": "Time for some pest control!", "locname": "adv.vampirecastle_vampirecastle_grave_2.83.d.n7.name",
                 "action": [
                   { "activateMapObject": 81 },
                   { "deleteMapObject": -1 }
@@ -350,22 +350,22 @@
   </object>
   <object id="83" template="../../../../common/maps/obj/dialog.tx" type="dialog" gid="11530" x="160.446" y="158.945" width="27.7319" height="14.6679" visible="1">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
   {
-    "text": "You approach a cobweb covered coffin lying at the center of the room.",
+    "text": "You approach a cobweb covered coffin lying at the center of the room.", &quot;loctext&quot;:&quot;adv.oldborder.explore.168&quot;,
     "options": [
-      { "name": "Walk away" },
+      { "name": "Walk away", "locname": "adv.shared.walk_away" },
       {
-        "name": "Take a closer look at the rusty coffin",
-        "text": "You sense an immense amount of power radiating from the coffin. You also begin to note the various unholy symbols engraved around the base of coffin.",
+        "name": "Take a closer look at the rusty coffin", "locname": "adv.vampirecastle_vampirecastle_grave_3.67.d.n3.name",
+        "text": "You sense an immense amount of power radiating from the coffin. You also begin to note the various unholy symbols engraved around the base of coffin.", "loctext": "adv.vampirecastle_vampirecastle_grave_3.67.d.n2.text",
         "options": [
-          { "name": "Walk away" },
+          { "name": "Walk away", "locname": "adv.shared.walk_away" },
           {
-            "name": "Open the coffin",
-            "text": "As you open the coffin, a giant mole rat jumps from the coffin looking at you very annoyed and angry",
+            "name": "Open the coffin", "locname": "adv.vampirecastle_vampirecastle_grave_3.67.d.n6.name",
+            "text": "As you open the coffin, a giant mole rat jumps from the coffin looking at you very annoyed and angry", &quot;loctext&quot;:&quot;adv.oldborder.explore.169&quot;,
             "options": [
               {
-                "name": "Time for some pest control!",
+                "name": "Time for some pest control!", "locname": "adv.vampirecastle_vampirecastle_grave_2.83.d.n7.name",
                 "action": [
                   { "activateMapObject": 80 },
                   { "deleteMapObject": -1 }
@@ -382,22 +382,22 @@
   </object>
   <object id="86" template="../../../../common/maps/obj/dialog.tx" type="dialog" gid="11530" x="353.635" y="366.995" width="27.7319" height="14.6679" visible="1">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
   {
-    "text": "You approach a cobweb covered coffin lying at the center of the room.",
+    "text": "You approach a cobweb covered coffin lying at the center of the room.", &quot;loctext&quot;:&quot;adv.oldborder.explore.168&quot;,
     "options": [
-      { "name": "Walk away" },
+      { "name": "Walk away", "locname": "adv.shared.walk_away" },
       {
-        "name": "Take a closer look at the rusty coffin",
-        "text": "You sense an immense amount of power radiating from the coffin. You also begin to note the various unholy symbols engraved around the base of coffin.",
+        "name": "Take a closer look at the rusty coffin", "locname": "adv.vampirecastle_vampirecastle_grave_3.67.d.n3.name",
+        "text": "You sense an immense amount of power radiating from the coffin. You also begin to note the various unholy symbols engraved around the base of coffin.", "loctext": "adv.vampirecastle_vampirecastle_grave_3.67.d.n2.text",
         "options": [
-          { "name": "Walk away" },
+          { "name": "Walk away", "locname": "adv.shared.walk_away" },
           {
-            "name": "Open the coffin",
-            "text": "As you open the coffin, expecting an acient evil arriving from it, you realize that was only in your imagination",
+            "name": "Open the coffin", "locname": "adv.vampirecastle_vampirecastle_grave_3.67.d.n6.name",
+            "text": "As you open the coffin, expecting an acient evil arriving from it, you realize that was only in your imagination", &quot;loctext&quot;:&quot;adv.oldborder.explore.170&quot;,
             "options": [
               {
-                "name": "You grab the loot from the empty coffin",
+                "name": "You grab the loot from the empty coffin", &quot;locname&quot;:&quot;adv.oldborder.explore.171&quot;,
                 "action": [
                     {"deleteMapObject": -1 },
                     {"grantRewards": [
@@ -441,22 +441,22 @@
   </object>
   <object id="97" template="../../../../common/maps/obj/dialog.tx" type="dialog" gid="11530" x="161.249" y="382.659" width="27.7319" height="14.6679" visible="1">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
   {
-    "text": "You approach a cobweb covered coffin lying at the center of the room.",
+    "text": "You approach a cobweb covered coffin lying at the center of the room.", &quot;loctext&quot;:&quot;adv.oldborder.explore.168&quot;,
     "options": [
-      { "name": "Walk away" },
+      { "name": "Walk away", "locname": "adv.shared.walk_away" },
       {
-        "name": "Take a closer look at the rusty coffin",
-        "text": "You sense an immense amount of power radiating from the coffin. You also begin to note the various unholy symbols engraved around the base of coffin.",
+        "name": "Take a closer look at the rusty coffin", "locname": "adv.vampirecastle_vampirecastle_grave_3.67.d.n3.name",
+        "text": "You sense an immense amount of power radiating from the coffin. You also begin to note the various unholy symbols engraved around the base of coffin.", "loctext": "adv.vampirecastle_vampirecastle_grave_3.67.d.n2.text",
         "options": [
-          { "name": "Walk away" },
+          { "name": "Walk away", "locname": "adv.shared.walk_away" },
           {
-            "name": "Open the coffin",
-            "text": "As you open the coffin, expecting an acient evil arriving from it, you realize that was only in your imagination",
+            "name": "Open the coffin", "locname": "adv.vampirecastle_vampirecastle_grave_3.67.d.n6.name",
+            "text": "As you open the coffin, expecting an acient evil arriving from it, you realize that was only in your imagination", &quot;loctext&quot;:&quot;adv.oldborder.explore.170&quot;,
             "options": [
               {
-                "name": "You grab the loot from the empty coffin",
+                "name": "You grab the loot from the empty coffin", &quot;locname&quot;:&quot;adv.oldborder.explore.171&quot;,
                 "action": [
                     {"deleteMapObject": -1 },
                     {"grantRewards": [
@@ -479,22 +479,22 @@
   </object>
   <object id="98" template="../../../../common/maps/obj/dialog.tx" type="dialog" gid="11530" x="49.1915" y="367.396" width="27.7319" height="14.6679" visible="1">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
   {
-    "text": "You approach a cobweb covered coffin lying at the center of the room.",
+    "text": "You approach a cobweb covered coffin lying at the center of the room.", &quot;loctext&quot;:&quot;adv.oldborder.explore.168&quot;,
     "options": [
-      { "name": "Walk away" },
+      { "name": "Walk away", "locname": "adv.shared.walk_away" },
       {
-        "name": "Take a closer look at the rusty coffin",
-        "text": "You sense an immense amount of power radiating from the coffin. You also begin to note the various unholy symbols engraved around the base of coffin.",
+        "name": "Take a closer look at the rusty coffin", "locname": "adv.vampirecastle_vampirecastle_grave_3.67.d.n3.name",
+        "text": "You sense an immense amount of power radiating from the coffin. You also begin to note the various unholy symbols engraved around the base of coffin.", "loctext": "adv.vampirecastle_vampirecastle_grave_3.67.d.n2.text",
         "options": [
-          { "name": "Walk away" },
+          { "name": "Walk away", "locname": "adv.shared.walk_away" },
           {
-            "name": "Open the coffin",
-            "text": "As you open the coffin, expecting an acient evil arriving from it, you realize that was only in your imagination",
+            "name": "Open the coffin", "locname": "adv.vampirecastle_vampirecastle_grave_3.67.d.n6.name",
+            "text": "As you open the coffin, expecting an acient evil arriving from it, you realize that was only in your imagination", &quot;loctext&quot;:&quot;adv.oldborder.explore.170&quot;,
             "options": [
               {
-                "name": "You grab the loot from the empty coffin",
+                "name": "You grab the loot from the empty coffin", &quot;locname&quot;:&quot;adv.oldborder.explore.171&quot;,
                 "action": [
                     {"deleteMapObject": -1 },
                     {"grantRewards": [
@@ -517,22 +517,22 @@
   </object>
   <object id="99" template="../../../../common/maps/obj/dialog.tx" type="dialog" gid="11530" x="354.84" y="205.937" width="27.7319" height="14.6679" visible="1">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
   {
-    "text": "You approach a cobweb covered coffin lying at the center of the room.",
+    "text": "You approach a cobweb covered coffin lying at the center of the room.", &quot;loctext&quot;:&quot;adv.oldborder.explore.168&quot;,
     "options": [
-      { "name": "Walk away" },
+      { "name": "Walk away", "locname": "adv.shared.walk_away" },
       {
-        "name": "Take a closer look at the rusty coffin",
-        "text": "You sense an immense amount of power radiating from the coffin. You also begin to note the various unholy symbols engraved around the base of coffin.",
+        "name": "Take a closer look at the rusty coffin", "locname": "adv.vampirecastle_vampirecastle_grave_3.67.d.n3.name",
+        "text": "You sense an immense amount of power radiating from the coffin. You also begin to note the various unholy symbols engraved around the base of coffin.", "loctext": "adv.vampirecastle_vampirecastle_grave_3.67.d.n2.text",
         "options": [
-          { "name": "Walk away" },
+          { "name": "Walk away", "locname": "adv.shared.walk_away" },
           {
-            "name": "Open the coffin",
-            "text": "As you open the coffin, expecting an acient evil arriving from it, you realize that was only in your imagination",
+            "name": "Open the coffin", "locname": "adv.vampirecastle_vampirecastle_grave_3.67.d.n6.name",
+            "text": "As you open the coffin, expecting an acient evil arriving from it, you realize that was only in your imagination", &quot;loctext&quot;:&quot;adv.oldborder.explore.170&quot;,
             "options": [
               {
-                "name": "You grab the loot from the empty coffin",
+                "name": "You grab the loot from the empty coffin", &quot;locname&quot;:&quot;adv.oldborder.explore.171&quot;,
                 "action": [
                     {"deleteMapObject": -1 },
                     {"grantRewards": [
@@ -555,22 +555,22 @@
   </object>
   <object id="100" template="../../../../common/maps/obj/dialog.tx" type="dialog" gid="11530" x="48.7899" y="206.339" width="27.7319" height="14.6679" visible="1">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
   {
-    "text": "You approach a cobweb covered coffin lying at the center of the room.",
+    "text": "You approach a cobweb covered coffin lying at the center of the room.", &quot;loctext&quot;:&quot;adv.oldborder.explore.168&quot;,
     "options": [
-      { "name": "Walk away" },
+      { "name": "Walk away", "locname": "adv.shared.walk_away" },
       {
-        "name": "Take a closer look at the rusty coffin",
-        "text": "You sense an immense amount of power radiating from the coffin. You also begin to note the various unholy symbols engraved around the base of coffin.",
+        "name": "Take a closer look at the rusty coffin", "locname": "adv.vampirecastle_vampirecastle_grave_3.67.d.n3.name",
+        "text": "You sense an immense amount of power radiating from the coffin. You also begin to note the various unholy symbols engraved around the base of coffin.", "loctext": "adv.vampirecastle_vampirecastle_grave_3.67.d.n2.text",
         "options": [
-          { "name": "Walk away" },
+          { "name": "Walk away", "locname": "adv.shared.walk_away" },
           {
-            "name": "Open the coffin",
-            "text": "As you open the coffin, expecting an acient evil arriving from it, you realize that was only in your imagination",
+            "name": "Open the coffin", "locname": "adv.vampirecastle_vampirecastle_grave_3.67.d.n6.name",
+            "text": "As you open the coffin, expecting an acient evil arriving from it, you realize that was only in your imagination", &quot;loctext&quot;:&quot;adv.oldborder.explore.170&quot;,
             "options": [
               {
-                "name": "You grab the loot from the empty coffin",
+                "name": "You grab the loot from the empty coffin", &quot;locname&quot;:&quot;adv.oldborder.explore.171&quot;,
                 "action": [
                     {"deleteMapObject": -1 },
                     {"grantRewards": [
@@ -593,22 +593,22 @@
   </object>
   <object id="101" template="../../../../common/maps/obj/dialog.tx" type="dialog" gid="11530" x="241.577" y="302.732" width="27.7319" height="14.6679" visible="1">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
   {
-    "text": "You approach a cobweb covered coffin lying at the center of the room.",
+    "text": "You approach a cobweb covered coffin lying at the center of the room.", &quot;loctext&quot;:&quot;adv.oldborder.explore.168&quot;,
     "options": [
-      { "name": "Walk away" },
+      { "name": "Walk away", "locname": "adv.shared.walk_away" },
       {
-        "name": "Take a closer look at the rusty coffin",
-        "text": "You sense an immense amount of power radiating from the coffin. You also begin to note the various unholy symbols engraved around the base of coffin.",
+        "name": "Take a closer look at the rusty coffin", "locname": "adv.vampirecastle_vampirecastle_grave_3.67.d.n3.name",
+        "text": "You sense an immense amount of power radiating from the coffin. You also begin to note the various unholy symbols engraved around the base of coffin.", "loctext": "adv.vampirecastle_vampirecastle_grave_3.67.d.n2.text",
         "options": [
-          { "name": "Walk away" },
+          { "name": "Walk away", "locname": "adv.shared.walk_away" },
           {
-            "name": "Open the coffin",
-            "text": "As you open the coffin, expecting an acient evil arriving from it, you realize that was only in your imagination",
+            "name": "Open the coffin", "locname": "adv.vampirecastle_vampirecastle_grave_3.67.d.n6.name",
+            "text": "As you open the coffin, expecting an acient evil arriving from it, you realize that was only in your imagination", &quot;loctext&quot;:&quot;adv.oldborder.explore.170&quot;,
             "options": [
               {
-                "name": "You grab the loot from the empty coffin",
+                "name": "You grab the loot from the empty coffin", &quot;locname&quot;:&quot;adv.oldborder.explore.171&quot;,
                 "action": [
                     {"deleteMapObject": -1 },
                     {"grantRewards": [
@@ -631,22 +631,22 @@
   </object>
   <object id="102" template="../../../../common/maps/obj/dialog.tx" type="dialog" gid="11530" x="162.454" y="302.732" width="27.7319" height="14.6679" visible="1">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
   {
-    "text": "You approach a cobweb covered coffin lying at the center of the room.",
+    "text": "You approach a cobweb covered coffin lying at the center of the room.", &quot;loctext&quot;:&quot;adv.oldborder.explore.168&quot;,
     "options": [
-      { "name": "Walk away" },
+      { "name": "Walk away", "locname": "adv.shared.walk_away" },
       {
-        "name": "Take a closer look at the rusty coffin",
-        "text": "You sense an immense amount of power radiating from the coffin. You also begin to note the various unholy symbols engraved around the base of coffin.",
+        "name": "Take a closer look at the rusty coffin", "locname": "adv.vampirecastle_vampirecastle_grave_3.67.d.n3.name",
+        "text": "You sense an immense amount of power radiating from the coffin. You also begin to note the various unholy symbols engraved around the base of coffin.", "loctext": "adv.vampirecastle_vampirecastle_grave_3.67.d.n2.text",
         "options": [
-          { "name": "Walk away" },
+          { "name": "Walk away", "locname": "adv.shared.walk_away" },
           {
-            "name": "Open the coffin",
-            "text": "As you open the coffin, expecting an acient evil arriving from it, you realize that was only in your imagination",
+            "name": "Open the coffin", "locname": "adv.vampirecastle_vampirecastle_grave_3.67.d.n6.name",
+            "text": "As you open the coffin, expecting an acient evil arriving from it, you realize that was only in your imagination", &quot;loctext&quot;:&quot;adv.oldborder.explore.170&quot;,
             "options": [
               {
-                "name": "You grab the loot from the empty coffin",
+                "name": "You grab the loot from the empty coffin", &quot;locname&quot;:&quot;adv.oldborder.explore.171&quot;,
                 "action": [
                     {"deleteMapObject": -1 },
                     {"grantRewards": [
@@ -669,22 +669,22 @@
   </object>
   <object id="103" template="../../../../common/maps/obj/dialog.tx" type="dialog" gid="11530" x="160.847" y="239.675" width="27.7319" height="14.6679" visible="1">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
   {
-    "text": "You approach a cobweb covered coffin lying at the center of the room.",
+    "text": "You approach a cobweb covered coffin lying at the center of the room.", &quot;loctext&quot;:&quot;adv.oldborder.explore.168&quot;,
     "options": [
-      { "name": "Walk away" },
+      { "name": "Walk away", "locname": "adv.shared.walk_away" },
       {
-        "name": "Take a closer look at the rusty coffin",
-        "text": "You sense an immense amount of power radiating from the coffin. You also begin to note the various unholy symbols engraved around the base of coffin.",
+        "name": "Take a closer look at the rusty coffin", "locname": "adv.vampirecastle_vampirecastle_grave_3.67.d.n3.name",
+        "text": "You sense an immense amount of power radiating from the coffin. You also begin to note the various unholy symbols engraved around the base of coffin.", "loctext": "adv.vampirecastle_vampirecastle_grave_3.67.d.n2.text",
         "options": [
-          { "name": "Walk away" },
+          { "name": "Walk away", "locname": "adv.shared.walk_away" },
           {
-            "name": "Open the coffin",
-            "text": "As you open the coffin, expecting an acient evil arriving from it, you realize that was only in your imagination",
+            "name": "Open the coffin", "locname": "adv.vampirecastle_vampirecastle_grave_3.67.d.n6.name",
+            "text": "As you open the coffin, expecting an acient evil arriving from it, you realize that was only in your imagination", &quot;loctext&quot;:&quot;adv.oldborder.explore.170&quot;,
             "options": [
               {
-                "name": "You grab the loot from the empty coffin",
+                "name": "You grab the loot from the empty coffin", &quot;locname&quot;:&quot;adv.oldborder.explore.171&quot;,
                 "action": [
                     {"deleteMapObject": -1 },
                     {"grantRewards": [
@@ -707,22 +707,22 @@
   </object>
   <object id="104" template="../../../../common/maps/obj/dialog.tx" type="dialog" gid="11530" x="241.577" y="160.552" width="27.7319" height="14.6679" visible="1">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
   {
-    "text": "You approach a cobweb covered coffin lying at the center of the room.",
+    "text": "You approach a cobweb covered coffin lying at the center of the room.", &quot;loctext&quot;:&quot;adv.oldborder.explore.168&quot;,
     "options": [
-      { "name": "Walk away" },
+      { "name": "Walk away", "locname": "adv.shared.walk_away" },
       {
-        "name": "Take a closer look at the rusty coffin",
-        "text": "You sense an immense amount of power radiating from the coffin. You also begin to note the various unholy symbols engraved around the base of coffin.",
+        "name": "Take a closer look at the rusty coffin", "locname": "adv.vampirecastle_vampirecastle_grave_3.67.d.n3.name",
+        "text": "You sense an immense amount of power radiating from the coffin. You also begin to note the various unholy symbols engraved around the base of coffin.", "loctext": "adv.vampirecastle_vampirecastle_grave_3.67.d.n2.text",
         "options": [
-          { "name": "Walk away" },
+          { "name": "Walk away", "locname": "adv.shared.walk_away" },
           {
-            "name": "Open the coffin",
-            "text": "As you open the coffin, expecting an acient evil arriving from it, you realize that was only in your imagination",
+            "name": "Open the coffin", "locname": "adv.vampirecastle_vampirecastle_grave_3.67.d.n6.name",
+            "text": "As you open the coffin, expecting an acient evil arriving from it, you realize that was only in your imagination", &quot;loctext&quot;:&quot;adv.oldborder.explore.170&quot;,
             "options": [
               {
-                "name": "You grab the loot from the empty coffin",
+                "name": "You grab the loot from the empty coffin", &quot;locname&quot;:&quot;adv.oldborder.explore.171&quot;,
                 "action": [
                     {"deleteMapObject": -1 },
                     {"grantRewards": [
@@ -745,22 +745,22 @@
   </object>
   <object id="106" template="../../../../common/maps/obj/dialog.tx" type="dialog" gid="11530" x="243" y="235" width="27.7319" height="14.6679" visible="1">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
   {
-    "text": "You see an ornate black coffin at the center of the crypt. Dark energy pulses from within, and you can hear whispers of madness emanating from it.",
+    "text": "You see an ornate black coffin at the center of the crypt. Dark energy pulses from within, and you can hear whispers of madness emanating from it.", &quot;loctext&quot;:&quot;adv.oldborder.explore.172&quot;,
     "options": [
-      { "name": "Walk away" },
+      { "name": "Walk away", "locname": "adv.shared.walk_away" },
       {
-        "name": "Examine the coffin more closely",
-        "text": "The coffin is adorned with symbols of the Cabal. You sense an overwhelming presence of dementia and nightmares within. This is no ordinary resting place.",
+        "name": "Examine the coffin more closely", &quot;locname&quot;:&quot;adv.oldborder.explore.173&quot;,
+        "text": "The coffin is adorned with symbols of the Cabal. You sense an overwhelming presence of dementia and nightmares within. This is no ordinary resting place.", &quot;loctext&quot;:&quot;adv.oldborder.explore.174&quot;,
         "options": [
-          { "name": "Leave it undisturbed" },
+          { "name": "Leave it undisturbed", &quot;locname&quot;:&quot;adv.oldborder.explore.175&quot; },
           {
-            "name": "Open the coffin",
-            "text": "As you lift the lid, a powerful figure rises from the depths. 'YOU DARE DISTURB THE DEMENTIA MASTER?' bellows Chainer, his eyes glowing with dark power!",
+            "name": "Open the coffin", "locname": "adv.vampirecastle_vampirecastle_grave_3.67.d.n6.name",
+            "text": "As you lift the lid, a powerful figure rises from the depths. 'YOU DARE DISTURB THE DEMENTIA MASTER?' bellows Chainer, his eyes glowing with dark power!", &quot;loctext&quot;:&quot;adv.oldborder.explore.176&quot;,
             "options": [
               {
-                "name": "Face the Dementia Master!",
+                "name": "Face the Dementia Master!", &quot;locname&quot;:&quot;adv.oldborder.explore.177&quot;,
                 "action": [
                   { "activateMapObject": 50 },
                   { "deleteMapObject": -1 }

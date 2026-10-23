@@ -8,6 +8,7 @@ import forge.gui.util.SGuiChoose;
 import forge.gui.util.SOptionPane;
 import forge.localinstance.skin.FSkinProp;
 import forge.util.IHasForgeLog;
+import forge.util.Localizer;
 
 import java.util.List;
 
@@ -24,20 +25,21 @@ public final class ReplayLauncher implements IHasForgeLog {
         if (ReplayPlayer.isPlaying()) {
             return;
         }
+        final Localizer localizer = Localizer.getInstance();
         FThreads.invokeInBackgroundThread(() -> {
             // check for Mobile since Desktop creates its own CMatchUI and has no limitations
             if (GuiBase.getInterface().isMatchInProgress()) {
-                SOptionPane.showMessageDialog("Finish or leave your current match before watching a replay.",
-                        "Replays", FSkinProp.ICO_INFORMATION);
+                SOptionPane.showMessageDialog(localizer.getMessage("lblReplayLeaveMatchFirst"),
+                        localizer.getMessage("lblReplays"), FSkinProp.ICO_INFORMATION);
                 return;
             }
             final List<ReplayStore.Info> replays = ReplayStore.list();
             if (replays.isEmpty()) {
-                SOptionPane.showMessageDialog("No replays yet. Games you play are recorded automatically "
-                        + "(Preferences: record replays).", "Replays", FSkinProp.ICO_INFORMATION);
+                SOptionPane.showMessageDialog(localizer.getMessage("lblReplayNone"),
+                        localizer.getMessage("lblReplays"), FSkinProp.ICO_INFORMATION);
                 return;
             }
-            final ReplayStore.Info choice = SGuiChoose.oneOrNone("Watch which game?", replays);
+            final ReplayStore.Info choice = SGuiChoose.oneOrNone(localizer.getMessage("lblReplayChooseGame"), replays);
             if (choice == null) {
                 return;
             }
@@ -49,7 +51,8 @@ public final class ReplayLauncher implements IHasForgeLog {
                 } catch (final Exception e) {
                     netLog.error(e, "Could not open replay {}", choice.file);
                     FThreads.invokeInBackgroundThread(() ->
-                            SOptionPane.showErrorDialog("This replay could not be opened.\n" + e.getMessage(), "Replays"));
+                            SOptionPane.showErrorDialog(localizer.getMessage("lblReplayOpenFailed",
+                                    String.valueOf(e.getMessage())), localizer.getMessage("lblReplays")));
                 }
             });
         });

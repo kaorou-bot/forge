@@ -112,7 +112,7 @@ public class HomeScreen extends FScreen {
             Forge.lastButtonIndex = activeButtonIndex;
             SettingsScreen.show(true);
         });
-        addButton("Replays", e -> ReplayLauncher.chooseAndPlay());
+        addButton(Forge.getLocalizer().getMessage("lblReplays"), e -> ReplayLauncher.chooseAndPlay());
         addButton(Forge.getLocalizer().getMessage("lblHelp"), e -> FThreads.invokeInEdtLater(() -> {
             Forge.getClipboard().setContents(CommunityEditionInfo.QQ_GROUP);
             FOptionPane.showMessageDialog(

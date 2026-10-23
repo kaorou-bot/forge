@@ -70,18 +70,18 @@
   </object>
   <object id="55" template="../../../../common/maps/obj/gate.tx" x="368" y="640">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
 	{
 		"name": "",
 		"text": "You come upon a gate.",
-		"loctext": "",
+		"loctext": &quot;adv.main_story_castles_white_castle.55.d.n0.text&quot;,
 		"action": [
 			{ "advanceMapFlag": "intro" }
 		],
 		"options":
 			[
 				{
-					"name": "Serra, I've defeated your guardians! It's time to end this!",
+					"name": "Serra, I've defeated your guardians! It's time to end this!", &quot;locname&quot;: &quot;adv.oldborder.plot.026&quot;,
 					"action": [ { "deleteMapObject": 55 } ],
 					"condition": [
 						{
@@ -92,15 +92,15 @@
 							}
 						}
 					],
-					"text": "With an extremely loud blast, the gate burst open, leaving only ashes in your path. You are now free to pass.",
-					"options": [ { "name": "(continue)" } ]
+					"text": "With an extremely loud blast, the gate burst open, leaving only ashes in your path. You are now free to pass.", "loctext": "adv.main_story_castles_white_castle.55.d.n4.text",
+					"options": [ { "name": "(continue)", "locname": "adv.common.unkeyed.42" } ]
 				},
 				{
-					"name": "You knock on the door",
+					"name": "You knock on the door", "locname": "adv.main_story_temple_of_gideon_steppe.237.d.n5.name",
 					"condition": [ { "checkMapFlag": "intro" } ],
 					"text": "YOU ARE NOT WORTHY, BEGONE!",
-					"loctext": "",
-					"options": [ { "name": "(continue)" } ]
+					"loctext": &quot;adv.main_story_castles_white_castle.55.d.n7.text&quot;,
+					"options": [ { "name": "(continue)", "locname": "adv.common.unkeyed.42" } ]
 				}
 			]
 	}
@@ -204,21 +204,21 @@
   </object>
   <object id="74" template="../../../../common/maps/obj/enemy.tx" x="400" y="647">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
   {
-    "text": "Welcome {var=player_name}, the great Serra the benevolent anticipated your arrival.",
+    "text": "Welcome {var=player_name}, the great Serra the benevolent anticipated your arrival.", &quot;loctext&quot;: &quot;adv.oldborder.plot.027&quot;,
     "options": [
       {
-        "name": "Is that so? If she's so benevolent perhaps you can let me through?",
-        "text": "I'm afraid not, given your intention to duel her.",
+        "name": "Is that so? If she's so benevolent perhaps you can let me through?", &quot;locname&quot;: &quot;adv.oldborder.plot.028&quot;,
+        "text": "I'm afraid not, given your intention to duel her.", &quot;loctext&quot;: &quot;adv.oldborder.plot.029&quot;,
         "options": [
           {
-            "name": "What do I need to do to get though this gate?",
-            "text": "To show you are worthy, you must prove your strength by defeating her four holy guardians.\n Sharpen your blade, ready your spells, and gather your courage, for the challenges ahead will test the mettle of even the most seasoned warrior.",
+            "name": "What do I need to do to get though this gate?", &quot;locname&quot;: &quot;adv.oldborder.plot.030&quot;,
+            "text": "To show you are worthy, you must prove your strength by defeating her four holy guardians.\n Sharpen your blade, ready your spells, and gather your courage, for the challenges ahead will test the mettle of even the most seasoned warrior.", &quot;loctext&quot;: &quot;adv.oldborder.plot.031&quot;,
             "options": [
               {
-                "name": "I'll show my worth, just make sure to open the gate when I do defeat your challengers.",
-                "text": "Leave"
+                "name": "I'll show my worth, just make sure to open the gate when I do defeat your challengers.", "locname": "adv.main_story_castles_white_castle.74.d.n6.name",
+                "text": "Leave", "loctext": "adv.shared.leave"
               }
             ]
           }

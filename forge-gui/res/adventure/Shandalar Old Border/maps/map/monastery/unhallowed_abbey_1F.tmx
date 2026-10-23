@@ -200,15 +200,15 @@
   <object id="85" template="../../../../common/maps/obj/manashards.tx" x="98.5" y="224" />
   <object id="86" template="../../../../common/maps/obj/gate.tx" x="207.75" y="124.5" width="16.4999" height="22">
    <properties>
-    <property name="dialog">[{
-    "text":"This door is locked",
+<property name="dialog">[{
+    "text":"This door is locked", &quot;loctext&quot;:&quot;adv.oldborder.explore.017&quot;,
     "options":[
-    { "name":"Leave" },
+    { "name":"Leave", "locname": "adv.shared.leave" },
     {      
-        "name":"Unlock with Cultist's Key",     
+        "name":"Unlock with Cultist's Key", "locname": "adv.monastery_unhallowed_abbey_1F.85.d.n3.name",
         "condition":[{"item":"Cultist's Key"}],    
-        "text":"The gate is unlocked.",
-        "options":[{"name":"Continue.", "action":[ {"deleteMapObject":-1},{"removeItem":"Cultist's Key"}]} ]
+        "text":"The gate is unlocked.", "loctext": "adv.zedruu_zedruu.217.d.n2.text",
+        "options":[{"name":"Continue.", &quot;locname&quot;:&quot;adv.oldborder.explore.150&quot;, "action":[ {"deleteMapObject":-1},{"removeItem":"Cultist's Key"}]} ]
     }
     ]
 }]</property>

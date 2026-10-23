@@ -37,16 +37,16 @@
   <object id="50" template="../../../../common/maps/obj/dialog.tx" type="dialog" gid="10575" x="197.5" y="138.75" width="16" height="16">
    <properties>
     <property name="hidden" type="bool" value="false"/>
-    <property name="dialog">[
+<property name="dialog">[
   {
-    "text": "Before you stands an ancient crystalline formation, pulsing with primordial mana. The diamonds here are remnants of Shandalar's earliest age, and can be exchanged for spells from the dawn of magic itself.",
+    "text": "Before you stands an ancient crystalline formation, pulsing with primordial mana. The diamonds here are remnants of Shandalar's earliest age, and can be exchanged for spells from the dawn of magic itself.", &quot;loctext&quot;:&quot;adv.oldborder.explore.027&quot;,
     "options": [
       {
-        "name": "Trade 10,000 Gold for Beta Pack",
+        "name": "Trade 10,000 Gold for Beta Pack", &quot;locname&quot;:&quot;adv.oldborder.explore.028&quot;,
         "condition": [
           { "hasGold": 10000 }
         ],
-        "text": "The crystals shimmer and absorb your gold. In exchange, a sealed pack from the dawn of magic materializes before you!",
+        "text": "The crystals shimmer and absorb your gold. In exchange, a sealed pack from the dawn of magic materializes before you!", &quot;loctext&quot;:&quot;adv.oldborder.explore.029&quot;,
         "action": [
           {
             "addGold": -10000,
@@ -57,18 +57,18 @@
         ]
       },
       {
-        "name": "Trade 10,000 Gold for Beta Pack",
+        "name": "Trade 10,000 Gold for Beta Pack", &quot;locname&quot;:&quot;adv.oldborder.explore.028&quot;,
         "condition": [
           { "hasGold": 10000, "not": true }
         ],
-        "text": "You don't have enough gold. The ancient diamonds require 10,000 gold to activate."
+        "text": "You don't have enough gold. The ancient diamonds require 10,000 gold to activate.", &quot;loctext&quot;:&quot;adv.oldborder.explore.030&quot;
       },
       {
-        "name": "Trade 400 Shards for Beta Pack",
+        "name": "Trade 400 Shards for Beta Pack", &quot;locname&quot;:&quot;adv.oldborder.explore.031&quot;,
         "condition": [
           { "hasShards": 400 }
         ],
-        "text": "The crystals shimmer and absorb your mana shards. In exchange, a sealed pack from the dawn of magic materializes before you!",
+        "text": "The crystals shimmer and absorb your mana shards. In exchange, a sealed pack from the dawn of magic materializes before you!", &quot;loctext&quot;:&quot;adv.oldborder.explore.032&quot;,
         "action": [
           {
             "addShards": -400,
@@ -79,14 +79,14 @@
         ]
       },
       {
-        "name": "Trade 400 Shards for Beta Pack",
+        "name": "Trade 400 Shards for Beta Pack", &quot;locname&quot;:&quot;adv.oldborder.explore.031&quot;,
         "condition": [
           { "hasShards": 400, "not": true }
         ],
-        "text": "You don't have enough mana shards. The ancient diamonds require 400 shards to activate."
+        "text": "You don't have enough mana shards. The ancient diamonds require 400 shards to activate.", &quot;loctext&quot;:&quot;adv.oldborder.explore.033&quot;
       },
       {
-        "name": "Leave",
+        "name": "Leave", "locname": "adv.shared.leave",
         "text": ""
       }
     ]

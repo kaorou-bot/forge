@@ -7,6 +7,7 @@ import forge.assets.FImage;
 import forge.assets.FSkinFont;
 import forge.assets.FSkinImage;
 import forge.gamemodes.quest.QuestUtil;
+import forge.gamemodes.quest.QuestMatchLength;
 import forge.gamemodes.quest.bazaar.QuestItemType;
 import forge.gamemodes.quest.bazaar.QuestPetController;
 import forge.gui.interfaces.IButton;
@@ -97,9 +98,9 @@ public class QuestStatsScreen extends FScreen {
         });
 
         cbxMatchLength.setDropDownChangeHandler(e -> {
-            String match = cbxMatchLength.getSelectedItem();
+            Integer match = QuestMatchLength.valueForLabel(cbxMatchLength.getSelectedItem());
             if (match != null) {
-                FModel.getQuest().setMatchLength(match.substring(match.length() - 1));
+                FModel.getQuest().setMatchLength(match.toString());
                 FModel.getQuest().save();
             }
         });

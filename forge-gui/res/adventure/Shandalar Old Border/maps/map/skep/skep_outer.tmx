@@ -654,12 +654,12 @@
   </object>
   <object id="238" template="../../../../common/maps/obj/enemy.tx" x="81.6667" y="975.333" width="16" height="16" visible="1">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
   {
-    "text": "We're hunting the Sliver Queen, but her commanders and foot soldiers stand in our way.\n\nKill her three Commanders, or slaughter eight of the lesser ones to get to her. That should aggravate her sufficiently.",
+    "text": "We're hunting the Sliver Queen, but her commanders and foot soldiers stand in our way.\n\nKill her three Commanders, or slaughter eight of the lesser ones to get to her. That should aggravate her sufficiently.", &quot;loctext&quot;:&quot;adv.oldborder.explore.152&quot;,
     "options": [
       {
-        "name": "leave"
+        "name": "leave", &quot;locname&quot;:&quot;adv.oldborder.explore.153&quot;
       }
     ]
   }
@@ -731,13 +731,13 @@
   </object>
   <object id="256" template="../../../../common/maps/obj/dialog.tx" x="628.999" y="811.666" width="116" height="44.3333">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
   {
-    "text": "A translucent, shimmering red field blocks your path. Strange sounds echo through the room behind you.",
+    "text": "A translucent, shimmering red field blocks your path. Strange sounds echo through the room behind you.", "loctext": "adv.skep_skep_outer.256.d.n0.text",
     "options": [
-      { "name": "Leave." },
+      { "name": "Leave.", &quot;locname&quot;:&quot;adv.oldborder.explore.012&quot; },
       {
-        "name": "*The red field melts before your eyes. You are free to go forward.*",
+        "name": "*The red field melts before your eyes. You are free to go forward.*", &quot;locname&quot;:&quot;adv.oldborder.explore.154&quot;,
         "action": [ { "deleteMapObject": -1 } ],
         "condition": [
           {
@@ -750,7 +750,7 @@
         ]
       },
       {
-        "name": "*The red field melts before your eyes. You are free to go forward.*",
+        "name": "*The red field melts before your eyes. You are free to go forward.*", &quot;locname&quot;:&quot;adv.oldborder.explore.154&quot;,
         "action": [ { "deleteMapObject": -1 } ],
         "condition": [
           {

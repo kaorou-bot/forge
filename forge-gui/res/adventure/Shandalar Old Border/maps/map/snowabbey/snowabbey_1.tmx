@@ -219,11 +219,11 @@
   <object id="83" template="../../../../common/maps/obj/waypoint.tx" x="92" y="400" />
   <object id="84" template="../../../../common/maps/obj/dialog.tx" type="dialog" gid="11530" x="255.333" y="239.333" width="16" height="16" visible="1">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
   {
-    "text":"The inscription reads: Welcome to the fishing village named Haran. ",
+    "text":"The inscription reads: Welcome to the fishing village named Haran. ", &quot;loctext&quot;:&quot;adv.oldborder.explore.155&quot;,
     "options":[
-      { "name":"Walk away" }
+      { "name":"Walk away", "locname": "adv.shared.walk_away" }
 ]
 }
 ]</property>

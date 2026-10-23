@@ -135,9 +135,9 @@
    <properties>
     <property name="defeatDialog">[
   { 
-    "text":"As the machine collapses to the ground in a heap of parts, several levers and gears come free from within its metal carapace.", 
+    "text":"As the machine collapses to the ground in a heap of parts, several levers and gears come free from within its metal carapace.", "loctext": "adv.common.extra.80",
     "options":[{ 
-		"name":"Perhaps these will be useful somewhere?",
+		"name":"Perhaps these will be useful somewhere?", "locname": "adv.common.extra.226",
 		"action":[{"deleteMapObject":-1}, {"advanceMapFlag":"hasGears"}],
 	}]
    }
@@ -191,18 +191,18 @@
    <properties>
     <property name="dialog">[
   { 
-    "text":"A collection of gears appears through the remnants of this crumbling wall, but the lever before you spins freely.", 
+    "text":"A collection of gears appears through the remnants of this crumbling wall, but the lever before you spins freely.", "loctext": "adv.common.unkeyed.57",
     "options":[ 
 	{ 
-		"text":"The connected machinery whirrs to life, and a hidden room to your east opens!",
+		"text":"The connected machinery whirrs to life, and a hidden room to your east opens!", "loctext": "adv.common.unkeyed.58",
 		"condition":[{"checkMapFlag":"hasGears"}],
 		"action":[{"deleteMapObject":-1}],
-		"name":"Connect a gear from the golem to the lever." 
+		"name":"Connect a gear from the golem to the lever.", "locname": "adv.common.unkeyed.59"
 			"options":[{
 			"action":[{"deleteMapObject":118},{"deleteMapObject":121},{"deleteMapObject":123},{"deleteMapObject":124},{"deleteMapObject":125}],
-			"name":"(Continue)" }]
+			"name":"(Continue)", "locname": "adv.shared.continue_paren" }]
 	},
-	{ "name":"(Continue)" } 	
+	{ "name":"(Continue)", "locname": "adv.shared.continue_paren" }
 	] 
 	}
 ] 
@@ -213,17 +213,17 @@
    <properties>
     <property name="dialog">[
   { 
-    "text":"A collection of gears appears through the remnants of this crumbling wall, but you see no obvious way to turn them.", 
+    "text":"A collection of gears appears through the remnants of this crumbling wall, but you see no obvious way to turn them.", "loctext": "adv.common.unkeyed.60",
     "options":[ 
 	{ 
-		"text":"You feel the floor begin to rumble under your feet as the ancient gears grind against one another, but nothing obvious appears to happen.",
+		"text":"You feel the floor begin to rumble under your feet as the ancient gears grind against one another, but nothing obvious appears to happen.", "loctext": "adv.common.unkeyed.61",
 		"condition":[{"checkMapFlag":"hasGears"}],
 		"action":[{"deleteMapObject":-1}],
-		"name":"Connect a lever from the golem to the gears." 
+		"name":"Connect a lever from the golem to the gears.", "locname": "adv.common.unkeyed.62"
 			"options":[{
-			"name":"(Continue)" }]
+			"name":"(Continue)", "locname": "adv.shared.continue_paren" }]
 	},
-	{ "name":"(Continue)" } 	
+	{ "name":"(Continue)", "locname": "adv.shared.continue_paren" }
 	] 
 	}
 ] 
@@ -287,9 +287,9 @@
    <properties>
     <property name="dialog">[
   { 
-    "text":"The lever feels solidly attached to the switch, but it swings back and forth freely as if nothing is connected to this mechanism.", 
+    "text":"The lever feels solidly attached to the switch, but it swings back and forth freely as if nothing is connected to this mechanism.", "loctext": "adv.main_story_explore_dig_site_1.116.d.n0.text",
     "options":[ 
-	{ "name":"(Continue)", "action": [{"deleteMapObject":-1}] } 	
+	{ "name":"(Continue)", "locname": "adv.shared.continue_paren", "action": [{"deleteMapObject":-1}] }
 	] 
 	} 
 	

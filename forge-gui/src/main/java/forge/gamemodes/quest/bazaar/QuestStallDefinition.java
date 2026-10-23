@@ -79,7 +79,7 @@ public class QuestStallDefinition {
      * @return the fluff
      */
     public String getFluff() {
-        return this.description;
+        return QuestBazaarLocalization.text("stall", name, "description", description);
     }
 
     /**
@@ -97,7 +97,12 @@ public class QuestStallDefinition {
      * @return the displayName
      */
     public String getDisplayName() {
-        return this.displayName;
+        return QuestBazaarLocalization.text("stall", name, "name", displayName);
+    }
+
+    /** Short navigation label; never use this as an inventory key. */
+    public String getLabel() {
+        return QuestBazaarLocalization.text("stall", name, "label", name);
     }
 
     /**

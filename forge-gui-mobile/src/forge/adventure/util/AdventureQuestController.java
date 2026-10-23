@@ -329,6 +329,8 @@ public class AdventureQuestController implements Serializable {
         if (handle.exists())
         {
             allQuests =json.fromJson(Array.class, AdventureQuestData.class, handle);
+            AdventureQuestLocalization.apply(allQuests, new FileHandle(Config.instance().getFilePath(
+                    "languages/quest-text-" + Config.instance().getLang() + ".json")));
         }
 
         for (AdventureQuestData q : allQuests){

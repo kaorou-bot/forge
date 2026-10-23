@@ -102,7 +102,8 @@ public class QuestItemBasic implements IQuestBazaarItem {
      */
     @Override
     public String getPurchaseName() {
-        return StringUtils.isBlank(purchaseName) ? getName() : purchaseName;
+        return QuestBazaarLocalization.text("item", itemType.name(), "name",
+                StringUtils.isBlank(purchaseName) ? getName() : purchaseName);
     }
 
     /**
@@ -163,7 +164,7 @@ public class QuestItemBasic implements IQuestBazaarItem {
      */
     @Override
     public String getPurchaseDescription(final QuestAssets qA) {
-        return description;
+        return QuestBazaarLocalization.text("item", itemType.name(), "description", description);
     }
 
     /**

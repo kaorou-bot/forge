@@ -125,7 +125,7 @@ public class ViewWinLose implements IWinLoseView<FButton> {
         btnContinue.setFont(FSkin.getRelativeFont(22));
         btnRestart.setText(localizer.getMessage("btnStartNewMatch"));
         btnRestart.setFont(FSkin.getRelativeFont(22));
-        btnQuit.setText(replay ? "Close replay" : localizer.getMessage("btnQuitMatch"));
+        btnQuit.setText(localizer.getMessage(replay ? "lblReplayClose" : "btnQuitMatch"));
         btnQuit.setFont(FSkin.getRelativeFont(22));
         btnContinue.setEnabled(!game0.isMatchOver());
 
@@ -188,7 +188,7 @@ public class ViewWinLose implements IWinLoseView<FButton> {
         pnlLog.add(btnCopyLog, "center, w pref+16, h pref+8");
         pnlLeft.add(pnlLog, "w 100%!");
 
-        lblTitle.setText((replay ? "Replay: " : "") + composeTitle(game0));
+        lblTitle.setText(replay ? localizer.getMessage("lblReplayResult", composeTitle(game0)) : composeTitle(game0));
     }
 
     public final void show() {

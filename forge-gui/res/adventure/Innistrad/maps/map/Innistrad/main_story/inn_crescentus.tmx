@@ -36,43 +36,43 @@
  <objectgroup id="4" name="Objects">
   <object id="69" template="../../../../../common/maps/obj/enemy.tx" gid="2147495067" x="208" y="224">
    <properties>
-    <property name="dialog">[{
-  &quot;text&quot;:&quot;Hello, planeswalker {var=player_name}. Welcome to my abode&quot;,
+<property name="dialog">[{
+  &quot;text&quot;:&quot;Hello, planeswalker {var=player_name}. Welcome to my abode&quot;, &quot;loctext&quot;:&quot;adv.innistrad.opening.000&quot;,
   &quot;options&quot;:[
     {
-	  &quot;name&quot;:&quot;Why am I here?&quot;,      
+	  &quot;name&quot;:&quot;Why am I here?&quot;, &quot;locname&quot;:&quot;adv.innistrad.opening.001&quot;,      
 	  &quot;condition&quot;:[ { &quot;checkQuestFlag&quot;: &quot;mainQuest&quot; ,&quot;not&quot;:true} ],    
-	  &quot;text&quot;:&quot;You are on a plane called Innistrad, a realm of equal parts horror and joy; darkness and light. Where the shadows cling like a thick morning dew... You are here, because you alone could see through the shadows and found my beacon...&quot;,
+	  &quot;text&quot;:&quot;You are on a plane called Innistrad, a realm of equal parts horror and joy; darkness and light. Where the shadows cling like a thick morning dew... You are here, because you alone could see through the shadows and found my beacon...&quot;, &quot;loctext&quot;:&quot;adv.innistrad.opening.002&quot;,
 	  &quot;options&quot;:[
 		{      
-		  &quot;name&quot;:&quot;Why does this look like a jail?&quot;,
-		  &quot;text&quot;:&quot;Like you, I am imprisoned here. However, unlike myself, I have the power to grant you free travel to and from my... Home... And the point of my beacon.&quot;,
+		  &quot;name&quot;:&quot;Why does this look like a jail?&quot;, &quot;locname&quot;:&quot;adv.innistrad.opening.003&quot;,
+		  &quot;text&quot;:&quot;Like you, I am imprisoned here. However, unlike myself, I have the power to grant you free travel to and from my... Home... And the point of my beacon.&quot;, &quot;loctext&quot;:&quot;adv.innistrad.opening.004&quot;,
 		  &quot;options&quot;:[
 			{
-			  &quot;name&quot;:&quot;Continue&quot;,
-				&quot;text&quot;:&quot;Innistrad is in turmoil... Its soul is twisting, and it has forgotten itself... Time and memory are inter-mixed, and the people are forgetting what once was... Find the lost moments in time, bring them back to the fore, and you may find the key to free yourself.&quot;,
+			  &quot;name&quot;:&quot;Continue&quot;, &quot;locname&quot;:&quot;adv.innistrad.opening.005&quot;,
+				&quot;text&quot;:&quot;Innistrad is in turmoil... Its soul is twisting, and it has forgotten itself... Time and memory are inter-mixed, and the people are forgetting what once was... Find the lost moments in time, bring them back to the fore, and you may find the key to free yourself.&quot;, &quot;loctext&quot;:&quot;adv.innistrad.opening.006&quot;,
 				&quot;options&quot;:[
 				{
-					&quot;name&quot;:&quot;What does that mean?&quot;,
-					&quot;text&quot;:&quot;You will need to discover that for yourself... But first, take this rune. You can use it anytime to return here. Be careful, planeswalker, few gifts on Innistrad come without cost.&quot;,
+					&quot;name&quot;:&quot;What does that mean?&quot;, &quot;locname&quot;:&quot;adv.innistrad.opening.007&quot;,
+					&quot;text&quot;:&quot;You will need to discover that for yourself... But first, take this rune. You can use it anytime to return here. Be careful, planeswalker, few gifts on Innistrad come without cost.&quot;, &quot;loctext&quot;:&quot;adv.innistrad.opening.008&quot;,
 					&quot;action&quot;:[{&quot;addItem&quot;:&quot;Colorless rune&quot;}],
 					&quot;options&quot;:[
 					{
-						&quot;name&quot;:&quot;Continue&quot;,
-  						&quot;text&quot;:&quot;I have something else for you, {var=player_name}. Take these coins, but do not spend them with simple merchants.&quot;,
+						&quot;name&quot;:&quot;Continue&quot;, &quot;locname&quot;:&quot;adv.innistrad.opening.005&quot;,
+  						&quot;text&quot;:&quot;I have something else for you, {var=player_name}. Take these coins, but do not spend them with simple merchants.&quot;, &quot;loctext&quot;:&quot;adv.innistrad.opening.009&quot;,
   						&quot;condition&quot;:[{ &quot;checkCharacterFlag&quot;: &quot;freeChallengeCoins&quot; ,&quot;not&quot;:true} ],    
   						&quot;options&quot;:[{
 							&quot;action&quot;: [{&quot;grantRewards&quot;:[{&quot;type&quot;:&quot;item&quot;, &quot;count&quot;: 1, &quot;itemName&quot;: &quot;Challenge Coin&quot;}, {&quot;type&quot;:&quot;item&quot;, &quot;count&quot;: 2, &quot;itemName&quot;: &quot;Silver Challenge Coin&quot;}, {&quot;type&quot;:&quot;item&quot;, &quot;count&quot;: 3, &quot;itemName&quot;: &quot;Bronze Challenge Coin&quot;}]}, {&quot;setCharacterFlag&quot;: {&quot;key&quot;:&quot;freeChallengeCoins&quot;, &quot;val&quot;: 1}}],
-							&quot;name&quot;:&quot;What are they, then? What are they for?&quot;,
-							&quot;text&quot;:&quot;These are Challenge Coins. As Innistrad has frayed, points of power have formed. Allowing mages to come together and hold grand tournaments while the energy is strong. These coins will grant you entry to such contests, and the prizes available can help you on your journey.&quot;,
-							&quot;options&quot;:[{&quot;name&quot;:&quot;Where are these contests?&quot;,
-								&quot;text&quot;: &quot;Show the coins to innkeepers. If there is a point of power in the town, the innkeeper will direct you to it and its contest.&quot;,
+							&quot;name&quot;:&quot;What are they, then? What are they for?&quot;, &quot;locname&quot;:&quot;adv.innistrad.opening.010&quot;,
+							&quot;text&quot;:&quot;These are Challenge Coins. As Innistrad has frayed, points of power have formed. Allowing mages to come together and hold grand tournaments while the energy is strong. These coins will grant you entry to such contests, and the prizes available can help you on your journey.&quot;, &quot;loctext&quot;:&quot;adv.innistrad.opening.011&quot;,
+							&quot;options&quot;:[{&quot;name&quot;:&quot;Where are these contests?&quot;, &quot;locname&quot;:&quot;adv.innistrad.opening.012&quot;,
+								&quot;text&quot;: &quot;Show the coins to innkeepers. If there is a point of power in the town, the innkeeper will direct you to it and its contest.&quot;, &quot;loctext&quot;:&quot;adv.innistrad.opening.013&quot;,
 								&quot;options&quot;:[{ 
-									&quot;name&quot;:&quot;Thank you.&quot;,
-									&quot;text&quot;:&quot;I will now re-open the portal you came through. So that you may return to Innistrad, where you can seek to find freedom from your imprisonment... Good luck.&quot;,
+									&quot;name&quot;:&quot;Thank you.&quot;, &quot;locname&quot;:&quot;adv.innistrad.opening.014&quot;,
+									&quot;text&quot;:&quot;I will now re-open the portal you came through. So that you may return to Innistrad, where you can seek to find freedom from your imprisonment... Good luck.&quot;, &quot;loctext&quot;:&quot;adv.innistrad.opening.015&quot;,
 									&quot;options&quot;:[
 									{
-										&quot;name&quot;:&quot;(Leave)&quot;,
+										&quot;name&quot;:&quot;(Leave)&quot;, &quot;locname&quot;:&quot;adv.innistrad.opening.016&quot;,
 										&quot;action&quot;: [{&quot;setQuestFlag&quot;: {&quot;key&quot;:&quot;mainQuest&quot;, &quot;val&quot;: 1}, &quot;activateMapObject&quot;: 78}]
 									}]
 								}]
@@ -80,12 +80,12 @@
 						}]
 					},
 					{ 
-						&quot;name&quot;:&quot;Thank you.&quot;,
-						&quot;text&quot;:&quot;I will now re-open the portal you came through. Once you return to Innistrad, you can seek freedom from your imprisonment... Good luck.&quot;,
+						&quot;name&quot;:&quot;Thank you.&quot;, &quot;locname&quot;:&quot;adv.innistrad.opening.014&quot;,
+						&quot;text&quot;:&quot;I will now re-open the portal you came through. Once you return to Innistrad, you can seek freedom from your imprisonment... Good luck.&quot;, &quot;loctext&quot;:&quot;adv.innistrad.opening.017&quot;,
 						&quot;condition&quot;:[{ &quot;checkCharacterFlag&quot;: &quot;freeChallengeCoins&quot;} ],  
 						&quot;options&quot;:[
 						{
-							&quot;name&quot;:&quot;(Leave)&quot;,
+							&quot;name&quot;:&quot;(Leave)&quot;, &quot;locname&quot;:&quot;adv.innistrad.opening.016&quot;,
 							&quot;action&quot;: [{&quot;setQuestFlag&quot;: {&quot;key&quot;:&quot;mainQuest&quot;, &quot;val&quot;: 1}, &quot;activateMapObject&quot;: 78}]
 						}]
 					}]
@@ -94,21 +94,21 @@
 		} 
 	  ]
 	},
-    { &quot;name&quot;:&quot;Goodbye.&quot; }
+    { &quot;name&quot;:&quot;Goodbye.&quot;, &quot;locname&quot;:&quot;adv.innistrad.opening.018&quot; }
   ]
 },
 {
-  &quot;text&quot;:&quot;I have something else for you, {var=player_name}. Take these coins, but do not spend them with simple merchants.&quot;,
+  &quot;text&quot;:&quot;I have something else for you, {var=player_name}. Take these coins, but do not spend them with simple merchants.&quot;, &quot;loctext&quot;:&quot;adv.innistrad.opening.009&quot;,
   &quot;condition&quot;:[ { &quot;checkQuestFlag&quot;: &quot;mainQuest&quot;}, { &quot;checkCharacterFlag&quot;: &quot;freeChallengeCoins&quot; ,&quot;not&quot;:true} ],    
   &quot;options&quot;:[{
 
 	&quot;action&quot;: [{&quot;grantRewards&quot;:[{&quot;type&quot;:&quot;item&quot;, &quot;count&quot;: 1, &quot;itemName&quot;: &quot;Challenge Coin&quot;}, {&quot;type&quot;:&quot;item&quot;, &quot;count&quot;: 2, &quot;itemName&quot;: &quot;Silver Challenge Coin&quot;}, {&quot;type&quot;:&quot;item&quot;, &quot;count&quot;: 3, &quot;itemName&quot;: &quot;Bronze Challenge Coin&quot;}]}, {&quot;setCharacterFlag&quot;: {&quot;key&quot;:&quot;freeChallengeCoins&quot;, &quot;val&quot;: 1}}],
 
-	&quot;name&quot;:&quot;What are they, then? What are they for?&quot;,
-	&quot;text&quot;:&quot;These are Challenge Coins. As Innistrad has frayed, points of power have formed. Allowing mages to come together and hold grand tournaments while the energy is strong. These coins will grant you entry to such contests, and the prizes available can help you on your journey.&quot;,
-	&quot;options&quot;:[{&quot;name&quot;:&quot;Where are these contests?&quot;,
-		&quot;text&quot;: &quot;Show the coins to innkeepers. If there is a point of power in the town, the innkeeper will direct you to it and its contest.&quot;,
-		&quot;options&quot;:[{&quot;name&quot;:&quot;Thank you. (Leave)&quot;}]
+	&quot;name&quot;:&quot;What are they, then? What are they for?&quot;, &quot;locname&quot;:&quot;adv.innistrad.opening.010&quot;,
+	&quot;text&quot;:&quot;These are Challenge Coins. As Innistrad has frayed, points of power have formed. Allowing mages to come together and hold grand tournaments while the energy is strong. These coins will grant you entry to such contests, and the prizes available can help you on your journey.&quot;, &quot;loctext&quot;:&quot;adv.innistrad.opening.011&quot;,
+	&quot;options&quot;:[{&quot;name&quot;:&quot;Where are these contests?&quot;, &quot;locname&quot;:&quot;adv.innistrad.opening.012&quot;,
+		&quot;text&quot;: &quot;Show the coins to innkeepers. If there is a point of power in the town, the innkeeper will direct you to it and its contest.&quot;, &quot;loctext&quot;:&quot;adv.innistrad.opening.013&quot;,
+		&quot;options&quot;:[{&quot;name&quot;:&quot;Thank you. (Leave)&quot;, &quot;locname&quot;:&quot;adv.innistrad.opening.019&quot;}]
 	}]
   }]
 }]</property>

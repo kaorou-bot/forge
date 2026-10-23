@@ -29,74 +29,74 @@
  <objectgroup id="4" name="Objects">
   <object id="69" template="../../../../common/maps/obj/enemy.tx" gid="11419" x="214.5" y="224">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
     {
-        &quot;text&quot;: &quot;Welcome planeswalker {var=player_name}. You, like hundreds of other legends, are now trapped in this world, the Realm of Legends. Once, it was known as Shandalar, a peaceful plane overflowing with mana.&quot;,
+        &quot;text&quot;: &quot;Welcome planeswalker {var=player_name}. You, like hundreds of other legends, are now trapped in this world, the Realm of Legends. Once, it was known as Shandalar, a peaceful plane overflowing with mana.&quot;, &quot;loctext&quot;: &quot;adv.realm.main.190&quot;,
         &quot;options&quot;: [
             {
-                &quot;name&quot;: &quot;I've heard this before (end conversation)&quot;,
+                &quot;name&quot;: &quot;I've heard this before (end conversation)&quot;, &quot;locname&quot;: &quot;adv.realm.main.120&quot;,
                 &quot;action&quot;: [{ &quot;setQuestFlag&quot;: { &quot;key&quot;: &quot;mainQuest&quot;, &quot;val&quot;: 1 } }]},
           {
-                &quot;name&quot;: &quot;Who trapped me here?&quot;,
-                &quot;text&quot;: &quot;No one, not exactly. Years ago this plane's mana began to flare, and it drew legendary heroes, villains, and everything in between from across the multiverse and even across time to itself, trapping them with each other. &quot;,
+                &quot;name&quot;: &quot;Who trapped me here?&quot;, &quot;locname&quot;: &quot;adv.realm.main.196&quot;,
+                &quot;text&quot;: &quot;No one, not exactly. Years ago this plane's mana began to flare, and it drew legendary heroes, villains, and everything in between from across the multiverse and even across time to itself, trapping them with each other. &quot;, &quot;loctext&quot;: &quot;adv.realm.main.138&quot;,
                 &quot;options&quot;: [
                     {
-                        &quot;name&quot;: &quot;(Continue)&quot;,
-                        &quot;text&quot;: &quot;War, of course, broke out immediately - and it devastated the plane. The legends that survived have holed up in fortresses, caves, and towers scattered across the land, attacking any who breach their illusion of safety. &quot;,
+                        &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.main.067&quot;,
+                        &quot;text&quot;: &quot;War, of course, broke out immediately - and it devastated the plane. The legends that survived have holed up in fortresses, caves, and towers scattered across the land, attacking any who breach their illusion of safety. &quot;, &quot;loctext&quot;: &quot;adv.realm.main.189&quot;,
                         &quot;options&quot;: [
                             {
-                                &quot;name&quot;: &quot;(Continue)&quot;,
-                                &quot;text&quot;: &quot;Some towns still remain, fragments of larger settlements from across the multiverse. Though a shadow of what they once were, most still possess spells and equipment you will need to succeed. You would also do well to venture to the capitols of each of the five colored lands. The merchants there have even more powerful items and spells.&quot;,
+                                &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.main.067&quot;,
+                                &quot;text&quot;: &quot;Some towns still remain, fragments of larger settlements from across the multiverse. Though a shadow of what they once were, most still possess spells and equipment you will need to succeed. You would also do well to venture to the capitols of each of the five colored lands. The merchants there have even more powerful items and spells.&quot;, &quot;loctext&quot;: &quot;adv.realm.main.156&quot;,
                                 &quot;options&quot;: [
                                     {
-                                        &quot;name&quot;: &quot;(Continue)&quot;,
-                                        &quot;text&quot;: &quot;This world is free to roam as you choose, and as you dare. You have been given a magical map - heed well this guide: &quot;,
+                                        &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.main.067&quot;,
+                                        &quot;text&quot;: &quot;This world is free to roam as you choose, and as you dare. You have been given a magical map - heed well this guide: &quot;, &quot;loctext&quot;: &quot;adv.realm.main.181&quot;,
                                         &quot;options&quot;: [
                                             {
-                                                &quot;name&quot;: &quot;(Continue)&quot;,
-                                                &quot;text&quot;: &quot;The cave symbol denotes the least dangerous places, though still quite deadly. The dungeon symbol denotes more dangerous strongholds, and the castle symbols show the places where the mightiest of the surviving legends call their domain. &quot;,
+                                                &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.main.067&quot;,
+                                                &quot;text&quot;: &quot;The cave symbol denotes the least dangerous places, though still quite deadly. The dungeon symbol denotes more dangerous strongholds, and the castle symbols show the places where the mightiest of the surviving legends call their domain. &quot;, &quot;loctext&quot;: &quot;adv.realm.main.162&quot;,
                                                 &quot;options&quot;: [
                                                     {
-                                                        &quot;name&quot;: &quot;(Continue)&quot;,
-                                                        &quot;text&quot;: &quot;Know that each legend you face is unique - though drawn from across time and space, only one version of each remains after the war. As such, every victory will bring you closer to success.&quot;,
+                                                        &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.main.067&quot;,
+                                                        &quot;text&quot;: &quot;Know that each legend you face is unique - though drawn from across time and space, only one version of each remains after the war. As such, every victory will bring you closer to success.&quot;, &quot;loctext&quot;: &quot;adv.realm.main.128&quot;,
                                                         &quot;options&quot;: [
                                                             {
-                                                                &quot;name&quot;: &quot;(Continue)&quot;,
-                                                                &quot;text&quot;: &quot;You however, will return to life after each death none the worse, save the pain and shame of defeat. With persistence, skill, and the right spells, you can conquer any foe… eventually.&quot;,
+                                                                &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.main.067&quot;,
+                                                                &quot;text&quot;: &quot;You however, will return to life after each death none the worse, save the pain and shame of defeat. With persistence, skill, and the right spells, you can conquer any foe… eventually.&quot;, &quot;loctext&quot;: &quot;adv.realm.main.204&quot;,
                                                                 &quot;options&quot;: [
                                                                     {
-                                                                        &quot;name&quot;: &quot;(Continue)&quot;,
-                                                                        &quot;text&quot;: &quot;The sole exception are the wanderers in the world's wilds, who are possessed of the same ability to resurrect themselves as you are, though they possess little in the way of belongings to loot, having died many times already long before you arrived.&quot;,
+                                                                        &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.main.067&quot;,
+                                                                        &quot;text&quot;: &quot;The sole exception are the wanderers in the world's wilds, who are possessed of the same ability to resurrect themselves as you are, though they possess little in the way of belongings to loot, having died many times already long before you arrived.&quot;, &quot;loctext&quot;: &quot;adv.realm.main.174&quot;,
                                                                         &quot;options&quot;: [
                                                                             {
-                                                                                &quot;name&quot;: &quot;(Continue)&quot;,
-                                                                                &quot;text&quot;: &quot;You should know too that there is a way to escape this place, though none so far have managed it.&quot;,
+                                                                                &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.main.067&quot;,
+                                                                                &quot;text&quot;: &quot;You should know too that there is a way to escape this place, though none so far have managed it.&quot;, &quot;loctext&quot;: &quot;adv.realm.main.207&quot;,
                                                                                 &quot;options&quot;: [
                                                                                     {
-                                                                                        &quot;name&quot;: &quot;(Continue)&quot;,
-                                                                                        &quot;text&quot;: &quot;In each of the colored lands, a castle stands that has fallen to its enemy four colors. Each holds a key to the prison of the Ur-Dragon - a mighty being that if conquered holds half the key to escape.&quot;,
+                                                                                        &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.main.067&quot;,
+                                                                                        &quot;text&quot;: &quot;In each of the colored lands, a castle stands that has fallen to its enemy four colors. Each holds a key to the prison of the Ur-Dragon - a mighty being that if conquered holds half the key to escape.&quot;, &quot;loctext&quot;: &quot;adv.realm.main.123&quot;,
                                                                                         &quot;options&quot;: [
                                                                                             {
-                                                                                                &quot;name&quot;: &quot;(Continue)&quot;,
-                                                                                                &quot;text&quot;: &quot;The other half is to be found inside the prison of the Eldrazi. The five keys needed to enter that forsaken place are in the mightiest dungeons of the central wastes you'll soon find yourself in.&quot;,
+                                                                                                &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.main.067&quot;,
+                                                                                                &quot;text&quot;: &quot;The other half is to be found inside the prison of the Eldrazi. The five keys needed to enter that forsaken place are in the mightiest dungeons of the central wastes you'll soon find yourself in.&quot;, &quot;loctext&quot;: &quot;adv.realm.main.172&quot;,
                                                                                                 &quot;options&quot;: [
                                                                                                     {
-                                                                                                        &quot;name&quot;: &quot;(Continue)&quot;,
-                                                                                                        &quot;text&quot;: &quot;If you conquer the impossibly strong entities in both these cosmic prisons, freedom will be yours. But it will be a long and difficult road to reach such victories.&quot;,
+                                                                                                        &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.main.067&quot;,
+                                                                                                        &quot;text&quot;: &quot;If you conquer the impossibly strong entities in both these cosmic prisons, freedom will be yours. But it will be a long and difficult road to reach such victories.&quot;, &quot;loctext&quot;: &quot;adv.realm.main.121&quot;,
                                                                                                         &quot;options&quot;: [
                                                                                                             {
-                                                                                                                &quot;name&quot;: &quot;(Continue)&quot;,
-                                                                                                                &quot;text&quot;: &quot;Before you go, help yourself to the supplies in this place. I have gathered them from among the countless dead, hoping to pass them on to one such as you. The signs behind you also contain some valuable tips.&quot;,
+                                                                                                                &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.main.067&quot;,
+                                                                                                                &quot;text&quot;: &quot;Before you go, help yourself to the supplies in this place. I have gathered them from among the countless dead, hoping to pass them on to one such as you. The signs behind you also contain some valuable tips.&quot;, &quot;loctext&quot;: &quot;adv.realm.main.082&quot;,
                                                                                                                 &quot;options&quot;: [
                                                                                                                     {
-                                                                                                                        &quot;name&quot;: &quot;(Continue)&quot;,
-                                                                                                                        &quot;text&quot;: &quot;Be sure to open the chest behind me. It contains a rune to return here, one to travel to each of the five capitols, staves of speed, flight, and healing to ease your travels, and a manasight stone to detect enemy magic. You will also have some challenge coins on you to enter free contests of strength at inns in towns known as drafts.&quot;,                      &quot;options&quot;: [
+                                                                                                                        &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.main.067&quot;,
+                                                                                                                        &quot;text&quot;: &quot;Be sure to open the chest behind me. It contains a rune to return here, one to travel to each of the five capitols, staves of speed, flight, and healing to ease your travels, and a manasight stone to detect enemy magic. You will also have some challenge coins on you to enter free contests of strength at inns in towns known as drafts.&quot;, &quot;loctext&quot;: &quot;adv.realm.main.081&quot;,                      &quot;options&quot;: [
                                                                                                                             {          
-                                                                                                                            &quot;name&quot;: &quot;(Continue)&quot;,
-                                                                                                                            &quot;text&quot;: &quot;Now go. And may your library always contain the spells you need. &quot;,
+                                                                                                                            &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.main.067&quot;,
+                                                                                                                            &quot;text&quot;: &quot;Now go. And may your library always contain the spells you need. &quot;, &quot;loctext&quot;: &quot;adv.realm.main.143&quot;,
                                                                                                                             &quot;options&quot;: [
                                                                                                                                 {
-                                                                                                                                    &quot;name&quot;: &quot;(End Conversation)&quot;,
+                                                                                                                                    &quot;name&quot;: &quot;(End Conversation)&quot;, &quot;locname&quot;: &quot;adv.realm.main.068&quot;,
 &quot;action&quot;: [{ &quot;setQuestFlag&quot;: { &quot;key&quot;: &quot;mainQuest&quot;, &quot;val&quot;: 1 } }]
                                                                                                                                                                               }
                                                                                                                     ]
@@ -538,11 +538,11 @@
   </object>
   <object id="150" template="../../../../common/maps/obj/dialog.tx" type="dialog" gid="11530" x="112.152" y="116" width="16" height="16" visible="1">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
   {
-    &quot;text&quot;:&quot;Did you know? Your inventory size has no limits. If you have too many items to see, there's an invisible scrollbar on the right side of the item area in the item screen. Also, be careful! Almost all player items are unique, so don't throw them out! You can't sell player items either, so you'll build up quite a collection over time.&quot;,
+    &quot;text&quot;:&quot;Did you know? Your inventory size has no limits. If you have too many items to see, there's an invisible scrollbar on the right side of the item area in the item screen. Also, be careful! Almost all player items are unique, so don't throw them out! You can't sell player items either, so you'll build up quite a collection over time.&quot;, &quot;loctext&quot;: &quot;adv.realm.main.092&quot;,
     &quot;options&quot;:[
-      { &quot;name&quot;:&quot;Continue&quot; }
+      { &quot;name&quot;:&quot;Continue&quot;, &quot;locname&quot;: &quot;adv.realm.main.084&quot; }
 ]
 }
 ]</property>
@@ -550,11 +550,11 @@
   </object>
   <object id="151" template="../../../../common/maps/obj/dialog.tx" type="dialog" gid="11530" x="320" y="116" width="16" height="16" visible="1">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
   {
-    &quot;text&quot;:&quot;Did you know? Each of the capitol cities in the five colored biomes has shops with unique player items. Capitols also have a smith where you can craft cards according to specific criteria, as well as quests that grant additional permanent life bonuses and other rewards. Perhaps make visiting the capitols a first priority.&quot;,
+    &quot;text&quot;:&quot;Did you know? Each of the capitol cities in the five colored biomes has shops with unique player items. Capitols also have a smith where you can craft cards according to specific criteria, as well as quests that grant additional permanent life bonuses and other rewards. Perhaps make visiting the capitols a first priority.&quot;, &quot;loctext&quot;: &quot;adv.realm.main.089&quot;,
     &quot;options&quot;:[
-      { &quot;name&quot;:&quot;Continue&quot; }
+      { &quot;name&quot;:&quot;Continue&quot;, &quot;locname&quot;: &quot;adv.realm.main.084&quot; }
 ]
 }
 ]</property>
@@ -563,7 +563,7 @@
   </object>
   <object id="152" template="../../../../common/maps/obj/dialog.tx" type="dialog" gid="11530" x="144.667" y="116" width="16" height="16" visible="1">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
   {
     &quot;text&quot;:&quot;Did you know? Each item slot has a specific theme:
 Neck: Enchantments
@@ -571,9 +571,9 @@ Body: Passive life/hand size modifiers or lands
 Left: One-use artifacts or enchantments
 Right: Equipment
 Boots: Creatures
-A rare few items are also slotless or use a custom slot. They won't show up on your character silhouette, but will still have a checkmark indicating they're equipped.&quot;,
+A rare few items are also slotless or use a custom slot. They won't show up on your character silhouette, but will still have a checkmark indicating they're equipped.&quot;, &quot;loctext&quot;: &quot;adv.realm.main.088&quot;,
     &quot;options&quot;:[
-      { &quot;name&quot;:&quot;Continue&quot; }
+      { &quot;name&quot;:&quot;Continue&quot;, &quot;locname&quot;: &quot;adv.realm.main.084&quot; }
 ]
 }
 ]</property>
@@ -581,11 +581,11 @@ A rare few items are also slotless or use a custom slot. They won't show up on y
   </object>
   <object id="153" template="../../../../common/maps/obj/dialog.tx" type="dialog" gid="11530" x="287.333" y="116" width="16" height="16" visible="1">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
   {
-    &quot;text&quot;:&quot;Did you know? Each biome has 20 towns, plus the capitol cities for the outer biomes. You can mark especially useful towns (or dungeons) with a star by clicking the star on the left of the top menu bar. Some dungeons also have their own special shops within them.&quot;,
+    &quot;text&quot;:&quot;Did you know? Each biome has 20 towns, plus the capitol cities for the outer biomes. You can mark especially useful towns (or dungeons) with a star by clicking the star on the left of the top menu bar. Some dungeons also have their own special shops within them.&quot;, &quot;loctext&quot;: &quot;adv.realm.main.087&quot;,
     &quot;options&quot;:[
-      { &quot;name&quot;:&quot;Continue&quot; }
+      { &quot;name&quot;:&quot;Continue&quot;, &quot;locname&quot;: &quot;adv.realm.main.084&quot; }
 ]
 }
 ]</property>
@@ -593,11 +593,11 @@ A rare few items are also slotless or use a custom slot. They won't show up on y
   </object>
   <object id="154" template="../../../../common/maps/obj/dialog.tx" type="dialog" gid="11530" x="176.333" y="116" width="16" height="16" visible="1">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
   {
-    &quot;text&quot;:&quot;Did you know? In the deck edit screen, only cards legal for your selected commander's color identity will be shown to you. In order to see your full collection, create a deck with a five-color commander. There's one in a chest in this room for your convenience!&quot;,
+    &quot;text&quot;:&quot;Did you know? In the deck edit screen, only cards legal for your selected commander's color identity will be shown to you. In order to see your full collection, create a deck with a five-color commander. There's one in a chest in this room for your convenience!&quot;, &quot;loctext&quot;: &quot;adv.realm.main.091&quot;,
     &quot;options&quot;:[
-      { &quot;name&quot;:&quot;Continue&quot; }
+      { &quot;name&quot;:&quot;Continue&quot;, &quot;locname&quot;: &quot;adv.realm.main.084&quot; }
 ]
 }
 ]</property>
@@ -605,11 +605,11 @@ A rare few items are also slotless or use a custom slot. They won't show up on y
   </object>
   <object id="155" template="../../../../common/maps/obj/dialog.tx" type="dialog" gid="11530" x="255.333" y="116" width="16" height="16" visible="1">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
   {
-    &quot;text&quot;:&quot;Did you know? Every enemy drops their commander and all other cards depicting that character when defeated. They also drop some cards from their deck and some from among all cards, depending on their difficulty and your selected difficulty, as well as gold and mana shards. Bosses also have a chance to drop cosmetics like landscape sketchbooks (which alter the available lands in the add basic lands menu accessed through clicking the three dots in the upper righthand corner of your deck screen) and alternate art staple cards.&quot;,
+    &quot;text&quot;:&quot;Did you know? Every enemy drops their commander and all other cards depicting that character when defeated. They also drop some cards from their deck and some from among all cards, depending on their difficulty and your selected difficulty, as well as gold and mana shards. Bosses also have a chance to drop cosmetics like landscape sketchbooks (which alter the available lands in the add basic lands menu accessed through clicking the three dots in the upper righthand corner of your deck screen) and alternate art staple cards.&quot;, &quot;loctext&quot;: &quot;adv.realm.main.090&quot;,
     &quot;options&quot;:[
-      { &quot;name&quot;:&quot;Continue&quot; }
+      { &quot;name&quot;:&quot;Continue&quot;, &quot;locname&quot;: &quot;adv.realm.main.084&quot; }
 ]
 }
 ]</property>

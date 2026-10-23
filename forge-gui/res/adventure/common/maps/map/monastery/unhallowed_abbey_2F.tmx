@@ -264,18 +264,18 @@
    <properties>
     <property name="dialog">[
   { 
-    &quot;text&quot;:&quot;A captive lies tied to the altar. Glowing red runes encircle them.&quot;, 
+    &quot;text&quot;:&quot;A captive lies tied to the altar. Glowing red runes encircle them.&quot;, &quot;loctext&quot;: &quot;adv.common.unkeyed.64&quot;,
     &quot;options&quot;:[ 
 	{ 
-		&quot;text&quot;:&quot;As the third captive is freed, you hear the sound of shattering as the barrier in the center of the chamber fails. Time to end this.&quot;,
+		&quot;text&quot;:&quot;As the third captive is freed, you hear the sound of shattering as the barrier in the center of the chamber fails. Time to end this.&quot;, &quot;loctext&quot;: &quot;adv.common.unkeyed.65&quot;,
 		&quot;action&quot;:[{&quot;deleteMapObject&quot;:-1},{&quot;advanceMapFlag&quot;:&quot;gate&quot;}],
-		&quot;name&quot;:&quot;Free them&quot; 
+		&quot;name&quot;:&quot;Free them&quot;, &quot;locname&quot;: &quot;adv.common.unkeyed.66&quot;
 			&quot;options&quot;:[{
 			&quot;condition&quot;:[{&quot;getMapFlag&quot;:{&quot;key&quot;:&quot;gate&quot;,&quot;op&quot;:&quot;&gt;=&quot;,&quot;val&quot;:3}}],
 			&quot;action&quot;:[{&quot;deleteMapObject&quot;:108}],
-			&quot;name&quot;:&quot;Continue&quot; }]
+			&quot;name&quot;:&quot;Continue&quot;, &quot;locname&quot;: &quot;adv.shared.continue&quot; }]
 	},
-	{ &quot;name&quot;:&quot;Leave&quot; } 	
+	{ &quot;name&quot;:&quot;Leave&quot;, &quot;locname&quot;: &quot;adv.shared.leave&quot; }
 	] 
 	} 
 	
@@ -286,18 +286,18 @@
    <properties>
     <property name="dialog">[
   { 
-    &quot;text&quot;:&quot;A captive lies tied to the altar. Glowing red runes encircle them.&quot;, 
+    &quot;text&quot;:&quot;A captive lies tied to the altar. Glowing red runes encircle them.&quot;, &quot;loctext&quot;: &quot;adv.common.unkeyed.64&quot;,
     &quot;options&quot;:[ 
 	{ 
-		&quot;text&quot;:&quot;As the third captive is freed, you hear the sound of shattering as the barrier in the center of the chamber fails. Time to end this.&quot;,
+		&quot;text&quot;:&quot;As the third captive is freed, you hear the sound of shattering as the barrier in the center of the chamber fails. Time to end this.&quot;, &quot;loctext&quot;: &quot;adv.common.unkeyed.65&quot;,
 		&quot;action&quot;:[{&quot;deleteMapObject&quot;:-1},{&quot;advanceMapFlag&quot;:&quot;gate&quot;}],
-		&quot;name&quot;:&quot;Free them&quot; 
+		&quot;name&quot;:&quot;Free them&quot;, &quot;locname&quot;: &quot;adv.common.unkeyed.66&quot;
 			&quot;options&quot;:[{
 			&quot;condition&quot;:[{&quot;getMapFlag&quot;:{&quot;key&quot;:&quot;gate&quot;,&quot;op&quot;:&quot;&gt;=&quot;,&quot;val&quot;:3}}],
 			&quot;action&quot;:[{&quot;deleteMapObject&quot;:108}],
-			&quot;name&quot;:&quot;Continue&quot; }]
+			&quot;name&quot;:&quot;Continue&quot;, &quot;locname&quot;: &quot;adv.shared.continue&quot; }]
 	},
-	{ &quot;name&quot;:&quot;Leave&quot; } 	
+	{ &quot;name&quot;:&quot;Leave&quot;, &quot;locname&quot;: &quot;adv.shared.leave&quot; }
 	] 
 	} 
 	
@@ -308,18 +308,18 @@
    <properties>
     <property name="dialog">[
   { 
-    &quot;text&quot;:&quot;A captive lies tied to the altar. Glowing red runes encircle them.&quot;, 
+    &quot;text&quot;:&quot;A captive lies tied to the altar. Glowing red runes encircle them.&quot;, &quot;loctext&quot;: &quot;adv.common.unkeyed.64&quot;,
     &quot;options&quot;:[ 
 	{ 
-		&quot;text&quot;:&quot;As the third captive is freed, you hear the sound of shattering as the barrier in the center of the chamber fails. Time to end this.&quot;,
+		&quot;text&quot;:&quot;As the third captive is freed, you hear the sound of shattering as the barrier in the center of the chamber fails. Time to end this.&quot;, &quot;loctext&quot;: &quot;adv.common.unkeyed.65&quot;,
 		&quot;action&quot;:[{&quot;deleteMapObject&quot;:-1},{&quot;advanceMapFlag&quot;:&quot;gate&quot;}],
-		&quot;name&quot;:&quot;Free them&quot; 
+		&quot;name&quot;:&quot;Free them&quot;, &quot;locname&quot;: &quot;adv.common.unkeyed.66&quot;
 			&quot;options&quot;:[{
 			&quot;condition&quot;:[{&quot;getMapFlag&quot;:{&quot;key&quot;:&quot;gate&quot;,&quot;op&quot;:&quot;&gt;=&quot;,&quot;val&quot;:3}}],
 			&quot;action&quot;:[{&quot;deleteMapObject&quot;:108}],
-			&quot;name&quot;:&quot;ok&quot; }]
+			&quot;name&quot;:&quot;ok&quot;, &quot;locname&quot;: &quot;adv.common.unkeyed.67&quot; }]
 	},
-	{ &quot;name&quot;:&quot;Leave&quot; } 	
+	{ &quot;name&quot;:&quot;Leave&quot;, &quot;locname&quot;: &quot;adv.shared.leave&quot; }
 	] 
 	} 
 	
@@ -381,36 +381,36 @@
   <object id="116" template="../../obj/enemy.tx" x="203.566" y="96.2358" width="24" height="24">
    <properties>
     <property name="defeatDialog">[{
-    &quot;text&quot;:&quot;*With a snarl of pain, the demon collapses to the floor.* \n Congratulations, mortal, you've bested me. In exchange for my life, I offer a lesson - the same killing power I wield.&quot;,
+    &quot;text&quot;:&quot;*With a snarl of pain, the demon collapses to the floor.* \n Congratulations, mortal, you've bested me. In exchange for my life, I offer a lesson - the same killing power I wield.&quot;, &quot;loctext&quot;: &quot;adv.common.unkeyed.68&quot;,
     &quot;options&quot;:[{ 
-	&quot;name&quot;:&quot;I have no need for power from something as vile as you. Die!&quot;,  
-	&quot;text&quot;:&quot;*The demon's eyes widen in fear.* \n No! I will not be destroyed by- \n *A final blast of power reduces him to mana in the air of this place, and something clatters to the ground. A holy symbol of this place - or rather, what it once was. As the unholy energy around it fades, you can still feel magic coursing through it.*&quot;
+	&quot;name&quot;:&quot;I have no need for power from something as vile as you. Die!&quot;, &quot;locname&quot;: &quot;adv.common.unkeyed.69&quot;,
+	&quot;text&quot;:&quot;*The demon's eyes widen in fear.* \n No! I will not be destroyed by- \n *A final blast of power reduces him to mana in the air of this place, and something clatters to the ground. A holy symbol of this place - or rather, what it once was. As the unholy energy around it fades, you can still feel magic coursing through it.*&quot;, &quot;loctext&quot;: &quot;adv.common.unkeyed.70&quot;
 	&quot;options&quot;:[{
-		&quot;name&quot;:&quot;Continue&quot;,
+		&quot;name&quot;:&quot;Continue&quot;, &quot;locname&quot;: &quot;adv.shared.continue&quot;,
 		&quot;action&quot;:[{&quot;addItem&quot;:&quot;Hallowed Sigil&quot;},{&quot;deleteMapObject&quot;:116}]
 		}]
    	},
 	{ 
-	&quot;name&quot;:&quot;If you knew anything worth teaching me directly, I wouldn't have been able to defeat you.&quot;,  
-	&quot;text&quot;:&quot;*The demon's eyes widen in fear.* \n No! I will not be destroyed by- \n *A final blast of power reduces him to mana in the air of this place, and something clatters to the ground. A holy symbol of this place - or rather, what it once was. As the unholy energy around it fades, you can still feel magic coursing through it.*&quot;
+	&quot;name&quot;:&quot;If you knew anything worth teaching me directly, I wouldn't have been able to defeat you.&quot;, &quot;locname&quot;: &quot;adv.common.unkeyed.71&quot;,
+	&quot;text&quot;:&quot;*The demon's eyes widen in fear.* \n No! I will not be destroyed by- \n *A final blast of power reduces him to mana in the air of this place, and something clatters to the ground. A holy symbol of this place - or rather, what it once was. As the unholy energy around it fades, you can still feel magic coursing through it.*&quot;, &quot;loctext&quot;: &quot;adv.common.unkeyed.70&quot;
 	&quot;options&quot;:[{
-		&quot;name&quot;:&quot;Continue&quot;,
+		&quot;name&quot;:&quot;Continue&quot;, &quot;locname&quot;: &quot;adv.shared.continue&quot;,
 		&quot;action&quot;:[{&quot;addItem&quot;:&quot;Hallowed Sigil&quot;},{&quot;deleteMapObject&quot;:116}]
 		}]
     	},
 	{ 
-	&quot;name&quot;:&quot;...Very well, even a monster like you deserves mercy. *Once.*&quot;,  
-	&quot;text&quot;:&quot;*The demon smiles, moving his hand in an arcane gesture.* \n *As you unconsciously mimic it, you feel a dark, repulsive power crystallize in your hand. \n *The demon smiles as he begins to fade into a cloud of smoke.* \n Very well, mortal. My power is yours to wield...until next time.&quot;
+	&quot;name&quot;:&quot;...Very well, even a monster like you deserves mercy. *Once.*&quot;, &quot;locname&quot;: &quot;adv.common.unkeyed.72&quot;,
+	&quot;text&quot;:&quot;*The demon smiles, moving his hand in an arcane gesture.* \n *As you unconsciously mimic it, you feel a dark, repulsive power crystallize in your hand. \n *The demon smiles as he begins to fade into a cloud of smoke.* \n Very well, mortal. My power is yours to wield...until next time.&quot;, &quot;loctext&quot;: &quot;adv.common.unkeyed.73&quot;
 	&quot;options&quot;:[{
-		&quot;name&quot;:&quot;Continue&quot;,
+		&quot;name&quot;:&quot;Continue&quot;, &quot;locname&quot;: &quot;adv.shared.continue&quot;,
 		&quot;action&quot;:[{&quot;addItem&quot;:&quot;Unhallowed Sigil&quot;},{&quot;deleteMapObject&quot;:116}]
 		}]
     	},
 	{ 
-	&quot;name&quot;:&quot;As you should. I'll take your offer.&quot;,  
-	&quot;text&quot;:&quot;*The demon smiles, moving his hand in an arcane gesture.* \n *As you unconsciously mimic it, you feel a dark, repulsive power crystallize in your hand. \n *The demon smiles as he begins to fade into a cloud of smoke.* \n Very well, mortal. My power is yours to wield...until next time.&quot;
+	&quot;name&quot;:&quot;As you should. I'll take your offer.&quot;, &quot;locname&quot;: &quot;adv.common.unkeyed.74&quot;,
+	&quot;text&quot;:&quot;*The demon smiles, moving his hand in an arcane gesture.* \n *As you unconsciously mimic it, you feel a dark, repulsive power crystallize in your hand. \n *The demon smiles as he begins to fade into a cloud of smoke.* \n Very well, mortal. My power is yours to wield...until next time.&quot;, &quot;loctext&quot;: &quot;adv.common.unkeyed.73&quot;
 	&quot;options&quot;:[{
-		&quot;name&quot;:&quot;Continue&quot;,
+		&quot;name&quot;:&quot;Continue&quot;, &quot;locname&quot;: &quot;adv.shared.continue&quot;,
 		&quot;action&quot;:[{&quot;addItem&quot;:&quot;Unhallowed Sigil&quot;},{&quot;deleteMapObject&quot;:116}]
 		}]
     }]

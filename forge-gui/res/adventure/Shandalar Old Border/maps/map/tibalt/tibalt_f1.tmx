@@ -62,12 +62,12 @@
   </object>
   <object id="136" template="../../../../common/maps/obj/enemy.tx" x="406.524" y="79.574">
    <properties>
-    <property name="defeatDialog">[
+<property name="defeatDialog">[
 	{
-		"text": "The Devil unleashes a shrill scream as he falls unto the ground. His blood mixes with that of his victims, you see the red barrier disappear. The way above is open",
+		"text": "The Devil unleashes a shrill scream as he falls unto the ground. His blood mixes with that of his victims, you see the red barrier disappear. The way above is open", &quot;loctext&quot;:&quot;adv.oldborder.explore.156&quot;,
 		"options": [
 			{
-				"name": "(Continue)",
+				"name": "(Continue)", "locname": "adv.shared.continue_paren",
 				"action": [
 					{ "deleteMapObject": 218 },
 					{ "deleteMapObject": -1 }
@@ -226,10 +226,10 @@
   <object id="217" template="../../../../common/maps/obj/waypoint.tx" x="471.342" y="144.105" />
   <object id="218" name="Ward" type="dialog" gid="56584" x="556.362" y="180.439" width="63.961" height="16">
    <properties>
-    <property name="dialog">[{
-    "text":"A translucent, shimmering red field blocks your path. An ancient Evil is lurking in these crypts, preventing you from entering the room in front of you ...",
+<property name="dialog">[{
+    "text":"A translucent, shimmering red field blocks your path. An ancient Evil is lurking in these crypts, preventing you from entering the room in front of you ...", &quot;loctext&quot;:&quot;adv.oldborder.explore.157&quot;,
     "options":[
-    { "name":"Leave." } 
+    { "name":"Leave.", &quot;locname&quot;:&quot;adv.oldborder.explore.012&quot; } 
     ]
 }]</property>
    </properties>

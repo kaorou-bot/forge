@@ -169,10 +169,10 @@
    <properties>
     <property name="dialog">[
 	{
-		"text": "Suddenly you hear strange sounds coming behind you. A coarse voice thunders behind you: HONEY MINE, YOU DIE!",
+		"text": "Suddenly you hear strange sounds coming behind you. A coarse voice thunders behind you: HONEY MINE, YOU DIE!", "loctext": "adv.grove_grove_1_bears.86.d.n0.text",
 		"options": [
 			{
-				"name": "You have a bad feeling about this.",
+				"name": "You have a bad feeling about this.", "locname": "adv.maze_maze_2.58.d.n1.name",
 				"action": [
 					{ "activateMapObject": 57 },			{ "deleteMapObject": -1 }
 

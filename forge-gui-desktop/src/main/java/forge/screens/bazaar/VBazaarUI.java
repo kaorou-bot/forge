@@ -43,7 +43,7 @@ public enum VBazaarUI implements IVTopLevelUI {
     public void populateStalls() {
         for (final String s : bazaar.getStallNames()) {
 
-            final FLabel lbl = new FLabel.ButtonBuilder().text(s + "  ")
+            final FLabel lbl = new FLabel.ButtonBuilder().text(bazaar.getStall(s).getLabel() + "  ")
                     .fontAlign(SwingConstants.RIGHT).iconInBackground(true).selectable()
                     .fontSize(16).icon((SkinImage)GuiBase.getInterface().getSkinIcon(bazaar.getStall(s).getIcon())).build();
 

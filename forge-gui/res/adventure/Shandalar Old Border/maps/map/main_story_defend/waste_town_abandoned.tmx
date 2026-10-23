@@ -385,9 +385,9 @@
     <property name="dialog">[
 {
    "condition": [{"checkMapFlag": {"key":"demonsActive"}, "not": true}]
-   "text": "A fountain borders the walkway here. The stonework is chipped and dirty, but the water appears to be surprisingly clean and clear.",
+   "text": "A fountain borders the walkway here. The stonework is chipped and dirty, but the water appears to be surprisingly clean and clear.", "loctext": "adv.common.unkeyed.53",
    "options": [{
-      "name": "(Continue)", "action": [{"deleteMapObject":-1}]}]
+      "name": "(Continue)", "locname": "adv.shared.continue_paren", "action": [{"deleteMapObject":-1}]}]
 }
 ]</property>
    </properties>
@@ -397,9 +397,9 @@
     <property name="dialog">[
 {
    "condition": [{"checkMapFlag": {"key":"demonsActive"}, "not": true}],
-   "text": "One of the few sounds in the area, the water wheel on this old mill creaks as it spins gradually in the slowly moving and oddly colored water.",
+   "text": "One of the few sounds in the area, the water wheel on this old mill creaks as it spins gradually in the slowly moving and oddly colored water.", "loctext": "adv.main_story_defend_waste_town_abandoned.76.d.n0.text",
    "options": [{
-      "name": "(Continue)", "action": [{"deleteMapObject":-1}]}]
+      "name": "(Continue)", "locname": "adv.shared.continue_paren", "action": [{"deleteMapObject":-1}]}]
 }
 ]</property>
    </properties>
@@ -409,21 +409,21 @@
     <property name="dialog">[
 {
    "condition": [{"checkMapFlag": {"key":"demonsActive"}, "not": true}],
-   "text": "These shops are as lifeless as the rest of the town, but it looks as though there might be some items left behind, suspiciously untouched after however long.",
+   "text": "These shops are as lifeless as the rest of the town, but it looks as though there might be some items left behind, suspiciously untouched after however long.", "loctext": "adv.main_story_defend_waste_town_abandoned.77.d.n0.text",
    "options": [{
-      "name": "(Continue)", "action": [{"deleteMapObject":-1}]}]
+      "name": "(Continue)", "locname": "adv.shared.continue_paren", "action": [{"deleteMapObject":-1}]}]
 }
 ]</property>
    </properties>
   </object>
   <object id="78" template="../../../../common/maps/obj/dialog.tx" x="202" y="448" width="166" height="159">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
 {
    "condition": [{"checkMapFlag": {"key":"demonsActive"}, "not": true}],
-   "text": "The inn is locked up tightly. The town hall in contrast is missing its' front door, but you find nothing out of the ordinary inside, just well organized crumbling papers coveered in illegibly smeared ink.",
+   "text": "The inn is locked up tightly. The town hall in contrast is missing its' front door, but you find nothing out of the ordinary inside, just well organized crumbling papers coveered in illegibly smeared ink.", &quot;loctext&quot;:&quot;adv.oldborder.explore.147&quot;,
    "options": [{
-      "name": "(Continue)", "action": [{"deleteMapObject":-1}]}]
+      "name": "(Continue)", "locname": "adv.shared.continue_paren", "action": [{"deleteMapObject":-1}]}]
 }
 ]</property>
    </properties>
@@ -433,9 +433,9 @@
     <property name="dialog">[
 {
    "condition": [{"checkMapFlag": {"key":"demonsActive"}, "not": true}],
-   "text": "The vines covering these houses look sickly, as if they are searching for sustenance not found in the soil here.",
+   "text": "The vines covering these houses look sickly, as if they are searching for sustenance not found in the soil here.", "loctext": "adv.main_story_defend_waste_town_abandoned.79.d.n0.text",
    "options": [{
-      "name": "(Continue)", "action": [{"deleteMapObject":-1}]}]
+      "name": "(Continue)", "locname": "adv.shared.continue_paren", "action": [{"deleteMapObject":-1}]}]
 }
 ]</property>
    </properties>
@@ -455,9 +455,9 @@
     <property name="dialog">[
 {
    "condition": [{"checkMapFlag": {"key":"demonsActive"}, "not": true}],
-   "text": "'Deathly still' seems a fitting description for the graveyard. You find yourself almost wishing for the dead to rise just to have something happen.",
+   "text": "'Deathly still' seems a fitting description for the graveyard. You find yourself almost wishing for the dead to rise just to have something happen.", "loctext": "adv.main_story_defend_waste_town_abandoned.82.d.n0.text",
    "options": [{
-      "name": "(Continue)", "action": [{"deleteMapObject":-1}]}]
+      "name": "(Continue)", "locname": "adv.shared.continue_paren", "action": [{"deleteMapObject":-1}]}]
 }
 ]</property>
    </properties>
@@ -471,10 +471,10 @@
 {
    "condition": [{"checkMapFlag": "introShown", "not": true}],
    "action": [{"advanceMapFlag": "introShown"}],
-   "text": "Just as the merchant described, an empty town lies behind these gates. Even the wind seems more still here as if afraid to disturb anything.",
-   "options": [{"name": "(Continue)",
-      "text": "As you move closer, it becomes obvious that most of the buildings are intact but in a state of disrepair or are outright overgrown. It is doubtful that anyone has resided here in quite some time.",
-      "options": [{"name": "Time to go portal hunting. I don't guess I can ask anyone for directions..."}]
+   "text": "Just as the merchant described, an empty town lies behind these gates. Even the wind seems more still here as if afraid to disturb anything.", "loctext": "adv.main_story_defend_waste_town_abandoned.83.d.n0.text",
+   "options": [{"name": "(Continue)", "locname": "adv.shared.continue_paren",
+      "text": "As you move closer, it becomes obvious that most of the buildings are intact but in a state of disrepair or are outright overgrown. It is doubtful that anyone has resided here in quite some time.", "loctext": "adv.main_story_defend_waste_town_abandoned.83.d.n1.text",
+      "options": [{"name": "Time to go portal hunting. I don't guess I can ask anyone for directions...", "locname": "adv.main_story_defend_waste_town_abandoned.83.d.n3.name"}]
    }]
 }]
 </property>
@@ -534,9 +534,9 @@
     <property name="dialog">[
 {
    "condition": [{"checkMapFlag": {"key":"demonsActive"}, "not": true}],
-   "text": "Perhaps just a trick of the mind, you can't shake the feeling that you're being watched as you explore the area.",
+   "text": "Perhaps just a trick of the mind, you can't shake the feeling that you're being watched as you explore the area.", "loctext": "adv.main_story_defend_waste_town_abandoned.94.d.n0.text",
    "options": [{
-      "name": "(Continue)", "action": [{"deleteMapObject":-1}]}]
+      "name": "(Continue)", "locname": "adv.shared.continue_paren", "action": [{"deleteMapObject":-1}]}]
 }
 ]</property>
    </properties>
@@ -546,12 +546,12 @@
     <property name="dialog">[
 {
    "condition": [{"checkMapFlag": {"key":"demonsActive"}, "not": true}]
-   "text": "And here lies gruesome confirmation of the merchant's tale, by way of the remains of a merfolk tail. It appears that there was indeed one of the aquatic people here far from their normal territory which it will never return to.",
+   "text": "And here lies gruesome confirmation of the merchant's tale, by way of the remains of a merfolk tail. It appears that there was indeed one of the aquatic people here far from their normal territory which it will never return to.", "loctext": "adv.common.unkeyed.54",
    "options": [{
-      "name": "(Continue)",
-      "text": "Investigating the scene will have to wait, however, as it appears you have determined the cause of death. Seemingly out of nowhere, demons come running at you from all directions.",
+      "name": "(Continue)", "locname": "adv.shared.continue_paren",
+      "text": "Investigating the scene will have to wait, however, as it appears you have determined the cause of death. Seemingly out of nowhere, demons come running at you from all directions.", "loctext": "adv.common.unkeyed.55",
       "options": [{
-          "name": "RUN!!!",
+          "name": "RUN!!!", "locname": "adv.common.unkeyed.56",
           "action": [{"setMapFlag": {"key":"demonsActive", "val": 1}},{"deleteMapObject": -1}, {"activateMapObject": 67},{"activateMapObject": 68},{"activateMapObject": 69},{"activateMapObject": 70},{"activateMapObject": 71},{"activateMapObject": 72},{"activateMapObject": 73},{"activateMapObject": 74},{"activateMapObject": 93},{"activateMapObject": 98},{"activateMapObject": 99},{"activateMapObject": 100},{"activateMapObject": 101},{"activateMapObject": 102},{"activateMapObject": 103}]
       }]
 }]

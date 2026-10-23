@@ -69,12 +69,12 @@
   </object>
   <object id="119" template="../../../../common/maps/obj/enemy.tx" x="348.532" y="174.94">
    <properties>
-    <property name="defeatDialog">[
+<property name="defeatDialog">[
 	{
-		"text": "The Torturer unleashes a shrill scream as he falls unto the ground. His blood mixes with that of his tortured victims, you see the red barrier disappear. The way to Tibalt's chambers is open",
+		"text": "The Torturer unleashes a shrill scream as he falls unto the ground. His blood mixes with that of his tortured victims, you see the red barrier disappear. The way to Tibalt's chambers is open", &quot;loctext&quot;:&quot;adv.oldborder.explore.159&quot;,
 		"options": [
 			{
-				"name": "(Continue)",
+				"name": "(Continue)", "locname": "adv.shared.continue_paren",
 				"action": [
 					{ "deleteMapObject": 201 },
 					{ "deleteMapObject": -1 }
@@ -237,10 +237,10 @@
   </object>
   <object id="201" name="Ward" type="dialog" gid="23816" x="461.029" y="123.772" width="35.6276" height="16">
    <properties>
-    <property name="dialog">[{
-    "text":"A translucent, shimmering red field blocks your path. An ancient Evil is lurking in these crypts, preventing you from entering the room in front of you ...",
+<property name="dialog">[{
+    "text":"A translucent, shimmering red field blocks your path. An ancient Evil is lurking in these crypts, preventing you from entering the room in front of you ...", &quot;loctext&quot;:&quot;adv.oldborder.explore.157&quot;,
     "options":[
-    { "name":"Leave." } 
+    { "name":"Leave.", &quot;locname&quot;:&quot;adv.oldborder.explore.012&quot; } 
     ]
 }]</property>
    </properties>
@@ -272,15 +272,15 @@
   </object>
   <object id="204" template="../../../../common/maps/obj/gate.tx" x="576.842" y="281.439" width="11.6666" height="22">
    <properties>
-    <property name="dialog">[{
-    "text":"This door is locked",
+<property name="dialog">[{
+    "text":"This door is locked", &quot;loctext&quot;:&quot;adv.oldborder.explore.017&quot;,
     "options":[
-    { "name":"go away" },
+    { "name":"go away", &quot;locname&quot;:&quot;adv.oldborder.explore.003&quot; },
     {      
-        "name":"unlock with Torturer's key",     
+        "name":"unlock with Torturer's key", &quot;locname&quot;:&quot;adv.oldborder.explore.160&quot;,     
         "condition":[{"item":"Torturer's Key"}],    
-        "text":"The gate is unlocked, though the key breaks as you open the door",
-        "options":[{"name":"continue", "action":[ {"deleteMapObject":-1},{"removeItem":"Torturer's Key"}]} ]
+        "text":"The gate is unlocked, though the key breaks as you open the door", &quot;loctext&quot;:&quot;adv.oldborder.explore.161&quot;,
+        "options":[{"name":"continue", &quot;locname&quot;:&quot;adv.oldborder.explore.005&quot;, "action":[ {"deleteMapObject":-1},{"removeItem":"Torturer's Key"}]} ]
     }
     ]
 }]</property>

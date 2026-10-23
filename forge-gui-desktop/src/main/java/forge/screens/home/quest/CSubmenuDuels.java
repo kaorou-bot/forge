@@ -12,6 +12,7 @@ import javax.swing.SwingUtilities;
 import forge.gamemodes.quest.QuestController;
 import forge.gamemodes.quest.QuestEventDuel;
 import forge.gamemodes.quest.QuestUtil;
+import forge.gamemodes.quest.QuestMatchLength;
 import forge.gamemodes.quest.bazaar.QuestPetController;
 import forge.gui.UiCommand;
 import forge.gui.framework.ICDoc;
@@ -66,9 +67,9 @@ public enum CSubmenuDuels implements ICDoc {
         });
 
 		view.getCbxMatchLength().addActionListener(arg0 -> {
-            String match = view.getCbxMatchLength().getSelectedItem();
+            Integer match = QuestMatchLength.valueForLabel(view.getCbxMatchLength().getSelectedItem());
             if (match != null) {
-                quest.setMatchLength(match.substring(match.length() - 1));
+                quest.setMatchLength(match.toString());
                 quest.save();
             }
         });
@@ -164,9 +165,7 @@ public enum CSubmenuDuels implements ICDoc {
 			}
 			view.getPnlDuels().add(grpPanel, "w 100%!");
 
-			StringBuilder sb = new StringBuilder();
-			sb.append(localizer.getMessage("lblMatchBestof")).append(" ").append(FModel.getQuest().getMatchLength());
-			view.getCbxMatchLength().setSelectedItem(sb.toString());
+			view.getCbxMatchLength().setSelectedItem(QuestMatchLength.labelForValue(FModel.getQuest().getMatchLength()));
 		}
 	}
 

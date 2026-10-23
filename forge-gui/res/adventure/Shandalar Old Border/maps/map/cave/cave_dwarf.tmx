@@ -140,9 +140,9 @@
    <properties>
     <property name="dialog">[
   {
-    "text":"The inscription reads: Don't enter, dead inside",
+    "text":"The inscription reads: Don't enter, dead inside", "loctext": "adv.cave_cave_dwarf.84.d.n0.text",
     "options":[
-      { "name":"Walk away" }
+      { "name":"Walk away", "locname": "adv.shared.walk_away" }
 ]
 }
 ]</property>

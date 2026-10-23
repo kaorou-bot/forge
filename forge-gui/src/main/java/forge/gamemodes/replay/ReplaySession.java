@@ -10,6 +10,7 @@ import forge.model.FModel;
 import forge.player.PlayerControllerHuman;
 import forge.trackable.TrackableCollection;
 import forge.util.IHasForgeLog;
+import forge.util.Localizer;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -69,13 +70,13 @@ public final class ReplaySession implements IHasForgeLog {
         final StringBuilder sb = new StringBuilder();
         for (final forge.game.player.Player p : game.getPlayers()) {
             if (sb.length() > 0) {
-                sb.append(" vs ");
+                sb.append(Localizer.getInstance().getMessage("lblReplayVersus"));
             }
             sb.append(p.getName());
         }
         final int played = game.getMatch().getOutcomes().size();
         if (played > 0) {
-            sb.append(" (game ").append(played + 1).append(')');
+            sb.append(Localizer.getInstance().getMessage("lblReplayGameNumber", played + 1));
         }
         return sb.toString();
     }

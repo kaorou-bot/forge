@@ -208,9 +208,9 @@
    <properties>
     <property name="dialog">[
 {
-   "text": "Lucky for you, and also possibly the occupants of this cave, the gate is frozen open rather than closed.",
+   "text": "Lucky for you, and also possibly the occupants of this cave, the gate is frozen open rather than closed.", "loctext": "adv.main_story_explore_frostbitten_cavern_0.30.d.n0.text",
    "options": [{
-      "name": "(Continue)", "action": [{"deleteMapObject":-1}]}]
+      "name": "(Continue)", "locname": "adv.shared.continue_paren", "action": [{"deleteMapObject":-1}]}]
 }
 ]</property>
    </properties>

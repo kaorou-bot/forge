@@ -368,21 +368,21 @@
   <object id="83" template="../../../../common/maps/obj/waypoint.tx" x="55.3333" y="299.667" />
   <object id="84" name="switch" type="dialog" gid="4426" x="286.333" y="54" width="16" height="16">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
   {
-    "text": "Hmm... A big switch is embedded into the wall.",
+    "text": "Hmm... A big switch is embedded into the wall.", &quot;loctext&quot;:&quot;adv.oldborder.explore.014&quot;,
     "options": [
       {
-        "text": "You hear some loud sounds coming from the north",
-        "name": "flip the switch",
+        "text": "You hear some loud sounds coming from the north", &quot;loctext&quot;:&quot;adv.oldborder.explore.016&quot;,
+        "name": "flip the switch", &quot;locname&quot;:&quot;adv.oldborder.explore.015&quot;,
         "options": [
           {
             "action": [ { "deleteMapObject": 85 } ],
-            "name": "ok"
+            "name": "ok", "locname": "adv.common.unkeyed.67"
           }
         ]
       },
-      { "name": "go away" }
+      { "name": "go away", &quot;locname&quot;:&quot;adv.oldborder.explore.003&quot; }
     ]
   }
 
@@ -393,8 +393,8 @@
    <properties>
     <property name="dialog">[
   {
-    "text":"This gate appears to be locked in place by some mechanism, but you do not see any controls here.",
-    "options":[ { "name":"Time to find it!" } ]
+    "text":"This gate appears to be locked in place by some mechanism, but you do not see any controls here.", "loctext": "adv.main_story_templeofchandra.18.d.n0.text",
+    "options":[ { "name":"Time to find it!", "locname": "adv.graveyard_crypt_crypt.85.d.n1.name" } ]
   }
 ]</property>
    </properties>

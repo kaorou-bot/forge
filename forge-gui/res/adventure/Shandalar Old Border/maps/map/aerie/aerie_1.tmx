@@ -122,9 +122,9 @@
    <properties>
     <property name="dialog">[
   {
-    "text":"The inscription reads: Unauthorized visitors be warned, dangerous birds ahead.",
+    "text":"The inscription reads: Unauthorized visitors be warned, dangerous birds ahead.", "loctext": "adv.aerie_aerie_1.99.d.n0.text",
     "options":[
-      { "name":"Walk away" }
+      { "name":"Walk away", "locname": "adv.shared.walk_away" }
 ]
 }
 ]</property>

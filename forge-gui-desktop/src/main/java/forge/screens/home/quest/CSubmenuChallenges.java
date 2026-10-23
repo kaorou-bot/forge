@@ -17,6 +17,7 @@ import forge.Singletons;
 import forge.gamemodes.quest.QuestController;
 import forge.gamemodes.quest.QuestEventChallenge;
 import forge.gamemodes.quest.QuestUtil;
+import forge.gamemodes.quest.QuestMatchLength;
 import forge.gamemodes.quest.bazaar.QuestItemType;
 import forge.gamemodes.quest.bazaar.QuestPetController;
 import forge.gui.UiCommand;
@@ -88,9 +89,9 @@ public enum CSubmenuChallenges implements ICDoc {
         });
 
         view.getCbxMatchLength().addActionListener(arg0 -> {
-            String match = view.getCbxMatchLength().getSelectedItem();
+            Integer match = QuestMatchLength.valueForLabel(view.getCbxMatchLength().getSelectedItem());
             if (match != null) {
-                quest.setMatchLength(match.substring(match.length() - 1));
+                quest.setMatchLength(match.toString());
                 quest.save();
             }
         });
@@ -138,9 +139,7 @@ public enum CSubmenuChallenges implements ICDoc {
 
         final JXButtonPanel grpPanel = new JXButtonPanel();
 
-        StringBuilder sb = new StringBuilder();
-        sb.append(localizer.getMessage("lblMatchBestof")).append(" ").append(FModel.getQuest().getMatchLength());
-        view.getCbxMatchLength().setSelectedItem(sb.toString());
+        view.getCbxMatchLength().setSelectedItem(QuestMatchLength.labelForValue(FModel.getQuest().getMatchLength()));
 
         boolean haveAnyChallenges = true;
         for (final QuestEventChallenge qc : challenges) {

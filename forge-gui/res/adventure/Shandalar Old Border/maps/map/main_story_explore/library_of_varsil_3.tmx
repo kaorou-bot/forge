@@ -94,10 +94,10 @@
    <properties>
     <property name="dialog">[
     {
-        "text": "'Shandalaar's Most Burnable Cities'. Well, this one sounds like light reading...",
+        "text": "'Shandalaar's Most Burnable Cities'. Well, this one sounds like light reading...", "loctext": "adv.main_story_explore_library_of_varsil_3.26.d.n0.text",
         "options": [
             {
-                "name": "(Continue)",
+                "name": "(Continue)", "locname": "adv.shared.continue_paren",
                 "action": [
                     {
                         "deleteMapObject": -1,
@@ -120,9 +120,9 @@
    <properties>
     <property name="dialog">[
 {
-   "text": "Here you find a collection of biographies of wizards you've never heard of. None of them seem to have done anything significant.",
+   "text": "Here you find a collection of biographies of wizards you've never heard of. None of them seem to have done anything significant.", "loctext": "adv.main_story_explore_library_of_varsil_3.34.d.n0.text",
    "options": [{
-      "name": "(Continue)", "action": [{"deleteMapObject":-1}]}]
+      "name": "(Continue)", "locname": "adv.shared.continue_paren", "action": [{"deleteMapObject":-1}]}]
 }
 ]</property>
    </properties>
@@ -131,9 +131,9 @@
    <properties>
     <property name="dialog">[
 {
-   "text": "Diaries of soldiers, all from a similar time period but from several armies, are found here. Between all of them it seems that one could piece together a comprehensive account of common battles.",
+   "text": "Diaries of soldiers, all from a similar time period but from several armies, are found here. Between all of them it seems that one could piece together a comprehensive account of common battles.", "loctext": "adv.main_story_explore_library_of_varsil_3.28.d.n0.text",
    "options": [{
-      "name": "(Continue)", "action": [{"deleteMapObject":-1}]}]
+      "name": "(Continue)", "locname": "adv.shared.continue_paren", "action": [{"deleteMapObject":-1}]}]
 }
 ]</property>
    </properties>
@@ -142,9 +142,9 @@
    <properties>
     <property name="dialog">[
 {
-   "text": "'The Art of the Subtle Counterspell' is very useful reading if you have the time for it.",
+   "text": "'The Art of the Subtle Counterspell' is very useful reading if you have the time for it.", "loctext": "adv.main_story_explore_library_of_varsil_3.30.d.n0.text",
    "options": [{
-      "name": "(Continue)", 
+      "name": "(Continue)", "locname": "adv.shared.continue_paren",
       "action": [{
          "deleteMapObject":-1
          },{
@@ -163,9 +163,9 @@
    <properties>
     <property name="dialog">[
 {
-   "text": "Logs of caravan manifests are collected here. The contents all appear to be mundane, but someone has circled several items and scribbled notes in handwriting so messy that it is basically illegible.",
+   "text": "Logs of caravan manifests are collected here. The contents all appear to be mundane, but someone has circled several items and scribbled notes in handwriting so messy that it is basically illegible.", "loctext": "adv.main_story_explore_library_of_varsil_3.31.d.n0.text",
    "options": [{
-      "name": "(Continue)", "action": [{"deleteMapObject":-1}]}]
+      "name": "(Continue)", "locname": "adv.shared.continue_paren", "action": [{"deleteMapObject":-1}]}]
 }
 ]</property>
    </properties>
@@ -174,17 +174,17 @@
    <properties>
     <property name="dialog">[
 {
-   "text": "'Being a Report on an Urgent Threat to All Civilized Nations' is a rather wordy title for a scouting report, but that is what you find here.",
+   "text": "'Being a Report on an Urgent Threat to All Civilized Nations' is a rather wordy title for a scouting report, but that is what you find here.", "loctext": "adv.main_story_explore_library_of_varsil_3.32.d.n0.text",
    "options": [{
-      "name": "(Continue)",
-      "text": "The report, relatively recent by the standards of this library, describes a Sliver hive which dwarfs the largest cities of Shandalar. It includes a detailed map to the location.",
+      "name": "(Continue)", "locname": "adv.shared.continue_paren",
+      "text": "The report, relatively recent by the standards of this library, describes a Sliver hive which dwarfs the largest cities of Shandalar. It includes a detailed map to the location.", "loctext": "adv.main_story_explore_library_of_varsil_3.32.d.n1.text",
       "options": [
-         {"name": "(Put down the report)"},
+         {"name": "(Put down the report)", "locname": "adv.main_story_explore_library_of_varsil_3.32.d.n3.name"},
          {
-            "name": "Perhaps it's still there? Let's make a note of the location.", 
+            "name": "Perhaps it's still there? Let's make a note of the location.", "locname": "adv.main_story_explore_library_of_varsil_3.32.d.n5.name",
             "action": [{"deleteMapObject":-1}, {"issueQuest":34}],
-            "text": "You mark of the location of the Skep on your own map in case you decide to investigate later.",
-            "options": [{"name": "(Continue)"}]
+            "text": "You mark of the location of the Skep on your own map in case you decide to investigate later.", "loctext": "adv.main_story_explore_library_of_varsil_3.32.d.n4.text",
+            "options": [{"name": "(Continue)", "locname": "adv.shared.continue_paren"}]
          }
       ]
    }]
@@ -196,9 +196,9 @@
    <properties>
     <property name="dialog">[
 {
-   "text": "Here you find a collection of biographies of wizards you've never heard of. None of them seem to have done anything significant.",
+   "text": "Here you find a collection of biographies of wizards you've never heard of. None of them seem to have done anything significant.", "loctext": "adv.main_story_explore_library_of_varsil_3.34.d.n0.text",
    "options": [{
-      "name": "(Continue)", "action": [{"deleteMapObject":-1}]}]
+      "name": "(Continue)", "locname": "adv.shared.continue_paren", "action": [{"deleteMapObject":-1}]}]
 }
 ]</property>
    </properties>
@@ -207,9 +207,9 @@
    <properties>
     <property name="dialog">[
 {
-   "text": "Here you find a collection of copied plans for various goblin inventions. The transcriber added notes alongside each rating each on a scale between 'Will definitely explode' to 'Won't work well enough to explode'.",
+   "text": "Here you find a collection of copied plans for various goblin inventions. The transcriber added notes alongside each rating each on a scale between 'Will definitely explode' to 'Won't work well enough to explode'.", "loctext": "adv.main_story_explore_library_of_varsil_3.35.d.n0.text",
    "options": [{
-      "name": "(Continue)", "action": [{"deleteMapObject":-1}]}]
+      "name": "(Continue)", "locname": "adv.shared.continue_paren", "action": [{"deleteMapObject":-1}]}]
 }
 ]</property>
    </properties>
@@ -218,9 +218,9 @@
    <properties>
     <property name="dialog">[
 {
-   "text": "'How to Train your Badger', by Greensleeves... What's more ridiculous, the subject matter, or the pen name?",
+   "text": "'How to Train your Badger', by Greensleeves... What's more ridiculous, the subject matter, or the pen name?", "loctext": "adv.main_story_explore_library_of_varsil_3.36.d.n0.text",
    "options": [{
-      "name": "(Continue)", "action": [{"deleteMapObject":-1}]}]
+      "name": "(Continue)", "locname": "adv.shared.continue_paren", "action": [{"deleteMapObject":-1}]}]
 }
 ]</property>
    </properties>
@@ -254,9 +254,9 @@
    <properties>
     <property name="dialog">[
 {
-   "text": "'Pardic Heat' is, of all things to be found here, a romance novel. It tells the tale of a kindling fire between star-crossed mages.",
+   "text": "'Pardic Heat' is, of all things to be found here, a romance novel. It tells the tale of a kindling fire between star-crossed mages.", "loctext": "adv.main_story_explore_library_of_varsil_3.37.d.n0.text",
    "options": [{
-      "name": "(Continue)", "action": [{"deleteMapObject":-1}]}]
+      "name": "(Continue)", "locname": "adv.shared.continue_paren", "action": [{"deleteMapObject":-1}]}]
 }
 ]</property>
    </properties>
@@ -265,9 +265,9 @@
    <properties>
     <property name="dialog">[
 {
-   "text": "'Common Forms of Mimics' would actually be a relatively useful book to read, if it wasn't trying so hard to eat you.",
+   "text": "'Common Forms of Mimics' would actually be a relatively useful book to read, if it wasn't trying so hard to eat you.", "loctext": "adv.main_story_explore_library_of_varsil_3.50.d.n0.text",
    "options": [{
-      "name": "(Continue)", "action": [{"battleWithActorID":49}]}]
+      "name": "(Continue)", "locname": "adv.shared.continue_paren", "action": [{"battleWithActorID":49}]}]
 }
 ]</property>
    </properties>
@@ -289,10 +289,10 @@
                 "not": true
             }
         ],
-        "text": "\"...s35 maintained insistence on not having been summoned previously. Upon initiation of stage seven, however, s35 exhibited lessened signs of sickness and appeared to at least subconsciously anticipate danger approaching in stage twelve once we summoned s36 to...\"",
+        "text": "\"...s35 maintained insistence on not having been summoned previously. Upon initiation of stage seven, however, s35 exhibited lessened signs of sickness and appeared to at least subconsciously anticipate danger approaching in stage twelve once we summoned s36 to...\"", "loctext": "adv.main_story_explore_library_of_varsil_3.51.d.n0.text",
         "options": [
             {
-                "name": "(Continue)",
+                "name": "(Continue)", "locname": "adv.shared.continue_paren",
                 "action": [
                     {
                         "setQuestFlag": {
@@ -301,7 +301,7 @@
                         }
                     }
                 ],
-                "text": "This seems to be the research that you were looking for.",
+                "text": "This seems to be the research that you were looking for.", "loctext": "adv.main_story_explore_library_of_varsil_3.51.d.n1.text",
                 "options": [
                     {
                         "condition": [
@@ -310,11 +310,11 @@
                                 "not": true
                             }
                         ],
-                        "name": "Take the documents",
-                        "text": "There is likely more to be found here, but you have what Sir Donovan requested and could leave the way you came in.",
+                        "name": "Take the documents", "locname": "adv.main_story_explore_library_of_varsil_3.51.d.n7.name",
+                        "text": "There is likely more to be found here, but you have what Sir Donovan requested and could leave the way you came in.", "loctext": "adv.main_story_explore_library_of_varsil_3.51.d.n3.text",
                         "options": [
                             {
-                                "name": "(Continue)"
+                                "name": "(Continue)", "locname": "adv.shared.continue_paren"
                             }
                         ]
                     },
@@ -324,11 +324,11 @@
                                 "checkQuestFlag": "defeatedLibraryOfVarsilBoss"
                             }
                         ],
-                        "name": "Take the documents",
-                        "text": "With the massive mech upstairs already defeated, your work here is done.",
+                        "name": "Take the documents", "locname": "adv.main_story_explore_library_of_varsil_3.51.d.n7.name",
+                        "text": "With the massive mech upstairs already defeated, your work here is done.", "loctext": "adv.main_story_explore_library_of_varsil_3.51.d.n6.text",
                         "options": [
                             {
-                                "name": "(Continue)"
+                                "name": "(Continue)", "locname": "adv.shared.continue_paren"
                             }
                         ]
                     }

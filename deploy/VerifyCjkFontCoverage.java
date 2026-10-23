@@ -20,6 +20,7 @@ public final class VerifyCjkFontCoverage {
     private static final List<Path> REQUIRED_TEXT = List.of(
             Path.of("forge-gui", "res", "languages", "cardnames-zh-CN.txt"),
             Path.of("forge-gui", "res", "languages", "zh-CN.properties"),
+            Path.of("forge-gui", "res", "adventure", "Shandalar", "languages", "quest-text-zh-CN.json"),
             Path.of("forge-gui", "src", "main", "resources", "forge-community-release-notes-zh-CN.txt"));
     private static final Set<Integer> RUNTIME_NORMALIZED = Set.of(
             0x0160, 0x02E3, 0x2075, 0x2610, 0xA789, 0x2B689, 0x2B812);
@@ -39,6 +40,16 @@ public final class VerifyCjkFontCoverage {
             Files.readString(file, StandardCharsets.UTF_8).codePoints()
                     .filter(VerifyCjkFontCoverage::isVisibleCodePoint)
                     .forEach(required::add);
+        }
+        // Include optional translations for every bundled adventure world.
+        try (var files = Files.walk(root.resolve("forge-gui/res/adventure"))) {
+            for (Path file : files.filter(Files::isRegularFile)
+                    .filter(path -> path.getFileName().toString().endsWith("-zh-CN.json"))
+                    .toList()) {
+                Files.readString(file, StandardCharsets.UTF_8).codePoints()
+                        .filter(VerifyCjkFontCoverage::isVisibleCodePoint)
+                        .forEach(required::add);
+            }
         }
         required.add(0x25A1); // runtime replacement for U+2610 BALLOT BOX
 

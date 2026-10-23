@@ -76,18 +76,18 @@
   </object>
   <object id="55" template="../../../../common/maps/obj/gate.tx" x="368" y="639.333">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
 	{
 		"name": "",
 		"text": "You come upon a gate.",
-		"loctext": "",
+		"loctext": &quot;adv.main_story_castles_blue_castle.55.d.n0.text&quot;,
 		"action": [
 			{ "advanceMapFlag": "intro" }
 		],
 		"options":
 			[
 				{
-					"name": "Urza, your guardians have been defeated! It's time to end this!",
+					"name": "Urza, your guardians have been defeated! It's time to end this!", &quot;locname&quot;: &quot;adv.oldborder.plot.005&quot;,
 					"action": [ { "deleteMapObject": 55 } ],
 					"condition": [
 						{
@@ -98,15 +98,15 @@
 							}
 						}
 					],
-					"text": "Suddenly, the gate disappears right in front of your eyes, You are now free to pass.",
-					"options": [ { "name": "(continue)" } ]
+					"text": "Suddenly, the gate disappears right in front of your eyes, You are now free to pass.", &quot;loctext&quot;: &quot;adv.oldborder.plot.006&quot;,
+					"options": [ { "name": "(continue)", "locname": "adv.common.unkeyed.42" } ]
 				},
 				{
-					"name": "You knock on the door",
+					"name": "You knock on the door", "locname": "adv.main_story_temple_of_gideon_steppe.237.d.n5.name",
 					"condition": [ { "checkMapFlag": "intro" } ],
 					"text": "YOU ARE NOT WORTHY, BEGONE!",
-					"loctext": "",
-					"options": [ { "name": "(continue)" } ]
+					"loctext": &quot;adv.main_story_castles_blue_castle.55.d.n7.text&quot;,
+					"options": [ { "name": "(continue)", "locname": "adv.common.unkeyed.42" } ]
 				}
 			]
 	}
@@ -211,21 +211,21 @@
   </object>
   <object id="85" template="../../../../common/maps/obj/enemy.tx" x="398.667" y="652.667">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
   {
-    "text": "Welcome {var=player_name}, the mighty planeswalker Urza awaits your challenge.",
+    "text": "Welcome {var=player_name}, the mighty planeswalker Urza awaits your challenge.", &quot;loctext&quot;: &quot;adv.oldborder.plot.007&quot;,
     "options": [
       {
-        "name": "I am ready. What must I do?",
-        "text": "Urza's four most trusted allies guard the path forward to him, each mighty wizards and artificiers themselves.",
+        "name": "I am ready. What must I do?", &quot;locname&quot;: &quot;adv.oldborder.plot.008&quot;,
+        "text": "Urza's four most trusted allies guard the path forward to him, each mighty wizards and artificiers themselves.", &quot;loctext&quot;: &quot;adv.oldborder.plot.009&quot;,
         "options": [
           {
-            "name": "So if I defeat them my path will be clear?",
-            "text": "Yes, then you will be worthy to face my illustrious master.\n Sharpen your blade, ready your spells, and gather your courage, for the challenges ahead will test the mettle of even the most seasoned warrior.",
+            "name": "So if I defeat them my path will be clear?", &quot;locname&quot;: &quot;adv.oldborder.plot.010&quot;,
+            "text": "Yes, then you will be worthy to face my illustrious master.\n Sharpen your blade, ready your spells, and gather your courage, for the challenges ahead will test the mettle of even the most seasoned warrior.", &quot;loctext&quot;: &quot;adv.oldborder.plot.011&quot;,
             "options": [
               {
-                "name": "I'll show my worth, just make sure to open the gate when I do defeat your guardians.",
-                "text": "Leave"
+                "name": "I'll show my worth, just make sure to open the gate when I do defeat your guardians.", &quot;locname&quot;: &quot;adv.oldborder.plot.012&quot;,
+                "text": "Leave", "loctext": "adv.shared.leave"
               }
             ]
           }

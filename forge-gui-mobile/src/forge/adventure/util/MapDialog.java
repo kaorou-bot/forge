@@ -49,7 +49,6 @@ public class MapDialog {
     private final int parentID;
     private final static float WIDTH = 250f;
     public String questAccepted = "";
-    private final String blockedGateText = "YOU ARE NOT WORTHY, BEGONE!";
     static private final String defaultJSON = "[\n" +
             "  {\n" +
             //"    \"effect\":[],\n" +
@@ -236,12 +235,8 @@ public class MapDialog {
             fadeIn();
         }
         // Only used by castle though this should be controlled by map creator as dialog option but no one has updated it in ages
-        boolean blockedGate;
-        if (blockedGateText.equalsIgnoreCase(text))
-            blockedGate = true;
-        else {
-            blockedGate = false;
-        }
+        // This legacy gate action belongs to the source dialogue, not its translated label.
+        final boolean blockedGate = isBlockedGateDialog(dialog);
         TypingLabel A = Controls.newTypingLabel(text);
         A.setWrap(true);
         Array<TextraButton> buttons = new Array<>();
@@ -365,6 +360,10 @@ public class MapDialog {
             }
         }
         return dialogShown;
+    }
+
+    static boolean isBlockedGateDialog(final DialogData dialog) {
+        return "YOU ARE NOT WORTHY, BEGONE!".equalsIgnoreCase(dialog.text);
     }
 
     void setEffects(DialogData.ActionData[] data) {

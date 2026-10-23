@@ -38,27 +38,27 @@
 ]</property>
     <property name="dialog">[
   {
-    "text":"The mage at the heart of the cavern snarls at you, \"If my companions haven't given you a cold enough welcoming, allow me...\" ",
+    "text":"The mage at the heart of the cavern snarls at you, \"If my companions haven't given you a cold enough welcoming, allow me...\" ", "loctext": "adv.main_story_explore_frostbitten_cavern_1.8.d.n0.text",
     "options":[
       {
-        "name":"\"I just need one of those flowers...\"",
-        "text":"\"No. Now begone with you.",
+        "name":"\"I just need one of those flowers...\"", "locname": "adv.main_story_explore_frostbitten_cavern_1.8.d.n2.name",
+        "text":"\"No. Now begone with you.", "loctext": "adv.main_story_explore_frostbitten_cavern_1.8.d.n1.text",
         "options":[
             {
-              "name":"(Fight)",
+              "name":"(Fight)", "locname": "adv.main_story_explore_frostbitten_cavern_1.8.d.n5.name",
               "action": [ { "battleWithActorID": -1 } ]
             },
             {
-              "name":"(Flee)"
+              "name":"(Flee)", "locname": "adv.main_story_explore_frostbitten_cavern_1.8.d.n6.name"
             }
          ]
       },
       {
-        "name":"(Fight)",
+        "name":"(Fight)", "locname": "adv.main_story_explore_frostbitten_cavern_1.8.d.n5.name",
         "action": [ { "battleWithActorID": -1 } ]
       },
       {
-        "name":"(Flee)"
+        "name":"(Flee)", "locname": "adv.main_story_explore_frostbitten_cavern_1.8.d.n6.name"
       }
     ]
   }
@@ -162,8 +162,8 @@
    <properties>
     <property name="dialog">[
 {
-   "text": "Flowers grow, or attempt to, in all corners of the cave. Stalactites of ice dot a bright white roof of the cave like a chandelier, and it is much warmer in here than you would have expected.",
-   "options": [{"name": "(Continue)"}],
+   "text": "Flowers grow, or attempt to, in all corners of the cave. Stalactites of ice dot a bright white roof of the cave like a chandelier, and it is much warmer in here than you would have expected.", "loctext": "adv.main_story_explore_frostbitten_cavern_1.19.d.n0.text",
+   "options": [{"name": "(Continue)", "locname": "adv.shared.continue_paren"}],
    "action": [{"deleteMapObject":-1}]
 }
 ]</property>
@@ -173,10 +173,10 @@
    <properties>
     <property name="dialog">[
     {
-        "text": "Not all of the plants are in good health, this one appears to have been chewed on by an animal. You're not even sure what color this flower used to be.",
+        "text": "Not all of the plants are in good health, this one appears to have been chewed on by an animal. You're not even sure what color this flower used to be.", "loctext": "adv.common.unkeyed.63",
         "options": [
             {
-                "name": "(Continue)"
+                "name": "(Continue)", "locname": "adv.shared.continue_paren"
                 "action": [
                     {
                         "deleteMapObject": -1
@@ -192,10 +192,10 @@
    <properties>
     <property name="dialog">[
     {
-        "text": "This flower has a very rich violet hue to it.",
+        "text": "This flower has a very rich violet hue to it.", "loctext": "adv.main_story_explore_frostbitten_cavern_1.25.d.n0.text",
         "options": [
             {
-                "name": "Take the flower",
+                "name": "Take the flower", "locname": "adv.main_story_explore_frostbitten_cavern_1.26.d.n1.name",
                 "action": [
                     {
                         "deleteMapObject": -1,
@@ -219,10 +219,10 @@
    <properties>
     <property name="dialog">[
     {
-        "text": "This flower is a very romantic shade of scarlet.",
+        "text": "This flower is a very romantic shade of scarlet.", "loctext": "adv.main_story_explore_frostbitten_cavern_1.26.d.n0.text",
         "options": [
             {
-                "name": "Take the flower",
+                "name": "Take the flower", "locname": "adv.main_story_explore_frostbitten_cavern_1.26.d.n1.name",
                 "action": [
                     {
                         "deleteMapObject": -1,

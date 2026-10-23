@@ -197,30 +197,30 @@
   </object>
   <object id="102" template="../../../../common/maps/obj/gate.tx" x="207.807" y="95.793">
    <properties>
-    <property name="dialog">[{
-    "text":"A gate is blocking the path. I looks like it is open elsewhere",
+<property name="dialog">[{
+    "text":"A gate is blocking the path. I looks like it is open elsewhere", &quot;loctext&quot;:&quot;adv.oldborder.explore.080&quot;,
     "options":[
-    { "name":"continue" } 
+    { "name":"continue", &quot;locname&quot;:&quot;adv.oldborder.explore.005&quot; } 
     ]
 }]</property>
    </properties>
   </object>
   <object id="103" name="switch" type="dialog" gid="4426" x="141.352" y="114.291" width="16" height="16">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
   { 
-    "text":"Hmm a big switch is embedded into the wall", 
+    "text":"Hmm a big switch is embedded into the wall", &quot;loctext&quot;:&quot;adv.oldborder.explore.081&quot;, 
     "options":[ 
 	{ 
-		"text":"You hear some loud sounds from the center",
+		"text":"You hear some loud sounds from the center", &quot;loctext&quot;:&quot;adv.oldborder.explore.082&quot;,
 		"action":[{"deleteMapObject":-1},{"advanceMapFlag":"gate"}],
-		"name":"flip the switch" 
+		"name":"flip the switch", &quot;locname&quot;:&quot;adv.oldborder.explore.015&quot; 
 			"options":[{
 			"condition":[{"getMapFlag":{"key":"gate","op":"&gt;=","val":2}}],
 			"action":[{"deleteMapObject":102}],
-			"name":"ok" }]
+			"name":"ok", "locname": "adv.common.unkeyed.67" }]
 	},
-	{ "name":"go away" } 	
+	{ "name":"go away", &quot;locname&quot;:&quot;adv.oldborder.explore.003&quot; } 	
 	] 
 	} 
 	
@@ -229,20 +229,20 @@
   </object>
   <object id="104" name="switch" type="dialog" gid="4426" x="299.611" y="116.004" width="16" height="16">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
   { 
-    "text":"Hmm a big switch is embedded into the wall", 
+    "text":"Hmm a big switch is embedded into the wall", &quot;loctext&quot;:&quot;adv.oldborder.explore.081&quot;, 
     "options":[ 
 	{ 
-		"text":"You hear some loud sounds from the center",
+		"text":"You hear some loud sounds from the center", &quot;loctext&quot;:&quot;adv.oldborder.explore.082&quot;,
 		"action":[{"deleteMapObject":-1},{"advanceMapFlag":"gate"}],
-		"name":"flip the switch" 
+		"name":"flip the switch", &quot;locname&quot;:&quot;adv.oldborder.explore.015&quot; 
 			"options":[{
 			"condition":[{"getMapFlag":{"key":"gate","op":"&gt;=","val":2}}],
 			"action":[{"deleteMapObject":102}],
-			"name":"ok" }]
+			"name":"ok", "locname": "adv.common.unkeyed.67" }]
 	},
-	{ "name":"go away" } 	
+	{ "name":"go away", &quot;locname&quot;:&quot;adv.oldborder.explore.003&quot; } 	
 	] 
 	} 
 	

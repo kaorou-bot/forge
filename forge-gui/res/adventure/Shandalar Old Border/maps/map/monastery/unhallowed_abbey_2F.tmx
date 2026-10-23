@@ -394,30 +394,30 @@
   <object id="104" template="../../../../common/maps/obj/waypoint.tx" x="125.636" y="200.909" />
   <object id="108" name="Ward" type="dialog" gid="11912" x="192.063" y="128.292" width="48" height="16">
    <properties>
-    <property name="dialog">[{
-    "text":"A translucent, shimmering red field blocks your path. Pained screams echo through the room behind you.",
+<property name="dialog">[{
+    "text":"A translucent, shimmering red field blocks your path. Pained screams echo through the room behind you.", "loctext": "adv.vampirecastle_vampirecastle_grave_2.63.d.n0.text",
     "options":[
-    { "name":"Leave." } 
+    { "name":"Leave.", &quot;locname&quot;:&quot;adv.oldborder.explore.012&quot; } 
     ]
 }]</property>
    </properties>
   </object>
   <object id="109" name="Sacrifice1" type="dialog" gid="11905" x="159.667" y="123.333" width="16" height="16">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
   { 
-    "text":"A captive lies tied to the altar. Glowing red runes encircle them.", 
+    "text":"A captive lies tied to the altar. Glowing red runes encircle them.", "loctext": "adv.common.unkeyed.64",
     "options":[ 
 	{ 
-		"text":"As the third captive is freed, you hear the sound of shattering as the barrier in the center of the chamber fails. Time to end this.",
+		"text":"As the third captive is freed, you hear the sound of shattering as the barrier in the center of the chamber fails. Time to end this.", "loctext": "adv.common.unkeyed.65",
 		"action":[{"deleteMapObject":-1},{"advanceMapFlag":"gate"}],
-		"name":"Free them." 
+		"name":"Free them.", &quot;locname&quot;:&quot;adv.oldborder.explore.151&quot; 
 			"options":[{
 			"condition":[{"getMapFlag":{"key":"gate","op":"&gt;=","val":3}}],
 			"action":[{"deleteMapObject":108}],
-			"name":"ok" }]
+			"name":"ok", "locname": "adv.common.unkeyed.67" }]
 	},
-	{ "name":"Leave." } 	
+	{ "name":"Leave.", &quot;locname&quot;:&quot;adv.oldborder.explore.012&quot; } 	
 	] 
 	} 
 	
@@ -426,20 +426,20 @@
   </object>
   <object id="110" name="Sacrifice2" type="dialog" gid="11906" x="256.667" y="123.667" width="16" height="16">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
   { 
-    "text":"A captive lies tied to the altar. Glowing red runes encircle them.", 
+    "text":"A captive lies tied to the altar. Glowing red runes encircle them.", "loctext": "adv.common.unkeyed.64",
     "options":[ 
 	{ 
-		"text":"As the third captive is freed, you hear the sound of shattering as the barrier in the center of the chamber fails. Time to end this.",
+		"text":"As the third captive is freed, you hear the sound of shattering as the barrier in the center of the chamber fails. Time to end this.", "loctext": "adv.common.unkeyed.65",
 		"action":[{"deleteMapObject":-1},{"advanceMapFlag":"gate"}],
-		"name":"Free them." 
+		"name":"Free them.", &quot;locname&quot;:&quot;adv.oldborder.explore.151&quot; 
 			"options":[{
 			"condition":[{"getMapFlag":{"key":"gate","op":"&gt;=","val":3}}],
 			"action":[{"deleteMapObject":108}],
-			"name":"ok" }]
+			"name":"ok", "locname": "adv.common.unkeyed.67" }]
 	},
-	{ "name":"Leave." } 	
+	{ "name":"Leave.", &quot;locname&quot;:&quot;adv.oldborder.explore.012&quot; } 	
 	] 
 	} 
 	
@@ -448,20 +448,20 @@
   </object>
   <object id="111" name="Sacrifice3" type="dialog" gid="11907" x="224" y="285.333" width="16" height="16">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
   { 
-    "text":"A captive lies tied to the altar. Glowing red runes encircle them.", 
+    "text":"A captive lies tied to the altar. Glowing red runes encircle them.", "loctext": "adv.common.unkeyed.64",
     "options":[ 
 	{ 
-		"text":"As the third captive is freed, you hear the sound of shattering as the barrier in the center of the chamber fails. Time to end this.",
+		"text":"As the third captive is freed, you hear the sound of shattering as the barrier in the center of the chamber fails. Time to end this.", "loctext": "adv.common.unkeyed.65",
 		"action":[{"deleteMapObject":-1},{"advanceMapFlag":"gate"}],
-		"name":"Free them." 
+		"name":"Free them.", &quot;locname&quot;:&quot;adv.oldborder.explore.151&quot; 
 			"options":[{
 			"condition":[{"getMapFlag":{"key":"gate","op":"&gt;=","val":3}}],
 			"action":[{"deleteMapObject":108}],
-			"name":"ok" }]
+			"name":"ok", "locname": "adv.common.unkeyed.67" }]
 	},
-	{ "name":"Leave." } 	
+	{ "name":"Leave.", &quot;locname&quot;:&quot;adv.oldborder.explore.012&quot; } 	
 	] 
 	} 
 	
@@ -471,36 +471,36 @@
   <object id="113" template="../../../../common/maps/obj/dialog.tx" x="209.364" y="114.091" width="13.8182" height="13.3636">
    <properties>
     <property name="dialog">[{
-    "text":"*The large, imposing demon before you smirks*\n Ah, so you must be the one who's been freeing my sacrifices...and the volunteer to be my new one. Tell me, mortal, as your last words that aren't a howl of pain - why challenge me?",
+    "text":"*The large, imposing demon before you smirks*\n Ah, so you must be the one who's been freeing my sacrifices...and the volunteer to be my new one. Tell me, mortal, as your last words that aren't a howl of pain - why challenge me?", "loctext": "adv.monastery_unhallowed_abbey_2F.113.d.n0.text",
     "options":[{ 
-	"name":"Because you're a monster, and you should be stopped!",  
-	"text":"*The demon sneers.*\n Ah, a noble *hero*. I should have guessed. Your kind die like anyone else when your power runs dry - allow me to demonstrate!",
+	"name":"Because you're a monster, and you should be stopped!", "locname": "adv.monastery_unhallowed_abbey_2F.113.d.n2.name",
+	"text":"*The demon sneers.*\n Ah, a noble *hero*. I should have guessed. Your kind die like anyone else when your power runs dry - allow me to demonstrate!", "loctext": "adv.monastery_unhallowed_abbey_2F.113.d.n1.text",
 	"options":[{
-		"name":"End",
+		"name":"End", "locname": "adv.skep_skep_outer.101.d.n9.name",
 		"action":[{"deleteMapObject":113}]
 		}]
    	},
 	{ 
-	"name":"I want power. I'll take it from what's left of you.",  
-	"text":"*The demon chuckles.*\n I'll commend your ambition, if not your sense. Fight hard enough, and I might let you replace that failure you dealt with upstairs.",
+	"name":"I want power. I'll take it from what's left of you.", "locname": "adv.monastery_unhallowed_abbey_2F.113.d.n5.name",
+	"text":"*The demon chuckles.*\n I'll commend your ambition, if not your sense. Fight hard enough, and I might let you replace that failure you dealt with upstairs.", "loctext": "adv.monastery_unhallowed_abbey_2F.113.d.n4.text",
 	"options":[{
-		"name":"End",
+		"name":"End", "locname": "adv.skep_skep_outer.101.d.n9.name",
 		"action":[{"deleteMapObject":113}]
 		}]
     	},
 	{ 
-	"name":"Honestly, you just looked like you'd be a good fight.",  
-	"text":"*The demon blinks in surprise, then laughs.*\n Well, if that's what you seek, you'll find more than you bargained for here. I hope you enjoy the last battle of your life, *mortal*.",
+	"name":"Honestly, you just looked like you'd be a good fight.", "locname": "adv.monastery_unhallowed_abbey_2F.113.d.n8.name",
+	"text":"*The demon blinks in surprise, then laughs.*\n Well, if that's what you seek, you'll find more than you bargained for here. I hope you enjoy the last battle of your life, *mortal*.", "loctext": "adv.monastery_unhallowed_abbey_2F.113.d.n7.text",
 	"options":[{
-		"name":"End",
+		"name":"End", "locname": "adv.skep_skep_outer.101.d.n9.name",
 		"action":[{"deleteMapObject":113}]
 		}]
     	},
 	{ 
-	"name":"...",  
-	"text":"*The fiend's eyes narrow.*\n Too scared for words? So be it, mortal. You'll die all the same.",
+	"name":"...", "locname": "adv.monastery_unhallowed_abbey_2F.113.d.n11.name",
+	"text":"*The fiend's eyes narrow.*\n Too scared for words? So be it, mortal. You'll die all the same.", "loctext": "adv.monastery_unhallowed_abbey_2F.113.d.n10.text",
 	"options":[{
-		"name":"End",
+		"name":"End", "locname": "adv.skep_skep_outer.101.d.n9.name",
 		"action":[{"deleteMapObject":113}]
 		}]
     }]
@@ -510,36 +510,36 @@
   <object id="116" template="../../../../common/maps/obj/enemy.tx" x="203.566" y="96.2358" width="24" height="24">
    <properties>
     <property name="defeatDialog">[{
-    "text":"*With a snarl of pain, the demon collapses to the floor.* \n Congratulations, mortal, you've bested me. In exchange for my life, I offer a lesson - the same killing power I wield.",
+    "text":"*With a snarl of pain, the demon collapses to the floor.* \n Congratulations, mortal, you've bested me. In exchange for my life, I offer a lesson - the same killing power I wield.", "loctext": "adv.common.unkeyed.68",
     "options":[{ 
-	"name":"I have no need for power from something as vile as you. Die!",  
-	"text":"*The demon's eyes widen in fear.* \n No! I will not be destroyed by- \n *A final blast of power reduces him to mana in the air of this place, and something clatters to the ground. A holy symbol of this place - or rather, what it once was. As the unholy energy around it fades, you can still feel magic coursing through it.*"
+	"name":"I have no need for power from something as vile as you. Die!", "locname": "adv.common.unkeyed.69",
+	"text":"*The demon's eyes widen in fear.* \n No! I will not be destroyed by- \n *A final blast of power reduces him to mana in the air of this place, and something clatters to the ground. A holy symbol of this place - or rather, what it once was. As the unholy energy around it fades, you can still feel magic coursing through it.*", "loctext": "adv.common.unkeyed.70"
 	"options":[{
-		"name":"End",
+		"name":"End", "locname": "adv.skep_skep_outer.101.d.n9.name",
 		"action":[{"addItem":"Hallowed Sigil"},{"deleteMapObject":116}]
 		}]
    	},
 	{ 
-	"name":"If you knew anything worth teaching me directly, I wouldn't have been able to defeat you.",  
-	"text":"*The demon's eyes widen in fear.* \n No! I will not be destroyed by- \n *A final blast of power reduces him to mana in the air of this place, and something clatters to the ground. A holy symbol of this place - or rather, what it once was. As the unholy energy around it fades, you can still feel magic coursing through it.*"
+	"name":"If you knew anything worth teaching me directly, I wouldn't have been able to defeat you.", "locname": "adv.common.unkeyed.71",
+	"text":"*The demon's eyes widen in fear.* \n No! I will not be destroyed by- \n *A final blast of power reduces him to mana in the air of this place, and something clatters to the ground. A holy symbol of this place - or rather, what it once was. As the unholy energy around it fades, you can still feel magic coursing through it.*", "loctext": "adv.common.unkeyed.70"
 	"options":[{
-		"name":"End",
+		"name":"End", "locname": "adv.skep_skep_outer.101.d.n9.name",
 		"action":[{"addItem":"Hallowed Sigil"},{"deleteMapObject":116}]
 		}]
     	},
 	{ 
-	"name":"...Very well, even a monster like you deserves mercy. *Once.*",  
-	"text":"*The demon smiles, moving his hand in an arcane gesture.* \n *As you unconsciously mimic it, you feel a dark, repulsive power crystallize in your hand. \n *The demon smiles as he begins to fade into a cloud of smoke.* \n Very well, mortal. My power is yours to wield...until next time."
+	"name":"...Very well, even a monster like you deserves mercy. *Once.*", "locname": "adv.common.unkeyed.72",
+	"text":"*The demon smiles, moving his hand in an arcane gesture.* \n *As you unconsciously mimic it, you feel a dark, repulsive power crystallize in your hand. \n *The demon smiles as he begins to fade into a cloud of smoke.* \n Very well, mortal. My power is yours to wield...until next time.", "loctext": "adv.common.unkeyed.73"
 	"options":[{
-		"name":"End",
+		"name":"End", "locname": "adv.skep_skep_outer.101.d.n9.name",
 		"action":[{"addItem":"Unhallowed Sigil"},{"deleteMapObject":116}]
 		}]
     	},
 	{ 
-	"name":"As you should. I'll take your offer.",  
-	"text":"*The demon smiles, moving his hand in an arcane gesture.* \n *As you unconsciously mimic it, you feel a dark, repulsive power crystallize in your hand. \n *The demon smiles as he begins to fade into a cloud of smoke.* \n Very well, mortal. My power is yours to wield...until next time."
+	"name":"As you should. I'll take your offer.", "locname": "adv.common.unkeyed.74",
+	"text":"*The demon smiles, moving his hand in an arcane gesture.* \n *As you unconsciously mimic it, you feel a dark, repulsive power crystallize in your hand. \n *The demon smiles as he begins to fade into a cloud of smoke.* \n Very well, mortal. My power is yours to wield...until next time.", "loctext": "adv.common.unkeyed.73"
 	"options":[{
-		"name":"End",
+		"name":"End", "locname": "adv.skep_skep_outer.101.d.n9.name",
 		"action":[{"addItem":"Unhallowed Sigil"},{"deleteMapObject":116}]
 		}]
     }]

@@ -448,48 +448,48 @@
    <properties>
     <property name="defeatDialog">[
   {
-     &quot;text&quot;: &quot;Defeated, the witch drops her staff entirely, the last of her spells fizzle out. \&quot;Wait... Let me go, and I will not raise any alarm.\&quot;&quot;,
+     &quot;text&quot;: &quot;Defeated, the witch drops her staff entirely, the last of her spells fizzle out. \&quot;Wait... Let me go, and I will not raise any alarm.\&quot;&quot;, &quot;loctext&quot;: &quot;adv.common.unkeyed.33&quot;,
      &quot;options&quot;:[
      {
-	&quot;name&quot;:&quot;Hear her out&quot;,
-	&quot;text&quot;:&quot;\&quot;...And these mushrooms are poisonous if given properly, but I suppose you could heal with them in the right dosage.\&quot; She pauses for a moment, as if considering that she might need to do so herself.&quot;,
+	&quot;name&quot;:&quot;Hear her out&quot;, &quot;locname&quot;: &quot;adv.common.unkeyed.34&quot;,
+	&quot;text&quot;:&quot;\&quot;...And these mushrooms are poisonous if given properly, but I suppose you could heal with them in the right dosage.\&quot; She pauses for a moment, as if considering that she might need to do so herself.&quot;, &quot;loctext&quot;: &quot;adv.common.unkeyed.35&quot;,
 	&quot;options&quot;: [
 	{
-	   &quot;name&quot;:&quot;Trust her word&quot;,
+	   &quot;name&quot;:&quot;Trust her word&quot;, &quot;locname&quot;: &quot;adv.common.unkeyed.36&quot;,
 	   &quot;action&quot;: [{&quot;addLife&quot;: 10, &quot;deleteMapObject&quot;:240}],
-	   &quot;text&quot;:&quot;She takes a handful of the mushrooms and crushes them into a vial already containing some unknown liquid. She then takes a swig of it, and slowly places it down on the ground for you before leaving hurriedly. (+10 health recovered)&quot;
+	   &quot;text&quot;:&quot;She takes a handful of the mushrooms and crushes them into a vial already containing some unknown liquid. She then takes a swig of it, and slowly places it down on the ground for you before leaving hurriedly. (+10 health recovered)&quot;, &quot;loctext&quot;: &quot;adv.common.unkeyed.37&quot;
 	},
      {
-	&quot;name&quot;:&quot;Finish her off&quot;,
+	&quot;name&quot;:&quot;Finish her off&quot;, &quot;locname&quot;: &quot;adv.common.unkeyed.38&quot;,
 	&quot;action&quot;: [{&quot;addGold&quot;: 250, &quot;deleteMapObject&quot;:240}],
-	&quot;text&quot;:&quot;She is unable to put up much more of a fight. You find a bunch of questionable mushrooms and some gold on her. (+250 gold)&quot;
-	&quot;options&quot;:[ {&quot;name&quot;:&quot;(Continue)&quot;} ]
+	&quot;text&quot;:&quot;She is unable to put up much more of a fight. You find a bunch of questionable mushrooms and some gold on her. (+250 gold)&quot;, &quot;loctext&quot;: &quot;adv.common.unkeyed.39&quot;
+	&quot;options&quot;:[ {&quot;name&quot;:&quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.shared.continue_paren&quot;} ]
      },
      {
-	&quot;name&quot;:&quot;Let her leave&quot;,
-	&quot;text&quot;:&quot;She bows her head and scrambles away, leaving her staff behind.&quot;,
+	&quot;name&quot;:&quot;Let her leave&quot;, &quot;locname&quot;: &quot;adv.common.unkeyed.40&quot;,
+	&quot;text&quot;:&quot;She bows her head and scrambles away, leaving her staff behind.&quot;, &quot;loctext&quot;: &quot;adv.common.unkeyed.41&quot;,
 	&quot;action&quot;:[
 	    {&quot;grantRewards&quot;:[{&quot;type&quot;:&quot;card&quot;, &quot;count&quot;: 1, &quot;cardName&quot;: &quot;Staff of the Death Magus&quot;}]},
 	    {&quot;deleteMapObject&quot;:240}
 	],
-	&quot;options&quot;:[ {&quot;name&quot;:&quot;(Continue)&quot;} ]
+	&quot;options&quot;:[ {&quot;name&quot;:&quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.shared.continue_paren&quot;} ]
      }
 	]
      },
      {
-	&quot;name&quot;:&quot;Finish her off&quot;,
+	&quot;name&quot;:&quot;Finish her off&quot;, &quot;locname&quot;: &quot;adv.common.unkeyed.38&quot;,
 	&quot;action&quot;: [{&quot;addGold&quot;: 250, &quot;deleteMapObject&quot;:240}],
-	&quot;text&quot;:&quot;She is unable to put up much more of a fight. You find a bunch of questionable mushrooms and some gold on her. (+250 gold)&quot;
-	&quot;options&quot;:[ {&quot;name&quot;:&quot;(Continue)&quot;} ]
+	&quot;text&quot;:&quot;She is unable to put up much more of a fight. You find a bunch of questionable mushrooms and some gold on her. (+250 gold)&quot;, &quot;loctext&quot;: &quot;adv.common.unkeyed.39&quot;
+	&quot;options&quot;:[ {&quot;name&quot;:&quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.shared.continue_paren&quot;} ]
      },
      {
-	&quot;name&quot;:&quot;Let her leave&quot;,
-	&quot;text&quot;:&quot;She bows her head and scrambles away, leaving her staff behind.&quot;,
+	&quot;name&quot;:&quot;Let her leave&quot;, &quot;locname&quot;: &quot;adv.common.unkeyed.40&quot;,
+	&quot;text&quot;:&quot;She bows her head and scrambles away, leaving her staff behind.&quot;, &quot;loctext&quot;: &quot;adv.common.unkeyed.41&quot;,
 	&quot;action&quot;:[
 	    {&quot;grantRewards&quot;:[{&quot;type&quot;:&quot;card&quot;, &quot;count&quot;: 1, &quot;cardName&quot;: &quot;Staff of the Death Magus&quot;}]},
 	    {&quot;deleteMapObject&quot;:240}
 	],
-	&quot;options&quot;:[ {&quot;name&quot;:&quot;(Continue)&quot;} ]
+	&quot;options&quot;:[ {&quot;name&quot;:&quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.shared.continue_paren&quot;} ]
      }
      ]
   }

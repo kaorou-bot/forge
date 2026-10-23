@@ -10,6 +10,7 @@ import com.google.common.collect.Lists;
 import forge.gamemodes.net.client.ReplayPlayer;
 import forge.localinstance.properties.ForgePreferences;
 import forge.screens.match.CMatchUI;
+import forge.util.Localizer;
 
 /**
  * Gets the menus associated with the Game screen.
@@ -26,8 +27,8 @@ public class CMatchUIMenus {
         final List<JMenu> menus = Lists.newArrayListWithCapacity(2);
         if (matchUI.isReplay()) {
             // a recording has nothing to concede, undo, yield or cheat with: only a way out
-            final JMenu menu = new JMenu("Replay");
-            final JMenuItem close = new JMenuItem("Close replay");
+            final JMenu menu = new JMenu(Localizer.getInstance().getMessage("lblReplay"));
+            final JMenuItem close = new JMenuItem(Localizer.getInstance().getMessage("lblReplayClose"));
             close.addActionListener(e -> ReplayPlayer.stopFor(matchUI, true));
             menu.add(close);
             menus.add(menu);

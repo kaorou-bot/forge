@@ -26,8 +26,7 @@ import forge.model.FModel;
 import forge.player.GamePlayerUtil;
 import forge.util.Localizer;
 import forge.util.MyRandom;
-import forge.util.TextUtil;
-import org.apache.commons.lang3.StringUtils;
+import forge.util.CardTranslation;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
@@ -52,6 +51,10 @@ public class QuestWinLoseController {
         qEvent = qData.getCurrentEvent();
         wonMatch = lastGame.isMatchWonBy(GamePlayerUtil.getQuestPlayer());
         isAnte = FModel.getPreferences().getPrefBoolean(FPref.UI_ANTE);
+    }
+
+    private static String rewardText(final String key, final Object... arguments) {
+        return Localizer.getInstance().getMessage("questReward." + key, arguments);
     }
 
     public void showRewards() {
@@ -80,7 +83,7 @@ public class QuestWinLoseController {
 
         final boolean matchIsNotOver = !lastGame.isMatchOver();
         if (matchIsNotOver) {
-            view.getBtnQuit().setText(Localizer.getInstance().getMessage("lblQuitByPayCredits"));
+            view.getBtnQuit().setText(rewardText("quitPenalty", FModel.getQuestPreferences().getPrefInt(QPref.PENALTY_LOSS)));
         }
         else {
             view.getBtnContinue().setVisible(false);
@@ -125,10 +128,10 @@ public class QuestWinLoseController {
                 }
 
                 else {
-                    awardSpecialReward("Special bonus reward"); // If any
+                    awardSpecialReward(rewardText("specialBonus")); // If any
                     // Random rare for winning against a very hard deck
                     if (qEvent.getDifficulty() == QuestEventDifficulty.EXPERT) {
-                        awardRandomRare("You've won a random rare for winning against a very hard deck.");
+                        awardRandomRare(rewardText("expertRare"));
                     }
                 }
 
@@ -136,7 +139,7 @@ public class QuestWinLoseController {
 
                 // Random rare given at 50% chance (65% with luck upgrade)
                 if (getLuckyCoinResult()) {
-                    awardRandomRare("You've won a random rare.");
+                    awardRandomRare(rewardText("randomRare"));
                 }
 
                 // Award jackpot every 80 games won (currently 10 rares)
@@ -228,11 +231,10 @@ public class QuestWinLoseController {
 
         credBase = (int) (base * multiplier);
 
-        sb.append(StringUtils.capitalize(qEvent.getDifficulty().getTitle()));
-        sb.append(" opponent: ").append(credBase).append(" credits.\n");
+        sb.append(rewardText("base", rewardText("difficulty." + qEvent.getDifficulty().name()), credBase));
 
         if(qEvent.getIsRandomMatch()){
-            sb.append("Random Opponent Bonus: ").append(credBase).append(" credit").append(credBase > 1 ? "s." : ".").append("\n");
+            sb.append(rewardText("randomOpponent", credBase));
             credBase += credBase;
         }
 
@@ -242,8 +244,7 @@ public class QuestWinLoseController {
 
         credBase += creditsForPreviousWins;
 
-        sb.append("Bonus for previous wins: ").append(creditsForPreviousWins).append(
-                creditsForPreviousWins != 1 ? " credits.\n" : " credit.\n");
+        sb.append(rewardText("previousWins", creditsForPreviousWins));
 
         // Gameplay bonuses (for each game win)
         boolean hasNeverLost = true;
@@ -269,21 +270,21 @@ public class QuestWinLoseController {
                 final GameLossReason whyAiLost = outcome.lossState;
                 int altReward = getCreditsRewardForAltWin(whyAiLost);
 
-                String winConditionName = "Unknown (bug)";
+                String winConditionName = rewardText("unknownCondition");
                 if (game.getWinCondition() == GameEndReason.WinsGameSpellEffect) {
-                    winConditionName = game.getWinSpellEffect();
+                    winConditionName = translatedCondition(game.getWinSpellEffect());
                     altReward = getCreditsRewardForAltWin(null);
                 }
                 else {
                     switch (whyAiLost) {
                     case Poisoned:
-                        winConditionName = "Poison";
+                        winConditionName = rewardText("poison");
                         break;
                     case Milled:
-                        winConditionName = "Milled";
+                        winConditionName = rewardText("milled");
                         break;
                     case SpellEffect:
-                        winConditionName = outcome.loseConditionSpell;
+                        winConditionName = translatedCondition(outcome.loseConditionSpell);
                         break;
                     default:
                         break;
@@ -292,9 +293,8 @@ public class QuestWinLoseController {
 
                 if (altReward > 0) {
                     credGameplay += altReward;
-                    sb.append(GuiBase.getInterface().isLibgdxPort()
-                            ? TextUtil.concatNoSpace("Alternate win condition: ", winConditionName, "! Bonus: ", String.valueOf(altReward), " credits.\n")
-                            : TextUtil.concatNoSpace("Alternate win condition: <u>", winConditionName, "</u>! Bonus: ", String.valueOf(altReward), " credits.\n"));
+                    sb.append(rewardText("alternate", GuiBase.getInterface().isLibgdxPort()
+                            ? winConditionName : "<u>" + winConditionName + "</u>", altReward));
                 }
             }
             // Mulligan to zero
@@ -303,7 +303,7 @@ public class QuestWinLoseController {
 
             if (0 == cntCardsHumanStartedWith) {
                 credGameplay += mulliganReward;
-                sb.append(TextUtil.concatNoSpace("Mulliganed to zero and still won! Bonus: ", String.valueOf(mulliganReward), " credits.\n"));
+                sb.append(rewardText("mulligan", mulliganReward));
             }
 
             // Early turn bonus
@@ -311,24 +311,24 @@ public class QuestWinLoseController {
             final int turnCredits = getCreditsRewardForWinByTurn(winTurn);
 
             if (winTurn == 0) {
-                sb.append("Won on turn zero!");
+                sb.append(rewardText("turnZero"));
             }
             else if (winTurn == 1) {
-                sb.append("Won in one turn!");
+                sb.append(rewardText("turnOne"));
             }
             else if (winTurn <= 5) {
-                sb.append("Won by turn 5!");
+                sb.append(rewardText("byTurn", 5));
             }
             else if (winTurn <= 10) {
-                sb.append("Won by turn 10!");
+                sb.append(rewardText("byTurn", 10));
             }
             else if (winTurn <= 15) {
-                sb.append("Won by turn 15!");
+                sb.append(rewardText("byTurn", 15));
             }
 
             if (turnCredits > 0) {
                 credGameplay += turnCredits;
-                sb.append(TextUtil.concatNoSpace(" Bonus: ", String.valueOf(turnCredits), " credits.\n"));
+                sb.append(rewardText("bonus", turnCredits));
             }
 
             if (game.getLifeDelta() >= 50) {
@@ -338,14 +338,14 @@ public class QuestWinLoseController {
         } // End for(game)
 
         if (lifeDifferenceCredits > 0) {
-            sb.append(TextUtil.concatNoSpace("Life total difference: ", String.valueOf(lifeDifferenceCredits), " credits.\n"));
+            sb.append(rewardText("lifeDifference", lifeDifferenceCredits));
         }
 
         // Undefeated bonus
         if (hasNeverLost) {
             credUndefeated += FModel.getQuestPreferences().getPrefInt(QPref.REWARDS_UNDEFEATED);
             final int reward = FModel.getQuestPreferences().getPrefInt(QPref.REWARDS_UNDEFEATED);
-            sb.append(TextUtil.concatNoSpace("You have not lost once! Bonus: ", String.valueOf(reward), " credits.\n"));
+            sb.append(rewardText("undefeated", reward));
         }
 
         // Estates bonus
@@ -366,29 +366,28 @@ public class QuestWinLoseController {
         }
         if (estateValue > 0) {
             credEstates = (int) (estateValue * credTotal);
-            sb.append("Estates bonus (").append((int) (100 * estateValue)).append("%): ").append(credEstates).append(" credits.\n");
+            sb.append(rewardText("estates", (int) (100 * estateValue), credEstates));
             credTotal += credEstates;
         }
 
         // Final output
         sb.append("\n");
         if (credTotal < 100) {
-            sb.append("You've earned ");
+            sb.append(rewardText("totalBasic", credTotal));
         }
         else if (credTotal < 250) {
-            sb.append("Could be worse: ");
+            sb.append(rewardText("totalFair", credTotal));
         }
         else if (credTotal < 500) {
-            sb.append("A respectable ");
+            sb.append(rewardText("totalGood", credTotal));
         }
         else if (credTotal < 750) {
-            sb.append("An impressive ");
+            sb.append(rewardText("totalGreat", credTotal));
         }
         else {
-            sb.append("Spectacular match! ");
+            sb.append(rewardText("totalExcellent", credTotal));
         }
 
-        sb.append(TextUtil.concatWithSpace(String.valueOf(credTotal), "credits in total."));
         qData.getAssets().addCredits(credTotal);
 
         view.showMessage(sb.toString(), Localizer.getInstance().getMessage("lblGameplayResults"), FSkinProp.ICO_QUEST_GOLD);
@@ -427,34 +426,34 @@ public class QuestWinLoseController {
         switch (currentStreak) {
         case 3:
             cardsWon.addAll(qData.getCards().addRandomCards(1, PaperCardPredicates.IS_COMMON));
-            typeWon = "common";
+            typeWon = Localizer.getInstance().getMessage("lblCommon");
             break;
         case 5:
             cardsWon.addAll(qData.getCards().addRandomCards(1, PaperCardPredicates.IS_UNCOMMON));
-            typeWon = "uncommon";
+            typeWon = Localizer.getInstance().getMessage("lblUncommon");
             break;
         case 7:
             cardsWon.addAll(qData.getCards().addRandomCards(1, PaperCardPredicates.IS_RARE));
-            typeWon = "rare";
+            typeWon = Localizer.getInstance().getMessage("lblRare");
             break;
         case 10:
             cardsToAdd = qData.getCards().addRandomCards(1, PaperCardPredicates.IS_MYTHIC_RARE);
             if (cardsToAdd != null) {
                 cardsWon.addAll(cardsToAdd);
-                typeWon = "mythic rare";
+                typeWon = Localizer.getInstance().getMessage("lblMythic");
             } else {
                 cardsWon.addAll(qData.getCards().addRandomCards(3, PaperCardPredicates.IS_RARE));
-                typeWon = "rare";
+                typeWon = Localizer.getInstance().getMessage("lblRare");
             }
             break;
         case 25:
             cardsToAdd = qData.getCards().addRandomCards(5, PaperCardPredicates.IS_MYTHIC_RARE);
             if (cardsToAdd != null) {
                 cardsWon.addAll(cardsToAdd);
-                typeWon = "mythic rare";
+                typeWon = Localizer.getInstance().getMessage("lblMythic");
             } else {
                 cardsWon.addAll(qData.getCards().addRandomCards(15, PaperCardPredicates.IS_RARE));
-                typeWon = "rare";
+                typeWon = Localizer.getInstance().getMessage("lblRare");
             }
             addDraftToken = true;
             break;
@@ -462,10 +461,10 @@ public class QuestWinLoseController {
             cardsToAdd = qData.getCards().addRandomCards(10, PaperCardPredicates.IS_MYTHIC_RARE);
             if (cardsToAdd != null) {
                 cardsWon.addAll(cardsToAdd);
-                typeWon = "mythic rare";
+                typeWon = Localizer.getInstance().getMessage("lblMythic");
             } else {
                 cardsWon.addAll(qData.getCards().addRandomCards(30, PaperCardPredicates.IS_RARE));
-                typeWon = "rare";
+                typeWon = Localizer.getInstance().getMessage("lblRare");
             }
             addDraftToken = true;
             break;
@@ -474,7 +473,7 @@ public class QuestWinLoseController {
         }
 
         if (addDraftToken) {
-            view.showMessage(Localizer.getInstance().getMessage("lblAchieving25WinStreakAwarded"), Localizer.getInstance().getMessage("lblBonusDraftTokenReward"), FSkinProp.ICO_QUEST_COIN);
+            view.showMessage(rewardText("streakToken", currentStreak == 0 ? 50 : currentStreak), Localizer.getInstance().getMessage("lblBonusDraftTokenReward"), FSkinProp.ICO_QUEST_COIN);
             qData.getAchievements().addDraftToken();
         }
 
@@ -579,7 +578,8 @@ public class QuestWinLoseController {
                 final IUnOpenedProduct product;
                 List<String> boosterTypes = Lists.newArrayList(chooseEd.getAvailableBoosterTypes());
                 String setAffix = "";
-                String type = SGuiChoose.one("Which booster type do you choose?", boosterTypes);
+                String type = SGuiChoose.one(rewardText("chooseBoosterType"), boosterTypes, null,
+                        typeName -> Localizer.getInstance().getMessageorUseDefault("questReward.booster." + typeName, typeName));
                 if (!type.equals("Draft")) {
                     setAffix = type;
                 }
@@ -660,12 +660,12 @@ public class QuestWinLoseController {
                 }
                 if (!boosterCards.isEmpty()) {
                     qData.getCards().addAllCards(boosterCards);
-                    view.showCards("Extra " + ii.getName() + "!", boosterCards);
+                    view.showCards(rewardText("extraProduct", ii.getName()), boosterCards);
                 }
             }
             else if (ii instanceof IQuestRewardCard) {
                 final List<PaperCard> cardChoices = ((IQuestRewardCard) ii).getChoices();
-                final PaperCard chosenCard = (null == cardChoices ? null : SGuiChoose.one("Choose " + ii.getName(), cardChoices));
+                final PaperCard chosenCard = (null == cardChoices ? null : SGuiChoose.one(rewardText("chooseCard", ii.getName()), cardChoices));
                 if (null != chosenCard) {
                     cardsWon.add(chosenCard);
                 }
@@ -673,11 +673,15 @@ public class QuestWinLoseController {
         }
         if (!cardsWon.isEmpty()) {
             if (message == null) {
-                message = "Cards Won";
+                message = rewardText("cardsWon");
             }
             view.showCards(message, cardsWon);
             qData.getCards().addAllCards(cardsWon);
         }
+    }
+
+    private static String translatedCondition(final String name) {
+        return name == null ? rewardText("unknownCondition") : CardTranslation.getTranslatedName(name);
     }
 
     private void penalizeLoss() {

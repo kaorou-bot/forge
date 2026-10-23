@@ -32,6 +32,7 @@ import forge.localinstance.properties.ForgeConstants;
 import forge.localinstance.skin.FSkinProp;
 import forge.localinstance.skin.ISkinImage;
 import forge.model.FModel;
+import forge.util.Localizer;
 
 /**
  * <p>
@@ -112,7 +113,9 @@ public class QuestPetController implements IQuestBazaarItem {
      * @return a {@link java.lang.String} object.
      */
     public final String getUpgradeDescription(final QuestAssets qA) {
-        return this.levels.get(this.getPetLevel(qA)).getNextLevel();
+        final int level = this.getPetLevel(qA);
+        return QuestBazaarLocalization.text("pet", saveFileKey, "level" + level + ".upgrade",
+                this.levels.get(level).getNextLevel());
     }
 
     /**
@@ -149,7 +152,7 @@ public class QuestPetController implements IQuestBazaarItem {
      * @return a {@link java.lang.String} object.
      */
     public final String getStats(final QuestAssets qA) {
-        return this.levels.get(this.getPetLevel(qA)).getStats();
+        return localizedStats(this.getPetLevel(qA));
     }
 
     /**
@@ -161,7 +164,13 @@ public class QuestPetController implements IQuestBazaarItem {
      */
     public final String getUpgradedStats(final QuestAssets qA) {
         final int level = this.getPetLevel(qA);
-        return level >= this.maxLevel ? "N/A" : this.levels.get(level + 1).getStats();
+        return level >= this.maxLevel ? Localizer.getInstance().getMessage("questBazaar.maxLevel")
+                : localizedStats(level + 1);
+    }
+
+    private String localizedStats(final int level) {
+        return QuestBazaarLocalization.text("pet", saveFileKey, "level" + level + ".stats",
+                this.levels.get(level).getStats());
     }
 
     /**
@@ -192,8 +201,8 @@ public class QuestPetController implements IQuestBazaarItem {
      */
     @Override
     public final String getPurchaseDescription(final QuestAssets qA) {
-        return this.getDescription() + "\n\nCurrent stats: " + this.getStats(qA) + "\nUpgraded stats: "
-                + this.getUpgradedStats(qA);
+        return Localizer.getInstance().getMessage("questBazaar.petComparison",
+                this.getDescription(), this.getStats(qA), this.getUpgradedStats(qA));
 
     }
 
@@ -205,7 +214,7 @@ public class QuestPetController implements IQuestBazaarItem {
      * @return a {@link java.lang.String} object.
      */
     public final String getDescription() {
-        return this.description;
+        return QuestBazaarLocalization.text("pet", saveFileKey, "description", description);
     }
 
     /**
@@ -240,7 +249,7 @@ public class QuestPetController implements IQuestBazaarItem {
      */
     @Override
     public final String getPurchaseName() {
-        return this.name;
+        return QuestBazaarLocalization.text("pet", saveFileKey, "name", name);
     }
 
     // @Override

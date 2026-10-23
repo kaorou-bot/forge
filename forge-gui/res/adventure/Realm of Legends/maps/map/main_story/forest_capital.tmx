@@ -182,15 +182,15 @@
   </object>
   <object id="87" template="../../../../common/maps/obj/dialog.tx" x="150.5" y="389.25" width="16" height="16" visible="1">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
 	{
 		&quot;name&quot;: &quot;&quot;,
-		&quot;text&quot;: &quot;You approach what seems to be a building for the stockpiling of food. Several people stand outside on guard, covered in sting-marks and swatting away swarms of bees. 'Please, adventurer, we need help!'&quot;,
+		&quot;text&quot;: &quot;You approach what seems to be a building for the stockpiling of food. Several people stand outside on guard, covered in sting-marks and swatting away swarms of bees. 'Please, adventurer, we need help!'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.198&quot;,
 		&quot;options&quot;:
 			[
 				{
-					&quot;name&quot;: &quot;Just as you please, here's some cheese for your bees.&quot;,
-                    &quot;text&quot;: &quot;The guards lift the cheese aloft and the insects fly away at their command. 'Glorious relief! Oh how we thank you! And all the townsfolk give their thanks too. Now we won't starve come winter.'&quot;,
+					&quot;name&quot;: &quot;Just as you please, here's some cheese for your bees.&quot;, &quot;locname&quot;: &quot;adv.realm.main.126&quot;,
+                    &quot;text&quot;: &quot;The guards lift the cheese aloft and the insects fly away at their command. 'Glorious relief! Oh how we thank you! And all the townsfolk give their thanks too. Now we won't starve come winter.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.167&quot;,
 					&quot;action&quot;: [ { &quot;deleteMapObject&quot;: -1 },
                     {&quot;grantRewards&quot;: [
 						{&quot;type&quot;: &quot;life&quot;, &quot;count&quot;: 1},
@@ -205,20 +205,20 @@
 					{&quot;removeItem&quot;:&quot;Cheese of Bees&quot;},
 					{&quot;addMapReputation&quot;: 2}  ],
 					&quot;condition&quot;:[{&quot;item&quot;:&quot;Cheese of Bees&quot;}], 
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.main.067&quot; } ]
 				},
 				{
-					&quot;name&quot;: &quot;What's the trouble? Other than the bees?&quot;,
-					&quot;text&quot;: &quot;'Well that's just the thing it IS the bees! And wasps, and hornets, and I don't even want to think about what else! Damn bugs getting into our food supplies. We've discovered that it's no coincidence, they're being led by this nasty assassin lady, Xira Arien. We need someone to take her out and retrieve her cheese of bees.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;Her... what?&quot;,
-					&quot;text&quot;: &quot;'The cheese of bees! It's an enchanted hunk of cheese that commands bees! And other such bugs we're pretty sure but its not like we have it around to test out. Anyway, retrieve the cheese and stop the swarms and we'll give you the town's blessing, and some money to boot. Her hive is a huge rib-cage looking thing. Can't miss it.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;I'll bee what I can do.&quot; } ]
+					&quot;name&quot;: &quot;What's the trouble? Other than the bees?&quot;, &quot;locname&quot;: &quot;adv.realm.main.193&quot;,
+					&quot;text&quot;: &quot;'Well that's just the thing it IS the bees! And wasps, and hornets, and I don't even want to think about what else! Damn bugs getting into our food supplies. We've discovered that it's no coincidence, they're being led by this nasty assassin lady, Xira Arien. We need someone to take her out and retrieve her cheese of bees.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.055&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;Her... what?&quot;, &quot;locname&quot;: &quot;adv.realm.main.096&quot;,
+					&quot;text&quot;: &quot;'The cheese of bees! It's an enchanted hunk of cheese that commands bees! And other such bugs we're pretty sure but its not like we have it around to test out. Anyway, retrieve the cheese and stop the swarms and we'll give you the town's blessing, and some money to boot. Her hive is a huge rib-cage looking thing. Can't miss it.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.035&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;I'll bee what I can do.&quot;, &quot;locname&quot;: &quot;adv.realm.main.110&quot; } ]
 					 }]
 				},
                 {
-					&quot;name&quot;: &quot;I don't have time for this.&quot;,
-					&quot;text&quot;: &quot;You leave the guards to bee stung.&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;name&quot;: &quot;I don't have time for this.&quot;, &quot;locname&quot;: &quot;adv.realm.main.104&quot;,
+					&quot;text&quot;: &quot;You leave the guards to bee stung.&quot;, &quot;loctext&quot;: &quot;adv.realm.main.206&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.main.067&quot; } ]
 				}
 			]
 	}
@@ -227,15 +227,15 @@
   </object>
   <object id="89" template="../../../../common/maps/obj/dialog.tx" x="374" y="294" width="16" height="16" visible="1">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
 	{
 		&quot;name&quot;: &quot;&quot;,
-		&quot;text&quot;: &quot;A council of rather grim-looking elves stand over a table, pouring over various maps. 'If you think you can handle a truly fearsome foe, we have a bounty for you. Otherwise, leave us.'&quot;,
+		&quot;text&quot;: &quot;A council of rather grim-looking elves stand over a table, pouring over various maps. 'If you think you can handle a truly fearsome foe, we have a bounty for you. Otherwise, leave us.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.069&quot;,
 		&quot;options&quot;:
 			[
 				{
-					&quot;name&quot;: &quot;Vorinclex has been slain.&quot;,
-                    &quot;text&quot;: &quot;'Incredible. Truly an impressive feat. All the forests are safer thanks to your heroism.'&quot;,
+					&quot;name&quot;: &quot;Vorinclex has been slain.&quot;, &quot;locname&quot;: &quot;adv.realm.main.188&quot;,
+                    &quot;text&quot;: &quot;'Incredible. Truly an impressive feat. All the forests are safer thanks to your heroism.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.022&quot;,
 					&quot;action&quot;: [ { &quot;deleteMapObject&quot;: -1 },
                     {&quot;grantRewards&quot;: [
 						{&quot;type&quot;: &quot;life&quot;, &quot;count&quot;: 1},
@@ -246,20 +246,20 @@
 					{&quot;removeItem&quot;:&quot;Green Cartouche of Victory&quot;},
 					{&quot;addMapReputation&quot;: 4}  ],
 					&quot;condition&quot;:[{&quot;item&quot;:&quot;Green Cartouche of Victory&quot;}], 
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.main.067&quot; } ]
 				},
 				{
-					&quot;name&quot;: &quot;No foe is too fearsome for me.&quot;,
-					&quot;text&quot;: &quot;'I certainly hope you can back up your boasts, or you'll be worse than dead - you may end up as one of the enemy. Yes, the one causing us such trouble right now is none other than the Phyrexian Praetor Vorinclex himself.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;A fearsome foe indeed.&quot;,
-					&quot;text&quot;: &quot;'Yes. His lair is a fortress of copper. His minions wield vicious poison and crushing strength, to say nothing of their leader. Defeat him and the town's blessing will be well-earned, and we shall pay you handsomely as well.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;I'm on the job.&quot; } ]
+					&quot;name&quot;: &quot;No foe is too fearsome for me.&quot;, &quot;locname&quot;: &quot;adv.realm.main.137&quot;,
+					&quot;text&quot;: &quot;'I certainly hope you can back up your boasts, or you'll be worse than dead - you may end up as one of the enemy. Yes, the one causing us such trouble right now is none other than the Phyrexian Praetor Vorinclex himself.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.017&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;A fearsome foe indeed.&quot;, &quot;locname&quot;: &quot;adv.realm.main.070&quot;,
+					&quot;text&quot;: &quot;'Yes. His lair is a fortress of copper. His minions wield vicious poison and crushing strength, to say nothing of their leader. Defeat him and the town's blessing will be well-earned, and we shall pay you handsomely as well.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.063&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;I'm on the job.&quot;, &quot;locname&quot;: &quot;adv.realm.main.118&quot; } ]
 					 }]
 				},
                 {
-					&quot;name&quot;: &quot;I'll just leave you folks to it then.&quot;,
-					&quot;text&quot;: &quot;You walk away quietly.&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;name&quot;: &quot;I'll just leave you folks to it then.&quot;, &quot;locname&quot;: &quot;adv.realm.main.112&quot;,
+					&quot;text&quot;: &quot;You walk away quietly.&quot;, &quot;loctext&quot;: &quot;adv.realm.main.210&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.main.067&quot; } ]
 				}
 			]
 	}
@@ -268,15 +268,15 @@
   </object>
   <object id="90" template="../../../../common/maps/obj/dialog.tx" x="457.333" y="213.333" width="16" height="16" visible="1">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
 	{
 		&quot;name&quot;: &quot;&quot;,
-		&quot;text&quot;: &quot;You approach a circle of druids standing around a sacred fountain. 'Hail, traveler! We are in need of a mighty hero to retrieve a sacred relic for us.'&quot;,
+		&quot;text&quot;: &quot;You approach a circle of druids standing around a sacred fountain. 'Hail, traveler! We are in need of a mighty hero to retrieve a sacred relic for us.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.197&quot;,
 		&quot;options&quot;:
 			[
 				{
-					&quot;name&quot;: &quot;One clover. Still intact somehow, if rather sticky.&quot;,
-                    &quot;text&quot;: &quot;The druids rejoice. 'Wonderful! We knew that the clover would be lucky enough to survive digestion! And now favor will shine on our town again, as we hope it shines on you!'&quot;,
+					&quot;name&quot;: &quot;One clover. Still intact somehow, if rather sticky.&quot;, &quot;locname&quot;: &quot;adv.realm.main.144&quot;,
+                    &quot;text&quot;: &quot;The druids rejoice. 'Wonderful! We knew that the clover would be lucky enough to survive digestion! And now favor will shine on our town again, as we hope it shines on you!'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.163&quot;,
 					&quot;action&quot;: [ { &quot;deleteMapObject&quot;: -1 },
                     {&quot;grantRewards&quot;: [
 						{&quot;type&quot;: &quot;life&quot;, &quot;count&quot;: 1},
@@ -292,20 +292,20 @@
 					{&quot;removeItem&quot;:&quot;The Luckiest Clover&quot;},
 					{&quot;addMapReputation&quot;: 4}  ],
 					&quot;condition&quot;:[{&quot;item&quot;:&quot;The Luckiest Clover&quot;}], 
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.main.067&quot; } ]
 				},
 				{
-					&quot;name&quot;: &quot;A mighty hero? That sounds like me.&quot;,
-					&quot;text&quot;: &quot;'Excellent! You see, we druids are responsible for keeping up our great capitols magical wards. A few weeks back, a massive hydra besieged our city. The wards held, but one stray head managed to pluck our luckiest clover, and we need it back.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;You want me to retrieve a clover?&quot;,
-					&quot;text&quot;: &quot;'Not just any clover, our luckiest clover. No, THE luckiest clover! Our magic might be strong, but to survive all the perils of this forsaken world, one needs luck on their side, and that was what our clover gave us. Fish it out of the belly of Gargos from its lake lair, and you'll have our blessing.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;Well, we'll see if I get lucky.&quot; } ]
+					&quot;name&quot;: &quot;A mighty hero? That sounds like me.&quot;, &quot;locname&quot;: &quot;adv.realm.main.076&quot;,
+					&quot;text&quot;: &quot;'Excellent! You see, we druids are responsible for keeping up our great capitols magical wards. A few weeks back, a massive hydra besieged our city. The wards held, but one stray head managed to pluck our luckiest clover, and we need it back.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.012&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;You want me to retrieve a clover?&quot;, &quot;locname&quot;: &quot;adv.realm.main.211&quot;,
+					&quot;text&quot;: &quot;'Not just any clover, our luckiest clover. No, THE luckiest clover! Our magic might be strong, but to survive all the perils of this forsaken world, one needs luck on their side, and that was what our clover gave us. Fish it out of the belly of Gargos from its lake lair, and you'll have our blessing.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.032&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;Well, we'll see if I get lucky.&quot;, &quot;locname&quot;: &quot;adv.realm.main.192&quot; } ]
 					 }]
 				},
                 {
-					&quot;name&quot;: &quot;Not sure I'm up for that.&quot;,
-					&quot;text&quot;: &quot;'Be well traveller, and may what luck you can find guide you.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;name&quot;: &quot;Not sure I'm up for that.&quot;, &quot;locname&quot;: &quot;adv.realm.main.140&quot;,
+					&quot;text&quot;: &quot;'Be well traveller, and may what luck you can find guide you.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.007&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.main.067&quot; } ]
 				}
 			]
 	}
@@ -314,15 +314,15 @@
   </object>
   <object id="91" template="../../../../common/maps/obj/dialog.tx" x="119.5" y="213" width="16" height="16" visible="1">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
 	{
 		&quot;name&quot;: &quot;&quot;,
-		&quot;text&quot;: &quot;You step inside a hollow tree, surprisingly large on the inside. A great dryad (or perhaps an elemental? Or a treefolk?) emerges from an interior wall of the tree. 'Hail, adventurer. I seek a truly impressive hero. Is that you?'&quot;,
+		&quot;text&quot;: &quot;You step inside a hollow tree, surprisingly large on the inside. A great dryad (or perhaps an elemental? Or a treefolk?) emerges from an interior wall of the tree. 'Hail, adventurer. I seek a truly impressive hero. Is that you?'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.208&quot;,
 		&quot;options&quot;:
 			[
 				{
-					&quot;name&quot;: &quot;The three great threats are ended.&quot;,
-                    &quot;text&quot;: &quot;'All the forests are forever in your debt!'&quot;,
+					&quot;name&quot;: &quot;The three great threats are ended.&quot;, &quot;locname&quot;: &quot;adv.realm.main.175&quot;,
+                    &quot;text&quot;: &quot;'All the forests are forever in your debt!'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.002&quot;,
 					&quot;action&quot;: [ { &quot;deleteMapObject&quot;: -1 },
                     {&quot;grantRewards&quot;: [
 		      {&quot;type&quot;: &quot;item&quot;, &quot;count&quot;: 1, &quot;itemName&quot;: &quot;Helm of Myth&quot;},
@@ -332,20 +332,20 @@
                     },
 					{&quot;addMapReputation&quot;: 10}  ],
 					&quot;condition&quot;:[{&quot;item&quot;: &quot;Acorn Amulet&quot;}, {&quot;item&quot;: &quot;Strider Reins&quot;}, {&quot;item&quot;: &quot;Joraga Boots&quot;}], 
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.main.067&quot; } ]
 				},
 				{
-					&quot;name&quot;: &quot;It certainly might be.&quot;,
-					&quot;text&quot;: &quot;'As you know, a great number of fearsome legends menace these lands. I have three great treasures to offer to one who can defeat all three of the greatest threats facing the forest.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;Which three are we speaking of?&quot;,
-					&quot;text&quot;: &quot;'The primal calamity, Zacama. The worldshaker, Nissa. And the commander of the endless squirrel legions, Chatterfang. Show me the relics they drop upon their defeat, and the great rewards and true adoration of the city will be yours.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;I will see what I can do.&quot; } ]
+					&quot;name&quot;: &quot;It certainly might be.&quot;, &quot;locname&quot;: &quot;adv.realm.main.124&quot;,
+					&quot;text&quot;: &quot;'As you know, a great number of fearsome legends menace these lands. I have three great treasures to offer to one who can defeat all three of the greatest threats facing the forest.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.006&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;Which three are we speaking of?&quot;, &quot;locname&quot;: &quot;adv.realm.main.195&quot;,
+					&quot;text&quot;: &quot;'The primal calamity, Zacama. The worldshaker, Nissa. And the commander of the endless squirrel legions, Chatterfang. Show me the relics they drop upon their defeat, and the great rewards and true adoration of the city will be yours.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.041&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;I will see what I can do.&quot;, &quot;locname&quot;: &quot;adv.realm.main.109&quot; } ]
 					 }]
 				},
                 {
-					&quot;name&quot;: &quot;Well I'm impressive, but not THAT impressive.&quot;,
-					&quot;text&quot;: &quot;'Wise of you to know your limits.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;name&quot;: &quot;Well I'm impressive, but not THAT impressive.&quot;, &quot;locname&quot;: &quot;adv.realm.main.191&quot;,
+					&quot;text&quot;: &quot;'Wise of you to know your limits.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.062&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.main.067&quot; } ]
 				}
 			]
 	}

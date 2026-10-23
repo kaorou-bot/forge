@@ -1506,9 +1506,9 @@
    <properties>
     <property name="defeatDialog">[
 {
-   &quot;text&quot;:&quot;You pry the key away from the mayor's cold, dead (and dead again) hands. Now that you have it, there's not much between you and Liliana.&quot;,
+   &quot;text&quot;:&quot;You pry the key away from the mayor's cold, dead (and dead again) hands. Now that you have it, there's not much between you and Liliana.&quot;, &quot;loctext&quot;: &quot;adv.main_story_temple_of_liliana_town.224.x.n0.text&quot;,
    &quot;options&quot;:[
-	{&quot;name&quot;:&quot;(continue)&quot;
+	{&quot;name&quot;:&quot;(continue)&quot;, &quot;locname&quot;: &quot;adv.common.unkeyed.42&quot;
 	}
 	{&quot;action&quot;:[{&quot;deleteMapObject&quot;: 278}, {&quot;deleteMapObject&quot;: -1}]}
 	]
@@ -1516,10 +1516,10 @@
 ]</property>
     <property name="dialog">[
   {
-    &quot;text&quot;:&quot;The mayor can only keep away from you for so long before you manage to fight through the crowd and reach him.&quot;,
+    &quot;text&quot;:&quot;The mayor can only keep away from you for so long before you manage to fight through the crowd and reach him.&quot;, &quot;loctext&quot;: &quot;adv.main_story_temple_of_liliana_town.224.d.n0.text&quot;,
     &quot;options&quot;:[
-      { &quot;name&quot;:&quot;Walk away&quot; },
-      { &quot;name&quot;:&quot;Attack the Mayor&quot;,
+      { &quot;name&quot;:&quot;Walk away&quot;, &quot;locname&quot;: &quot;adv.shared.walk_away&quot; },
+      { &quot;name&quot;:&quot;Attack the Mayor&quot;, &quot;locname&quot;: &quot;adv.main_story_temple_of_liliana_town.224.d.n2.name&quot;,
 	  &quot;action&quot;:[{&quot;battleWithActorID&quot;:-1}]}
         
    }

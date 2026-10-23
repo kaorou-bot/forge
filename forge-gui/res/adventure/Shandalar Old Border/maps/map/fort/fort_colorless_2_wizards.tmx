@@ -276,14 +276,14 @@
   </object>
   <object id="73" name="Ward" type="dialog" gid="28296" x="199.5" y="177.75" width="48" height="16">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
 	{
-		"text": "A translucent, shimmering red field blocks your path. Pained screams echo through the room behind you.",
+		"text": "A translucent, shimmering red field blocks your path. Pained screams echo through the room behind you.", "loctext": "adv.vampirecastle_vampirecastle_grave_2.63.d.n0.text",
 		"options": [
-			{ "name": "Leave." },
+			{ "name": "Leave.", &quot;locname&quot;:&quot;adv.oldborder.explore.012&quot; },
 			{
-				"name": "Place your hand on the barrier",
-				"text": "The barrier fades into infinity before you.",
+				"name": "Place your hand on the barrier", "locname": "adv.fort_fort_colorless_2_wizards.73.d.n3.name",
+				"text": "The barrier fades into infinity before you.", "loctext": "adv.fort_fort_colorless_2_wizards.73.d.n2.text",
 				"action": [
 					{ "deleteMapObject": -1 }
 				],

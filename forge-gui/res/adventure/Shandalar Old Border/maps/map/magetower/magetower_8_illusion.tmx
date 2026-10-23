@@ -221,15 +221,15 @@
   <object id="105" template="../../../../common/maps/obj/manashards.tx" x="158.667" y="68.6667" />
   <object id="106" template="../../../../common/maps/obj/gate.tx" x="320.167" y="133" width="14.9999" height="22">
    <properties>
-    <property name="dialog">[{
-    "text":"This door is locked. Judging by the scrapes and scratches on the floor, however, it seems to be opened frequently so the key can probably be found nearby.",
+<property name="dialog">[{
+    "text":"This door is locked. Judging by the scrapes and scratches on the floor, however, it seems to be opened frequently so the key can probably be found nearby.", &quot;loctext&quot;:&quot;adv.oldborder.explore.083&quot;,
     "options":[
-    { "name":"(Leave)" },
+    { "name":"(Leave)", "locname": "adv.main_story_spawn.69.d.n20.name" },
     {      
-        "name":"Unlock the gate with the Illusionist's key",     
+        "name":"Unlock the gate with the Illusionist's key", "locname": "adv.magetower_magetower_8_illusion.105.d.n3.name",
         "condition":[{"item":"Illusionist's Key"}],    
-        "text":"The door swings open and you can continue to explore the tower.",
-        "options":[{"name":"continue", "action":[ {"deleteMapObject":-1},{"removeItem":"Illusionist's Key"}]} ]
+        "text":"The door swings open and you can continue to explore the tower.", "loctext": "adv.magetower_magetower_8_illusion.105.d.n2.text",
+        "options":[{"name":"continue", &quot;locname&quot;:&quot;adv.oldborder.explore.005&quot;, "action":[ {"deleteMapObject":-1},{"removeItem":"Illusionist's Key"}]} ]
     }
     ]
 }]</property>

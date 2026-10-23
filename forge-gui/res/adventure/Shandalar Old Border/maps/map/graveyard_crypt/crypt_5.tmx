@@ -128,11 +128,11 @@
   </object>
   <object id="59" name="switch" type="dialog" gid="4426" x="434.333" y="484.333" width="16" height="16">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
   { 
-    "text":"Hmm a big switch is embedded into the wall. Or, was. It seems to have been melted, which would have required enormous heat.", 
+    "text":"Hmm a big switch is embedded into the wall. Or, was. It seems to have been melted, which would have required enormous heat.", &quot;loctext&quot;:&quot;adv.oldborder.explore.013&quot;, 
     "options":[ 
-	{ "name":"go away" } 	
+	{ "name":"go away", &quot;locname&quot;:&quot;adv.oldborder.explore.003&quot; } 	
 	] 
 	} 
 	
@@ -141,11 +141,11 @@
   </object>
   <object id="60" name="switch" type="dialog" gid="4426" x="434.333" y="338.667" width="16" height="16">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
   { 
-    "text":"Hmm a big switch is embedded into the wall. Or, was. It seems to have been melted, which would have required enormous heat.", 
+    "text":"Hmm a big switch is embedded into the wall. Or, was. It seems to have been melted, which would have required enormous heat.", &quot;loctext&quot;:&quot;adv.oldborder.explore.013&quot;, 
     "options":[ 
-	{ "name":"go away" } 	
+	{ "name":"go away", &quot;locname&quot;:&quot;adv.oldborder.explore.003&quot; } 	
 	] 
 	} 
 	
@@ -154,21 +154,21 @@
   </object>
   <object id="62" name="switch" type="dialog" gid="4426" x="161" y="482.333" width="16" height="16">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
   {
-    "text": "Hmm... A big switch is embedded into the wall.",
+    "text": "Hmm... A big switch is embedded into the wall.", &quot;loctext&quot;:&quot;adv.oldborder.explore.014&quot;,
     "options": [
       {
-        "text": "You hear some loud sounds coming from the north",
-        "name": "flip the switch",
+        "text": "You hear some loud sounds coming from the north", &quot;loctext&quot;:&quot;adv.oldborder.explore.016&quot;,
+        "name": "flip the switch", &quot;locname&quot;:&quot;adv.oldborder.explore.015&quot;,
         "options": [
           {
             "action": [ { "deleteMapObject": 65 } ],
-            "name": "ok"
+            "name": "ok", "locname": "adv.common.unkeyed.67"
           }
         ]
       },
-      { "name": "go away" }
+      { "name": "go away", &quot;locname&quot;:&quot;adv.oldborder.explore.003&quot; }
     ]
   }
 
@@ -177,11 +177,11 @@
   </object>
   <object id="63" name="switch" type="dialog" gid="4426" x="160.333" y="626.667" width="16" height="16">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
   { 
-    "text":"Hmm a big switch is embedded into the wall. Or, was. It seems to have been melted, which would have required enormous heat.", 
+    "text":"Hmm a big switch is embedded into the wall. Or, was. It seems to have been melted, which would have required enormous heat.", &quot;loctext&quot;:&quot;adv.oldborder.explore.013&quot;, 
     "options":[ 
-	{ "name":"go away" } 	
+	{ "name":"go away", &quot;locname&quot;:&quot;adv.oldborder.explore.003&quot; } 	
 	] 
 	} 
 	
@@ -190,11 +190,11 @@
   </object>
   <object id="64" name="switch" type="dialog" gid="4426" x="448.667" y="627" width="16" height="16">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
   { 
-    "text":"Hmm a big switch is embedded into the wall. Or, was. It seems to have been melted, which would have required enormous heat.", 
+    "text":"Hmm a big switch is embedded into the wall. Or, was. It seems to have been melted, which would have required enormous heat.", &quot;loctext&quot;:&quot;adv.oldborder.explore.013&quot;, 
     "options":[ 
-	{ "name":"go away" } 	
+	{ "name":"go away", &quot;locname&quot;:&quot;adv.oldborder.explore.003&quot; } 	
 	] 
 	} 
 	
@@ -205,19 +205,19 @@
    <properties>
     <property name="dialog">[
   {
-    "text":"This gate appears to be locked in place by some mechanism, but you do not see any controls here.",
-    "options":[ { "name":"Time to find them!" } ]
+    "text":"This gate appears to be locked in place by some mechanism, but you do not see any controls here.", "loctext": "adv.main_story_templeofchandra.18.d.n0.text",
+    "options":[ { "name":"Time to find them!", "locname": "adv.main_story_templeofchandra.17.d.n1.name" } ]
   }
 ]</property>
    </properties>
   </object>
   <object id="66" name="switch" type="dialog" gid="4426" x="430.667" y="194" width="16" height="16">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
   { 
-    "text":"Hmm a big switch is embedded into the wall. Or, was. It seems to have been melted, which would have required enormous heat.", 
+    "text":"Hmm a big switch is embedded into the wall. Or, was. It seems to have been melted, which would have required enormous heat.", &quot;loctext&quot;:&quot;adv.oldborder.explore.013&quot;, 
     "options":[ 
-	{ "name":"go away" } 	
+	{ "name":"go away", &quot;locname&quot;:&quot;adv.oldborder.explore.003&quot; } 	
 	] 
 	} 
 	
@@ -226,11 +226,11 @@
   </object>
   <object id="67" name="switch" type="dialog" gid="4426" x="173.667" y="194" width="16" height="16">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
   { 
-    "text":"Hmm a big switch is embedded into the wall. Or, was. It seems to have been melted, which would have required enormous heat.", 
+    "text":"Hmm a big switch is embedded into the wall. Or, was. It seems to have been melted, which would have required enormous heat.", &quot;loctext&quot;:&quot;adv.oldborder.explore.013&quot;, 
     "options":[ 
-	{ "name":"go away" } 	
+	{ "name":"go away", &quot;locname&quot;:&quot;adv.oldborder.explore.003&quot; } 	
 	] 
 	} 
 	
@@ -414,11 +414,11 @@
   <object id="80" template="../../../../common/maps/obj/gold.tx" x="321" y="46" />
   <object id="81" name="switch" type="dialog" gid="4426" x="192" y="340" width="16" height="16">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
   { 
-    "text":"Hmm a big switch is embedded into the wall. Or, was. It seems to have been melted, which would have required enormous heat.", 
+    "text":"Hmm a big switch is embedded into the wall. Or, was. It seems to have been melted, which would have required enormous heat.", &quot;loctext&quot;:&quot;adv.oldborder.explore.013&quot;, 
     "options":[ 
-	{ "name":"go away" } 	
+	{ "name":"go away", &quot;locname&quot;:&quot;adv.oldborder.explore.003&quot; } 	
 	] 
 	} 
 	

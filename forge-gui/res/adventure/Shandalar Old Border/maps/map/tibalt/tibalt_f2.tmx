@@ -64,12 +64,12 @@
   </object>
   <object id="119" template="../../../../common/maps/obj/enemy.tx" x="220.435" y="254.655">
    <properties>
-    <property name="defeatDialog">[
+<property name="defeatDialog">[
 	{
-		"text": "The Cyclops unleashes a shrill scream as he falls unto the ground. His blood mixes with that of his victims, you see the red barrier disappear. The way to Tibalt is open",
+		"text": "The Cyclops unleashes a shrill scream as he falls unto the ground. His blood mixes with that of his victims, you see the red barrier disappear. The way to Tibalt is open", &quot;loctext&quot;:&quot;adv.oldborder.explore.158&quot;,
 		"options": [
 			{
-				"name": "(Continue)",
+				"name": "(Continue)", "locname": "adv.shared.continue_paren",
 				"action": [
 					{ "deleteMapObject": 200 },
 					{ "deleteMapObject": -1 }
@@ -100,10 +100,10 @@
   </object>
   <object id="200" name="Ward" type="dialog" gid="23816" x="414.206" y="321.794" width="64.6728" height="16">
    <properties>
-    <property name="dialog">[{
-    "text":"A translucent, shimmering red field blocks your path. An ancient Evil is lurking in these crypts, preventing you from entering the room in front of you ...",
+<property name="dialog">[{
+    "text":"A translucent, shimmering red field blocks your path. An ancient Evil is lurking in these crypts, preventing you from entering the room in front of you ...", &quot;loctext&quot;:&quot;adv.oldborder.explore.157&quot;,
     "options":[
-    { "name":"Leave." } 
+    { "name":"Leave.", &quot;locname&quot;:&quot;adv.oldborder.explore.012&quot; } 
     ]
 }]</property>
    </properties>

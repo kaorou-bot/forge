@@ -10,7 +10,7 @@
     &quot;text&quot;:&quot;I am a big gate. Greetings.&quot;,
     &quot;loctext&quot;:&quot;&quot;,
     &quot;condition&quot;:[],
-    &quot;options&quot;:[ { &quot;name&quot;:&quot;Okay...&quot; } ]
+    &quot;options&quot;:[ { &quot;name&quot;:&quot;Okay...&quot;, &quot;locname&quot;: &quot;adv.towns_plains_town.53.d.n1.name&quot; } ]
   }
 ]</property>
   </properties>

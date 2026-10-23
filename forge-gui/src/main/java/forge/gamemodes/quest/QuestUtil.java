@@ -308,7 +308,7 @@ public class QuestUtil {
                     view.getCbxPet().addItem(localizer.getMessage("lblDontSummonAPet"));
 
                     for (final QuestPetController pet : petList) {
-                        final String name = localizer.getMessage("lblSummon").replace("%n","\"" + pet.getName() + "\"");
+                        final String name = localizer.getMessage("lblSummon").replace("%n","\"" + pet.getPurchaseName() + "\"");
                         view.getCbxPet().addItem(name);
                         if (pet.getName().equals(currentPetName)) {
                             view.getCbxPet().setSelectedItem(name);
@@ -322,18 +322,17 @@ public class QuestUtil {
 
         view.getCbxMatchLength().removeAllItems();
         boolean activeCharms = false;
-        StringBuilder matchLength = new StringBuilder();
-        matchLength.append(localizer.getMessage("lblMatchBestof")).append(" ").append(qCtrl.getMatchLength());
+        final String matchLength = QuestMatchLength.labelForValue(qCtrl.getMatchLength());
         if (qCtrl.getAssets().hasItem(QuestItemType.CHARM_VIM)) {
-            view.getCbxMatchLength().addItem(localizer.getMessage("lblMatchBestOf1"));
+            view.getCbxMatchLength().addItem(QuestMatchLength.labelForValue(1));
             activeCharms = true;
         }
-        view.getCbxMatchLength().addItem(localizer.getMessage("lblMatchBestOf3"));
+        view.getCbxMatchLength().addItem(QuestMatchLength.labelForValue(3));
         if (qCtrl.getAssets().hasItem(QuestItemType.CHARM)) {
-            view.getCbxMatchLength().addItem(localizer.getMessage("lblMatchBestOf5"));
+            view.getCbxMatchLength().addItem(QuestMatchLength.labelForValue(5));
             activeCharms = true;
         }
-        view.getCbxMatchLength().setSelectedItem(matchLength.toString());
+        view.getCbxMatchLength().setSelectedItem(matchLength);
         view.getCbxMatchLength().setVisible(activeCharms);
 
         if (view.isChallengesView()) {

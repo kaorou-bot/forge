@@ -222,15 +222,15 @@
   </object>
   <object id="223" template="../../../../common/maps/obj/gate.tx" x="257.175" y="456.105">
    <properties>
-    <property name="dialog">[{
-    "text":"This door is locked",
+<property name="dialog">[{
+    "text":"This door is locked", &quot;loctext&quot;:&quot;adv.oldborder.explore.017&quot;,
     "options":[
-    { "name":"go away" },
+    { "name":"go away", &quot;locname&quot;:&quot;adv.oldborder.explore.003&quot; },
     {      
-        "name":"unlock with Basement Key",     
+        "name":"unlock with Basement Key", &quot;locname&quot;:&quot;adv.oldborder.explore.178&quot;,     
         "condition":[{"item":"Basement Key"}],    
-        "text":"The gate is unlocked",
-        "options":[{"name":"continue", "action":[ {"deleteMapObject":-1},{"removeItem":"Basement Key"}]} ]
+        "text":"The gate is unlocked", "loctext": "adv.main_story_castles_wastetown.55.d.n2.text",
+        "options":[{"name":"continue", &quot;locname&quot;:&quot;adv.oldborder.explore.005&quot;, "action":[ {"deleteMapObject":-1},{"removeItem":"Basement Key"}]} ]
     }
     ]
 }]</property>

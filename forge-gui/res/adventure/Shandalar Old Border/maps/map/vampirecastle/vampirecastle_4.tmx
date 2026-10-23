@@ -243,20 +243,20 @@
   <object id="87" template="../../../../common/maps/obj/waypoint.tx" x="543.333" y="270" />
   <object id="88" template="../../../../common/maps/obj/gate.tx" x="639.235" y="434.149">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
   {
-    "text": "A big gate is blocking the path, through the bars you can see an imposing figure in the room beyond.",
+    "text": "A big gate is blocking the path, through the bars you can see an imposing figure in the room beyond.", &quot;loctext&quot;:&quot;adv.oldborder.explore.163&quot;,
     "options": [
-      { "name": "go away" },
+      { "name": "go away", &quot;locname&quot;:&quot;adv.oldborder.explore.003&quot; },
       {
-        "name": "unlock with the key",
+        "name": "unlock with the key", &quot;locname&quot;:&quot;adv.oldborder.explore.164&quot;,
         "condition": [
           { "item": "Baron's Key" }
         ],
-        "text": "The gate is unlocked",
+        "text": "The gate is unlocked", "loctext": "adv.main_story_castles_wastetown.55.d.n2.text",
         "options": [
           {
-            "name": "continue",
+            "name": "continue", &quot;locname&quot;:&quot;adv.oldborder.explore.005&quot;,
             "action": [
               { "deleteMapObject": -1 },
               { "removeItem": "Baron's Key" }
@@ -305,16 +305,16 @@
   <object id="99" template="../../../../common/maps/obj/waypoint.tx" x="638.667" y="399.333" />
   <object id="105" template="../../../../common/maps/obj/enemy.tx" x="734.676" y="508.364">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
   {
-    "text": "*The poor peasant cowers before you* ",
+    "text": "*The poor peasant cowers before you* ", &quot;loctext&quot;:&quot;adv.oldborder.explore.165&quot;,
     "options": [
       {
-        "name": "You are free to go, Baron Sengir has been dealt with",
-        "text": "Thanks... Thank you brave hero, please take this item as a token of my gratitude",
+        "name": "You are free to go, Baron Sengir has been dealt with", &quot;locname&quot;:&quot;adv.oldborder.explore.166&quot;,
+        "text": "Thanks... Thank you brave hero, please take this item as a token of my gratitude", &quot;loctext&quot;:&quot;adv.oldborder.explore.167&quot;,
         "options": [
           {
-              "name": "(Take the Challenge Coin)",
+              "name": "(Take the Challenge Coin)", "locname": "adv.vampirecastle_vampirecastle_4.98.d.n3.name",
               "action": [
               { "deleteMapObject": -1 },
               { "addItem": "Challenge Coin" }
@@ -333,16 +333,16 @@
   </object>
   <object id="106" template="../../../../common/maps/obj/dialog.tx" type="dialog" gid="11530" x="80" y="305" width="120" height="60">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
     {
         "condition": [
             { "checkQuestFlag": "mainQuest" },
             { "checkCharacterFlag": "dungeonMasterQuestGiven", "not": true }
         ],
-        "text": "You sense powerful creatures lurking in hidden lairs across Shandalar. Perhaps you should track your progress in clearing them.",
+        "text": "You sense powerful creatures lurking in hidden lairs across Shandalar. Perhaps you should track your progress in clearing them.", &quot;loctext&quot;:&quot;adv.oldborder.explore.008&quot;,
         "options": [
             {
-                "name": "(Accept the challenge)",
+                "name": "(Accept the challenge)", &quot;locname&quot;:&quot;adv.oldborder.explore.009&quot;,
                 "action": [
                     {
                         "issueQuest": "54",
@@ -350,7 +350,7 @@
                     },
                     { "deleteMapObject": -1 }
                 ],
-                "text": "[Quest Added: Dungeon Master]"
+                "text": "[Quest Added: Dungeon Master]", &quot;loctext&quot;:&quot;adv.oldborder.explore.010&quot;
             }
         ]
     }

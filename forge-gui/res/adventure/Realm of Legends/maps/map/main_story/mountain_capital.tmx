@@ -189,15 +189,15 @@
   </object>
   <object id="75" template="../../../../common/maps/obj/dialog.tx" x="327.5" y="342" width="16" height="16" visible="1">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
 	{
 		&quot;name&quot;: &quot;&quot;,
-		&quot;text&quot;: &quot;You approach what seems to be a very out of place farmhouse among the lava and stone of the city. It is oddly lacking in animals. 'Hail, traveler! We have a bit of a crisis on our hands, if you could help us.'&quot;,
+		&quot;text&quot;: &quot;You approach what seems to be a very out of place farmhouse among the lava and stone of the city. It is oddly lacking in animals. 'Hail, traveler! We have a bit of a crisis on our hands, if you could help us.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.199&quot;,
 		&quot;options&quot;:
 			[
 				{
-					&quot;name&quot;: &quot;Your chickens are saved. The cows and pigs had already been made meals of, I'm afraid.&quot;,
-                    &quot;text&quot;: &quot;'Well, we'll take what we can get! Better than starving, that's for sure! Thank you, hero. Not everyone would take the time to help the littlefolk like you have.'&quot;,
+					&quot;name&quot;: &quot;Your chickens are saved. The cows and pigs had already been made meals of, I'm afraid.&quot;, &quot;locname&quot;: &quot;adv.realm.main.213&quot;,
+                    &quot;text&quot;: &quot;'Well, we'll take what we can get! Better than starving, that's for sure! Thank you, hero. Not everyone would take the time to help the littlefolk like you have.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.061&quot;,
 					&quot;action&quot;: [ { &quot;deleteMapObject&quot;: -1 },
                     {&quot;grantRewards&quot;: [
 						{&quot;type&quot;: &quot;life&quot;, &quot;count&quot;: 1},
@@ -213,20 +213,20 @@
 					{&quot;removeItem&quot;:&quot;One Thousand Chickens&quot;},
 					{&quot;addMapReputation&quot;: 2} ],
 					&quot;condition&quot;:[{&quot;item&quot;:&quot;One Thousand Chickens&quot;}], 
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.main.067&quot; } ]
 				},
 				{
-					&quot;name&quot;: &quot;What's your crisis?&quot;,
-					&quot;text&quot;: &quot;'The other day when we brought the animals out of the walls to graze a big ol' nasty dragon by the name of Prossh the skyraider dived in and slaughtered our guards. Then a whole mess'a little kobolds swarmed in an kidnapped all our livestock!'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;So, what, I'm to rescue chickens?&quot;,
-					&quot;text&quot;: &quot;'Look, in case you haven't noticed, this region doesn't have much in the way of arable land. Without the livestock returned, a lot of us will starve. Rescue what animals you can and slay the dragon-thief and you'll have the city's favor and some coin for your trouble. Rumor has it the dragon's lair looks like a dark building pouring out lava.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;I can manage that.&quot; } ]
+					&quot;name&quot;: &quot;What's your crisis?&quot;, &quot;locname&quot;: &quot;adv.realm.main.194&quot;,
+					&quot;text&quot;: &quot;'The other day when we brought the animals out of the walls to graze a big ol' nasty dragon by the name of Prossh the skyraider dived in and slaughtered our guards. Then a whole mess'a little kobolds swarmed in an kidnapped all our livestock!'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.039&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;So, what, I'm to rescue chickens?&quot;, &quot;locname&quot;: &quot;adv.realm.main.153&quot;,
+					&quot;text&quot;: &quot;'Look, in case you haven't noticed, this region doesn't have much in the way of arable land. Without the livestock returned, a lot of us will starve. Rescue what animals you can and slay the dragon-thief and you'll have the city's favor and some coin for your trouble. Rumor has it the dragon's lair looks like a dark building pouring out lava.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.029&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;I can manage that.&quot;, &quot;locname&quot;: &quot;adv.realm.main.102&quot; } ]
 					 }]
 				},
                 {
-					&quot;name&quot;: &quot;I have better things to do.&quot;,
-					&quot;text&quot;: &quot;'Always how it is, no time for us peasants. I'll have you know we feed you.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;name&quot;: &quot;I have better things to do.&quot;, &quot;locname&quot;: &quot;adv.realm.main.106&quot;,
+					&quot;text&quot;: &quot;'Always how it is, no time for us peasants. I'll have you know we feed you.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.003&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.main.067&quot; } ]
 				}
 			]
 	}
@@ -235,15 +235,15 @@
   </object>
   <object id="76" template="../../../../common/maps/obj/dialog.tx" x="311.5" y="261.5" width="16" height="16" visible="1">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
 	{
 		&quot;name&quot;: &quot;&quot;,
-		&quot;text&quot;: &quot;A rowdy gathering of dragoncallers gather around the town hall. 'You! Are you not only utterly fearless, but think you can stop a foe our entire council can't defeat?'&quot;,
+		&quot;text&quot;: &quot;A rowdy gathering of dragoncallers gather around the town hall. 'You! Are you not only utterly fearless, but think you can stop a foe our entire council can't defeat?'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.077&quot;,
 		&quot;options&quot;:
 			[
 				{
-					&quot;name&quot;: &quot;Urabrask has been ended.&quot;,
-                    &quot;text&quot;: &quot;Some of the mages seem elated, while other ones are oddly upset. 'We had a bit of a betting pool on whether you'd succeed, but you should be certain that your victory means that we've all won the prize of safety, at least for now. Fine work.'&quot;,
+					&quot;name&quot;: &quot;Urabrask has been ended.&quot;, &quot;locname&quot;: &quot;adv.realm.main.187&quot;,
+                    &quot;text&quot;: &quot;Some of the mages seem elated, while other ones are oddly upset. 'We had a bit of a betting pool on whether you'd succeed, but you should be certain that your victory means that we've all won the prize of safety, at least for now. Fine work.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.154&quot;,
 					&quot;action&quot;: [ { &quot;deleteMapObject&quot;: -1 },
                     {&quot;grantRewards&quot;: [
 						{&quot;type&quot;: &quot;life&quot;, &quot;count&quot;: 1},
@@ -254,20 +254,20 @@
 					{&quot;removeItem&quot;:&quot;Red Cartouche of Victory&quot;},
 					{&quot;addMapReputation&quot;: 4} ],
 					&quot;condition&quot;:[{&quot;item&quot;:&quot;Red Cartouche of Victory&quot;}], 
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.main.067&quot; } ]
 				},
 				{
-					&quot;name&quot;: &quot;Nothing frightens me. What do you need slain?&quot;,
-					&quot;text&quot;: &quot;'The one threatening our city is the phyrexian praetor Urabrask himself. Some say he's the weakest of the five praetors, but his unmatchable speed and the devastating heat of the unnatural flames he wields makes us think otherwise.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;I think I can take him.&quot;,
-					&quot;text&quot;: &quot;'Well, someone needs to, so for our sakes you better be right. We'll fight him if it comes to it, but we've already lost some of our best mages holding him off as it is. Find him in a place that looks like a furnace straight from your nightmares. Kill him and you'll have the city's favor and a pile of gold to boot.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;I'll face him with all my might.&quot; } ]
+					&quot;name&quot;: &quot;Nothing frightens me. What do you need slain?&quot;, &quot;locname&quot;: &quot;adv.realm.main.141&quot;,
+					&quot;text&quot;: &quot;'The one threatening our city is the phyrexian praetor Urabrask himself. Some say he's the weakest of the five praetors, but his unmatchable speed and the devastating heat of the unnatural flames he wields makes us think otherwise.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.038&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;I think I can take him.&quot;, &quot;locname&quot;: &quot;adv.realm.main.108&quot;,
+					&quot;text&quot;: &quot;'Well, someone needs to, so for our sakes you better be right. We'll fight him if it comes to it, but we've already lost some of our best mages holding him off as it is. Find him in a place that looks like a furnace straight from your nightmares. Kill him and you'll have the city's favor and a pile of gold to boot.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.058&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;I'll face him with all my might.&quot;, &quot;locname&quot;: &quot;adv.realm.main.111&quot; } ]
 					 }]
 				},
                 {
-					&quot;name&quot;: &quot;Might be a little much for me right now.&quot;,
-					&quot;text&quot;: &quot;'No shame in knowing your limits.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;name&quot;: &quot;Might be a little much for me right now.&quot;, &quot;locname&quot;: &quot;adv.realm.main.132&quot;,
+					&quot;text&quot;: &quot;'No shame in knowing your limits.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.030&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.main.067&quot; } ]
 				}
 			]
 	}
@@ -276,15 +276,15 @@
   </object>
   <object id="77" template="../../../../common/maps/obj/dialog.tx" x="486" y="246" width="16" height="16" visible="1">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
 	{
 		&quot;name&quot;: &quot;&quot;,
-		&quot;text&quot;: &quot;A heavily armed warrior calls out from the garrison ahead. 'Hail traveler! If you are mighty indeed and the type who cares of honor, come here and hear our plea.'&quot;,
+		&quot;text&quot;: &quot;A heavily armed warrior calls out from the garrison ahead. 'Hail traveler! If you are mighty indeed and the type who cares of honor, come here and hear our plea.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.074&quot;,
 		&quot;options&quot;:
 			[
 				{
-					&quot;name&quot;: &quot;Here's your flag, and I suppose your honor along with it.&quot;,
-                    &quot;text&quot;: &quot;'You've done us all a fine favor this day! We may not have won it back ourselves, but knowing that our fallen comrades have been avenged is a great solace. We will sing of your heroism for a long time to come!'&quot;,
+					&quot;name&quot;: &quot;Here's your flag, and I suppose your honor along with it.&quot;, &quot;locname&quot;: &quot;adv.realm.main.098&quot;,
+                    &quot;text&quot;: &quot;'You've done us all a fine favor this day! We may not have won it back ourselves, but knowing that our fallen comrades have been avenged is a great solace. We will sing of your heroism for a long time to come!'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.065&quot;,
 					&quot;action&quot;: [ { &quot;deleteMapObject&quot;: -1 },
                     {&quot;grantRewards&quot;: [
 						{&quot;type&quot;: &quot;life&quot;, &quot;count&quot;: 1},
@@ -297,20 +297,20 @@
 					{&quot;removeItem&quot;:&quot;Victory Standard&quot;},
 					{&quot;addMapReputation&quot;: 4} ],
 					&quot;condition&quot;:[{&quot;item&quot;:&quot;Victory Standard&quot;}], 
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.main.067&quot; } ]
 				},
 				{
-					&quot;name&quot;: &quot;Mighty and honorable, sounds like me.&quot;,
-					&quot;text&quot;: &quot;'Excellent! The full tale is shameful but to cut things short, we suffered a great loss in battle against the Zendikari alliance not long ago. They felled many of our brave warriors, but worse still, they took our precious flag!'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;Kind of feel like the flag isn't the important part here.&quot;,
-					&quot;text&quot;: &quot;'You sound like the city council. We've been forbidden from retrieving it, but its a matter of honor! Our morale is in shambles without it. If you could claim revenge on that damned General Tazri and retrieve it, we'd grant you our favor and a fine reward as well! The camp you seek looks like a hill of grey stone topped by the very flag they stole.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;Time to capture the flag.&quot; } ]
+					&quot;name&quot;: &quot;Mighty and honorable, sounds like me.&quot;, &quot;locname&quot;: &quot;adv.realm.main.133&quot;,
+					&quot;text&quot;: &quot;'Excellent! The full tale is shameful but to cut things short, we suffered a great loss in battle against the Zendikari alliance not long ago. They felled many of our brave warriors, but worse still, they took our precious flag!'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.011&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;Kind of feel like the flag isn't the important part here.&quot;, &quot;locname&quot;: &quot;adv.realm.main.127&quot;,
+					&quot;text&quot;: &quot;'You sound like the city council. We've been forbidden from retrieving it, but its a matter of honor! Our morale is in shambles without it. If you could claim revenge on that damned General Tazri and retrieve it, we'd grant you our favor and a fine reward as well! The camp you seek looks like a hill of grey stone topped by the very flag they stole.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.064&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;Time to capture the flag.&quot;, &quot;locname&quot;: &quot;adv.realm.main.182&quot; } ]
 					 }]
 				},
                 {
-					&quot;name&quot;: &quot;Doesn't sound like that's for me.&quot;,
-					&quot;text&quot;: &quot;'Leave this place then. We will have to find another way to restore our honor.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;name&quot;: &quot;Doesn't sound like that's for me.&quot;, &quot;locname&quot;: &quot;adv.realm.main.094&quot;,
+					&quot;text&quot;: &quot;'Leave this place then. We will have to find another way to restore our honor.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.028&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.main.067&quot; } ]
 				}
 			]
 	}
@@ -319,15 +319,15 @@
   </object>
   <object id="78" template="../../../../common/maps/obj/dialog.tx" x="526.5" y="198.5" width="16" height="16" visible="1">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
 	{
 		&quot;name&quot;: &quot;&quot;,
-		&quot;text&quot;: &quot;The heat is intense as you approach the massive lava-heated forge. A giant hammering away at a huge sword calls out. 'I need the strongest warrior in the land. If that's not you, leave.'&quot;,
+		&quot;text&quot;: &quot;The heat is intense as you approach the massive lava-heated forge. A giant hammering away at a huge sword calls out. 'I need the strongest warrior in the land. If that's not you, leave.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.168&quot;,
 		&quot;options&quot;:
 			[
 				{
-					&quot;name&quot;: &quot;The three great threats are ended.&quot;,
-                    &quot;text&quot;: &quot;'I have to say, little one, you've impressed me! You've more than earned these rewards, and the gratitude of all the mountainfolk.'&quot;,
+					&quot;name&quot;: &quot;The three great threats are ended.&quot;, &quot;locname&quot;: &quot;adv.realm.main.175&quot;,
+                    &quot;text&quot;: &quot;'I have to say, little one, you've impressed me! You've more than earned these rewards, and the gratitude of all the mountainfolk.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.018&quot;,
 					&quot;action&quot;: [ { &quot;deleteMapObject&quot;: -1 },
                     {&quot;grantRewards&quot;: [
 		      {&quot;type&quot;: &quot;item&quot;, &quot;count&quot;: 1, &quot;itemName&quot;: &quot;War Helm&quot;},
@@ -337,20 +337,20 @@
                     },
 					{&quot;addMapReputation&quot;: 10}  ],
 					&quot;condition&quot;:[{&quot;item&quot;: &quot;Courier's Boots&quot;}, {&quot;item&quot;: &quot;Outlaw's Hat&quot;}, {&quot;item&quot;: &quot;Armor of Urami&quot;}], 
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.main.067&quot; } ]
 				},
 				{
-					&quot;name&quot;: &quot;Strongest in the land, that's me.&quot;,
-					&quot;text&quot;: &quot;'These mountains are being ravaged by legends of terrifying strength. If you can defeat the three strongest, I will reward you three truly legendary treasures.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;Which three are we speaking of?&quot;,
-					&quot;text&quot;: &quot;'The threefold priestess Kaalia. The mob boss Krenko. The hellspur gang leader, Akul. Show me the relics they once carried and you will get my finest spells and relics.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;I will see what I can do.&quot; } ]
+					&quot;name&quot;: &quot;Strongest in the land, that's me.&quot;, &quot;locname&quot;: &quot;adv.realm.main.159&quot;,
+					&quot;text&quot;: &quot;'These mountains are being ravaged by legends of terrifying strength. If you can defeat the three strongest, I will reward you three truly legendary treasures.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.048&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;Which three are we speaking of?&quot;, &quot;locname&quot;: &quot;adv.realm.main.195&quot;,
+					&quot;text&quot;: &quot;'The threefold priestess Kaalia. The mob boss Krenko. The hellspur gang leader, Akul. Show me the relics they once carried and you will get my finest spells and relics.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.044&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;I will see what I can do.&quot;, &quot;locname&quot;: &quot;adv.realm.main.109&quot; } ]
 					 }]
 				},
                 {
-					&quot;name&quot;: &quot;I'm strong but not the strongest.&quot;,
-					&quot;text&quot;: &quot;'Go then. If your confidence improves, come back.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;name&quot;: &quot;I'm strong but not the strongest.&quot;, &quot;locname&quot;: &quot;adv.realm.main.119&quot;,
+					&quot;text&quot;: &quot;'Go then. If your confidence improves, come back.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.015&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.main.067&quot; } ]
 				}
 			]
 	}

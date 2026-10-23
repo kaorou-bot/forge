@@ -112,18 +112,18 @@
    <properties>
     <property name="dialog">[
   { 
-    &quot;text&quot;:&quot;A big switch is embedded into the wall.&quot;, 
+    &quot;text&quot;:&quot;A big switch is embedded into the wall.&quot;, &quot;loctext&quot;: &quot;adv.graveyard_crypt_crypt.72.d.n0.text&quot;,
     &quot;options&quot;:[ 
 	{ 
-		&quot;text&quot;:&quot;You hear some loud sounds from the center.&quot;,
+		&quot;text&quot;:&quot;You hear some loud sounds from the center.&quot;, &quot;loctext&quot;: &quot;adv.common.unkeyed.2&quot;,
 		&quot;action&quot;:[{&quot;deleteMapObject&quot;:-1},{&quot;advanceMapFlag&quot;:&quot;gate&quot;}],
-		&quot;name&quot;:&quot;Flip the switch&quot; 
+		&quot;name&quot;:&quot;Flip the switch&quot;, &quot;locname&quot;: &quot;adv.phyrexia_phyrexian_b1.62.d.n2.name&quot;
 			&quot;options&quot;:[{
 			&quot;condition&quot;:[{&quot;getMapFlag&quot;:{&quot;key&quot;:&quot;gate&quot;,&quot;op&quot;:&quot;&gt;=&quot;,&quot;val&quot;:2}}],
 			&quot;action&quot;:[{&quot;deleteMapObject&quot;:102}],
-			&quot;name&quot;:&quot;Continue&quot; }]
+			&quot;name&quot;:&quot;Continue&quot;, &quot;locname&quot;: &quot;adv.shared.continue&quot; }]
 	},
-	{ &quot;name&quot;:&quot;Leave&quot; } 	
+	{ &quot;name&quot;:&quot;Leave&quot;, &quot;locname&quot;: &quot;adv.shared.leave&quot; }
 	] 
 	} 
 	
@@ -134,18 +134,18 @@
    <properties>
     <property name="dialog">[
   { 
-    &quot;text&quot;:&quot;A big switch is embedded into the wall.&quot;, 
+    &quot;text&quot;:&quot;A big switch is embedded into the wall.&quot;, &quot;loctext&quot;: &quot;adv.graveyard_crypt_crypt.72.d.n0.text&quot;,
     &quot;options&quot;:[ 
 	{ 
-		&quot;text&quot;:&quot;You hear some loud sounds from the center.&quot;,
+		&quot;text&quot;:&quot;You hear some loud sounds from the center.&quot;, &quot;loctext&quot;: &quot;adv.common.unkeyed.2&quot;,
 		&quot;action&quot;:[{&quot;deleteMapObject&quot;:-1},{&quot;advanceMapFlag&quot;:&quot;gate&quot;}],
-		&quot;name&quot;:&quot;Flip the switch&quot; 
+		&quot;name&quot;:&quot;Flip the switch&quot;, &quot;locname&quot;: &quot;adv.phyrexia_phyrexian_b1.62.d.n2.name&quot;
 			&quot;options&quot;:[{
 			&quot;condition&quot;:[{&quot;getMapFlag&quot;:{&quot;key&quot;:&quot;gate&quot;,&quot;op&quot;:&quot;&gt;=&quot;,&quot;val&quot;:2}}],
 			&quot;action&quot;:[{&quot;deleteMapObject&quot;:102}],
-			&quot;name&quot;:&quot;Continue&quot; }]
+			&quot;name&quot;:&quot;Continue&quot;, &quot;locname&quot;: &quot;adv.shared.continue&quot; }]
 	},
-	{ &quot;name&quot;:&quot;Leave&quot; } 	
+	{ &quot;name&quot;:&quot;Leave&quot;, &quot;locname&quot;: &quot;adv.shared.leave&quot; }
 	] 
 	} 
 	

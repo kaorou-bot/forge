@@ -1,5 +1,7 @@
 package forge.gamemodes.replay;
 
+import forge.util.Localizer;
+
 import java.io.BufferedInputStream;
 import java.io.Closeable;
 import java.io.DataInputStream;
@@ -27,10 +29,10 @@ public final class ReplayReader implements Closeable {
         final DataInputStream in = new DataInputStream(new BufferedInputStream(new FileInputStream(file), 32 * 1024));
         try {
             if (in.readInt() != ReplayStore.MAGIC) {
-                throw new IOException("Not a Forge replay");
+                throw new IOException(Localizer.getInstance().getMessage("lblReplayInvalidFile"));
             }
             if (in.readInt() != ReplayStore.FORMAT) {
-                throw new IOException("This replay was written by a different version of Forge");
+                throw new IOException(Localizer.getInstance().getMessage("lblReplayIncompatibleFormat"));
             }
             in.readUTF(); // Forge version
             in.readLong(); // start time

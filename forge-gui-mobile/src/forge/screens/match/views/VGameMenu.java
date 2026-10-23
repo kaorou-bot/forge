@@ -23,7 +23,7 @@ public class VGameMenu extends FDropDownMenu {
     protected void buildMenu() {
         if (MatchController.instance.isReplay()) {
             // a recording has nothing to concede, undo, yield or cheat with: only a way out
-            addItem(new FMenuItem("Close replay", FSkinImage.CONCEDE, e ->
+            addItem(new FMenuItem(Forge.getLocalizer().getMessage("lblReplayClose"), FSkinImage.CONCEDE, e ->
                     forge.gamemodes.net.client.ReplayPlayer.stopFor(MatchController.instance, true)));
             return;
         }

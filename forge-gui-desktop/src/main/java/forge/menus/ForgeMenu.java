@@ -137,7 +137,7 @@ public final class ForgeMenu {
     }
 
     private static JMenuItem getMenuItem_Replays() {
-        final JMenuItem menuItem = new JMenuItem("Replays...");
+        final JMenuItem menuItem = new JMenuItem(Localizer.getInstance().getMessage("lblReplaysMenu"));
         menuItem.addActionListener(e -> ReplayLauncher.chooseAndPlay());
         return menuItem;
     }

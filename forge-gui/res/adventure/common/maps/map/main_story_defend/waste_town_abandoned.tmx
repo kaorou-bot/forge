@@ -172,9 +172,9 @@
     <property name="dialog">[
 {
    &quot;condition&quot;: [{&quot;checkMapFlag&quot;: {&quot;key&quot;:&quot;demonsActive&quot;}, &quot;not&quot;: true}]
-   &quot;text&quot;: &quot;A fountain borders the walkway here. The stonework is chipped and dirty, but the water appears to be surprisingly clean and clear.&quot;,
+   &quot;text&quot;: &quot;A fountain borders the walkway here. The stonework is chipped and dirty, but the water appears to be surprisingly clean and clear.&quot;, &quot;loctext&quot;: &quot;adv.common.unkeyed.53&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.shared.continue_paren&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -347,12 +347,12 @@
     <property name="dialog">[
 {
    &quot;condition&quot;: [{&quot;checkMapFlag&quot;: {&quot;key&quot;:&quot;demonsActive&quot;}, &quot;not&quot;: true}]
-   &quot;text&quot;: &quot;And here lies gruesome confirmation of the merchant's tale, by way of the remains of a merfolk tail. It appears that there was indeed one of the aquatic people here far from their normal territory which it will never return to.&quot;,
+   &quot;text&quot;: &quot;And here lies gruesome confirmation of the merchant's tale, by way of the remains of a merfolk tail. It appears that there was indeed one of the aquatic people here far from their normal territory which it will never return to.&quot;, &quot;loctext&quot;: &quot;adv.common.unkeyed.54&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;,
-      &quot;text&quot;: &quot;Investigating the scene will have to wait, however, as it appears you have determined the cause of death. Seemingly out of nowhere, demons come running at you from all directions.&quot;,
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.shared.continue_paren&quot;,
+      &quot;text&quot;: &quot;Investigating the scene will have to wait, however, as it appears you have determined the cause of death. Seemingly out of nowhere, demons come running at you from all directions.&quot;, &quot;loctext&quot;: &quot;adv.common.unkeyed.55&quot;,
       &quot;options&quot;: [{
-          &quot;name&quot;: &quot;RUN!!!&quot;,
+          &quot;name&quot;: &quot;RUN!!!&quot;, &quot;locname&quot;: &quot;adv.common.unkeyed.56&quot;,
           &quot;action&quot;: [{&quot;setMapFlag&quot;: {&quot;key&quot;:&quot;demonsActive&quot;, &quot;val&quot;: 1}},{&quot;deleteMapObject&quot;: -1}, {&quot;activateMapObject&quot;: 67},{&quot;activateMapObject&quot;: 68},{&quot;activateMapObject&quot;: 69},{&quot;activateMapObject&quot;: 70},{&quot;activateMapObject&quot;: 71},{&quot;activateMapObject&quot;: 72},{&quot;activateMapObject&quot;: 73},{&quot;activateMapObject&quot;: 74},{&quot;activateMapObject&quot;: 93},{&quot;activateMapObject&quot;: 98},{&quot;activateMapObject&quot;: 99},{&quot;activateMapObject&quot;: 100},{&quot;activateMapObject&quot;: 101},{&quot;activateMapObject&quot;: 102},{&quot;activateMapObject&quot;: 103}]
       }]
 }]

@@ -457,9 +457,9 @@
    <properties>
     <property name="dialog">[
   {
-    "text":"The inscription reads: The Neverglades National Park has been closed to visitors due to the arrival of unwanted guests on the perimeter of the park",
+    "text":"The inscription reads: The Neverglades National Park has been closed to visitors due to the arrival of unwanted guests on the perimeter of the park", "loctext": "adv.evilgrove_evilgrove_5_swamp.117.d.n0.text",
     "options":[
-      { "name":"Walk away" }
+      { "name":"Walk away", "locname": "adv.shared.walk_away" }
 ]
 }
 ]</property>

@@ -386,10 +386,10 @@
     &quot;text&quot;:&quot;Your opponent unleashes a shrill scream as they shift back into stone form, but no longer balanced upon a pedestal. The statue falls and shatters, with many of the pieces tumbling into the pool. You would almost swear you could hear the scream faintly continuing beneath the water's surface.&quot;,
     &quot;loctext&quot;:&quot;&quot;,
     &quot;options&quot;:[ 
-	{ &quot;name&quot;:&quot;(Continue)&quot;,
-	  &quot;text&quot;:&quot;After a moment, you feel a shift in the energy of your surroundings. The ethereal haze that had accompanied the graveyard's fences dissipates. Shapes begin to move at the edge of your vision. It seems there might have been something true about the guardian's role here.&quot;
+	{ &quot;name&quot;:&quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.shared.continue_paren&quot;,
+	  &quot;text&quot;:&quot;After a moment, you feel a shift in the energy of your surroundings. The ethereal haze that had accompanied the graveyard's fences dissipates. Shapes begin to move at the edge of your vision. It seems there might have been something true about the guardian's role here.&quot;, &quot;loctext&quot;: &quot;adv.common.unkeyed.16&quot;
 	  &quot;options&quot;:[
-		{&quot;name&quot;: &quot;(Continue)&quot;,
+		{&quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.shared.continue_paren&quot;,
 	    	  &quot;action&quot;: [{&quot;deleteMapObject&quot;: 258}, {&quot;activateMapObject&quot;: 230},{&quot;activateMapObject&quot;: 248},{&quot;activateMapObject&quot;: 246},{&quot;activateMapObject&quot;: 247}]
 		}
 		]
@@ -463,7 +463,7 @@
   </object>
   <object id="258" template="../../../obj/dialog.tx" x="17" y="176">
    <properties>
-    <property name="dialog" value="[{&quot;text&quot;: &quot;You are unable to continue any further, a mystical force pushes you backwards no matter how hard you try to move forward, and you have a vision of an angel in your mind barring your path.&quot;, &quot;condition&quot;: [ { &quot;actorID&quot;: 254 } ], &quot;options&quot;:[{&quot;name&quot;: &quot;(Continue)&quot;}]}]"/>
+    <property name="dialog" value="[{&quot;text&quot;: &quot;You are unable to continue any further, a mystical force pushes you backwards no matter how hard you try to move forward, and you have a vision of an angel in your mind barring your path.&quot;, &quot;loctext&quot;: &quot;adv.common.extra.381&quot;, &quot;condition&quot;: [ { &quot;actorID&quot;: 254 } ], &quot;options&quot;:[{&quot;name&quot;: &quot;(Continue)&quot;}]}]"/>
    </properties>
   </object>
   <object id="259" template="../../../obj/gold.tx" x="161" y="48"/>
@@ -511,32 +511,32 @@
     <property name="dialog">[
 { &quot;action&quot;: [{&quot;setMapFlag&quot;: {&quot;key&quot;:&quot;angelAwake&quot;, &quot;val&quot;: 0}, &quot;deleteMapObject&quot;: -1}]},
 {
-   &quot;text&quot;: &quot;In sharp contrast to the forest behind you, this graveyard is eerily quiet. So quiet in fact, that you feel like you can hear a slight hum in the air coming from the stone wall around the area.&quot;,
+   &quot;text&quot;: &quot;In sharp contrast to the forest behind you, this graveyard is eerily quiet. So quiet in fact, that you feel like you can hear a slight hum in the air coming from the stone wall around the area.&quot;, &quot;loctext&quot;: &quot;adv.common.unkeyed.17&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;Take a closer look at the wall&quot;,
-      &quot;text&quot;: &quot;It doesn't take long to identify the source of the sound - Extending above the wall is a hazy shimmer of enchantment, some form of a barrier intended to help keep something out of the graveyard. Or in.&quot;,
+      &quot;name&quot;: &quot;Take a closer look at the wall&quot;, &quot;locname&quot;: &quot;adv.common.unkeyed.18&quot;,
+      &quot;text&quot;: &quot;It doesn't take long to identify the source of the sound - Extending above the wall is a hazy shimmer of enchantment, some form of a barrier intended to help keep something out of the graveyard. Or in.&quot;, &quot;loctext&quot;: &quot;adv.common.unkeyed.19&quot;,
       &quot;options&quot;: [{
-         &quot;name&quot;: &quot;Look for the source of the enchantment&quot;,
-         &quot;text&quot;: &quot;There's not an obvious point of origin for the spell, but you do notice a plaque that stands apart from the tombstones around it.&quot;
+         &quot;name&quot;: &quot;Look for the source of the enchantment&quot;, &quot;locname&quot;: &quot;adv.common.unkeyed.20&quot;,
+         &quot;text&quot;: &quot;There's not an obvious point of origin for the spell, but you do notice a plaque that stands apart from the tombstones around it.&quot;, &quot;loctext&quot;: &quot;adv.common.unkeyed.21&quot;
          &quot;options&quot;: [{
-            &quot;name&quot;: &quot;Read the inscription&quot;,
-            &quot;text&quot;: &quot; \&quot;What lies here cannot be banished, only contained. I stand guard to separate wicked spirits from their mortal shells\&quot;. Beside the text, there is an engraving of an angel and dark spirits battling in the sky.&quot;,
-			&quot;options&quot;: [{&quot;name&quot;: &quot;(Continue)&quot;}]
+            &quot;name&quot;: &quot;Read the inscription&quot;, &quot;locname&quot;: &quot;adv.common.unkeyed.22&quot;,
+            &quot;text&quot;: &quot; \&quot;What lies here cannot be banished, only contained. I stand guard to separate wicked spirits from their mortal shells\&quot;. Beside the text, there is an engraving of an angel and dark spirits battling in the sky.&quot;, &quot;loctext&quot;: &quot;adv.common.unkeyed.23&quot;,
+			&quot;options&quot;: [{&quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.shared.continue_paren&quot;}]
 			},
 			{
-			   &quot;name&quot;: &quot;(Search the graveyard)&quot;
+			   &quot;name&quot;: &quot;(Search the graveyard)&quot;, &quot;locname&quot;: &quot;adv.common.unkeyed.24&quot;
 			}]
         },
         {
-		&quot;name&quot;: &quot;Try to identify the spell with one of your own&quot;,
-			 &quot;text&quot;: &quot;Threads of mana are woven in the air above the wall and extend into the stone as well. Any loose ends of the threads seem to lead to the northeast. You also spot a mild enchantment on a plaque nearby.&quot;,
+		&quot;name&quot;: &quot;Try to identify the spell with one of your own&quot;, &quot;locname&quot;: &quot;adv.common.unkeyed.25&quot;,
+			 &quot;text&quot;: &quot;Threads of mana are woven in the air above the wall and extend into the stone as well. Any loose ends of the threads seem to lead to the northeast. You also spot a mild enchantment on a plaque nearby.&quot;, &quot;loctext&quot;: &quot;adv.common.unkeyed.26&quot;,
 			 &quot;options&quot;: [{
-				&quot;name&quot;: &quot;Read the plaque&quot;,
-				&quot;text&quot;: &quot; \&quot;What lies here cannot be banished, only contained. I stand guard to separate wicked spirits from their mortal shells\&quot;. Beside the text, there is an engraving of an angel and dark spirits battling in the sky.&quot;,
-				&quot;options&quot;: [{&quot;name&quot;: &quot;(Continue)&quot;}]
+				&quot;name&quot;: &quot;Read the plaque&quot;, &quot;locname&quot;: &quot;adv.common.unkeyed.27&quot;,
+				&quot;text&quot;: &quot; \&quot;What lies here cannot be banished, only contained. I stand guard to separate wicked spirits from their mortal shells\&quot;. Beside the text, there is an engraving of an angel and dark spirits battling in the sky.&quot;, &quot;loctext&quot;: &quot;adv.common.unkeyed.23&quot;,
+				&quot;options&quot;: [{&quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.shared.continue_paren&quot;}]
 				},
 				{
-				   &quot;name&quot;: &quot;(Search the graveyard)&quot;
+				   &quot;name&quot;: &quot;(Search the graveyard)&quot;, &quot;locname&quot;: &quot;adv.common.unkeyed.24&quot;
 				}]
 			}
 			]

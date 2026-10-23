@@ -185,15 +185,15 @@
   </object>
   <object id="104" template="../../../../common/maps/obj/dialog.tx" x="159.5" y="295.5" width="16" height="16" visible="1">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
 	{
 		&quot;name&quot;: &quot;&quot;,
-		&quot;text&quot;: &quot;The mood in the town hall is distinctly somber and fearful. Someone with the look of a white mage addresses you. 'These are truly dark times, traveler. We hate to ask for your help as the task may be impossible, but we are desperate.'&quot;,
+		&quot;text&quot;: &quot;The mood in the town hall is distinctly somber and fearful. Someone with the look of a white mage addresses you. 'These are truly dark times, traveler. We hate to ask for your help as the task may be impossible, but we are desperate.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.171&quot;,
 		&quot;options&quot;:
 			[
 				{
-					&quot;name&quot;: &quot;Elesh Norn has been slain.&quot;,
-                    &quot;text&quot;: &quot;A mage steps forward, and when he nods to confirm the veracity of your statement the room breaks out into wild cheers. 'Three cheers for the hero! May the sun ever shine upon you!'&quot;,
+					&quot;name&quot;: &quot;Elesh Norn has been slain.&quot;, &quot;locname&quot;: &quot;adv.realm.main.095&quot;,
+                    &quot;text&quot;: &quot;A mage steps forward, and when he nods to confirm the veracity of your statement the room breaks out into wild cheers. 'Three cheers for the hero! May the sun ever shine upon you!'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.075&quot;,
 					&quot;action&quot;: [ { &quot;deleteMapObject&quot;: -1 },
                     {&quot;grantRewards&quot;: [
 						{&quot;type&quot;: &quot;life&quot;, &quot;count&quot;: 1},
@@ -204,20 +204,20 @@
 					{&quot;removeItem&quot;:&quot;White Cartouche of Victory&quot;},
 					{&quot;addMapReputation&quot;: 4} ],
 					&quot;condition&quot;:[{&quot;item&quot;:&quot;White Cartouche of Victory&quot;}], 
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.main.067&quot; } ]
 				},
 				{
-					&quot;name&quot;: &quot;Nothing's impossible for me.&quot;,
-					&quot;text&quot;: &quot;'We aplaud your bravery, but the threat that now faces our great city is none other than the Mother of Machines herself, Elesh Norn. Things may not be utterly hopeless, but they are close.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;I can take her on&quot;,
-					&quot;text&quot;: &quot;'Well, we could certainly use a hero. I shudder to think how many soldiers have already died opposing the initial attacks of her porcelain legions. Seek her in a fortress of porcelain and flesh. If you somehow fell her, we will be forever in your debt, and you will have both our favor and much gold.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;time to do some heroics.&quot; } ]
+					&quot;name&quot;: &quot;Nothing's impossible for me.&quot;, &quot;locname&quot;: &quot;adv.realm.main.142&quot;,
+					&quot;text&quot;: &quot;'We aplaud your bravery, but the threat that now faces our great city is none other than the Mother of Machines herself, Elesh Norn. Things may not be utterly hopeless, but they are close.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.050&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;I can take her on&quot;, &quot;locname&quot;: &quot;adv.realm.main.103&quot;,
+					&quot;text&quot;: &quot;'Well, we could certainly use a hero. I shudder to think how many soldiers have already died opposing the initial attacks of her porcelain legions. Seek her in a fortress of porcelain and flesh. If you somehow fell her, we will be forever in your debt, and you will have both our favor and much gold.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.060&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;time to do some heroics.&quot;, &quot;locname&quot;: &quot;adv.realm.main.183&quot; } ]
 					 }]
 				},
                 {
-					&quot;name&quot;: &quot;Impossible sounds a bit too difficult.&quot;,
-					&quot;text&quot;: &quot;'Indeed. May Serra save us all.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;name&quot;: &quot;Impossible sounds a bit too difficult.&quot;, &quot;locname&quot;: &quot;adv.realm.main.122&quot;,
+					&quot;text&quot;: &quot;'Indeed. May Serra save us all.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.023&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.main.067&quot; } ]
 				}
 			]
 	}
@@ -226,15 +226,15 @@
   </object>
   <object id="105" template="../../../../common/maps/obj/dialog.tx" x="96" y="262.5" width="16" height="16" visible="1">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
 	{
 		&quot;name&quot;: &quot;&quot;,
-		&quot;text&quot;: &quot;A great many peasants gather around the building ahead, airing their grievances against a beleaguered magister. 'Are you an adventurer? I could really use some help!'&quot;,
+		&quot;text&quot;: &quot;A great many peasants gather around the building ahead, airing their grievances against a beleaguered magister. 'Are you an adventurer? I could really use some help!'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.071&quot;,
 		&quot;options&quot;:
 			[
 				{
-					&quot;name&quot;: &quot;One watering can, as promised.&quot;,
-                    &quot;text&quot;: &quot;The peasants cheer. 'Our crops are saved! We all thank you for your valor!'&quot;,
+					&quot;name&quot;: &quot;One watering can, as promised.&quot;, &quot;locname&quot;: &quot;adv.realm.main.145&quot;,
+                    &quot;text&quot;: &quot;The peasants cheer. 'Our crops are saved! We all thank you for your valor!'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.173&quot;,
 					&quot;action&quot;: [ { &quot;deleteMapObject&quot;: -1 },
                     {&quot;grantRewards&quot;: [
 						{&quot;type&quot;: &quot;life&quot;, &quot;count&quot;: 1},
@@ -248,20 +248,20 @@
 					{&quot;removeItem&quot;:&quot;Everflowing Watering Can&quot;},
 					{&quot;addMapReputation&quot;: 2} ],
 					&quot;condition&quot;:[{&quot;item&quot;:&quot;Everflowing Watering Can&quot;}], 
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.main.067&quot; } ]
 				},
 				{
-					&quot;name&quot;: &quot;I am. What do you need?&quot;,
-					&quot;text&quot;: &quot;'We were betrayed! We had a meeting with the leader of the leonin, Kemba, not long back, and after she left we found her catfolk allies had stolen our everflowing watering can!'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;This seems like a lot of ruckus for a watering can.&quot;,
-					&quot;text&quot;: &quot;'It's enchanted, and a key part of our local agriculture! In case you haven't noticed, despite being known as plains, the surrounding lands are more desert these days. Water is scarce, so an endless supply is key to feeding the population here. Their lair is surrounded by lions, should be hard to miss once you stumble upon it. Retrieve the can and you'll have the city's favor and some gold as well.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;Can do.&quot; } ]
+					&quot;name&quot;: &quot;I am. What do you need?&quot;, &quot;locname&quot;: &quot;adv.realm.main.100&quot;,
+					&quot;text&quot;: &quot;'We were betrayed! We had a meeting with the leader of the leonin, Kemba, not long back, and after she left we found her catfolk allies had stolen our everflowing watering can!'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.052&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;This seems like a lot of ruckus for a watering can.&quot;, &quot;locname&quot;: &quot;adv.realm.main.180&quot;,
+					&quot;text&quot;: &quot;'It's enchanted, and a key part of our local agriculture! In case you haven't noticed, despite being known as plains, the surrounding lands are more desert these days. Water is scarce, so an endless supply is key to feeding the population here. Their lair is surrounded by lions, should be hard to miss once you stumble upon it. Retrieve the can and you'll have the city's favor and some gold as well.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.027&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;Can do.&quot;, &quot;locname&quot;: &quot;adv.realm.main.083&quot; } ]
 					 }]
 				},
                 {
-					&quot;name&quot;: &quot;Some other time.&quot;,
-					&quot;text&quot;: &quot;The magister's complaints are drowned out by angry jeers from the gathered crowd.&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;name&quot;: &quot;Some other time.&quot;, &quot;locname&quot;: &quot;adv.realm.main.155&quot;,
+					&quot;text&quot;: &quot;The magister's complaints are drowned out by angry jeers from the gathered crowd.&quot;, &quot;loctext&quot;: &quot;adv.realm.main.170&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.main.067&quot; } ]
 				}
 			]
 	}
@@ -270,15 +270,15 @@
   </object>
   <object id="106" template="../../../../common/maps/obj/dialog.tx" x="216.5" y="263" width="21.5" height="16" visible="1">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
 	{
 		&quot;name&quot;: &quot;&quot;,
-		&quot;text&quot;: &quot;A group of knights looks anxious as they prepare themselves for battle. 'Hail, traveler. You have a bravery about you we have need of. But be warned, the quest we need done will be no easy feat.'&quot;,
+		&quot;text&quot;: &quot;A group of knights looks anxious as they prepare themselves for battle. 'Hail, traveler. You have a bravery about you we have need of. But be warned, the quest we need done will be no easy feat.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.072&quot;,
 		&quot;options&quot;:
 			[
 				{
-					&quot;name&quot;: &quot;The Dusk Legion's leadership has been crippled.&quot;,
-                    &quot;text&quot;: &quot;'Impressive skills indeed! The world needs more heroes such as you. May your further efforts be met with as much success as your grand deeds this day.'&quot;,
+					&quot;name&quot;: &quot;The Dusk Legion's leadership has been crippled.&quot;, &quot;locname&quot;: &quot;adv.realm.main.164&quot;,
+                    &quot;text&quot;: &quot;'Impressive skills indeed! The world needs more heroes such as you. May your further efforts be met with as much success as your grand deeds this day.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.020&quot;,
 					&quot;action&quot;: [ { &quot;deleteMapObject&quot;: -1 },
                     {&quot;grantRewards&quot;: [
 						{&quot;type&quot;: &quot;life&quot;, &quot;count&quot;: 1},
@@ -294,20 +294,20 @@
 					{&quot;removeItem&quot;:&quot;Arguel's Bloody Helm&quot;},
 					{&quot;addMapReputation&quot;: 4} ],
 					&quot;condition&quot;:[{&quot;item&quot;:&quot;Arguel's Bloody Helm&quot;}], 
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.main.067&quot; } ]
 				},
 				{
-					&quot;name&quot;: &quot;Tell me of this quest.&quot;,
-					&quot;text&quot;: &quot;'There are many dangerous folk about the plains these days. Even once-noble heroes and angels from the heavens have been driven mad by the curse of violence upon this land. But our trouble today comes from a more traditional source of strife - vampires.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;Unusual to see vampires in these parts.&quot;,
-					&quot;text&quot;: &quot;'Indeed. These vampires call themselves the Dusk Legion and originally hail from the world of Ixalan. They see themselves as noble, though they're anything but. They've been teorrizing our people, and have evaded our hunts so far. If you can eliminate their leader, the High Marshal Arguel, in his fortress, idenifiable by massive swords hung over the front gate, you will have our favor and a reward befitting your valor.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;Their nights are numbered.&quot; } ]
+					&quot;name&quot;: &quot;Tell me of this quest.&quot;, &quot;locname&quot;: &quot;adv.realm.main.161&quot;,
+					&quot;text&quot;: &quot;'There are many dangerous folk about the plains these days. Even once-noble heroes and angels from the heavens have been driven mad by the curse of violence upon this land. But our trouble today comes from a more traditional source of strife - vampires.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.046&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;Unusual to see vampires in these parts.&quot;, &quot;locname&quot;: &quot;adv.realm.main.186&quot;,
+					&quot;text&quot;: &quot;'Indeed. These vampires call themselves the Dusk Legion and originally hail from the world of Ixalan. They see themselves as noble, though they're anything but. They've been teorrizing our people, and have evaded our hunts so far. If you can eliminate their leader, the High Marshal Arguel, in his fortress, idenifiable by massive swords hung over the front gate, you will have our favor and a reward befitting your valor.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.025&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;Their nights are numbered.&quot;, &quot;locname&quot;: &quot;adv.realm.main.179&quot; } ]
 					 }]
 				},
                 {
-					&quot;name&quot;: &quot;I'm not ready for a quest right now.&quot;,
-					&quot;text&quot;: &quot;'Few are. May your skill and bravery continue to grow.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;name&quot;: &quot;I'm not ready for a quest right now.&quot;, &quot;locname&quot;: &quot;adv.realm.main.117&quot;,
+					&quot;text&quot;: &quot;'Few are. May your skill and bravery continue to grow.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.014&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.main.067&quot; } ]
 				}
 			]
 	}
@@ -316,15 +316,15 @@
   </object>
   <object id="107" template="../../../../common/maps/obj/dialog.tx" x="226.75" y="452" width="21.5" height="16" visible="1">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
 	{
 		&quot;name&quot;: &quot;&quot;,
-		&quot;text&quot;: &quot;You enter a temple to numerous gods of light, protection, and good. An angel turns from her prayers to address you. 'Are you the one I have been praying for? A savior?'&quot;,
+		&quot;text&quot;: &quot;You enter a temple to numerous gods of light, protection, and good. An angel turns from her prayers to address you. 'Are you the one I have been praying for? A savior?'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.202&quot;,
 		&quot;options&quot;:
 			[
 				{
-					&quot;name&quot;: &quot;The three great threats are ended.&quot;,
-                    &quot;text&quot;: &quot;'The people of the plains and the gods of light sing your praises!'&quot;,
+					&quot;name&quot;: &quot;The three great threats are ended.&quot;, &quot;locname&quot;: &quot;adv.realm.main.175&quot;,
+                    &quot;text&quot;: &quot;'The people of the plains and the gods of light sing your praises!'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.040&quot;,
 					&quot;action&quot;: [ { &quot;deleteMapObject&quot;: -1 },
                     {&quot;grantRewards&quot;: [
 		      {&quot;type&quot;: &quot;item&quot;, &quot;count&quot;: 1, &quot;itemName&quot;: &quot;Glorious Helm&quot;},
@@ -334,20 +334,20 @@
                     },
 					{&quot;addMapReputation&quot;: 10}  ],
 					&quot;condition&quot;:[{&quot;item&quot;: &quot;Angelic Ring&quot;}, {&quot;item&quot;: &quot;Valorous Greaves&quot;}, {&quot;item&quot;: &quot;Sanctuary Armor&quot;}], 
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.main.067&quot; } ]
 				},
 				{
-					&quot;name&quot;: &quot;I can do my best to be a savior.&quot;,
-					&quot;text&quot;: &quot;'Humble like a true savior. The plains are threatened by many a mighty legend, but none of equal to the three most fearsome. If you can defeat them, I shall give you the temple's three most sacred treasures.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;Which three are we speaking of?&quot;,
-					&quot;text&quot;: &quot;'The returned king Kenrith. The empyrial tactician Derevi. The font of hope, Giada. They have all been cursed away from their once noble ways. Show me the relics they once held, and the sacred blessings shall be yours, along with the undying thanks of the city.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;I will see what I can do.&quot; } ]
+					&quot;name&quot;: &quot;I can do my best to be a savior.&quot;, &quot;locname&quot;: &quot;adv.realm.main.101&quot;,
+					&quot;text&quot;: &quot;'Humble like a true savior. The plains are threatened by many a mighty legend, but none of equal to the three most fearsome. If you can defeat them, I shall give you the temple's three most sacred treasures.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.016&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;Which three are we speaking of?&quot;, &quot;locname&quot;: &quot;adv.realm.main.195&quot;,
+					&quot;text&quot;: &quot;'The returned king Kenrith. The empyrial tactician Derevi. The font of hope, Giada. They have all been cursed away from their once noble ways. Show me the relics they once held, and the sacred blessings shall be yours, along with the undying thanks of the city.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.042&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;I will see what I can do.&quot;, &quot;locname&quot;: &quot;adv.realm.main.109&quot; } ]
 					 }]
 				},
                 {
-					&quot;name&quot;: &quot;Doesn't sound like me, no.&quot;,
-					&quot;text&quot;: &quot;'Well, if the divine speaks to you in the future, perhaps return. For now, go with the blessing of the gods.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;name&quot;: &quot;Doesn't sound like me, no.&quot;, &quot;locname&quot;: &quot;adv.realm.main.093&quot;,
+					&quot;text&quot;: &quot;'Well, if the divine speaks to you in the future, perhaps return. For now, go with the blessing of the gods.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.056&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.main.067&quot; } ]
 				}
 			]
 	}

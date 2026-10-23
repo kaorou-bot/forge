@@ -358,18 +358,18 @@
    <properties>
     <property name="dialog">[
   { 
-    &quot;text&quot;:&quot;A big switch is embedded into the wall.&quot;,
+    &quot;text&quot;:&quot;A big switch is embedded into the wall.&quot;, &quot;loctext&quot;: &quot;adv.graveyard_crypt_crypt.72.d.n0.text&quot;,
     &quot;options&quot;:[ 
 	{ 
-		&quot;text&quot;:&quot;You hear some loud sounds coming from the east.&quot;,
+		&quot;text&quot;:&quot;You hear some loud sounds coming from the east.&quot;, &quot;loctext&quot;: &quot;adv.common.unkeyed.3&quot;,
 		&quot;action&quot;:[{&quot;deleteMapObject&quot;:-1},{&quot;advanceMapFlag&quot;:&quot;gate&quot;}],
-		&quot;name&quot;:&quot;Flip the switch&quot;
+		&quot;name&quot;:&quot;Flip the switch&quot;, &quot;locname&quot;: &quot;adv.phyrexia_phyrexian_b1.62.d.n2.name&quot;
 			&quot;options&quot;:[{
 			&quot;condition&quot;:[{&quot;getMapFlag&quot;:{&quot;key&quot;:&quot;gate&quot;,&quot;op&quot;:&quot;&gt;=&quot;,&quot;val&quot;:2}}],
 			&quot;action&quot;:[{&quot;deleteMapObject&quot;:18}],
-			&quot;name&quot;:&quot;Continue&quot; }]
+			&quot;name&quot;:&quot;Continue&quot;, &quot;locname&quot;: &quot;adv.shared.continue&quot; }]
 	},
-	{ &quot;name&quot;:&quot;Leave&quot; } 	
+	{ &quot;name&quot;:&quot;Leave&quot;, &quot;locname&quot;: &quot;adv.shared.leave&quot; }
 	] 
 	} 
 	
@@ -380,18 +380,18 @@
    <properties>
     <property name="dialog">[
   { 
-    &quot;text&quot;:&quot;A big switch is embedded into the wall.&quot;,
+    &quot;text&quot;:&quot;A big switch is embedded into the wall.&quot;, &quot;loctext&quot;: &quot;adv.graveyard_crypt_crypt.72.d.n0.text&quot;,
     &quot;options&quot;:[ 
 	{ 
-		&quot;text&quot;:&quot;You hear some loud sounds coming from the east.&quot;,
+		&quot;text&quot;:&quot;You hear some loud sounds coming from the east.&quot;, &quot;loctext&quot;: &quot;adv.common.unkeyed.3&quot;,
 		&quot;action&quot;:[{&quot;deleteMapObject&quot;:-1},{&quot;advanceMapFlag&quot;:&quot;gate&quot;}],
-		&quot;name&quot;:&quot;Flip the switch&quot;
+		&quot;name&quot;:&quot;Flip the switch&quot;, &quot;locname&quot;: &quot;adv.phyrexia_phyrexian_b1.62.d.n2.name&quot;
 			&quot;options&quot;:[{
 			&quot;condition&quot;:[{&quot;getMapFlag&quot;:{&quot;key&quot;:&quot;gate&quot;,&quot;op&quot;:&quot;&gt;=&quot;,&quot;val&quot;:2}}],
 			&quot;action&quot;:[{&quot;deleteMapObject&quot;:18}],
-			&quot;name&quot;:&quot;Continue&quot; }]
+			&quot;name&quot;:&quot;Continue&quot;, &quot;locname&quot;: &quot;adv.shared.continue&quot; }]
 	},
-	{ &quot;name&quot;:&quot;Leave&quot; } 	
+	{ &quot;name&quot;:&quot;Leave&quot;, &quot;locname&quot;: &quot;adv.shared.leave&quot; }
 	] 
 	} 
 	
@@ -402,16 +402,16 @@
    <properties>
     <property name="dialog">[
   { 
-    &quot;text&quot;:&quot;A big switch is embedded into the wall.&quot;,
+    &quot;text&quot;:&quot;A big switch is embedded into the wall.&quot;, &quot;loctext&quot;: &quot;adv.graveyard_crypt_crypt.72.d.n0.text&quot;,
     &quot;options&quot;:[ 
 	{ 
-		&quot;text&quot;:&quot;You hear some loud sounds coming from the north.&quot;,
-		&quot;name&quot;:&quot;Flip the switch&quot;
+		&quot;text&quot;:&quot;You hear some loud sounds coming from the north.&quot;, &quot;loctext&quot;: &quot;adv.graveyard_crypt_crypt.72.d.n1.text&quot;,
+		&quot;name&quot;:&quot;Flip the switch&quot;, &quot;locname&quot;: &quot;adv.phyrexia_phyrexian_b1.62.d.n2.name&quot;
 			&quot;options&quot;:[{
 			&quot;action&quot;:[{&quot;deleteMapObject&quot;:17}],
-			&quot;name&quot;:&quot;Continue&quot; }]
+			&quot;name&quot;:&quot;Continue&quot;, &quot;locname&quot;: &quot;adv.shared.continue&quot; }]
 	},
-	{ &quot;name&quot;:&quot;Leave&quot; } 	
+	{ &quot;name&quot;:&quot;Leave&quot;, &quot;locname&quot;: &quot;adv.shared.leave&quot; }
 	] 
 	} 
 	
@@ -425,7 +425,7 @@
     &quot;text&quot;:&quot;A big switch is embedded into the wall. Or, was. It seems to have been melted, which would have required enormous heat.&quot;,
     &quot;loctext&quot;: &quot;adv.main_story_templeofchandra.10.d.n0.text&quot;, 
     &quot;options&quot;:[ 
-	{ &quot;name&quot;:&quot;Leave&quot;, &quot;locname&quot;: &quot;adv.shared.leave&quot; } 	
+	{ &quot;name&quot;:&quot;Leave&quot;, &quot;locname&quot;: &quot;adv.shared.leave&quot; }
 	] 
 	} 
 	
@@ -447,16 +447,16 @@
    <properties>
     <property name="dialog">[
   { 
-    &quot;text&quot;:&quot;A big switch is embedded into the wall.&quot;,
+    &quot;text&quot;:&quot;A big switch is embedded into the wall.&quot;, &quot;loctext&quot;: &quot;adv.graveyard_crypt_crypt.72.d.n0.text&quot;,
     &quot;options&quot;:[ 
 	{ 
-		&quot;text&quot;:&quot;You hear some rumbling and commotion from the south. The final gate appears to be open.&quot;,
-		&quot;name&quot;:&quot;Flip the switch&quot;
+		&quot;text&quot;:&quot;You hear some rumbling and commotion from the south. The final gate appears to be open.&quot;, &quot;loctext&quot;: &quot;adv.common.unkeyed.4&quot;,
+		&quot;name&quot;:&quot;Flip the switch&quot;, &quot;locname&quot;: &quot;adv.phyrexia_phyrexian_b1.62.d.n2.name&quot;
 			&quot;options&quot;:[{
 			&quot;action&quot;:[{&quot;deleteMapObject&quot;:6}],
-			&quot;name&quot;:&quot;Continue&quot; }]
+			&quot;name&quot;:&quot;Continue&quot;, &quot;locname&quot;: &quot;adv.shared.continue&quot; }]
 	},
-	{ &quot;name&quot;:&quot;Leave&quot; } 	
+	{ &quot;name&quot;:&quot;Leave&quot;, &quot;locname&quot;: &quot;adv.shared.leave&quot; }
 	] 
 	} 
 	
@@ -503,17 +503,17 @@
    <properties>
     <property name="dialog">[
   { 
-    &quot;text&quot;:&quot;Wires run from this switch to the nearby generator.&quot;, 
+    &quot;text&quot;:&quot;Wires run from this switch to the nearby generator.&quot;, &quot;loctext&quot;: &quot;adv.common.unkeyed.5&quot;,
     &quot;options&quot;:[ 
 	{ 
-		&quot;text&quot;:&quot;The connected machinery whirrs to life, and the gate to your east opens.&quot;,
+		&quot;text&quot;:&quot;The connected machinery whirrs to life, and the gate to your east opens.&quot;, &quot;loctext&quot;: &quot;adv.common.unkeyed.6&quot;,
 		&quot;action&quot;:[{&quot;deleteMapObject&quot;:-1}],
-		&quot;name&quot;:&quot;Flip the switch&quot;
+		&quot;name&quot;:&quot;Flip the switch&quot;, &quot;locname&quot;: &quot;adv.phyrexia_phyrexian_b1.62.d.n2.name&quot;
 			&quot;options&quot;:[{
 			&quot;action&quot;:[{&quot;deleteMapObject&quot;:11}],
-			&quot;name&quot;:&quot;Continue&quot; }]
+			&quot;name&quot;:&quot;Continue&quot;, &quot;locname&quot;: &quot;adv.shared.continue&quot; }]
 	},
-	{ &quot;name&quot;:&quot;Leave&quot; } 	
+	{ &quot;name&quot;:&quot;Leave&quot;, &quot;locname&quot;: &quot;adv.shared.leave&quot; }
 	] 
 	}
 ] 
@@ -1226,34 +1226,34 @@
   <object id="170" template="../../obj/enemy.tx" gid="2147495067" x="16.75" y="937.25">
    <properties>
     <property name="dialog">[ {
-  &quot;text&quot;:&quot;HELLO AGAIN PLANESWALKER {var=player_name}&quot;, 
+  &quot;text&quot;:&quot;HELLO AGAIN PLANESWALKER {var=player_name}&quot;, &quot;loctext&quot;: &quot;adv.common.unkeyed.7&quot;,
    &quot;options&quot;:[
     { 
-		&quot;name&quot;:&quot;Yeah, yeah, defeat Chandra. Got it.&quot;,
+		&quot;name&quot;:&quot;Yeah, yeah, defeat Chandra. Got it.&quot;, &quot;locname&quot;: &quot;adv.common.unkeyed.8&quot;,
 		&quot;condition&quot;:[ { &quot;checkMapFlag&quot;: &quot;intro&quot; }] 
 	},
 	{
-	  &quot;name&quot;:&quot;Why am I here?&quot;,
-	  &quot;text&quot;:&quot;YOU HAVE FREED THE LEGENDARY PLANESWALKER CHANDRA FROM CAPTIVITY...&quot;,
+	  &quot;name&quot;:&quot;Why am I here?&quot;, &quot;locname&quot;: &quot;adv.main_story_spawn.69.d.n2.name&quot;,
+	  &quot;text&quot;:&quot;YOU HAVE FREED THE LEGENDARY PLANESWALKER CHANDRA FROM CAPTIVITY...&quot;, &quot;loctext&quot;: &quot;adv.common.unkeyed.9&quot;,
 	  &quot;options&quot;:[
 		{ 
-			&quot;name&quot;:&quot;Okay, yeah, I remember this now.&quot;,
+			&quot;name&quot;:&quot;Okay, yeah, I remember this now.&quot;, &quot;locname&quot;: &quot;adv.common.unkeyed.10&quot;,
 			&quot;condition&quot;:[ { &quot;checkMapFlag&quot;: &quot;intro&quot; }] 
 		},   
 		{      
-			&quot;name&quot;:&quot;I did, just like you asked.&quot;,
-			&quot;text&quot;:&quot;...BUT HER MIND IS STILL IMPRISONED.&quot;
+			&quot;name&quot;:&quot;I did, just like you asked.&quot;, &quot;locname&quot;: &quot;adv.common.unkeyed.11&quot;,
+			&quot;text&quot;:&quot;...BUT HER MIND IS STILL IMPRISONED.&quot;, &quot;loctext&quot;: &quot;adv.common.unkeyed.12&quot;
 			&quot;options&quot;:[
 			{ 	
-				&quot;name&quot;:&quot;Okay, yeah, I remember this now.&quot;,
+				&quot;name&quot;:&quot;Okay, yeah, I remember this now.&quot;, &quot;locname&quot;: &quot;adv.common.unkeyed.10&quot;,
 				&quot;condition&quot;:[ { &quot;checkMapFlag&quot;: &quot;intro&quot; }] 
 			},
 			{      
-				&quot;name&quot;:&quot;So... what now?&quot;,
-				&quot;text&quot;:&quot;DEFEAT CHANDRA AND I CAN HELP HER RECOVER, SO THAT SHE MAY AID YOU IN BATTLES YET TO COME. TAKE HEED, {var=player_name}, THIS WILL BE A DIFFICULT TASK.&quot;,
+				&quot;name&quot;:&quot;So... what now?&quot;, &quot;locname&quot;: &quot;adv.common.unkeyed.13&quot;,
+				&quot;text&quot;:&quot;DEFEAT CHANDRA AND I CAN HELP HER RECOVER, SO THAT SHE MAY AID YOU IN BATTLES YET TO COME. TAKE HEED, {var=player_name}, THIS WILL BE A DIFFICULT TASK.&quot;, &quot;loctext&quot;: &quot;adv.common.unkeyed.14&quot;,
 				&quot;options&quot;:[
 				{
-					&quot;name&quot;:&quot;Thank you for the warning.&quot;,
+					&quot;name&quot;:&quot;Thank you for the warning.&quot;, &quot;locname&quot;: &quot;adv.common.unkeyed.15&quot;,
 					&quot;action&quot;:[{&quot;advanceMapFlag&quot;:&quot;intro&quot;}]
 				}]
 			}]

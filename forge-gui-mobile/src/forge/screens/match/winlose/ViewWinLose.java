@@ -82,9 +82,10 @@ public class ViewWinLose extends FOverlay implements IWinLoseView<FButton> {
         btnShowBattlefield = add(new FLabel.ButtonBuilder().text(Forge.getLocalizer().getMessage("lblShowBattlefield")).font(FSkinFont.get(12)).selectable()
                 .command(e -> hide()).build()
         );
-        lblTitle.setText((MatchController.instance.isReplay() ? "Replay: " : "") + composeTitle(game0));
+        lblTitle.setText(MatchController.instance.isReplay()
+                ? Forge.getLocalizer().getMessage("lblReplayResult", composeTitle(game0)) : composeTitle(game0));
         if (MatchController.instance.isReplay()) {
-            btnQuit.setText("Close replay");
+            btnQuit.setText(Forge.getLocalizer().getMessage("lblReplayClose"));
             btnContinue.setEnabled(false); // disabled buttons are left out of the layout
             btnRestart.setEnabled(false);
         }

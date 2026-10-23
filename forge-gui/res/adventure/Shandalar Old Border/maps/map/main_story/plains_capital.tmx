@@ -134,10 +134,10 @@
   </object>
   <object id="64" name="IntroChar" type="dialog" gid="7627" x="159.75" y="114.667" width="16" height="16">
    <properties>
-    <property name="dialog">[{
-  &quot;text&quot;:&quot;Hello there is nothing to do for you...\nFor now.&quot;,
+<property name="dialog">[{
+  &quot;text&quot;:&quot;Hello there is nothing to do for you...\nFor now.&quot;, &quot;loctext&quot;:&quot;adv.oldborder.explore.084&quot;,
   &quot;options&quot;:[
-    { &quot;name&quot;:&quot;Bye&quot; }
+    { &quot;name&quot;:&quot;Bye&quot;, &quot;locname&quot;:&quot;adv.oldborder.explore.085&quot; }
   ]
 }]</property>
     <property name="sprite" value=""/>

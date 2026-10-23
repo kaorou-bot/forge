@@ -210,9 +210,9 @@
    <properties>
     <property name="dialog">[
   {
-    "text":"The inscription reads: The Shandalar sewer system is currently under maintenance. A little green goo has polluted the water system. We have it completely under control and will have the sewer working again in no time.",
+    "text":"The inscription reads: The Shandalar sewer system is currently under maintenance. A little green goo has polluted the water system. We have it completely under control and will have the sewer working again in no time.", "loctext": "adv.minibosses_wastetown.137.d.n0.text",
     "options":[
-      { "name":"Walk away" }
+      { "name":"Walk away", "locname": "adv.shared.walk_away" }
 ]
 }
 ]</property>

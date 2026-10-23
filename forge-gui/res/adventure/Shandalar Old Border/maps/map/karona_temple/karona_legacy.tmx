@@ -47,20 +47,20 @@
   </object>
   <object id="74" template="../../../../common/maps/obj/gate.tx" x="208" y="448">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
 	{
-		"text": "A massive gate with a strange lock is blocking the path.",
+		"text": "A massive gate with a strange lock is blocking the path.", &quot;loctext&quot;:&quot;adv.oldborder.explore.023&quot;,
 		"options": [
-			{ "name": "Leave" },
+			{ "name": "Leave", "locname": "adv.shared.leave" },
 			{
-				"name": "Unlock with the strange key",
+				"name": "Unlock with the strange key", "locname": "adv.emrakul_emrakul.71.d.n3.name",
 				"condition": [
 					{ "item": "Strange Key" }
 				],
-				"text": "The gate is unlocked.",
+				"text": "The gate is unlocked.", "loctext": "adv.zedruu_zedruu.217.d.n2.text",
 				"options": [
 					{
-						"name": "Continue",
+						"name": "Continue", "locname": "adv.shared.continue",
 						"action": [
 							{ "deleteMapObject": -1 },
 							{ "removeItem": "Strange Key" }
@@ -99,13 +99,13 @@
   </object>
   <object id="70" template="../../../../common/maps/obj/gate.tx" x="208" y="142">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
 	{
-		&quot;text&quot;: &quot;A massive gate with five colored locks is blocking the path to the False God.&quot;,
+		&quot;text&quot;: &quot;A massive gate with five colored locks is blocking the path to the False God.&quot;, &quot;loctext&quot;:&quot;adv.oldborder.explore.024&quot;,
 		&quot;options&quot;: [
-			{ &quot;name&quot;: &quot;go away&quot; },
+			{ &quot;name&quot;: &quot;go away&quot;, &quot;locname&quot;:&quot;adv.oldborder.explore.003&quot; },
 			{
-				&quot;name&quot;: &quot;unlock with the five keys to the False God&quot;,
+				&quot;name&quot;: &quot;unlock with the five keys to the False God&quot;, &quot;locname&quot;:&quot;adv.oldborder.explore.025&quot;,
 				&quot;condition&quot;: [
 					{ &quot;item&quot;: &quot;White Key to the False God&quot; },
 					{ &quot;item&quot;: &quot;Blue Key to the False God&quot; },
@@ -113,10 +113,10 @@
 					{ &quot;item&quot;: &quot;Red Key to the False God&quot; },
 					{ &quot;item&quot;: &quot;Green Key to the False God&quot; }
 				],
-				&quot;text&quot;: &quot;The gate is unlocked. You may now face the False God, Karona.&quot;,
+				&quot;text&quot;: &quot;The gate is unlocked. You may now face the False God, Karona.&quot;, &quot;loctext&quot;:&quot;adv.oldborder.explore.026&quot;,
 				&quot;options&quot;: [
 					{
-						&quot;name&quot;: &quot;continue&quot;,
+						&quot;name&quot;: &quot;continue&quot;, &quot;locname&quot;:&quot;adv.oldborder.explore.005&quot;,
 						&quot;action&quot;: [
 							{ &quot;deleteMapObject&quot;: -1 },
 							{ &quot;removeItem&quot;: &quot;White Key to the False God&quot; },

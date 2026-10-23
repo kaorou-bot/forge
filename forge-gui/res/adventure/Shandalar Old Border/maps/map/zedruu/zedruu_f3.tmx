@@ -38,23 +38,23 @@
  <objectgroup id="12" name="Objects" opacity="0.9" offsetx="3.15789" offsety="7.89474">
   <object id="201" template="../../../../common/maps/obj/enemy.tx" x="213.399" y="128.82">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
     {
         "condition": [
             { "checkQuestFlag": "mainQuest" },
             { "checkCharacterFlag": "dungeonMasterQuestGiven", "not": true }
         ],
-        "text": "You sense this creature is one of many powerful beings lurking in the hidden lairs of Shandalar. Perhaps you should track your progress in clearing them.",
+        "text": "You sense this creature is one of many powerful beings lurking in the hidden lairs of Shandalar. Perhaps you should track your progress in clearing them.", &quot;loctext&quot;:&quot;adv.oldborder.explore.011&quot;,
         "options": [
             {
-                "name": "(Accept the challenge)",
+                "name": "(Accept the challenge)", &quot;locname&quot;:&quot;adv.oldborder.explore.009&quot;,
                 "action": [
                     {
                         "issueQuest": "54",
                         "setCharacterFlag": { "key": "dungeonMasterQuestGiven", "val": 1 }
                     }
                 ],
-                "text": "[Quest Added: Dungeon Master]"
+                "text": "[Quest Added: Dungeon Master]", &quot;loctext&quot;:&quot;adv.oldborder.explore.010&quot;
             }
         ]
     }

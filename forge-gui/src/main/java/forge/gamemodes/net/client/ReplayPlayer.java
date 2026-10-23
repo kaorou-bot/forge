@@ -10,6 +10,7 @@ import forge.gamemodes.replay.ReplayReader;
 import forge.gui.FThreads;
 import forge.gui.interfaces.IGuiGame;
 import forge.util.IHasForgeLog;
+import forge.util.Localizer;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
@@ -227,6 +228,7 @@ public final class ReplayPlayer implements Runnable, IHasForgeLog {
     }
 
     private void updateControls() {
+        final Localizer localizer = Localizer.getInstance();
         final String message;
         final String ok;
         final String cancel;
@@ -236,14 +238,14 @@ public final class ReplayPlayer implements Runnable, IHasForgeLog {
                 return;
             }
             if (finished) {
-                message = "Replay finished.";
-                ok = "Close";
+                message = localizer.getMessage("lblReplayFinished");
+                ok = localizer.getMessage("lblReplayClose");
                 cancel = "";
                 cancelEnabled = false;
             } else {
-                message = (paused ? "Replay paused." : "Replaying") + " Speed " + SPEEDS[speedIndex] + "x.";
-                ok = paused ? "Resume" : "Pause";
-                cancel = "Speed " + SPEEDS[(speedIndex + 1) % SPEEDS.length] + "x";
+                message = localizer.getMessage(paused ? "lblReplayPaused" : "lblReplayPlaying", SPEEDS[speedIndex]);
+                ok = localizer.getMessage(paused ? "lblReplayResume" : "lblReplayPause");
+                cancel = localizer.getMessage("lblReplaySpeed", SPEEDS[(speedIndex + 1) % SPEEDS.length]);
                 cancelEnabled = true;
             }
         }

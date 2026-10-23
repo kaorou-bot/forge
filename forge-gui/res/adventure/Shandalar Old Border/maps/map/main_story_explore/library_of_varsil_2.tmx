@@ -38,12 +38,12 @@
    <properties>
     <property name="dialog">[
 {
-   "text": "'Damnation of the Mad Jester' is presented as the fictional tale of a man named Kuthuman whose meticulously detailed tales of fanciful worlds elevated his stature from a beggar to a royal entertainer before being dragged away by demons in the midst of the king's court which harmed not another soul.",
+   "text": "'Damnation of the Mad Jester' is presented as the fictional tale of a man named Kuthuman whose meticulously detailed tales of fanciful worlds elevated his stature from a beggar to a royal entertainer before being dragged away by demons in the midst of the king's court which harmed not another soul.", "loctext": "adv.main_story_explore_library_of_varsil_2.26.d.n0.text",
    "options": [{
-      "name": "(Continue)",
-      "text": "This copy is prefaced, however, by a scribe's notes that all of the historical figures in the text of note and their interactions appear to be extremely accurately depicted, calling into question the fictional origin of Kuthuman's tale.",
+      "name": "(Continue)", "locname": "adv.shared.continue_paren",
+      "text": "This copy is prefaced, however, by a scribe's notes that all of the historical figures in the text of note and their interactions appear to be extremely accurately depicted, calling into question the fictional origin of Kuthuman's tale.", "loctext": "adv.main_story_explore_library_of_varsil_2.26.d.n1.text",
       "options": [{
-         "name": "(Continue)", "action": [{"deleteMapObject":-1}]}]
+         "name": "(Continue)", "locname": "adv.shared.continue_paren", "action": [{"deleteMapObject":-1}]}]
       }]
 }   
 ]</property>
@@ -53,9 +53,9 @@
    <properties>
     <property name="dialog">[
 {
-   "text": "This shelf is simply a jumble of pages which seem to have come unbound from various books throughout the library. You see nothing of particular importance among them.",
+   "text": "This shelf is simply a jumble of pages which seem to have come unbound from various books throughout the library. You see nothing of particular importance among them.", "loctext": "adv.main_story_explore_library_of_varsil_2.27.d.n0.text",
    "options": [{
-      "name": "(Continue)", "action": [{"deleteMapObject":-1}]}]
+      "name": "(Continue)", "locname": "adv.shared.continue_paren", "action": [{"deleteMapObject":-1}]}]
 }
 ]</property>
    </properties>
@@ -64,10 +64,10 @@
    <properties>
     <property name="dialog">[
 {
-   "text": "'Magical Meteorology', 'The Destructive Power of the Heavens', these books all seem to focus on things falling from the sky.",
+   "text": "'Magical Meteorology', 'The Destructive Power of the Heavens', these books all seem to focus on things falling from the sky.", "loctext": "adv.main_story_explore_library_of_varsil_2.28.d.n0.text",
    
    "options": [{
-      "name": "(Continue)", 
+      "name": "(Continue)", "locname": "adv.shared.continue_paren",
       "action": [{"deleteMapObject":-1},{
          "grantRewards": [{
             "type": "card",
@@ -84,9 +84,9 @@
    <properties>
     <property name="dialog">[
 {
-   "text": "'Dealing with the Magically Impaired' describes the difficulties in Shandalar communities of allowing people without magical talent to feel as though they are fully contributing members of society.",
+   "text": "'Dealing with the Magically Impaired' describes the difficulties in Shandalar communities of allowing people without magical talent to feel as though they are fully contributing members of society.", "loctext": "adv.main_story_explore_library_of_varsil_2.29.d.n0.text",
    "options": [{
-      "name": "(Continue)", "action": [{"deleteMapObject":-1}]}]
+      "name": "(Continue)", "locname": "adv.shared.continue_paren", "action": [{"deleteMapObject":-1}]}]
 }
 ]</property>
    </properties>
@@ -95,9 +95,9 @@
    <properties>
     <property name="dialog">[
 {
-   "text": "A pile of children's books lie on this shelf. The topmost tells a tale of a Goblin Balloon Brigade whose members do not have names and all address each other as 'Dumber Than X', where X is equal to the number of their peers that are agreed to be smarter on that day.",
+   "text": "A pile of children's books lie on this shelf. The topmost tells a tale of a Goblin Balloon Brigade whose members do not have names and all address each other as 'Dumber Than X', where X is equal to the number of their peers that are agreed to be smarter on that day.", "loctext": "adv.main_story_explore_library_of_varsil_2.30.d.n0.text",
    "options": [{
-      "name": "(Continue)", "action": [{"deleteMapObject":-1},{
+      "name": "(Continue)", "locname": "adv.shared.continue_paren", "action": [{"deleteMapObject":-1},{
          "grantRewards": [{
             "type": "card",
             "count": 1,
@@ -113,20 +113,20 @@
    <properties>
     <property name="dialog">[
 {
-   "text": "Genealgy reports and census data collections cover this bookcase. Understandably, these are rather dusty, which makes it all the more obvious that several books have been recently removed.",
+   "text": "Genealgy reports and census data collections cover this bookcase. Understandably, these are rather dusty, which makes it all the more obvious that several books have been recently removed.", "loctext": "adv.main_story_explore_library_of_varsil_2.31.d.n0.text",
    "options": [{
-      "name": "(Continue)", "action": [{"deleteMapObject":-1}]}]
+      "name": "(Continue)", "locname": "adv.shared.continue_paren", "action": [{"deleteMapObject":-1}]}]
 }
 ]</property>
    </properties>
   </object>
   <object id="32" template="../../../../common/maps/obj/dialog.tx" x="176" y="200">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
 {
-   "text": "You find a book on the biology of Elves. One page is marked with a folded corner and describes a type of Elf that you've seen nowhere on Shandalar",
+   "text": "You find a book on the biology of Elves. One page is marked with a folded corner and describes a type of Elf that you've seen nowhere on Shandalar", &quot;loctext&quot;:&quot;adv.oldborder.explore.148&quot;,
    "options": [{
-      "name": "(Continue)", 
+      "name": "(Continue)", "locname": "adv.shared.continue_paren",
       "action": [{
          "deleteMapObject":-1
       },{
@@ -145,9 +145,9 @@
    <properties>
     <property name="dialog">[
 {
-   "text": "'A Historical Account of a Coastal Raid', this is a collection of interviews conducted with the survivors of a coastal fishing village which was plundered by unknown creatures who simply walked out of the sea.",
+   "text": "'A Historical Account of a Coastal Raid', this is a collection of interviews conducted with the survivors of a coastal fishing village which was plundered by unknown creatures who simply walked out of the sea.", "loctext": "adv.main_story_explore_library_of_varsil_2.34.d.n0.text",
    "options": [{
-      "name": "(Continue)", "action": [{"deleteMapObject":-1}]}]
+      "name": "(Continue)", "locname": "adv.shared.continue_paren", "action": [{"deleteMapObject":-1}]}]
 }
 ]</property>
    </properties>
@@ -156,9 +156,9 @@
    <properties>
     <property name="dialog">[
 {
-   "text": "A collection of writings on Mana Shards - from theories on how they absorb mana while buried underground, to fanciful drawings such as a grain mill functioning beside a dry riverbed and powered by shards instead.",
+   "text": "A collection of writings on Mana Shards - from theories on how they absorb mana while buried underground, to fanciful drawings such as a grain mill functioning beside a dry riverbed and powered by shards instead.", "loctext": "adv.main_story_explore_library_of_varsil_2.35.d.n0.text",
    "options": [{
-      "name": "(Continue)", "action": [{"deleteMapObject":-1}]}]
+      "name": "(Continue)", "locname": "adv.shared.continue_paren", "action": [{"deleteMapObject":-1}]}]
 }
 ]</property>
    </properties>
@@ -167,9 +167,9 @@
    <properties>
     <property name="dialog">[
 {
-   "text": "'The Price of Magic' focuses not on the direct effects of spells, but the cost and consequences of casting them. It isn't a very popular book.",
+   "text": "'The Price of Magic' focuses not on the direct effects of spells, but the cost and consequences of casting them. It isn't a very popular book.", "loctext": "adv.main_story_explore_library_of_varsil_2.36.d.n0.text",
    "options": [{
-      "name": "(Continue)", "action": [{"deleteMapObject":-1}]}]
+      "name": "(Continue)", "locname": "adv.shared.continue_paren", "action": [{"deleteMapObject":-1}]}]
 }
 ]</property>
    </properties>
@@ -178,9 +178,9 @@
    <properties>
     <property name="dialog">[
 {
-   "text": "'The Missing Lynx' appears to be a biological and behavioral comparison between domesticated felines and Leonin. Various theories are posited in the text, with the conclusion that one or the other was the result of an ancient wizard's research having been misapplied.",
+   "text": "'The Missing Lynx' appears to be a biological and behavioral comparison between domesticated felines and Leonin. Various theories are posited in the text, with the conclusion that one or the other was the result of an ancient wizard's research having been misapplied.", "loctext": "adv.main_story_explore_library_of_varsil_2.38.d.n0.text",
    "options": [{
-      "name": "(Continue)", "action": [{"deleteMapObject":-1}]}]
+      "name": "(Continue)", "locname": "adv.shared.continue_paren", "action": [{"deleteMapObject":-1}]}]
 }
 ]</property>
    </properties>

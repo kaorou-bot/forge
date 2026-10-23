@@ -196,15 +196,15 @@
   <object id="106" template="../../../../common/maps/obj/collision.tx" x="513.75" y="351.2" width="13.5" height="32.6004"/>
   <object id="107" template="../../../../common/maps/obj/dialog.tx" x="104.5" y="199.5" width="16" height="16" visible="1">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
 	{
 		&quot;name&quot;: &quot;&quot;,
-		&quot;text&quot;: &quot;You are surprised to see what is clearly a vampiric crypt within the city walls. Even more strange, several vampiric attendants stand outside it. 'There is blood to be spilled, and blood to be recovered. Will you heed its call?'&quot;,
+		&quot;text&quot;: &quot;You are surprised to see what is clearly a vampiric crypt within the city walls. Even more strange, several vampiric attendants stand outside it. 'There is blood to be spilled, and blood to be recovered. Will you heed its call?'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.200&quot;,
 		&quot;options&quot;:
 			[
 				{
-					&quot;name&quot;: &quot;Sengir has been slain.&quot;,
-                    &quot;text&quot;: &quot;The vampiric attendants rush inside with the bowl. An intimidating vampire woman with a fearsome aura strides out soon after. 'I must thank you for reviving me. Slaying the Baron was no easy feat, I'm certain. Now I can continue my eternal vigil over this city, as I swore to do so very long ago.'&quot;,
+					&quot;name&quot;: &quot;Sengir has been slain.&quot;, &quot;locname&quot;: &quot;adv.realm.main.148&quot;,
+                    &quot;text&quot;: &quot;The vampiric attendants rush inside with the bowl. An intimidating vampire woman with a fearsome aura strides out soon after. 'I must thank you for reviving me. Slaying the Baron was no easy feat, I'm certain. Now I can continue my eternal vigil over this city, as I swore to do so very long ago.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.177&quot;,
 					&quot;action&quot;: [ { &quot;deleteMapObject&quot;: -1 },
                     {&quot;grantRewards&quot;: [
 						{&quot;type&quot;: &quot;life&quot;, &quot;count&quot;: 1},
@@ -219,20 +219,20 @@
 					{&quot;removeItem&quot;:&quot;Bowl of Ancient Blood&quot;},
 					{&quot;addMapReputation&quot;: 4} ],
 					&quot;condition&quot;:[{&quot;item&quot;:&quot;Bowl of Ancient Blood&quot;}], 
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.main.067&quot; } ]
 				},
 				{
-					&quot;name&quot;: &quot;Depends on what exactly you mean by that.&quot;,
-					&quot;text&quot;: &quot;'Not all vampires are solely devoted to cruelty. One such ancient protected our city until recently. But the bowl of ancient blood she supped upon so as not to need to slake her thirst upon our people has been stolen by a rival, the Dark Baron Sengir.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;Truly worthy of the title legend, that one.&quot;,
-					&quot;text&quot;: &quot;'Certainly. He dwells in his castle elsewhere within the swamps, which looks quite similar to this one. Slay him and retrieve the bowl and you shall have the favor of our patroness and a fitting reward as well.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;Time to put an end to an elder vampire.&quot; } ]
+					&quot;name&quot;: &quot;Depends on what exactly you mean by that.&quot;, &quot;locname&quot;: &quot;adv.realm.main.086&quot;,
+					&quot;text&quot;: &quot;'Not all vampires are solely devoted to cruelty. One such ancient protected our city until recently. But the bowl of ancient blood she supped upon so as not to need to slake her thirst upon our people has been stolen by a rival, the Dark Baron Sengir.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.031&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;Truly worthy of the title legend, that one.&quot;, &quot;locname&quot;: &quot;adv.realm.main.185&quot;,
+					&quot;text&quot;: &quot;'Certainly. He dwells in his castle elsewhere within the swamps, which looks quite similar to this one. Slay him and retrieve the bowl and you shall have the favor of our patroness and a fitting reward as well.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.009&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;Time to put an end to an elder vampire.&quot;, &quot;locname&quot;: &quot;adv.realm.main.184&quot; } ]
 					 }]
 				},
                 {
-					&quot;name&quot;: &quot;You know, you're a bit creepy for my tastes.&quot;,
-					&quot;text&quot;: &quot;'If you find us creepy, we suggest you leave the swamps while you still can.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;name&quot;: &quot;You know, you're a bit creepy for my tastes.&quot;, &quot;locname&quot;: &quot;adv.realm.main.205&quot;,
+					&quot;text&quot;: &quot;'If you find us creepy, we suggest you leave the swamps while you still can.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.019&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.main.067&quot; } ]
 				}
 			]
 	}
@@ -241,15 +241,15 @@
   </object>
   <object id="108" template="../../../../common/maps/obj/dialog.tx" x="183" y="198.5" width="16" height="16" visible="1">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
 	{
 		&quot;name&quot;: &quot;&quot;,
-		&quot;text&quot;: &quot;The intimidating building you've entered is staffed by a variety of menacing warlocks. 'You are, {var=player_name}, yes? We have heard whisperings of you. We are undecided if you are strong enough to undertake the task we need, but should you fail, perhaps you shall at least weaken our adversary.'&quot;,
+		&quot;text&quot;: &quot;The intimidating building you've entered is staffed by a variety of menacing warlocks. 'You are, {var=player_name}, yes? We have heard whisperings of you. We are undecided if you are strong enough to undertake the task we need, but should you fail, perhaps you shall at least weaken our adversary.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.169&quot;,
 		&quot;options&quot;:
 			[
 				{
-					&quot;name&quot;: &quot;Sheoldred is slain.&quot;,
-                    &quot;text&quot;: &quot;'Your power was great indeed. Perhaps we may have future use for you, but for now, you have the reward you were promised, and our gratitude, though it may pain some of us to give it.'&quot;,
+					&quot;name&quot;: &quot;Sheoldred is slain.&quot;, &quot;locname&quot;: &quot;adv.realm.main.150&quot;,
+                    &quot;text&quot;: &quot;'Your power was great indeed. Perhaps we may have future use for you, but for now, you have the reward you were promised, and our gratitude, though it may pain some of us to give it.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.066&quot;,
 					&quot;action&quot;: [ { &quot;deleteMapObject&quot;: -1 },
                     {&quot;grantRewards&quot;: [
 						{&quot;type&quot;: &quot;life&quot;, &quot;count&quot;: 1},
@@ -260,20 +260,20 @@
 					{&quot;removeItem&quot;:&quot;Black Cartouche of Victory&quot;},
 					{&quot;addMapReputation&quot;: 4} ],
 					&quot;condition&quot;:[{&quot;item&quot;:&quot;Black Cartouche of Victory&quot;}], 
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.main.067&quot; } ]
 				},
 				{
-					&quot;name&quot;: &quot;Let them whisper, I can face any foe.&quot;,
-					&quot;text&quot;: &quot;'Excellent. We will not dither - the one that must die is the phyrexian praetor Sheoldred herself. The Whispering One. The Apocalypse. These eipthets are well-earned, but die she must. If you can make that happen, you will receive great favor from our city and a large sum of gold.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;Seems straightfoward enough, if difficult.&quot;,
-					&quot;text&quot;: &quot;'Indeed. One more thing. Sheoldred has hidden the location of her stronghold from our scrying methods. but it is easy to spot should you come across it in your travels - it is a feastering wound on the land in the shape of the phyrexian sigil.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;Sheoldred shall fall by my hand.&quot; } ]
+					&quot;name&quot;: &quot;Let them whisper, I can face any foe.&quot;, &quot;locname&quot;: &quot;adv.realm.main.129&quot;,
+					&quot;text&quot;: &quot;'Excellent. We will not dither - the one that must die is the phyrexian praetor Sheoldred herself. The Whispering One. The Apocalypse. These eipthets are well-earned, but die she must. If you can make that happen, you will receive great favor from our city and a large sum of gold.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.013&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;Seems straightfoward enough, if difficult.&quot;, &quot;locname&quot;: &quot;adv.realm.main.147&quot;,
+					&quot;text&quot;: &quot;'Indeed. One more thing. Sheoldred has hidden the location of her stronghold from our scrying methods. but it is easy to spot should you come across it in your travels - it is a feastering wound on the land in the shape of the phyrexian sigil.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.024&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;Sheoldred shall fall by my hand.&quot;, &quot;locname&quot;: &quot;adv.realm.main.151&quot; } ]
 					 }]
 				},
                 {
-					&quot;name&quot;: &quot;I have little interest in helping such disrespectful folks.&quot;,
-					&quot;text&quot;: &quot;'So be it. We shall save our reward for a more ambitious soul.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;name&quot;: &quot;I have little interest in helping such disrespectful folks.&quot;, &quot;locname&quot;: &quot;adv.realm.main.107&quot;,
+					&quot;text&quot;: &quot;'So be it. We shall save our reward for a more ambitious soul.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.033&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.main.067&quot; } ]
 				}
 			]
 	}
@@ -282,15 +282,15 @@
   </object>
   <object id="109" template="../../../../common/maps/obj/dialog.tx" x="263" y="197" width="16" height="16" visible="1">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
 	{
 		&quot;name&quot;: &quot;&quot;,
-		&quot;text&quot;: &quot;Several gravediggers gather around a pedestal which contains nothing but the broken feet of a statue. 'Ey you! You look like some kinda hero! Help us poor folks out whydontcha!'&quot;,
+		&quot;text&quot;: &quot;Several gravediggers gather around a pedestal which contains nothing but the broken feet of a statue. 'Ey you! You look like some kinda hero! Help us poor folks out whydontcha!'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.149&quot;,
 		&quot;options&quot;:
 			[
 				{
-					&quot;name&quot;: &quot;All three pieces of your magic statue, just like you wanted.&quot;,
-                    &quot;text&quot;: &quot;The gravediggers slot the pieces back together and with the careful application of some foul-smelling black goo, they're held back in place surprisingly well. 'Good as new! Thank ya mightily for yer service!'&quot;,
+					&quot;name&quot;: &quot;All three pieces of your magic statue, just like you wanted.&quot;, &quot;locname&quot;: &quot;adv.realm.main.079&quot;,
+                    &quot;text&quot;: &quot;The gravediggers slot the pieces back together and with the careful application of some foul-smelling black goo, they're held back in place surprisingly well. 'Good as new! Thank ya mightily for yer service!'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.166&quot;,
 					&quot;action&quot;: [ { &quot;deleteMapObject&quot;: -1 },
                     {&quot;grantRewards&quot;: [
 						{&quot;type&quot;: &quot;life&quot;, &quot;count&quot;: 1},
@@ -308,20 +308,20 @@
                     {&quot;removeItem&quot;:&quot;Warding Statue Arms&quot;},
 					{&quot;addMapReputation&quot;: 2} ],
 					&quot;condition&quot;:[{&quot;item&quot;:&quot;Warding Statue Torso&quot;}, {&quot;item&quot;:&quot;Warding Statue Skirt&quot;}, {&quot;item&quot;:&quot;Warding Statue Arms&quot;}], 
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.main.067&quot; } ]
 				},
 				{
-					&quot;name&quot;: &quot;I'm certainly SOME kind of hero, sure.&quot;,
-					&quot;text&quot;: &quot;'As you can see, our precious warding statue, that keeps all'a these here dead folk in our graveyard sleepin' all peaceful got shattered! Pieces got stolen too! Without it, there's gonna be a real crisis come the next new moon.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;So who took the pieces?&quot;,
-					&quot;text&quot;: &quot;'Buncha nasty folks from Innistrad. Pretty but crazy lady by the name'a Gisa, mean science type called Geralf, and some zombie-looking dude goes by Wilhelt. They're over in a big graveyard of their own somewhere. Pretty sure they each got a piece. Get us back all three and you'll have our sincere gratitude, and I'm pretty sure we can dig up some kinda monetary reward ta boot.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;Your statue is as good as fixed.&quot; } ]
+					&quot;name&quot;: &quot;I'm certainly SOME kind of hero, sure.&quot;, &quot;locname&quot;: &quot;adv.realm.main.116&quot;,
+					&quot;text&quot;: &quot;'As you can see, our precious warding statue, that keeps all'a these here dead folk in our graveyard sleepin' all peaceful got shattered! Pieces got stolen too! Without it, there's gonna be a real crisis come the next new moon.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.005&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;So who took the pieces?&quot;, &quot;locname&quot;: &quot;adv.realm.main.152&quot;,
+					&quot;text&quot;: &quot;'Buncha nasty folks from Innistrad. Pretty but crazy lady by the name'a Gisa, mean science type called Geralf, and some zombie-looking dude goes by Wilhelt. They're over in a big graveyard of their own somewhere. Pretty sure they each got a piece. Get us back all three and you'll have our sincere gratitude, and I'm pretty sure we can dig up some kinda monetary reward ta boot.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.008&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;Your statue is as good as fixed.&quot;, &quot;locname&quot;: &quot;adv.realm.main.214&quot; } ]
 					 }]
 				},
                 {
-					&quot;name&quot;: &quot;You've got the wrong adventurer, I'm afraid.&quot;,
-					&quot;text&quot;: &quot;'Anotha unkind soul. I knew I shoulda moved to the forest capitol.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;name&quot;: &quot;You've got the wrong adventurer, I'm afraid.&quot;, &quot;locname&quot;: &quot;adv.realm.main.212&quot;,
+					&quot;text&quot;: &quot;'Anotha unkind soul. I knew I shoulda moved to the forest capitol.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.004&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.main.067&quot; } ]
 				}
 			]
 	}
@@ -330,15 +330,15 @@
   </object>
   <object id="110" template="../../../../common/maps/obj/dialog.tx" x="104.5" y="339.5" width="16" height="16" visible="1">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
 	{
 		&quot;name&quot;: &quot;&quot;,
-		&quot;text&quot;: &quot;You enter what looks to be a temple to some dark god. A black-robed priestess, pale but beautiful turns towards you and speaks. 'The dark ones require a champion. Can you answer their call?'&quot;,
+		&quot;text&quot;: &quot;You enter what looks to be a temple to some dark god. A black-robed priestess, pale but beautiful turns towards you and speaks. 'The dark ones require a champion. Can you answer their call?'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.203&quot;,
 		&quot;options&quot;:
 			[
 				{
-					&quot;name&quot;: &quot;The three great threats are ended.&quot;,
-                    &quot;text&quot;: &quot;'The dark ones are pleased! Their worshippers are now free to continue their supplication! You have the city's gratitude.'&quot;,
+					&quot;name&quot;: &quot;The three great threats are ended.&quot;, &quot;locname&quot;: &quot;adv.realm.main.175&quot;,
+                    &quot;text&quot;: &quot;'The dark ones are pleased! Their worshippers are now free to continue their supplication! You have the city's gratitude.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.036&quot;,
 					&quot;action&quot;: [ { &quot;deleteMapObject&quot;: -1 },
                     {&quot;grantRewards&quot;: [
 	               {&quot;type&quot;: &quot;item&quot;, &quot;count&quot;: 1, &quot;itemName&quot;: &quot;Massacre Helm&quot;},
@@ -348,20 +348,20 @@
                     },
 					{&quot;addMapReputation&quot;: 10}  ],
 					&quot;condition&quot;:[{&quot;item&quot;: &quot;Bloodsworn Bite&quot;}, {&quot;item&quot;: &quot;Sinister Concoction&quot;}, {&quot;item&quot;: &quot;Mask of Valgavoth&quot;}], 
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.main.067&quot; } ]
 				},
 				{
-					&quot;name&quot;: &quot;I don't know about the dark ones, but I can be a champion.&quot;,
-					&quot;text&quot;: &quot;'There are many horrifically powerful legends that threaten the swamps. I offer three sacred treasures to any who can defeat the three worst.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;Which three are we speaking of?&quot;,
-					&quot;text&quot;: &quot;'The vampiric progenitor, Edgar Markov. The terror eater Valgavoth. And the horror of Zhava, the Gitrog Monster. Slay them all and show me the relics they once possessed to receive the blessings of my dark god.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;I will see what I can do.&quot; } ]
+					&quot;name&quot;: &quot;I don't know about the dark ones, but I can be a champion.&quot;, &quot;locname&quot;: &quot;adv.realm.main.105&quot;,
+					&quot;text&quot;: &quot;'There are many horrifically powerful legends that threaten the swamps. I offer three sacred treasures to any who can defeat the three worst.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.047&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;Which three are we speaking of?&quot;, &quot;locname&quot;: &quot;adv.realm.main.195&quot;,
+					&quot;text&quot;: &quot;'The vampiric progenitor, Edgar Markov. The terror eater Valgavoth. And the horror of Zhava, the Gitrog Monster. Slay them all and show me the relics they once possessed to receive the blessings of my dark god.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.045&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;I will see what I can do.&quot;, &quot;locname&quot;: &quot;adv.realm.main.109&quot; } ]
 					 }]
 				},
                 {
-					&quot;name&quot;: &quot;Sounds a little sketchy.&quot;,
-					&quot;text&quot;: &quot;'Well, if you acheive great feats, return and perhaps my prayers will be answered then.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;name&quot;: &quot;Sounds a little sketchy.&quot;, &quot;locname&quot;: &quot;adv.realm.main.157&quot;,
+					&quot;text&quot;: &quot;'Well, if you acheive great feats, return and perhaps my prayers will be answered then.'&quot;, &quot;loctext&quot;: &quot;adv.realm.main.057&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.main.067&quot; } ]
 				}
 			]
 	}

@@ -69,18 +69,18 @@
   </object>
   <object id="55" template="../../../../common/maps/obj/gate.tx" x="368.667" y="638.667">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
 	{
 		"name": "",
 		"text": "You come upon a gate.",
-		"loctext": "",
+		"loctext": &quot;adv.main_story_castles_green_castle.55.d.n0.text&quot;,
 		"action": [
 			{ "advanceMapFlag": "intro" }
 		],
 		"options":
 			[
 				{
-					"name": "Gaea, I've defeated your guardians! It's time to end this!",
+					"name": "Gaea, I've defeated your guardians! It's time to end this!", &quot;locname&quot;: &quot;adv.oldborder.plot.013&quot;,
 					"action": [ { "deleteMapObject": 55 } ],
 					"condition": [
 						{
@@ -91,15 +91,15 @@
 							}
 						}
 					],
-					"text": "With an extremely loud roar, the gate burst open, leaving only ashes in your path. You are now free to pass.",
-					"options": [ { "name": "(continue)" } ]
+					"text": "With an extremely loud roar, the gate burst open, leaving only ashes in your path. You are now free to pass.", &quot;loctext&quot;: &quot;adv.oldborder.plot.014&quot;,
+					"options": [ { "name": "(continue)", "locname": "adv.common.unkeyed.42" } ]
 				},
 				{
-					"name": "You knock on the door",
+					"name": "You knock on the door", "locname": "adv.main_story_temple_of_gideon_steppe.237.d.n5.name",
 					"condition": [ { "checkMapFlag": "intro" } ],
 					"text": "YOU ARE NOT WORTHY, BEGONE!",
-					"loctext": "",
-					"options": [ { "name": "(continue)" } ]
+					"loctext": &quot;adv.main_story_castles_green_castle.55.d.n7.text&quot;,
+					"options": [ { "name": "(continue)", "locname": "adv.common.unkeyed.42" } ]
 				}
 			]
 	}
@@ -185,21 +185,21 @@
   </object>
   <object id="72" template="../../../../common/maps/obj/enemy.tx" x="398.667" y="648.667">
    <properties>
-    <property name="dialog">[
+<property name="dialog">[
   {
-    "text": "Welcome {var=player_name}, Gaea, the worldsoul of dominaria anticipated your approach.",
+    "text": "Welcome {var=player_name}, Gaea, the worldsoul of dominaria anticipated your approach.", &quot;loctext&quot;: &quot;adv.oldborder.plot.015&quot;,
     "options": [
       {
-        "name": "Is that so? What challenge must I face?",
-        "text": "Gaea's four most loyal servants guard the passageway to her.",
+        "name": "Is that so? What challenge must I face?", &quot;locname&quot;: &quot;adv.oldborder.plot.016&quot;,
+        "text": "Gaea's four most loyal servants guard the passageway to her.", &quot;loctext&quot;: &quot;adv.oldborder.plot.017&quot;,
         "options": [
           {
-            "name": "So I must defeat them then?",
-            "text": "Yes, if you defeat them you can face Gaea herself, ruler and shaper of all nature. \n Sharpen your blade, ready your spells, and gather your courage, for the challenges ahead will test the mettle of even the most seasoned warrior.",
+            "name": "So I must defeat them then?", &quot;locname&quot;: &quot;adv.oldborder.plot.018&quot;,
+            "text": "Yes, if you defeat them you can face Gaea herself, ruler and shaper of all nature. \n Sharpen your blade, ready your spells, and gather your courage, for the challenges ahead will test the mettle of even the most seasoned warrior.", &quot;loctext&quot;: &quot;adv.oldborder.plot.019&quot;,
             "options": [
               {
-                "name": "I'll show my worth, just make sure to open the gate when I do defeat your challengers.",
-                "text": "Leave"
+                "name": "I'll show my worth, just make sure to open the gate when I do defeat your challengers.", "locname": "adv.main_story_castles_white_castle.74.d.n6.name",
+                "text": "Leave", "loctext": "adv.shared.leave"
               }
             ]
           }

@@ -82,7 +82,7 @@ public class QuestBazaarScreen extends TabPageScreen<QuestBazaarScreen> {
         });
 
         private BazaarPage(QuestStallDefinition stallDef0) {
-            super(stallDef0.getName(), (FImage)GuiBase.getInterface().getSkinIcon(stallDef0.getIcon()));
+            super(stallDef0.getLabel(), (FImage)GuiBase.getInterface().getSkinIcon(stallDef0.getIcon()));
             stallDef = stallDef0;
 
             lblFluff.setFont(FSkinFont.get(12));

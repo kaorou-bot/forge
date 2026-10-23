@@ -109,14 +109,14 @@
    <properties>
     <property name="dialog">[
   { 
-    "text":"A large, conspicuous switch juts from the wall in the back of the lab.", 
+    "text":"A large, conspicuous switch juts from the wall in the back of the lab.", "loctext": "adv.phyrexia_phyrexian_b1.62.d.n0.text",
     "options":[ 
 	{ 
-		"text":"You hear the sound of metal sliding across metal from behind you.",
+		"text":"You hear the sound of metal sliding across metal from behind you.", "loctext": "adv.phyrexia_phyrexian_b1.62.d.n1.text",
 		"action":[{"deleteMapObject":73}],
-		"name":"Flip the switch" 
+		"name":"Flip the switch", "locname": "adv.phyrexia_phyrexian_b1.62.d.n2.name"
 	},
-	{ "name":"Leave" } 	
+	{ "name":"Leave", "locname": "adv.shared.leave" }
 	] 
 	} 
 	
@@ -206,10 +206,10 @@
   <object id="70" template="../../../../common/maps/obj/waypoint.tx" x="192" y="34" />
   <object id="73" template="../../../../common/maps/obj/gate.tx" x="208.25" y="96.5">
    <properties>
-    <property name="dialog">[{
-    "text":"This gate is locked. There must be a way to open it somewhere else in here.",
+<property name="dialog">[{
+    "text":"This gate is locked. There must be a way to open it somewhere else in here.", "loctext": "adv.phyrexia_phyrexian_b1.76.d.n0.text",
     "options":[
-    { "name":"continue" } 
+    { "name":"continue", &quot;locname&quot;:&quot;adv.oldborder.explore.005&quot; } 
     ]
 }]</property>
    </properties>
