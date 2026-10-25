@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
+import java.util.function.Consumer;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Timer;
@@ -20,6 +21,7 @@ import org.apache.commons.lang3.StringUtils;
 import forge.adventure.scene.DuelScene;
 import forge.adventure.util.Config;
 import forge.game.GameState;
+import forge.game.GameView;
 import forge.deck.Deck;
 import forge.game.player.Player;
 import forge.game.player.PlayerController.FullControlFlag;
@@ -84,6 +86,7 @@ import forge.trackable.TrackableCollection;
 import forge.util.FSerializableFunction;
 import forge.util.ITriggerEvent;
 import forge.util.WaitCallback;
+import forge.util.ThreadUtil;
 import forge.util.collect.FCollectionView;
 
 public class MatchController extends NetworkGuiGame {
@@ -897,35 +900,62 @@ public class MatchController extends NetworkGuiGame {
     }
 
     public void showFullControl(PlayerView selected, float x, float y) {
-        if (selected.isAI()) {
+        final GameView gameView = getGameView();
+        if (selected == null || selected.isAI() || gameView == null
+                || gameView.isGameOver() || gameView.getGame() == null) {
             return;
         }
-        Set<FullControlFlag> controlFlags = getGameView().getGame().getPlayer(selected).getController().getFullControl();
-        FPopupMenu menu = new FPopupMenu() {
+        final Player player = gameView.getGame().getPlayer(selected);
+        if (player == null) {
+            return;
+        }
+        final Set<FullControlFlag> controlFlags = player.getController().getFullControl();
+        final Set<FullControlFlag> checkedFlags = EnumSet.noneOf(FullControlFlag.class);
+        checkedFlags.addAll(controlFlags);
+        // FMenuItem measures text in its constructor. Incremental CJK glyph creation can
+        // upload textures, so even construction (not just show) belongs on the GL thread.
+        FThreads.invokeInEdtLater(() -> {
+            final MatchScreen screen = getView();
+            if (getGameView() != gameView || gameView.isGameOver()
+                    || screen == null || Forge.getCurrentScreen() != screen) {
+                return;
+            }
+            final VPlayerPanel panel = MatchScreen.getPlayerPanel(selected);
+            if (panel == null) {
+                return;
+            }
+            final FPopupMenu menu = createFullControlMenu(checkedFlags, flag ->
+                    ThreadUtil.invokeInGameThread(() -> {
+                        if (getGameView() == gameView && !gameView.isGameOver()
+                                && getView() == screen && Forge.getCurrentScreen() == screen) {
+                            if (!controlFlags.remove(flag)) {
+                                controlFlags.add(flag);
+                            }
+                        }
+                    }));
+            menu.show(screen, panel.localToScreenX(x), panel.localToScreenY(y));
+        });
+    }
+
+    FPopupMenu createFullControlMenu(Set<FullControlFlag> checkedFlags, Consumer<FullControlFlag> toggle) {
+        return new FPopupMenu() {
             @Override
             protected void buildMenu() {
                 addItem(new FMenuItem("- " + Forge.getLocalizer().getMessage("lblFullControl") + " -", null, false));
-                addItem(getFullControlMenuEntry("lblChooseCostOrder", FullControlFlag.ChooseCostOrder, controlFlags));
-                addItem(getFullControlMenuEntry("lblChooseCostReductionOrder", FullControlFlag.ChooseCostReductionOrderAndVariableAmount, controlFlags));
-                addItem(getFullControlMenuEntry("lblNoPaymentFromManaAbility", FullControlFlag.NoPaymentFromManaAbility, controlFlags));
-                addItem(getFullControlMenuEntry("lblNoFreeCombatCostHandling", FullControlFlag.NoFreeCombatCostHandling, controlFlags));
-                addItem(getFullControlMenuEntry("lblAllowPaymentStartWithMissingResources", FullControlFlag.AllowPaymentStartWithMissingResources, controlFlags));
-                addItem(getFullControlMenuEntry("lblLayerTimestampOrder", FullControlFlag.LayerTimestampOrder, controlFlags));
+                addItem(getFullControlMenuEntry("lblChooseCostOrder", FullControlFlag.ChooseCostOrder, checkedFlags, toggle));
+                addItem(getFullControlMenuEntry("lblChooseCostReductionOrder", FullControlFlag.ChooseCostReductionOrderAndVariableAmount, checkedFlags, toggle));
+                addItem(getFullControlMenuEntry("lblNoPaymentFromManaAbility", FullControlFlag.NoPaymentFromManaAbility, checkedFlags, toggle));
+                addItem(getFullControlMenuEntry("lblNoFreeCombatCostHandling", FullControlFlag.NoFreeCombatCostHandling, checkedFlags, toggle));
+                addItem(getFullControlMenuEntry("lblAllowPaymentStartWithMissingResources", FullControlFlag.AllowPaymentStartWithMissingResources, checkedFlags, toggle));
+                addItem(getFullControlMenuEntry("lblLayerTimestampOrder", FullControlFlag.LayerTimestampOrder, checkedFlags, toggle));
             }
         };
-
-       menu.show(getView(), getView().getPlayerPanel(selected).localToScreenX(x), getView().getPlayerPanel(selected).localToScreenY(y));        
     }
 
-    private FCheckBoxMenuItem getFullControlMenuEntry(String label, FullControlFlag flag, Set<FullControlFlag> controlFlags) {
-        return new FCheckBoxMenuItem(Forge.getLocalizer().getMessage(label), controlFlags.contains(flag),
-                e -> {
-                    if (controlFlags.contains(flag)) {
-                        controlFlags.remove(flag);
-                    } else {
-                        controlFlags.add(flag);
-                    }
-                });
+    private FCheckBoxMenuItem getFullControlMenuEntry(String label, FullControlFlag flag,
+                                                     Set<FullControlFlag> checkedFlags, Consumer<FullControlFlag> toggle) {
+        return new FCheckBoxMenuItem(Forge.getLocalizer().getMessage(label), checkedFlags.contains(flag),
+                e -> toggle.accept(flag));
     }
 
     private ReconnectModals.ReconnectingHandle reconnectingHandle;
