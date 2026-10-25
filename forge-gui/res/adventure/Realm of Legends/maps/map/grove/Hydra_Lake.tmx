@@ -73,9 +73,9 @@
    <properties>
     <property name="dialog">[
   {
-    &quot;text&quot;:&quot;WARNING: MANY HEADS AHEAD&quot;,
+    &quot;text&quot;:&quot;WARNING: MANY HEADS AHEAD&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.045&quot;,
     &quot;options&quot;:[
-      { &quot;name&quot;:&quot;Leave&quot; }
+      { &quot;name&quot;:&quot;Leave&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.046&quot; }
 ]
 }
 ]</property>
@@ -133,9 +133,9 @@
 {
    &quot;text&quot;: &quot;A pristine, shimmering lake is visible ahead of you, surrounded by tall pines. It seems like quite a peaceful place, at least until you spot massive, multiheaded creatures walking about in the distance on the isle in the lake's center.
 
-Your manasight stone glows, sensing the power of the legends here.&quot;,
+Your manasight stone glows, sensing the power of the legends here.&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.047&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -144,9 +144,9 @@ Your manasight stone glows, sensing the power of the legends here.&quot;,
    <properties>
     <property name="dialog">[
 {
-   &quot;text&quot;: &quot;Finally, you have found the most vicious-looking hydra of them all, every one of its heads trained intently upon you, ready to strike viciously in an instant.&quot;,
+   &quot;text&quot;: &quot;Finally, you have found the most vicious-looking hydra of them all, every one of its heads trained intently upon you, ready to strike viciously in an instant.&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.048&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>

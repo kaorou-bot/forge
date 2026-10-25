@@ -84,9 +84,9 @@
    <properties>
     <property name="defeatDialog">[
 	{
-	   &quot;text&quot;: &quot;Your final blow sends Akul crashing down from his flight, and before he can get out any pithy final words, he splashes down into the lava, his body quickly burnt to ash.&quot;,
+	   &quot;text&quot;: &quot;Your final blow sends Akul crashing down from his flight, and before he can get out any pithy final words, he splashes down into the lava, his body quickly burnt to ash.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.185&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 	}
 	]</property>
     <property name="effect" value="{ &quot;startBattleWithCard&quot;: [ &quot;Diamond Valley|ARN&quot;, &quot;Hellspur Posse Boss|OTJ&quot;, &quot;Brimstone Roundup|OTJ&quot;, &quot;Boom Box|OTJ&quot;, &quot;Bandit's Haul|OTJ&quot;, &quot;Lavaspur Boots|OTJ&quot;, &quot;Key to the Vault|OTJ&quot;  ] }"/>
@@ -182,9 +182,9 @@
    <properties>
     <property name="dialog">[
 {
-   &quot;text&quot;: &quot;The interior of the sanctum is overwhelmingly hot, a sea of lava roiling around you. Laughter and screams can be heard above a general chaotic din of movement and machinery from all around.&quot;,
+   &quot;text&quot;: &quot;The interior of the sanctum is overwhelmingly hot, a sea of lava roiling around you. Laughter and screams can be heard above a general chaotic din of movement and machinery from all around.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.147&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -195,9 +195,9 @@
 {
    &quot;text&quot;: &quot;A scorpion-dragon hybrid hovers before you, clad in black. His voice is bellowing and rough.
 
-'So, you're the one who's been roughing up my hellspurs. I'd say you'd regret the day you crossed Akul the Unrepentant, but you won't live long enough for regrets.'&quot;,
+'So, you're the one who's been roughing up my hellspurs. I'd say you'd regret the day you crossed Akul the Unrepentant, but you won't live long enough for regrets.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.056&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -206,9 +206,9 @@
    <properties>
     <property name="defeatDialog">[
 	{
-	   &quot;text&quot;: &quot;Your final blow sends Akul crashing down from his flight, and before he can get out any pithy final words, he splashes down into the lava, his body quickly burnt to ash.&quot;,
+	   &quot;text&quot;: &quot;Your final blow sends Akul crashing down from his flight, and before he can get out any pithy final words, he splashes down into the lava, his body quickly burnt to ash.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.185&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 	}
 	]</property>
     <property name="effect" value="{ &quot;startBattleWithCard&quot;: [ &quot;Diamond Valley|ARN&quot;, &quot;Brimstone Roundup|OTJ&quot;, &quot;Boom Box|OTJ&quot;, &quot;Bandit's Haul|OTJ&quot;, &quot;Lavaspur Boots|OTJ&quot;, &quot;Key to the Vault|OTJ&quot;  ] }"/>

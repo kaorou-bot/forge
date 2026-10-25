@@ -69,9 +69,44 @@ public class AssetsDownloader {
         final String apkSize = "12MB";
 
         final boolean isSnapshots = versionString.contains("SNAPSHOT");
-        boolean connectedToInternet = Forge.getDeviceAdapter().isConnectedToInternet();
+        // Android's network callback may still be stale immediately after relaunch.
+        // Reach the actual update server instead of treating that hint as a veto.
+        boolean connectedToInternet = GuiBase.isAndroid() || Forge.getDeviceAdapter().isConnectedToInternet();
         UpdateManifest mirrorManifest = null;
-        if (connectedToInternet) {
+        if (GuiBase.isAndroid()) {
+            while (true) {
+                try {
+                    if (!ForgeUpdateConfig.isMirrorEnabled()) {
+                        throw new IOException("Community update mirror is disabled");
+                    }
+                    mirrorManifest = UpdateManifest.load(ForgeUpdateConfig.getManifestUrl());
+                    if (!mirrorManifest.assets().isPresent()
+                            && !AndroidStartupFiles.hasUsableResources(Paths.get(ASSETS_DIR))) {
+                        throw new IOException("Update manifest has no resource package");
+                    }
+                    break;
+                } catch (Exception e) {
+                    System.err.println("[startup] Resource update server check failed: " + e);
+                    if (AndroidStartupFiles.hasUsableResources(Paths.get(ASSETS_DIR))) {
+                        run(runnable);
+                        return;
+                    }
+                    Forge.getSplashScreen().prepareForDialogs();
+                    int choice = SOptionPane.showOptionDialog(
+                            Forge.getLocalizer().getMessage("lblResourceServerRetry"),
+                            Forge.getLocalizer().getMessage("lblUpdateFailed"), null,
+                            ImmutableList.of(Forge.getLocalizer().getMessage("lblRetry"),
+                                    Forge.getLocalizer().getMessage("lblExit")));
+                    if (choice != 0) {
+                        Forge.isMobileAdventureMode = Forge.advStartup;
+                        Forge.exitAnimation(false);
+                        return;
+                    }
+                    Forge.getSplashScreen().getProgressBar().setDescription(
+                            Forge.getLocalizer().getMessage("lblCheckingForUpdates"));
+                }
+            }
+        } else if (connectedToInternet) {
             if (!ForgeUpdateConfig.isMirrorEnabled()) {
                 // This community localization uses its own mirror exclusively. Never fall back
                 // to the upstream release or snapshot servers.

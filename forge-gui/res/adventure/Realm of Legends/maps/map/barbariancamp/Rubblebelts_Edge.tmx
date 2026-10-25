@@ -52,12 +52,12 @@
     <property name="dialog">[
 	{
 		&quot;name&quot;: &quot;&quot;,
-		&quot;text&quot;: &quot;'The guilds need to burn! Smash the system! Tear down the buildings of the oppressors stone by stone!'&quot;,
+		&quot;text&quot;: &quot;'The guilds need to burn! Smash the system! Tear down the buildings of the oppressors stone by stone!'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.031&quot;,
 		&quot;options&quot;:
 			[
 				{
-					&quot;name&quot;: &quot;The guilds are broken.&quot;,
-                    &quot;text&quot;: &quot;'HELL YEAH! LET'S PARTYYYYYYY!!!!!!!'&quot;,
+					&quot;name&quot;: &quot;The guilds are broken.&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.146&quot;,
+                    &quot;text&quot;: &quot;'HELL YEAH! LET'S PARTYYYYYYY!!!!!!!'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.014&quot;,
 					&quot;action&quot;: [ { &quot;deleteMapObject&quot;: -1 },
                     {&quot;grantRewards&quot;: [
 		      {&quot;type&quot;: &quot;item&quot;, &quot;count&quot;: 1, &quot;itemName&quot;: &quot;Gate Smasher&quot;},
@@ -70,20 +70,20 @@
                       ] } ]
                     ,
 					&quot;condition&quot;: [{&quot;item&quot;: &quot;Cloak of Orzhova&quot;}, {&quot;item&quot;: &quot;Cloak of Prahv&quot;}, {&quot;item&quot;: &quot;Cloak of Svogthos&quot;}, {&quot;item&quot;: &quot;Mantle of Dusk&quot;}, {&quot;item&quot;: &quot;Novijen Cloak&quot;}, {&quot;item&quot;: &quot;Rix Maadi Cloak&quot;}, {&quot;item&quot;: &quot;Skargg Cloak&quot;}, {&quot;item&quot;: &quot;Sunhome Cloak&quot;}, {&quot;item&quot;: &quot;Vitu-Ghazi Cloak&quot;}, {&quot;item&quot;: &quot;Nivix Vest&quot;}],
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot; } ]
 				},
 				{
-					&quot;name&quot;: &quot;Hell yeah!&quot;,
-					&quot;text&quot;: &quot;'They said obey and you’ll be happy. They said you’ll be safe. But we’re not safe. We’re not happy. And we will not obey. No peace accord will save Ravnica. You don’t build on rot. You burn it down and start again!'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;So we're smashing the guilds then?&quot;,
-					&quot;text&quot;: &quot;'Hell yeah we are! Kill all ten guild leaders and show me their bloodied cloaks as proof of victory and I'll give you my best stuff as a reward.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;Time to start smashing.&quot; } ]
+					&quot;name&quot;: &quot;Hell yeah!&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.089&quot;,
+					&quot;text&quot;: &quot;'They said obey and you’ll be happy. They said you’ll be safe. But we’re not safe. We’re not happy. And we will not obey. No peace accord will save Ravnica. You don’t build on rot. You burn it down and start again!'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.032&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;So we're smashing the guilds then?&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.127&quot;,
+					&quot;text&quot;: &quot;'Hell yeah we are! Kill all ten guild leaders and show me their bloodied cloaks as proof of victory and I'll give you my best stuff as a reward.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.013&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;Time to start smashing.&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.160&quot; } ]
 					 }]
 				},
                 {
-					&quot;name&quot;: &quot;Yeah sounds a bit too intense for me.&quot;,
-					&quot;text&quot;: &quot;'Go back to licking boots, guildie scum!'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;name&quot;: &quot;Yeah sounds a bit too intense for me.&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.178&quot;,
+					&quot;text&quot;: &quot;'Go back to licking boots, guildie scum!'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.012&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot; } ]
 				}
 			]
 	}
@@ -102,9 +102,9 @@
    <properties>
     <property name="dialog">[
 {
-   &quot;text&quot;: &quot;Rugged foliage grows around the long-destroyed remnants of what was once another developed part of the city-plane of Ravnica. Up ahead, you see someone tending to boar-like beasts, much less aggressive-seeming than you might expect from his appearance.&quot;,
+   &quot;text&quot;: &quot;Rugged foliage grows around the long-destroyed remnants of what was once another developed part of the city-plane of Ravnica. Up ahead, you see someone tending to boar-like beasts, much less aggressive-seeming than you might expect from his appearance.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.123&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>

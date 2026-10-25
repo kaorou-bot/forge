@@ -153,7 +153,9 @@ public class AdventureMapLocalizationTest {
             }
             assertEquals(tokens(translation), tokens(source), key);
             if (key.startsWith("adv.realm.main.") || key.startsWith("adv.oldborder.plot.")
-                    || key.startsWith("adv.oldborder.explore.") || key.startsWith("adv.innistrad.opening.")) {
+                    || key.startsWith("adv.oldborder.explore.") || key.startsWith("adv.innistrad.opening.")
+                    || key.startsWith("adv.realm.redcastle.")
+                    || key.startsWith("adv.realm.greenmirror.")) {
                 addedKeys.add(key);
             }
         }
@@ -240,6 +242,86 @@ public class AdventureMapLocalizationTest {
         assertEquals(dialogMaps, 87);
         assertEquals(addedKeys.stream().filter(key -> key.startsWith("adv.oldborder.explore.")).count(), 181L);
         assertEquals(addedKeys.stream().filter(key -> key.startsWith("adv.innistrad.opening.")).count(), 20L);
+    }
+
+    @Test
+    public void realmRedRegionAndCastleDialogsAreFullyLocalized() throws Exception {
+        language("zh-CN");
+        final Set<String> keys = new HashSet<>();
+        final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+        int dialogMaps = 0;
+        for (String directory : new String[] {"barbariancamp", "main_story/castles"}) {
+            try (var paths = Files.walk(root().resolve("forge-gui/res/adventure/Realm of Legends/maps/map/"
+                    + directory))) {
+                for (Path map : paths.filter(Files::isRegularFile)
+                        .filter(p -> p.toString().endsWith(".tmx") || p.toString().endsWith(".tx")).toList()) {
+                    final NodeList properties = factory.newDocumentBuilder().parse(map.toFile())
+                            .getElementsByTagName("property");
+                    boolean hasDialog = false;
+                    for (int p = 0; p < properties.getLength(); p++) {
+                        final Element property = (Element) properties.item(p);
+                        if (!property.getAttribute("name").toLowerCase(java.util.Locale.ROOT).contains("dialog")) {
+                            continue;
+                        }
+                        final String json = property.hasAttribute("value")
+                                ? property.getAttribute("value") : property.getTextContent();
+                        if (json.isBlank()) {
+                            continue;
+                        }
+                        hasDialog = true;
+                        final JsonValue dialog = new JsonReader().parse(json);
+                        assertUniqueMembers(dialog, map + "/property[" + p + "]");
+                        checkLocalizedDialog(dialog, map.toString(), keys);
+                    }
+                    if (hasDialog) {
+                        dialogMaps++;
+                    }
+                }
+            }
+        }
+        assertEquals(dialogMaps, 36);
+        assertEquals(keys.stream().filter(key -> key.startsWith("adv.realm.redcastle.")).count(), 186L);
+    }
+
+    @Test
+    public void realmGreenRegionAndMirrorDialogsAreFullyLocalized() throws Exception {
+        language("zh-CN");
+        final Set<String> keys = new HashSet<>();
+        final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+        int dialogMaps = 0;
+        for (String directory : new String[] {"grove", "magetower"}) {
+            try (var paths = Files.walk(root().resolve("forge-gui/res/adventure/Realm of Legends/maps/map/"
+                    + directory))) {
+                for (Path map : paths.filter(Files::isRegularFile)
+                        .filter(p -> p.toString().endsWith(".tmx") || p.toString().endsWith(".tx")).toList()) {
+                    final NodeList properties = factory.newDocumentBuilder().parse(map.toFile())
+                            .getElementsByTagName("property");
+                    boolean hasDialog = false;
+                    for (int p = 0; p < properties.getLength(); p++) {
+                        final Element property = (Element) properties.item(p);
+                        if (!property.getAttribute("name").toLowerCase(java.util.Locale.ROOT).contains("dialog")) {
+                            continue;
+                        }
+                        final String json = property.hasAttribute("value")
+                                ? property.getAttribute("value") : property.getTextContent();
+                        if (json.isBlank()) {
+                            continue;
+                        }
+                        hasDialog = true;
+                        final JsonValue dialog = new JsonReader().parse(json);
+                        assertUniqueMembers(dialog, map + "/property[" + p + "]");
+                        checkLocalizedDialog(dialog, map.toString(), keys);
+                    }
+                    if (hasDialog) {
+                        dialogMaps++;
+                    }
+                }
+            }
+        }
+        assertEquals(dialogMaps, 28);
+        assertEquals(keys.stream().filter(key -> key.startsWith("adv.realm.greenmirror.")).count(), 145L);
     }
 
     @Test

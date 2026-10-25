@@ -87,9 +87,9 @@
    <properties>
     <property name="dialog">[
 {
-   &quot;text&quot;: &quot;A chaotic war camp sprawls out before you, barbarians, berserkers, and shamans of all kinds training, making merry, and causing a ruckus all over. Your arrival is met with wild cheers - it seems the residents are excited to have a real fight on their hands! A sign marks this as the territory of Ravnica's Gruul Clans.&quot;,
+   &quot;text&quot;: &quot;A chaotic war camp sprawls out before you, barbarians, berserkers, and shamans of all kinds training, making merry, and causing a ruckus all over. Your arrival is met with wild cheers - it seems the residents are excited to have a real fight on their hands! A sign marks this as the territory of Ravnica's Gruul Clans.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.046&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -173,9 +173,9 @@
   {
     &quot;text&quot;:&quot;TODAY'S AGENDA:
 1. CRUSH THEM!
-2. WE EAT!&quot;,
+2. WE EAT!&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.161&quot;,
     &quot;options&quot;:[
-      { &quot;name&quot;:&quot;Continue&quot; }
+      { &quot;name&quot;:&quot;Continue&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.079&quot; }
 ]
 }
 ]</property>
@@ -190,9 +190,9 @@
    <properties>
     <property name="dialog">[
   {
-    &quot;text&quot;:&quot;NO TERFS ON GRUUL TURF!!!&quot;,
+    &quot;text&quot;:&quot;NO TERFS ON GRUUL TURF!!!&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.117&quot;,
     &quot;options&quot;:[
-      { &quot;name&quot;:&quot;Continue&quot; }
+      { &quot;name&quot;:&quot;Continue&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.079&quot; }
 ]
 }
 ]</property>

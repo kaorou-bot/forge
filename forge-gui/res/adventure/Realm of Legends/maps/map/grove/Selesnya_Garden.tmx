@@ -71,9 +71,9 @@
    <properties>
     <property name="dialog">[
 {
-   &quot;text&quot;: &quot;A meticulously maintained garden blossoms before you, flowery scents and beautiful plants of all shapes and colors filling the space. Prominent signage informs you that this is the territory of Ravnica's Selesnya Conclave.&quot;,
+   &quot;text&quot;: &quot;A meticulously maintained garden blossoms before you, flowery scents and beautiful plants of all shapes and colors filling the space. Prominent signage informs you that this is the territory of Ravnica's Selesnya Conclave.&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.059&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -161,9 +161,9 @@
 {
    &quot;text&quot;: &quot;A trio of dryads emerge from the ground before you.
 
-'This garden may have been torn away from its proper place on Ravnica, but the will of Mat'Selesnya flows through us. You will bow before nature's might!'&quot;,
+'This garden may have been torn away from its proper place on Ravnica, but the will of Mat'Selesnya flows through us. You will bow before nature's might!'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.060&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>

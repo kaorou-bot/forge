@@ -1606,7 +1606,12 @@ public class AdventurePlayer implements Serializable, SaveFileContent {
     }
 
     public boolean isEmptyDeck(int deckIndex) {
-        return decks.get(deckIndex).isEmpty() && decks.get(deckIndex).getName().equals(Forge.getLocalizer().getMessage("lblEmptyDeck"));
+        final Deck candidate = decks.get(deckIndex);
+        // Older Chinese saves used this mistranslated default name for unused slots.
+        // Accept the legacy placeholder without renaming saved or user-created decks.
+        return candidate.isEmpty()
+                && (Forge.getLocalizer().getMessage("lblEmptyDeck").equals(candidate.getName())
+                    || "空甲板".equals(candidate.getName()));
     }
 
     public void removeEvent(AdventureEventData completedEvent) {

@@ -15,6 +15,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Paths;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -91,17 +93,19 @@ public class GuiDownloadZipService extends GuiDownloadService {
     }
 
     public String download(final String filename) {
+        if (progressBar == null) { return null; }
         GuiBase.getInterface().preventSystemSleep(true); //prevent system from going into sleep mode while downloading
-
-        if (progressBar == null)
-            return "";
         progressBar.reset();
         progressBar.setPercentMode(true);
         progressBar.setDescription("Downloading " + desc);
 
+        HttpURLConnection conn = null;
+        Path partial = null;
         try {
             final URL url = new URL(sourceUrl);
-            final HttpURLConnection conn = (HttpURLConnection) url.openConnection(getProxy());
+            conn = (HttpURLConnection) url.openConnection(getProxy());
+            conn.setConnectTimeout(10000);
+            conn.setReadTimeout(30000);
 
             if (url.getPath().endsWith(".php")) {
                 //ensure file can be downloaded if returned from PHP script
@@ -114,7 +118,7 @@ public class GuiDownloadZipService extends GuiDownloadService {
                 return null;
             }
 
-            final long contentLength = conn.getContentLength();
+            final long contentLength = conn.getContentLengthLong();
             if (contentLength == 0) {
                 return null;
             }
@@ -122,15 +126,17 @@ public class GuiDownloadZipService extends GuiDownloadService {
             progressBar.setMaximum(100);
 
             FileUtil.ensureDirectoryExists(destFolder);
-            final String destFile = destFolder + filename;
+            final Path destFile = Paths.get(destFolder, filename);
+            partial = destFile.resolveSibling(destFile.getFileName() + ".part");
+            long total = 0;
+            final long progressLength = expectedSize > 0 ? expectedSize : contentLength;
 
             // input stream to read file - with 8k buffer
             // output stream to write file
             try(InputStream input = new BufferedInputStream(conn.getInputStream(), 8192);
-                OutputStream output = java.nio.file.Files.newOutputStream(Paths.get(destFile))) {
+                OutputStream output = java.nio.file.Files.newOutputStream(partial)) {
 
                 int count;
-                long total = 0;
                 final byte[] data = new byte[1024];
 
                 while ((count = input.read(data)) != -1) {
@@ -139,8 +145,8 @@ public class GuiDownloadZipService extends GuiDownloadService {
                     }
 
                     total += count;
-                    if (progressBar != null)
-                        progressBar.setValue((int) (100 * total / contentLength));
+                    if (progressLength > 0)
+                        progressBar.setValue((int) Math.min(100, 100 * total / progressLength));
                     output.write(data, 0, count);
                 }
 
@@ -148,23 +154,33 @@ public class GuiDownloadZipService extends GuiDownloadService {
             }
 
             if (cancel) {
-                new File(destFile).delete();
                 return null;
             }
 
-            final File downloadedFile = new File(destFile);
+            if (contentLength >= 0 && total != contentLength) {
+                throw new IOException("Download ended before the advertised content length");
+            }
+            final File downloadedFile = partial.toFile();
             if (!UpdateManifest.verify(downloadedFile, expectedSize, expectedSha256)) {
                 Logger.error("Downloaded file failed size or SHA-256 verification: " + sourceUrl);
-                downloadedFile.delete();
                 return null;
             }
-            return destFile;
+            // A killed process can leave only a .part file. The next attempt starts
+            // it afresh, never treats it as a complete archive or touches installed res.
+            java.nio.file.Files.move(partial, destFile,
+                    StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
+            return destFile.toString();
         }
         catch (final Exception ex) {
             Logger.error(ex, "Error downloading " + desc);
             return null;
         }
         finally {
+            if (conn != null) { conn.disconnect(); }
+            if (partial != null) {
+                try { java.nio.file.Files.deleteIfExists(partial); }
+                catch (IOException e) { Logger.warn(e, "Could not remove incomplete download: " + partial); }
+            }
             GuiBase.getInterface().preventSystemSleep(false);
         }
     }

@@ -121,9 +121,9 @@
 	{
 	   &quot;text&quot;: &quot;Krekno stumbles back from the force of your final strike, landing against the mound of dead goblins that piled up during your battle.
 
-'Looks like da mob life finally caught up wit' me...' With that, his body falls limp and lifeless.&quot;,
+'Looks like da mob life finally caught up wit' me...' With that, his body falls limp and lifeless.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.110&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 	}
 	]</property>
     <property name="effect" value="{ &quot;startBattleWithCard&quot;: [ &quot;Torch Courier|GRN&quot;, &quot;Goblin Burrows|ONS&quot;, &quot;Goblinslide|KTK&quot;, &quot;Goblin Influx Array|YDMU&quot; ] }"/>
@@ -168,9 +168,9 @@
 {
    &quot;text&quot;: &quot;Rivers of lava flow like water through the scorched land ahead. The whoops and yells of goblins can be heard from all over, an invitation to chaotic battle.
 
-Your manasight stone glows brightly, sensing a truly mighty legend in this place.&quot;,
+Your manasight stone glows brightly, sensing a truly mighty legend in this place.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.122&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -181,9 +181,9 @@ Your manasight stone glows brightly, sensing a truly mighty legend in this place
 {
    &quot;text&quot;: &quot;A goblin wearing oddly fashionable clothes stands ahead of you, his easy confidence marking him as different than the others.
 
-'So, youse finally made it. Now normally, I'd put on a bit of a show, see? Feign politeness. Act the good host. Maybe let ya off with just some protection money. But you - you've been makin' a mess of my whole operation. I'd say I'd be sending ya ta sleep wit' da fishes, but there ain't nothin' swimmin' in dese rivers.'&quot;,
+'So, youse finally made it. Now normally, I'd put on a bit of a show, see? Feign politeness. Act the good host. Maybe let ya off with just some protection money. But you - you've been makin' a mess of my whole operation. I'd say I'd be sending ya ta sleep wit' da fishes, but there ain't nothin' swimmin' in dese rivers.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.053&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -231,9 +231,9 @@ Your manasight stone glows brightly, sensing a truly mighty legend in this place
     <property name="dialog">[
   {
     &quot;text&quot;:&quot;GOBLINZ ONLY!!!
-EXCEPT THE MEAT PIE LADY!&quot;,
+EXCEPT THE MEAT PIE LADY!&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.086&quot;,
     &quot;options&quot;:[
-      { &quot;name&quot;:&quot;Continue&quot; }
+      { &quot;name&quot;:&quot;Continue&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.079&quot; }
 ]
 }
 ]</property>
@@ -249,9 +249,9 @@ EXCEPT THE MEAT PIE LADY!&quot;,
 	{
 	   &quot;text&quot;: &quot;Krekno stumbles back from the force of your final strike, landing against the mound of dead goblins that piled up during your battle.
 
-'Looks like da mob life finally caught up wit' me...' With that, his body falls limp and lifeless.&quot;,
+'Looks like da mob life finally caught up wit' me...' With that, his body falls limp and lifeless.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.110&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 	}
 	]</property>
     <property name="effect" value="{ &quot;startBattleWithCard&quot;: [ &quot;Torch Courier|GRN&quot;, &quot;Goblin Burrows|ONS&quot;, &quot;Goblinslide|KTK&quot; ] }"/>

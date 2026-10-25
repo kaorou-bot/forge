@@ -54,9 +54,9 @@
 
 'Ho, traveler! Care to face me? I warn you, Blor's defenses are impervious!'
 
-Your manasight stone glows, sensing the power of the legend here.&quot;,
+Your manasight stone glows, sensing the power of the legend here.&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.003&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>

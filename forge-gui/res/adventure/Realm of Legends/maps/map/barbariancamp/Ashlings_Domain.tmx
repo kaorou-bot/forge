@@ -111,8 +111,8 @@
 {
    &quot;text&quot;: &quot;Lava pools ahead, elementals and goblins dancing about on bridges between it. A twisting purple eclipsed sky twists ahead, a remnant of Lorwyn/Shadowmoor it was drawn from.
 
-Your manasight stone glows, sensing the power of the legends here.&quot;,
-   &quot;options&quot;: [{&quot;name&quot;: &quot;(Continue)&quot;}],
+Your manasight stone glows, sensing the power of the legends here.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.111&quot;,
+   &quot;options&quot;: [{&quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;}],
    &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]
 }
 ]</property>
@@ -122,8 +122,8 @@ Your manasight stone glows, sensing the power of the legends here.&quot;,
    <properties>
     <property name="dialog">[
 {
-   &quot;text&quot;: &quot;A fiery elemental woman stands before you. 'So, you wish to face me? I am no longer merely of flame, ice, or ash. All the limitless elements are at my command!'&quot;,
-   &quot;options&quot;: [{&quot;name&quot;: &quot;(Continue)&quot;}],
+   &quot;text&quot;: &quot;A fiery elemental woman stands before you. 'So, you wish to face me? I am no longer merely of flame, ice, or ash. All the limitless elements are at my command!'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.050&quot;,
+   &quot;options&quot;: [{&quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;}],
    &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]
 }
 ]</property>
@@ -140,8 +140,8 @@ Your manasight stone glows, sensing the power of the legends here.&quot;,
 {
    &quot;text&quot;: &quot;Boggarts dance and canter about ahead.
 
-'Blights to spread! Butters to bread! Smashes on your head!'&quot;,
-   &quot;options&quot;: [{&quot;name&quot;: &quot;(Continue)&quot;}],
+'Blights to spread! Butters to bread! Smashes on your head!'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.075&quot;,
+   &quot;options&quot;: [{&quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;}],
    &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]
 }
 ]</property>

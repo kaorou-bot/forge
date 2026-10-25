@@ -91,9 +91,9 @@
    <properties>
     <property name="dialog">[
 {
-   &quot;text&quot;: &quot;Signs ahead mark this camp the territory of the Mardu Clan of Tarkir. Wild war cries and crackling violet lightning echo and crackle ahead.&quot;,
+   &quot;text&quot;: &quot;Signs ahead mark this camp the territory of the Mardu Clan of Tarkir. Wild war cries and crackling violet lightning echo and crackle ahead.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.126&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -109,9 +109,9 @@
 {
    &quot;text&quot;: &quot;The mighty orc before you scoffs as he looks you over.
 
-'A shame. I was hoping for a challenge.'&quot;,
+'A shame. I was hoping for a challenge.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.149&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -128,10 +128,10 @@
    <properties>
     <property name="dialog">[
 	{
-		&quot;text&quot;: &quot;Hail, {var=player_name}. I see your travels have taken you far. I have been wandering as well, and have acquired some rare spells I am not in need of along the way. Take a look, perhaps they will be of use. Traveling this place does have its costs though, so I cannot simply give you them, but my prices are fair.&quot;,
+		&quot;text&quot;: &quot;Hail, {var=player_name}. I see your travels have taken you far. I have been wandering as well, and have acquired some rare spells I am not in need of along the way. Take a look, perhaps they will be of use. Traveling this place does have its costs though, so I cannot simply give you them, but my prices are fair.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.088&quot;,
 		&quot;options&quot;: [
 			{
-				&quot;name&quot;: &quot;(Continue)&quot; }
+				&quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot; }
 		]
 	}
 ]</property>

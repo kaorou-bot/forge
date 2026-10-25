@@ -34,9 +34,9 @@
    <properties>
     <property name="dialog">[
 {
-   &quot;text&quot;: &quot;Inside this unassuming cave, you see a handful of shady, cloaked figures. They seem to be running some sort of market for powerful spells - the prices are high but the power is undeniable.&quot;,
+   &quot;text&quot;: &quot;Inside this unassuming cave, you see a handful of shady, cloaked figures. They seem to be running some sort of market for powerful spells - the prices are high but the power is undeniable.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.105&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -47,9 +47,9 @@
 {
    &quot;text&quot;: &quot;Separate from the others, a lone figure stands off in an alcove. They call out softly as you approach.
 
-'You want true power? I have a spell here which the ancient mages banned from ever being cast. Don't ask how I got it, but it can be yours... if you have the gold.'&quot;,
+'You want true power? I have a spell here which the ancient mages banned from ever being cast. Don't ask how I got it, but it can be yours... if you have the gold.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.125&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -58,14 +58,14 @@
    <properties>
     <property name="dialog">[
   {
-    &quot;text&quot;: &quot;'The forbidden spell I'm selling is Blood Moon. Its forbidden power can shut down all the nonbasic lands your fiercest foes rely on.'&quot;,
+    &quot;text&quot;: &quot;'The forbidden spell I'm selling is Blood Moon. Its forbidden power can shut down all the nonbasic lands your fiercest foes rely on.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.030&quot;,
     &quot;options&quot;: [
       {
-        &quot;name&quot;: &quot;Let's shake on it. (Spend 100,0000 gold)&quot;,
+        &quot;name&quot;: &quot;Let's shake on it. (Spend 100,0000 gold)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.113&quot;,
         &quot;condition&quot;: [
           { &quot;hasGold&quot;: 100000 }
         ],
-        &quot;text&quot;: &quot;'Pleasure doing business with you.'&quot;,
+        &quot;text&quot;: &quot;'Pleasure doing business with you.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.028&quot;,
         &quot;action&quot;: [
           {
             &quot;addGold&quot;: -100000,
@@ -77,17 +77,17 @@
         ]
       },
       {
-        &quot;name&quot;: &quot;Let's shake on it. (Spend 100,0000 gold)&quot;,
+        &quot;name&quot;: &quot;Let's shake on it. (Spend 100,0000 gold)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.113&quot;,
         &quot;condition&quot;: [
           { &quot;hasGold&quot;: 100000, &quot;not&quot;: true }
         ],
-        &quot;text&quot;: &quot;'You're cash shy, friend. Come back when you've gotten a lot more gold.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+        &quot;text&quot;: &quot;'You're cash shy, friend. Come back when you've gotten a lot more gold.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.040&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot; } ]
       },
 				{
-					&quot;name&quot;: &quot;Too rich for my blood&quot;,
-					&quot;text&quot;: &quot;'If you're lucky, I'll still be here when you change your mind.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;name&quot;: &quot;Too rich for my blood&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.162&quot;,
+					&quot;text&quot;: &quot;'If you're lucky, I'll still be here when you change your mind.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.022&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot; } ]
 				}
     ]
   }
@@ -98,14 +98,14 @@
    <properties>
     <property name="dialog">[
   {
-    &quot;text&quot;: &quot;'I have two spells that provide huge surges of mana for sale. Dockside Extortionist nets you heaps of treasure, and Jeska's Will gives you a powerful mana surge AND cards.'&quot;,
+    &quot;text&quot;: &quot;'I have two spells that provide huge surges of mana for sale. Dockside Extortionist nets you heaps of treasure, and Jeska's Will gives you a powerful mana surge AND cards.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.019&quot;,
     &quot;options&quot;: [
       {
-        &quot;name&quot;: &quot;I want the Dockside Extortionist. (Spend 20,0000 gold)&quot;,
+        &quot;name&quot;: &quot;I want the Dockside Extortionist. (Spend 20,0000 gold)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.095&quot;,
         &quot;condition&quot;: [
           { &quot;hasGold&quot;: 20000 }
         ],
-        &quot;text&quot;: &quot;'Pleasure doing business with you.'&quot;,
+        &quot;text&quot;: &quot;'Pleasure doing business with you.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.028&quot;,
         &quot;action&quot;: [
           {
             &quot;addGold&quot;: -20000,
@@ -116,19 +116,19 @@
         ]
       },
       {
-        &quot;name&quot;: &quot;I want the Dockside Extortionist. (Spend 20,0000 gold)&quot;,
+        &quot;name&quot;: &quot;I want the Dockside Extortionist. (Spend 20,0000 gold)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.095&quot;,
         &quot;condition&quot;: [
           { &quot;hasGold&quot;: 20000, &quot;not&quot;: true }
         ],
-        &quot;text&quot;: &quot;'No gold, no sale.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+        &quot;text&quot;: &quot;'No gold, no sale.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.025&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot; } ]
       },
       {
-        &quot;name&quot;: &quot;I want the Jeska's Will. (Spend 20,0000 gold)&quot;,
+        &quot;name&quot;: &quot;I want the Jeska's Will. (Spend 20,0000 gold)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.097&quot;,
         &quot;condition&quot;: [
           { &quot;hasGold&quot;: 20000 }
         ],
-        &quot;text&quot;: &quot;'Pleasure doing business with you.'&quot;,
+        &quot;text&quot;: &quot;'Pleasure doing business with you.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.028&quot;,
         &quot;action&quot;: [
           {
             &quot;addGold&quot;: -20000,
@@ -139,17 +139,17 @@
         ]
       },
       {
-        &quot;name&quot;: &quot;I want the Jeska's Will. (Spend 20,0000 gold)&quot;,
+        &quot;name&quot;: &quot;I want the Jeska's Will. (Spend 20,0000 gold)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.097&quot;,
         &quot;condition&quot;: [
           { &quot;hasGold&quot;: 20000, &quot;not&quot;: true }
         ],
-        &quot;text&quot;: &quot;'No gold, no sale.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+        &quot;text&quot;: &quot;'No gold, no sale.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.025&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot; } ]
       },
 				{
-					&quot;name&quot;: &quot;Perhaps some other time.&quot;,
-					&quot;text&quot;: &quot;'Come back with heavier pockets.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;name&quot;: &quot;Perhaps some other time.&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.119&quot;,
+					&quot;text&quot;: &quot;'Come back with heavier pockets.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.002&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot; } ]
 				}
     ]
   }
@@ -160,14 +160,14 @@
    <properties>
     <property name="dialog">[
   {
-    &quot;text&quot;: &quot;'I have two powerful spells to find your other best spells. Wheel of Fortune cheaply gives you a new hand, and Imperial Recruiter finds small but powerful creatures when they enter.'&quot;,
+    &quot;text&quot;: &quot;'I have two powerful spells to find your other best spells. Wheel of Fortune cheaply gives you a new hand, and Imperial Recruiter finds small but powerful creatures when they enter.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.018&quot;,
     &quot;options&quot;: [
       {
-        &quot;name&quot;: &quot;I want the Wheel of Fortune. (Spend 20,0000 gold)&quot;,
+        &quot;name&quot;: &quot;I want the Wheel of Fortune. (Spend 20,0000 gold)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.099&quot;,
         &quot;condition&quot;: [
           { &quot;hasGold&quot;: 20000 }
         ],
-        &quot;text&quot;: &quot;'Pleasure doing business with you.'&quot;,
+        &quot;text&quot;: &quot;'Pleasure doing business with you.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.028&quot;,
         &quot;action&quot;: [
           {
             &quot;addGold&quot;: -20000,
@@ -178,19 +178,19 @@
         ]
       },
       {
-        &quot;name&quot;: &quot;I want the Wheel of Fortune. (Spend 20,0000 gold)&quot;,
+        &quot;name&quot;: &quot;I want the Wheel of Fortune. (Spend 20,0000 gold)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.099&quot;,
         &quot;condition&quot;: [
           { &quot;hasGold&quot;: 20000, &quot;not&quot;: true }
         ],
-        &quot;text&quot;: &quot;'No gold, no sale.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+        &quot;text&quot;: &quot;'No gold, no sale.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.025&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot; } ]
       },
       {
-        &quot;name&quot;: &quot;I want the Imperial Recruiter. (Spend 20,0000 gold)&quot;,
+        &quot;name&quot;: &quot;I want the Imperial Recruiter. (Spend 20,0000 gold)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.096&quot;,
         &quot;condition&quot;: [
           { &quot;hasGold&quot;: 20000 }
         ],
-        &quot;text&quot;: &quot;'Pleasure doing business with you.'&quot;,
+        &quot;text&quot;: &quot;'Pleasure doing business with you.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.028&quot;,
         &quot;action&quot;: [
           {
             &quot;addGold&quot;: -20000,
@@ -201,17 +201,17 @@
         ]
       },
       {
-        &quot;name&quot;: &quot;I want the Imperial Recruiter. (Spend 20,0000 gold)&quot;,
+        &quot;name&quot;: &quot;I want the Imperial Recruiter. (Spend 20,0000 gold)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.096&quot;,
         &quot;condition&quot;: [
           { &quot;hasGold&quot;: 20000, &quot;not&quot;: true }
         ],
-        &quot;text&quot;: &quot;'No gold, no sale.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+        &quot;text&quot;: &quot;'No gold, no sale.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.025&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot; } ]
       },
 				{
-					&quot;name&quot;: &quot;Perhaps some other time.&quot;,
-					&quot;text&quot;: &quot;'Come back with heavier pockets.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;name&quot;: &quot;Perhaps some other time.&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.119&quot;,
+					&quot;text&quot;: &quot;'Come back with heavier pockets.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.002&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot; } ]
 				}
     ]
   }
@@ -222,14 +222,14 @@
    <properties>
     <property name="dialog">[
   {
-    &quot;text&quot;: &quot;'I have two powerful spells for sale, one to avoid harm and one to cause it. Deflecting Swat freely turns your opponent's lethal magic on them. Twinflame tyrant is a fierce dragon that doubles your damage.'&quot;,
+    &quot;text&quot;: &quot;'I have two powerful spells for sale, one to avoid harm and one to cause it. Deflecting Swat freely turns your opponent's lethal magic on them. Twinflame tyrant is a fierce dragon that doubles your damage.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.017&quot;,
     &quot;options&quot;: [
       {
-        &quot;name&quot;: &quot;I want the Deflecting Swat. (Spend 20,0000 gold)&quot;,
+        &quot;name&quot;: &quot;I want the Deflecting Swat. (Spend 20,0000 gold)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.094&quot;,
         &quot;condition&quot;: [
           { &quot;hasGold&quot;: 20000 }
         ],
-        &quot;text&quot;: &quot;'Pleasure doing business with you.'&quot;,
+        &quot;text&quot;: &quot;'Pleasure doing business with you.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.028&quot;,
         &quot;action&quot;: [
           {
             &quot;addGold&quot;: -20000,
@@ -240,19 +240,19 @@
         ]
       },
       {
-        &quot;name&quot;: &quot;I want the Deflecting Swat. (Spend 20,0000 gold)&quot;,
+        &quot;name&quot;: &quot;I want the Deflecting Swat. (Spend 20,0000 gold)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.094&quot;,
         &quot;condition&quot;: [
           { &quot;hasGold&quot;: 20000, &quot;not&quot;: true }
         ],
-        &quot;text&quot;: &quot;'No gold, no sale.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+        &quot;text&quot;: &quot;'No gold, no sale.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.025&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot; } ]
       },
       {
-        &quot;name&quot;: &quot;I want the Twinflame Tyrant. (Spend 20,0000 gold)&quot;,
+        &quot;name&quot;: &quot;I want the Twinflame Tyrant. (Spend 20,0000 gold)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.098&quot;,
         &quot;condition&quot;: [
           { &quot;hasGold&quot;: 20000 }
         ],
-        &quot;text&quot;: &quot;'Pleasure doing business with you.'&quot;,
+        &quot;text&quot;: &quot;'Pleasure doing business with you.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.028&quot;,
         &quot;action&quot;: [
           {
             &quot;addGold&quot;: -20000,
@@ -263,17 +263,17 @@
         ]
       },
       {
-        &quot;name&quot;: &quot;I want the Twinflame Tyrant. (Spend 20,0000 gold)&quot;,
+        &quot;name&quot;: &quot;I want the Twinflame Tyrant. (Spend 20,0000 gold)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.098&quot;,
         &quot;condition&quot;: [
           { &quot;hasGold&quot;: 20000, &quot;not&quot;: true }
         ],
-        &quot;text&quot;: &quot;'No gold, no sale.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+        &quot;text&quot;: &quot;'No gold, no sale.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.025&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot; } ]
       },
 				{
-					&quot;name&quot;: &quot;Perhaps some other time.&quot;,
-					&quot;text&quot;: &quot;'Come back with heavier pockets.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;name&quot;: &quot;Perhaps some other time.&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.119&quot;,
+					&quot;text&quot;: &quot;'Come back with heavier pockets.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.002&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot; } ]
 				}
     ]
   }

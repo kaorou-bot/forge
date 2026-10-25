@@ -199,9 +199,9 @@
 {
    &quot;text&quot;: &quot;A stretch of sewer is visible through the darkness ahead. Where water once flowed, viscous slime fills the channels, giving off not the rotten smell of sewage but an oddly acrid chemical scent. Massive bones picked clean of all flesh give warning to the strength of the slimy things that call this place home.
 
-Your manasight stone glows, sensing the power of the legends here.&quot;,
+Your manasight stone glows, sensing the power of the legends here.&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.065&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -232,12 +232,12 @@ Your manasight stone glows, sensing the power of the legends here.&quot;,
     <property name="dialog">[
 	{
 		&quot;name&quot;: &quot;&quot;,
-		&quot;text&quot;: &quot;'Ey you. Gotta dirty job for ya. Can't pay in gold or crystals or what have ya but I got lotsa rare spells I can teach ya.'&quot;,
+		&quot;text&quot;: &quot;'Ey you. Gotta dirty job for ya. Can't pay in gold or crystals or what have ya but I got lotsa rare spells I can teach ya.'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.066&quot;,
 		&quot;options&quot;:
 			[
 				{
-					&quot;name&quot;: &quot;I've cleaned the sewer. Well... sort of.&quot;,
-					&quot;text&quot;: &quot;'Eh, I don't mind regular dirty one bit. Good job squashin. The next generation o' trolls thanks ya for yer service.'&quot;,
+					&quot;name&quot;: &quot;I've cleaned the sewer. Well... sort of.&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.067&quot;,
+					&quot;text&quot;: &quot;'Eh, I don't mind regular dirty one bit. Good job squashin. The next generation o' trolls thanks ya for yer service.'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.068&quot;,
 					&quot;action&quot;: [ { &quot;deleteMapObject&quot;: -1 },
                     {&quot;grantRewards&quot;: [
                         { &quot;type&quot;: &quot;card&quot;, &quot;cardName&quot;: &quot;Bortuk Bonerattle&quot;, &quot;count&quot;: 1 },
@@ -254,17 +254,17 @@ Your manasight stone glows, sensing the power of the legends here.&quot;,
 							}
 						}
 					],
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot; } ]
 				},
 				{
-					&quot;name&quot;: &quot;I don't mind dirty.&quot;,
-					&quot;text&quot;: &quot;'This place may not look like much, but I had big plans for this stretch o' sewer. Gonna resurrect the next generation of trolls down here, I was. But now there's huge slimes and slugs and such all over the damn place. I tried killin' em but they're too... spongey fer my magic. Ye might have better luck though. Kill em' all and I'll give ya that reward I mentioned.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;name&quot;: &quot;I don't mind dirty.&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.069&quot;,
+					&quot;text&quot;: &quot;'This place may not look like much, but I had big plans for this stretch o' sewer. Gonna resurrect the next generation of trolls down here, I was. But now there's huge slimes and slugs and such all over the damn place. I tried killin' em but they're too... spongey fer my magic. Ye might have better luck though. Kill em' all and I'll give ya that reward I mentioned.'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.070&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot; } ]
 				},
                 {
-					&quot;name&quot;: &quot;I don't have time for this.&quot;,
-					&quot;text&quot;: &quot;'Too prissy to get yer hands dirty. I see. Might as well leave this place, its too filthy for your delicateness.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;name&quot;: &quot;I don't have time for this.&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.071&quot;,
+					&quot;text&quot;: &quot;'Too prissy to get yer hands dirty. I see. Might as well leave this place, its too filthy for your delicateness.'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.072&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot; } ]
 				}
 			]
 	}

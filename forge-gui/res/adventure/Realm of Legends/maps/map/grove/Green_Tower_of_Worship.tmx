@@ -121,9 +121,9 @@
 {
    &quot;text&quot;: &quot;A sense of overwhelming reverence fills you as you enter the overgrown church ahead. It is clear you are in the presence of mighty gods, pure embodiments of green mana.
 
-Your manasight stone glows, sensing the power of the legends here.&quot;,
+Your manasight stone glows, sensing the power of the legends here.&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.042&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>

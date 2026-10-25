@@ -34,12 +34,12 @@
     <property name="dialog">[
 	{
 		&quot;name&quot;: &quot;&quot;,
-		&quot;text&quot;: &quot;'Look at what remains of a once abundant and sacred shrine to Gaea. Something must be done to revitalize the land.'&quot;,
+		&quot;text&quot;: &quot;'Look at what remains of a once abundant and sacred shrine to Gaea. Something must be done to revitalize the land.'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.011&quot;,
 		&quot;options&quot;:
 			[
 				{
-					&quot;name&quot;: &quot;I have gathered the prayerbooks for your ritual.&quot;,
-                    &quot;text&quot;: &quot;'Thanks to you, Gaea is saved! The whole world thanks you.'&quot;,
+					&quot;name&quot;: &quot;I have gathered the prayerbooks for your ritual.&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.012&quot;,
+                    &quot;text&quot;: &quot;'Thanks to you, Gaea is saved! The whole world thanks you.'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.013&quot;,
 					&quot;action&quot;: [ { &quot;deleteMapObject&quot;: -1 },
                     {&quot;grantRewards&quot;: [
 		      {&quot;type&quot;: &quot;item&quot;, &quot;count&quot;: 1, &quot;itemName&quot;: &quot;Necklace of Flourishing&quot;},
@@ -51,20 +51,20 @@
                       ] } ]
                     ,
 					&quot;condition&quot;: [{&quot;item&quot;: &quot;Prayerbook of Fertility&quot;}, {&quot;item&quot;: &quot;Prayerbook of Fortunes&quot;}, {&quot;item&quot;: &quot;Prayerbook of Ire&quot;}, {&quot;item&quot;: &quot;Prayerbook of Return&quot;}, {&quot;item&quot;: &quot;Prayerbook of Vigor&quot;}],
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot; } ]
 				},
 				{
-					&quot;name&quot;: &quot;What can I do to help?&quot;,
-					&quot;text&quot;: &quot;'Gaea, the worldsoul, is dying. This place that was once a spring of life has run dry. She can be revived, but it will take power only the gods possess to do it.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;So you want me to kill gods then?&quot;,
-					&quot;text&quot;: &quot;'Exactly. In each biome of this world is a tower of worship. Kill the head god of each tower, and show me their prayerbooks. With all five, I can restore life to Gaea, and give some of her flourishing power to you.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;A tall order, but I'll do my best.&quot; } ]
+					&quot;name&quot;: &quot;What can I do to help?&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.014&quot;,
+					&quot;text&quot;: &quot;'Gaea, the worldsoul, is dying. This place that was once a spring of life has run dry. She can be revived, but it will take power only the gods possess to do it.'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.015&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;So you want me to kill gods then?&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.016&quot;,
+					&quot;text&quot;: &quot;'Exactly. In each biome of this world is a tower of worship. Kill the head god of each tower, and show me their prayerbooks. With all five, I can restore life to Gaea, and give some of her flourishing power to you.'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.017&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;A tall order, but I'll do my best.&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.018&quot; } ]
 					 }]
 				},
                 {
-					&quot;name&quot;: &quot;Feels like this is a lost cause.&quot;,
-					&quot;text&quot;: &quot;'Perhaps. But I will be here if you regain hope.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;name&quot;: &quot;Feels like this is a lost cause.&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.019&quot;,
+					&quot;text&quot;: &quot;'Perhaps. But I will be here if you regain hope.'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.020&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot; } ]
 				}
 			]
 	}
@@ -85,9 +85,9 @@
    <properties>
     <property name="dialog">[
 {
-   &quot;text&quot;: &quot;While some greenery remains, this once lush and verdant clearing is withered and scarred. It seems that whatever blighted the land is still spreading.&quot;,
+   &quot;text&quot;: &quot;While some greenery remains, this once lush and verdant clearing is withered and scarred. It seems that whatever blighted the land is still spreading.&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.021&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>

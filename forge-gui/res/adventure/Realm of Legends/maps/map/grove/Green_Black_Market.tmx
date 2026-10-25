@@ -34,9 +34,9 @@
    <properties>
     <property name="dialog">[
 {
-   &quot;text&quot;: &quot;Inside this unassuming cave, you see a handful of shady, cloaked figures. They seem to be running some sort of market for powerful spells - the prices are high but the power is undeniable.&quot;,
+   &quot;text&quot;: &quot;Inside this unassuming cave, you see a handful of shady, cloaked figures. They seem to be running some sort of market for powerful spells - the prices are high but the power is undeniable.&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.022&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -47,9 +47,9 @@
 {
    &quot;text&quot;: &quot;Separate from the others, a lone figure stands off in an alcove. They call out softly as you approach.
 
-'You want true power? I have a spell here which the ancient mages banned from ever being cast. Don't ask how I got it, but it can be yours... if you have the gold.'&quot;,
+'You want true power? I have a spell here which the ancient mages banned from ever being cast. Don't ask how I got it, but it can be yours... if you have the gold.'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.023&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -58,14 +58,14 @@
    <properties>
     <property name="dialog">[
   {
-    &quot;text&quot;: &quot;'The forbidden spell I'm selling is Natural Order. Sacrifice a green creature and turn it into any other - something small into the fiercest creatures to exist.'&quot;,
+    &quot;text&quot;: &quot;'The forbidden spell I'm selling is Natural Order. Sacrifice a green creature and turn it into any other - something small into the fiercest creatures to exist.'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.024&quot;,
     &quot;options&quot;: [
       {
-        &quot;name&quot;: &quot;Let's shake on it. (Spend 100,0000 gold)&quot;,
+        &quot;name&quot;: &quot;Let's shake on it. (Spend 100,0000 gold)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.025&quot;,
         &quot;condition&quot;: [
           { &quot;hasGold&quot;: 100000 }
         ],
-        &quot;text&quot;: &quot;'Pleasure doing business with you.'&quot;,
+        &quot;text&quot;: &quot;'Pleasure doing business with you.'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.026&quot;,
         &quot;action&quot;: [
           {
             &quot;addGold&quot;: -100000,
@@ -77,17 +77,17 @@
         ]
       },
       {
-        &quot;name&quot;: &quot;Let's shake on it. (Spend 100,0000 gold)&quot;,
+        &quot;name&quot;: &quot;Let's shake on it. (Spend 100,0000 gold)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.025&quot;,
         &quot;condition&quot;: [
           { &quot;hasGold&quot;: 100000, &quot;not&quot;: true }
         ],
-        &quot;text&quot;: &quot;'You're cash shy, friend. Come back when you've gotten a lot more gold.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+        &quot;text&quot;: &quot;'You're cash shy, friend. Come back when you've gotten a lot more gold.'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.027&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot; } ]
       },
 				{
-					&quot;name&quot;: &quot;Too rich for my blood&quot;,
-					&quot;text&quot;: &quot;'If you're lucky, I'll still be here when you change your mind.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;name&quot;: &quot;Too rich for my blood&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.028&quot;,
+					&quot;text&quot;: &quot;'If you're lucky, I'll still be here when you change your mind.'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.029&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot; } ]
 				}
     ]
   }
@@ -98,14 +98,14 @@
    <properties>
     <property name="dialog">[
   {
-    &quot;text&quot;: &quot;'I have two powerful tutors to find what you need. Survival of the Fittest can repeatedly discard creatures to find new better ones and Finale of Devastation can get any creature into play and with enough mana provide a devastating boost to your forces.'&quot;,
+    &quot;text&quot;: &quot;'I have two powerful tutors to find what you need. Survival of the Fittest can repeatedly discard creatures to find new better ones and Finale of Devastation can get any creature into play and with enough mana provide a devastating boost to your forces.'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.030&quot;,
     &quot;options&quot;: [
       {
-        &quot;name&quot;: &quot;I want the Survival of the Fittest. (Spend 20,0000 gold)&quot;,
+        &quot;name&quot;: &quot;I want the Survival of the Fittest. (Spend 20,0000 gold)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.031&quot;,
         &quot;condition&quot;: [
           { &quot;hasGold&quot;: 20000 }
         ],
-        &quot;text&quot;: &quot;'Pleasure doing business with you.'&quot;,
+        &quot;text&quot;: &quot;'Pleasure doing business with you.'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.026&quot;,
         &quot;action&quot;: [
           {
             &quot;addGold&quot;: -20000,
@@ -116,19 +116,19 @@
         ]
       },
       {
-        &quot;name&quot;: &quot;I want the Survival of the Fittest. (Spend 20,0000 gold)&quot;,
+        &quot;name&quot;: &quot;I want the Survival of the Fittest. (Spend 20,0000 gold)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.031&quot;,
         &quot;condition&quot;: [
           { &quot;hasGold&quot;: 20000, &quot;not&quot;: true }
         ],
-        &quot;text&quot;: &quot;'No gold, no sale.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+        &quot;text&quot;: &quot;'No gold, no sale.'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.032&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot; } ]
       },
       {
-        &quot;name&quot;: &quot;I want the Finale of Devastation. (Spend 20,0000 gold)&quot;,
+        &quot;name&quot;: &quot;I want the Finale of Devastation. (Spend 20,0000 gold)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.033&quot;,
         &quot;condition&quot;: [
           { &quot;hasGold&quot;: 20000 }
         ],
-        &quot;text&quot;: &quot;'Pleasure doing business with you.'&quot;,
+        &quot;text&quot;: &quot;'Pleasure doing business with you.'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.026&quot;,
         &quot;action&quot;: [
           {
             &quot;addGold&quot;: -20000,
@@ -139,17 +139,17 @@
         ]
       },
       {
-        &quot;name&quot;: &quot;I want the Finale of Devastation. (Spend 20,0000 gold)&quot;,
+        &quot;name&quot;: &quot;I want the Finale of Devastation. (Spend 20,0000 gold)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.033&quot;,
         &quot;condition&quot;: [
           { &quot;hasGold&quot;: 20000, &quot;not&quot;: true }
         ],
-        &quot;text&quot;: &quot;'No gold, no sale.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+        &quot;text&quot;: &quot;'No gold, no sale.'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.032&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot; } ]
       },
 				{
-					&quot;name&quot;: &quot;Perhaps some other time.&quot;,
-					&quot;text&quot;: &quot;'Come back with heavier pockets.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;name&quot;: &quot;Perhaps some other time.&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.034&quot;,
+					&quot;text&quot;: &quot;'Come back with heavier pockets.'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.035&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot; } ]
 				}
     ]
   }
@@ -160,14 +160,14 @@
    <properties>
     <property name="dialog">[
   {
-    &quot;text&quot;: &quot;'I have two efficient ways to search for any creatures you want. Green Sun's Zenith pulls creatures from your library to the battlefield. Chord of Calling does the same, but faster and your creatures can help pay, but its a bit more expensive up front.'&quot;,
+    &quot;text&quot;: &quot;'I have two efficient ways to search for any creatures you want. Green Sun's Zenith pulls creatures from your library to the battlefield. Chord of Calling does the same, but faster and your creatures can help pay, but its a bit more expensive up front.'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.036&quot;,
     &quot;options&quot;: [
       {
-        &quot;name&quot;: &quot;I want the Green Sun's Zenith. (Spend 20,0000 gold)&quot;,
+        &quot;name&quot;: &quot;I want the Green Sun's Zenith. (Spend 20,0000 gold)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.037&quot;,
         &quot;condition&quot;: [
           { &quot;hasGold&quot;: 20000 }
         ],
-        &quot;text&quot;: &quot;'Pleasure doing business with you.'&quot;,
+        &quot;text&quot;: &quot;'Pleasure doing business with you.'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.026&quot;,
         &quot;action&quot;: [
           {
             &quot;addGold&quot;: -20000,
@@ -178,19 +178,19 @@
         ]
       },
       {
-        &quot;name&quot;: &quot;I want the Green Sun's Zenith. (Spend 20,0000 gold)&quot;,
+        &quot;name&quot;: &quot;I want the Green Sun's Zenith. (Spend 20,0000 gold)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.037&quot;,
         &quot;condition&quot;: [
           { &quot;hasGold&quot;: 20000, &quot;not&quot;: true }
         ],
-        &quot;text&quot;: &quot;'No gold, no sale.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+        &quot;text&quot;: &quot;'No gold, no sale.'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.032&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot; } ]
       },
       {
-        &quot;name&quot;: &quot;I want the Chord of Calling. (Spend 20,0000 gold)&quot;,
+        &quot;name&quot;: &quot;I want the Chord of Calling. (Spend 20,0000 gold)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.038&quot;,
         &quot;condition&quot;: [
           { &quot;hasGold&quot;: 20000 }
         ],
-        &quot;text&quot;: &quot;'Pleasure doing business with you.'&quot;,
+        &quot;text&quot;: &quot;'Pleasure doing business with you.'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.026&quot;,
         &quot;action&quot;: [
           {
             &quot;addGold&quot;: -20000,
@@ -201,17 +201,17 @@
         ]
       },
       {
-        &quot;name&quot;: &quot;I want the Chord of Calling. (Spend 20,0000 gold)&quot;,
+        &quot;name&quot;: &quot;I want the Chord of Calling. (Spend 20,0000 gold)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.038&quot;,
         &quot;condition&quot;: [
           { &quot;hasGold&quot;: 20000, &quot;not&quot;: true }
         ],
-        &quot;text&quot;: &quot;'No gold, no sale.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+        &quot;text&quot;: &quot;'No gold, no sale.'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.032&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot; } ]
       },
 				{
-					&quot;name&quot;: &quot;Perhaps some other time.&quot;,
-					&quot;text&quot;: &quot;'Come back with heavier pockets.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;name&quot;: &quot;Perhaps some other time.&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.034&quot;,
+					&quot;text&quot;: &quot;'Come back with heavier pockets.'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.035&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot; } ]
 				}
     ]
   }
@@ -222,14 +222,14 @@
    <properties>
     <property name="dialog">[
   {
-    &quot;text&quot;: &quot;'I have two powerful sources of card advantage for sale. The Great Henge turns every creature into draw while gaining life, making mana, AND making them stronger. Sylvan Library lets you dig deep for advantage if you pay life, or just reorder things for free.'&quot;,
+    &quot;text&quot;: &quot;'I have two powerful sources of card advantage for sale. The Great Henge turns every creature into draw while gaining life, making mana, AND making them stronger. Sylvan Library lets you dig deep for advantage if you pay life, or just reorder things for free.'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.039&quot;,
     &quot;options&quot;: [
       {
-        &quot;name&quot;: &quot;I want The Great Henge. (Spend 20,0000 gold)&quot;,
+        &quot;name&quot;: &quot;I want The Great Henge. (Spend 20,0000 gold)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.040&quot;,
         &quot;condition&quot;: [
           { &quot;hasGold&quot;: 20000 }
         ],
-        &quot;text&quot;: &quot;'Pleasure doing business with you.'&quot;,
+        &quot;text&quot;: &quot;'Pleasure doing business with you.'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.026&quot;,
         &quot;action&quot;: [
           {
             &quot;addGold&quot;: -20000,
@@ -240,19 +240,19 @@
         ]
       },
       {
-        &quot;name&quot;: &quot;I want The Great Henge. (Spend 20,0000 gold)&quot;,
+        &quot;name&quot;: &quot;I want The Great Henge. (Spend 20,0000 gold)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.040&quot;,
         &quot;condition&quot;: [
           { &quot;hasGold&quot;: 20000, &quot;not&quot;: true }
         ],
-        &quot;text&quot;: &quot;'No gold, no sale.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+        &quot;text&quot;: &quot;'No gold, no sale.'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.032&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot; } ]
       },
       {
-        &quot;name&quot;: &quot;I want the Sylvan Library. (Spend 20,0000 gold)&quot;,
+        &quot;name&quot;: &quot;I want the Sylvan Library. (Spend 20,0000 gold)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.041&quot;,
         &quot;condition&quot;: [
           { &quot;hasGold&quot;: 20000 }
         ],
-        &quot;text&quot;: &quot;'Pleasure doing business with you.'&quot;,
+        &quot;text&quot;: &quot;'Pleasure doing business with you.'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.026&quot;,
         &quot;action&quot;: [
           {
             &quot;addGold&quot;: -20000,
@@ -263,17 +263,17 @@
         ]
       },
       {
-        &quot;name&quot;: &quot;I want the Sylvan Library. (Spend 20,0000 gold)&quot;,
+        &quot;name&quot;: &quot;I want the Sylvan Library. (Spend 20,0000 gold)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.041&quot;,
         &quot;condition&quot;: [
           { &quot;hasGold&quot;: 20000, &quot;not&quot;: true }
         ],
-        &quot;text&quot;: &quot;'No gold, no sale.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+        &quot;text&quot;: &quot;'No gold, no sale.'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.032&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot; } ]
       },
 				{
-					&quot;name&quot;: &quot;Perhaps some other time.&quot;,
-					&quot;text&quot;: &quot;'Come back with heavier pockets.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;name&quot;: &quot;Perhaps some other time.&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.034&quot;,
+					&quot;text&quot;: &quot;'Come back with heavier pockets.'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.035&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot; } ]
 				}
     ]
   }

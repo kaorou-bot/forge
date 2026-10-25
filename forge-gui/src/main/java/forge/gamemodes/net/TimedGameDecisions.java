@@ -9,6 +9,7 @@ import forge.game.spellability.SpellAbility;
 import forge.gui.GuiRequestScope;
 import forge.player.PlayerControllerHuman;
 import forge.util.collect.FCollection;
+import forge.util.StreamUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -78,7 +79,7 @@ public final class TimedGameDecisions implements AutoCloseable {
         synchronized (this) {
             if (closed || !players.containsKey(player)) return;
             if (value) disconnected.remove(player); else disconnected.add(player);
-            pending = activities.stream().filter(a -> a.player.getId() == player).toList();
+            pending = activities.stream().filter(a -> a.player.getId() == player).collect(StreamUtil.toImmutableList());
         }
         if (!value) for (final Activity a : pending) a.continueDisconnected();
     }
@@ -229,7 +230,7 @@ public final class TimedGameDecisions implements AutoCloseable {
             synchronized (this) {
                 if (closed) return;
                 final List<Integer> lost = clock.drainExpiredPlayers();
-                expired = activities.stream().filter(a -> lost.contains(a.player.getId())).toList();
+                expired = activities.stream().filter(a -> lost.contains(a.player.getId())).collect(StreamUtil.toImmutableList());
                 for (final int id : players.keySet()) {
                     final var snapshot = clock.snapshot(id);
                     state.add(new Display(id, ((snapshot.remainingMillis() + 999) / 1000) * 1000, snapshot.running()));

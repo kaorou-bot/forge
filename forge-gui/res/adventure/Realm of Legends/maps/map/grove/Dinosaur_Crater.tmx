@@ -49,9 +49,9 @@
    <properties>
     <property name="defeatDialog">[
 	{
-	   &quot;text&quot;: &quot;With three great dying roars, the colossal dinosaur falls back. The whole valley shakes with the impact as an entire grove of trees is crushed under its weight.&quot;,
+	   &quot;text&quot;: &quot;With three great dying roars, the colossal dinosaur falls back. The whole valley shakes with the impact as an entire grove of trees is crushed under its weight.&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.005&quot;,
 	   &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 	}
 	]</property>
     <property name="effect" value="{&quot;startBattleWithCard&quot;: [&quot;Strider Harness|RIX&quot;, &quot;Jungle Shrine|LCC&quot;, &quot;The Skullspore Nexus|LCI&quot;, &quot;Poetic Ingenuity|LCI&quot;]}"/>
@@ -207,9 +207,9 @@
 {
    &quot;text&quot;: &quot;A vast valley looms before you. Colossal dinosaurs loom over the tops of the ancient trees, the echoes of their heavy footsteps audible even from the great distance. 
 
-Your manasight stone glows brightly, sensing a truly mighty legend in this place.&quot;,
+Your manasight stone glows brightly, sensing a truly mighty legend in this place.&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.006&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -218,9 +218,9 @@ Your manasight stone glows brightly, sensing a truly mighty legend in this place
    <properties>
     <property name="dialog">[
 {
-   &quot;text&quot;: &quot;A colossal dinosaur looms ahead. Three overlapping roars nearly deafen you as each of its trio of heads slavers hungrily.&quot;,
+   &quot;text&quot;: &quot;A colossal dinosaur looms ahead. Three overlapping roars nearly deafen you as each of its trio of heads slavers hungrily.&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.007&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -231,9 +231,9 @@ Your manasight stone glows brightly, sensing a truly mighty legend in this place
 {
    &quot;text&quot;: &quot;A woman stands ahead, guarding a clutch of dinosaur eggs. 
 
-'Your trampling through this valley is over. Proceed, and I will put an end to you.'&quot;,
+'Your trampling through this valley is over. Proceed, and I will put an end to you.'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.008&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -244,9 +244,9 @@ Your manasight stone glows brightly, sensing a truly mighty legend in this place
    <properties>
     <property name="dialog">[
 {
-   &quot;text&quot;: &quot;The dinosaur ahead seems stronger than the others, and perhaps more clever as well. It almost seems to smile as it bears its massive teeth in your direction.&quot;,
+   &quot;text&quot;: &quot;The dinosaur ahead seems stronger than the others, and perhaps more clever as well. It almost seems to smile as it bears its massive teeth in your direction.&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.009&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -255,9 +255,9 @@ Your manasight stone glows brightly, sensing a truly mighty legend in this place
    <properties>
     <property name="dialog">[
 {
-   &quot;text&quot;: &quot;WARNING: Dinosaurs ahead. Do not proceed unless you wish to go extinct as well.&quot;,
+   &quot;text&quot;: &quot;WARNING: Dinosaurs ahead. Do not proceed unless you wish to go extinct as well.&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.010&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot;}]
 }
 ]</property>
    </properties>
@@ -341,9 +341,9 @@ Your manasight stone glows brightly, sensing a truly mighty legend in this place
    <properties>
     <property name="defeatDialog">[
 	{
-	   &quot;text&quot;: &quot;With three great dying roars, the colossal dinosaur falls back. The whole valley shakes with the impact as an entire grove of trees is crushed under its weight.&quot;,
+	   &quot;text&quot;: &quot;With three great dying roars, the colossal dinosaur falls back. The whole valley shakes with the impact as an entire grove of trees is crushed under its weight.&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.005&quot;,
 	   &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 	}
 	]</property>
     <property name="effect" value="{&quot;startBattleWithCard&quot;: [&quot;Strider Harness|RIX&quot;, &quot;Jungle Shrine|LCC&quot;, &quot;Poetic Ingenuity|LCI&quot;]}"/>

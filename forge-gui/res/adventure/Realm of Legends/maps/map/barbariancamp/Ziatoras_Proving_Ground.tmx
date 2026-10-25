@@ -98,9 +98,9 @@
   <object id="103" template="../../../../common/maps/obj/gate.tx" x="386.227" y="224.091" width="26.9091" height="14.9091">
    <properties>
     <property name="dialog">[{
-    &quot;text&quot;:&quot;A gate is blocking the path. It looks like it is opened from elsewhere.&quot;,
+    &quot;text&quot;:&quot;A gate is blocking the path. It looks like it is opened from elsewhere.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.052&quot;,
     &quot;options&quot;:[
-    { &quot;name&quot;:&quot;Continue&quot; } 
+    { &quot;name&quot;:&quot;Continue&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.079&quot; } 
     ]
 }]</property>
    </properties>
@@ -109,18 +109,18 @@
    <properties>
     <property name="dialog">[
   { 
-    &quot;text&quot;:&quot;A big switch is embedded into the wall.&quot;, 
+    &quot;text&quot;:&quot;A big switch is embedded into the wall.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.044&quot;, 
     &quot;options&quot;:[ 
 	{ 
-		&quot;text&quot;:&quot;You hear some loud sounds from the center.&quot;,
+		&quot;text&quot;:&quot;You hear some loud sounds from the center.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.184&quot;,
 		&quot;action&quot;:[{&quot;advanceMapFlag&quot;:&quot;gate&quot;}],
-		&quot;name&quot;:&quot;Flip the switch&quot; 
+		&quot;name&quot;:&quot;Flip the switch&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.085&quot; 
 			&quot;options&quot;:[{
 			&quot;condition&quot;:[{&quot;getMapFlag&quot;:{&quot;key&quot;:&quot;gate&quot;,&quot;op&quot;:&quot;&gt;=&quot;,&quot;val&quot;:2}}],
 			&quot;action&quot;:[{&quot;deleteMapObject&quot;:103}, {&quot;deleteMapObject&quot;:112}, {&quot;deleteMapObject&quot;:-1}],
-			&quot;name&quot;:&quot;Continue&quot; }]
+			&quot;name&quot;:&quot;Continue&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.079&quot; }]
 	},
-	{ &quot;name&quot;:&quot;Leave&quot; } 	
+	{ &quot;name&quot;:&quot;Leave&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.112&quot; } 	
 	] 
 	} 
 	
@@ -131,18 +131,18 @@
    <properties>
     <property name="dialog">[
   { 
-    &quot;text&quot;:&quot;A big switch is embedded into the wall.&quot;, 
+    &quot;text&quot;:&quot;A big switch is embedded into the wall.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.044&quot;, 
     &quot;options&quot;:[ 
 	{ 
-		&quot;text&quot;:&quot;You hear some loud sounds from the center.&quot;,
+		&quot;text&quot;:&quot;You hear some loud sounds from the center.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.184&quot;,
 		&quot;action&quot;:[{&quot;advanceMapFlag&quot;:&quot;gate&quot;}],
-		&quot;name&quot;:&quot;Flip the switch&quot; 
+		&quot;name&quot;:&quot;Flip the switch&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.085&quot; 
 			&quot;options&quot;:[{
 			&quot;condition&quot;:[{&quot;getMapFlag&quot;:{&quot;key&quot;:&quot;gate&quot;,&quot;op&quot;:&quot;&gt;=&quot;,&quot;val&quot;:2}}],
 			&quot;action&quot;:[{&quot;deleteMapObject&quot;:103}, {&quot;deleteMapObject&quot;:112}, {&quot;deleteMapObject&quot;:-1}],
-			&quot;name&quot;:&quot;Continue&quot; }]
+			&quot;name&quot;:&quot;Continue&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.079&quot; }]
 	},
-	{ &quot;name&quot;:&quot;Leave&quot; } 	
+	{ &quot;name&quot;:&quot;Leave&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.112&quot; } 	
 	] 
 	} 
 	
@@ -174,9 +174,9 @@
    <properties>
     <property name="dialog">[
 {
-   &quot;text&quot;: &quot;This building seems to be a huge warehouse stacked with crates and barrels. The sounds of fighting and cheering can be heard from the side rooms, emanating from crowds gathered around a series of makeshift boxing rings.&quot;,
+   &quot;text&quot;: &quot;This building seems to be a huge warehouse stacked with crates and barrels. The sounds of fighting and cheering can be heard from the side rooms, emanating from crowds gathered around a series of makeshift boxing rings.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.157&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -187,9 +187,9 @@
 {
    &quot;text&quot;: &quot;A dragon emerges from a pool of lava as if it was a hot tub. Her voice is surprisingly smooth as she addresses you.
 
-'So, had your fill of fighting the rabble and decided to take on the boss of the Riveteers all on your lonesome? Let's see if you've got what it takes to prove yourself.'&quot;,
+'So, had your fill of fighting the rabble and decided to take on the boss of the Riveteers all on your lonesome? Let's see if you've got what it takes to prove yourself.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.047&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>

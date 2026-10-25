@@ -43,9 +43,9 @@
 {
    &quot;text&quot;: &quot;A four-armed ogre stands before you, each hand blazing with a different color of mana.
 
-'You think you can take my key?! You're far too weak to face the Ur-Dragon! DIE!!!!'&quot;,
+'You think you can take my key?! You're far too weak to face the Ur-Dragon! DIE!!!!'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.051&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -54,9 +54,9 @@
    <properties>
     <property name="defeatDialog">[
 	{
-	   &quot;text&quot;: &quot;As you land your final blow, Yidris begins to glow in with a pulsing radiant light. Seconds later, he is ripped apart from the inside by a chaotic explosion of magical energy. You manage to shield yourself from the worst of it, but you have discovered that the inside of an ogre smells even worse than the outside.&quot;,
+	   &quot;text&quot;: &quot;As you land your final blow, Yidris begins to glow in with a pulsing radiant light. Seconds later, he is ripped apart from the inside by a chaotic explosion of magical energy. You manage to shield yourself from the worst of it, but you have discovered that the inside of an ogre smells even worse than the outside.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.072&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 	}
 	]</property>
     <property name="effect" value="{&quot;startBattleWithCard&quot;: [&quot;Command Tower&quot;, &quot;Exotic Orchard&quot;, &quot;Flamekin Herald&quot;, &quot;Leyline Axe&quot;, &quot;Glint-Eye Nephilim|GPT&quot;]}"/>
@@ -112,9 +112,9 @@
    <properties>
     <property name="defeatDialog">[
 	{
-	   &quot;text&quot;: &quot;As you land your final blow, Yidris begins to glow in with a pulsing radiant light. Seconds later, he is ripped apart from the inside by a chaotic explosion of magical energy. You manage to shield yourself from the worst of it, but you have discovered that the inside of an ogre smells even worse than the outside.&quot;,
+	   &quot;text&quot;: &quot;As you land your final blow, Yidris begins to glow in with a pulsing radiant light. Seconds later, he is ripped apart from the inside by a chaotic explosion of magical energy. You manage to shield yourself from the worst of it, but you have discovered that the inside of an ogre smells even worse than the outside.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.072&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 	}
 	]</property>
     <property name="effect" value="{&quot;startBattleWithCard&quot;: [&quot;Command Tower&quot;, &quot;Flamekin Herald&quot;, &quot;Leyline Axe&quot;, &quot;Glint-Eye Nephilim|GPT&quot;]}"/>

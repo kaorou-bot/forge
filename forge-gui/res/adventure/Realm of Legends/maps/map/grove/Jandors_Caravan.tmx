@@ -51,9 +51,9 @@
 	{
 	   &quot;text&quot;: &quot;Jandor steps back, wiping some blood from his nose.
 
-'A fine battle, and well fought! Let us eat and replenish our strength! And then, shopping!'&quot;,
+'A fine battle, and well fought! Let us eat and replenish our strength! And then, shopping!'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.051&quot;,
 	   &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 	}
 	]</property>
     <property name="effect">{ &quot;startBattleWithCard&quot;: [ &quot;Camel&quot;, &quot;War Elephant&quot;, &quot;Wyluli Wolf&quot;, &quot;Ebony Horse&quot;, &quot;Jandor's Ring&quot;]
@@ -68,9 +68,9 @@
 {
    &quot;text&quot;: &quot;You come across a caravan parked on a roadside. It seems they are gathering food before continuing their journey. A man sitting next to a grand picnic calls out.
 
-'Hail traveler! Come feast with us! We can have a friendly battle as well if you wish, and you can shop some of the exotic items my companions have for sale!'&quot;,
+'Hail traveler! Come feast with us! We can have a friendly battle as well if you wish, and you can shop some of the exotic items my companions have for sale!'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.052&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -81,9 +81,9 @@
 {
    &quot;text&quot;: &quot;As you step down into the little valley, sellers call out from the caravans ahead.
 
-'Fine silks and armors! You won't find these anywhere else! Great prices, wondrous treasures!&quot;,
+'Fine silks and armors! You won't find these anywhere else! Great prices, wondrous treasures!&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.053&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>

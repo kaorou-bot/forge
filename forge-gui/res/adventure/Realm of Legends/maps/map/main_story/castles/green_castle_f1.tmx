@@ -41,9 +41,9 @@
    <properties>
     <property name="defeatDialog">[
 	{
-	   &quot;text&quot;: &quot;The air, once loud with the droning buzz of hundreds of thopters has fallen deathly silent. Breya attempts to fix the catastrophic damage your final blow inflicted, but her spell goes awry and she explodes in a flash of multicolored mana, leaving only lifeless scraps behind.&quot;,
+	   &quot;text&quot;: &quot;The air, once loud with the droning buzz of hundreds of thopters has fallen deathly silent. Breya attempts to fix the catastrophic damage your final blow inflicted, but her spell goes awry and she explodes in a flash of multicolored mana, leaving only lifeless scraps behind.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.135&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 	}
 	]</property>
     <property name="effect" value="{ &quot;startBattleWithCard&quot;: [ &quot;Command Tower&quot;, &quot;Exotic Orchard&quot;, &quot;Yore-Tiller Nephilim&quot;, &quot;Breya's Apprentice&quot;, &quot;Emporium Thopterist&quot; ] }"/>
@@ -61,9 +61,9 @@
 {
    &quot;text&quot;: &quot;A woman whose body has mostly been replaced with metal that courses with crimson lightning stands ahead, the air above her thick with whirring thopters.
 
-'Looking for my key to the Prison of the Ur-Dragon, I take it? You'll have to go through an entire army specifically designed to destroy you!'&quot;,
+'Looking for my key to the Prison of the Ur-Dragon, I take it? You'll have to go through an entire army specifically designed to destroy you!'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.063&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -112,9 +112,9 @@
    <properties>
     <property name="defeatDialog">[
 	{
-	   &quot;text&quot;: &quot;The air, once loud with the droning buzz of hundreds of thopters has fallen deathly silent. Breya attempts to fix the catastrophic damage your final blow inflicted, but her spell goes awry and she explodes in a flash of multicolored mana, leaving only lifeless scraps behind.&quot;,
+	   &quot;text&quot;: &quot;The air, once loud with the droning buzz of hundreds of thopters has fallen deathly silent. Breya attempts to fix the catastrophic damage your final blow inflicted, but her spell goes awry and she explodes in a flash of multicolored mana, leaving only lifeless scraps behind.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.135&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 	}
 	]</property>
     <property name="effect" value="{ &quot;startBattleWithCard&quot;: [ &quot;Command Tower&quot;, &quot;Yore-Tiller Nephilim&quot;, &quot;Breya's Apprentice&quot;, &quot;Emporium Thopterist&quot; ] }"/>

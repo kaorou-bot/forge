@@ -82,9 +82,9 @@
 {
    &quot;text&quot;: &quot;Meloku smiles as you approach the central chamber.
 
-'Well then, {var=player_name}, shall we begin our first duel of many? Good luck. You'll need it.'&quot;,
+'Well then, {var=player_name}, shall we begin our first duel of many? Good luck. You'll need it.'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.133&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -108,9 +108,9 @@
    <properties>
     <property name="dialog">[
   {
-    &quot;text&quot;:&quot;Gallery of the Major Guardians of the Wastes&quot;,
+    &quot;text&quot;:&quot;Gallery of the Major Guardians of the Wastes&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.134&quot;,
     &quot;options&quot;:[
-      { &quot;name&quot;:&quot;Continue&quot; }
+      { &quot;name&quot;:&quot;Continue&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.109&quot; }
 ]
 }
 ]</property>
@@ -120,9 +120,9 @@
    <properties>
     <property name="dialog">[
   {
-    &quot;text&quot;:&quot;Gallery of the Gods of the Wastes&quot;,
+    &quot;text&quot;:&quot;Gallery of the Gods of the Wastes&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.135&quot;,
     &quot;options&quot;:[
-      { &quot;name&quot;:&quot;Continue&quot; }
+      { &quot;name&quot;:&quot;Continue&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.109&quot; }
 ]
 }
 ]</property>
@@ -132,9 +132,9 @@
    <properties>
     <property name="dialog">[
   {
-    &quot;text&quot;:&quot;Gallery of the Ur-Dragon&quot;,
+    &quot;text&quot;:&quot;Gallery of the Ur-Dragon&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.136&quot;,
     &quot;options&quot;:[
-      { &quot;name&quot;:&quot;Continue&quot; }
+      { &quot;name&quot;:&quot;Continue&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.109&quot; }
 ]
 }
 ]</property>
@@ -144,9 +144,9 @@
    <properties>
     <property name="dialog">[
   {
-    &quot;text&quot;:&quot;Gallery of the Eldrazi&quot;,
+    &quot;text&quot;:&quot;Gallery of the Eldrazi&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.137&quot;,
     &quot;options&quot;:[
-      { &quot;name&quot;:&quot;Continue&quot; }
+      { &quot;name&quot;:&quot;Continue&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.109&quot; }
 ]
 }
 ]</property>
@@ -156,9 +156,9 @@
    <properties>
     <property name="dialog">[
   {
-    &quot;text&quot;:&quot;Gallery of the Wasteland Elites&quot;,
+    &quot;text&quot;:&quot;Gallery of the Wasteland Elites&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.138&quot;,
     &quot;options&quot;:[
-      { &quot;name&quot;:&quot;Continue&quot; }
+      { &quot;name&quot;:&quot;Continue&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.109&quot; }
 ]
 }
 ]</property>

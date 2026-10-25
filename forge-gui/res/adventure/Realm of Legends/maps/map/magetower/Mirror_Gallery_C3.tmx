@@ -249,9 +249,9 @@
    <properties>
     <property name="dialog">[
   {
-    &quot;text&quot;:&quot;Gallery of Select Wasteland Elites&quot;,
+    &quot;text&quot;:&quot;Gallery of Select Wasteland Elites&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.139&quot;,
     &quot;options&quot;:[
-      { &quot;name&quot;:&quot;Continue&quot; }
+      { &quot;name&quot;:&quot;Continue&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.109&quot; }
 ]
 }
 ]</property>
@@ -261,9 +261,9 @@
    <properties>
     <property name="dialog">[
   {
-    &quot;text&quot;:&quot;Gallery of the Underworld&quot;,
+    &quot;text&quot;:&quot;Gallery of the Underworld&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.140&quot;,
     &quot;options&quot;:[
-      { &quot;name&quot;:&quot;Continue&quot; }
+      { &quot;name&quot;:&quot;Continue&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.109&quot; }
 ]
 }
 ]</property>
@@ -273,9 +273,9 @@
    <properties>
     <property name="dialog">[
   {
-    &quot;text&quot;:&quot;Gallery of the Legendary Pit Fighters&quot;,
+    &quot;text&quot;:&quot;Gallery of the Legendary Pit Fighters&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.141&quot;,
     &quot;options&quot;:[
-      { &quot;name&quot;:&quot;Continue&quot; }
+      { &quot;name&quot;:&quot;Continue&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.109&quot; }
 ]
 }
 ]</property>
@@ -285,9 +285,9 @@
    <properties>
     <property name="dialog">[
   {
-    &quot;text&quot;:&quot;Gallery of Alara&quot;,
+    &quot;text&quot;:&quot;Gallery of Alara&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.142&quot;,
     &quot;options&quot;:[
-      { &quot;name&quot;:&quot;Continue&quot; }
+      { &quot;name&quot;:&quot;Continue&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.109&quot; }
 ]
 }
 ]</property>
@@ -297,9 +297,9 @@
    <properties>
     <property name="dialog">[
   {
-    &quot;text&quot;:&quot;Gallery of the Elder Dragons&quot;,
+    &quot;text&quot;:&quot;Gallery of the Elder Dragons&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.143&quot;,
     &quot;options&quot;:[
-      { &quot;name&quot;:&quot;Continue&quot; }
+      { &quot;name&quot;:&quot;Continue&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.109&quot; }
 ]
 }
 ]</property>
@@ -309,9 +309,9 @@
    <properties>
     <property name="dialog">[
   {
-    &quot;text&quot;:&quot;Gallery of the Primeval Dragons&quot;,
+    &quot;text&quot;:&quot;Gallery of the Primeval Dragons&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.144&quot;,
     &quot;options&quot;:[
-      { &quot;name&quot;:&quot;Continue&quot; }
+      { &quot;name&quot;:&quot;Continue&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.109&quot; }
 ]
 }
 ]</property>

@@ -48,9 +48,9 @@
 
 'Chandra... don't try to fight them... they're too strong. Let's just go while we still can...'
 
-Shooting you a look of rage, the fiery planeswalker decides to comply, and as quickly as she arrived, she has gone, taking the defeated Nissa with her.&quot;,
+Shooting you a look of rage, the fiery planeswalker decides to comply, and as quickly as she arrived, she has gone, taking the defeated Nissa with her.&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.056&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 	}
 	]</property>
     <property name="effect" value="{&quot;startBattleWithCard&quot;: [&quot;Sword of the Animist|ORI&quot;, &quot;Retreat to Kazandu&quot;, &quot;Lost in the Woods&quot;, &quot;Oran-Rief, the Vastwood|ZEN&quot;, &quot;Bonds of Mortality|OGW&quot;, &quot;Joraga Treespeaker|ROE&quot;]}"/>
@@ -123,9 +123,9 @@ Shooting you a look of rage, the fiery planeswalker decides to comply, and as qu
 {
    &quot;text&quot;: &quot;The trees in the grove ahead are ancient and beautifully maintained. Elves flit about gracefully through the branches, and you are certain you are only seeing them because they want you to.
 
-Your manasight stone glows brightly, sensing a truly mighty legend in this place.&quot;,
+Your manasight stone glows brightly, sensing a truly mighty legend in this place.&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.057&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -142,9 +142,9 @@ Your manasight stone glows brightly, sensing a truly mighty legend in this place
 {
    &quot;text&quot;: &quot;The woman ahead glows with intense green mana and the very land around her swirls at her command.
 
-'So you tread upon this sacred grove? Then I will ensure the grove treads on you in turn.&quot;,
+'So you tread upon this sacred grove? Then I will ensure the grove treads on you in turn.&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.058&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -178,9 +178,9 @@ Your manasight stone glows brightly, sensing a truly mighty legend in this place
 
 'Chandra... don't try to fight them... they're too strong. Let's just go while we still can...'
 
-Shooting you a look of rage, the fiery planeswalker decides to comply, and as quickly as she arrived, she has gone, taking the defeated Nissa with her.&quot;,
+Shooting you a look of rage, the fiery planeswalker decides to comply, and as quickly as she arrived, she has gone, taking the defeated Nissa with her.&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.056&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 	}
 	]</property>
     <property name="effect" value="{&quot;startBattleWithCard&quot;: [&quot;Sword of the Animist|ORI&quot;, &quot;Retreat to Kazandu&quot;, &quot;Lost in the Woods&quot;, &quot;Bonds of Mortality|OGW&quot;, &quot;Joraga Treespeaker|ROE&quot;]}"/>

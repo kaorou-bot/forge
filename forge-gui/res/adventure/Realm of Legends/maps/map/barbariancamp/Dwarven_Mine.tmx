@@ -190,9 +190,9 @@
    <properties>
     <property name="dialog">[
   {
-    &quot;text&quot;:&quot;WARNING: Mine unstable beyond this point. Proceed with caution.&quot;,
+    &quot;text&quot;:&quot;WARNING: Mine unstable beyond this point. Proceed with caution.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.166&quot;,
     &quot;options&quot;:[
-      { &quot;name&quot;:&quot;Continue&quot; }
+      { &quot;name&quot;:&quot;Continue&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.079&quot; }
 ]
 }
 ]</property>
@@ -255,9 +255,9 @@
    <properties>
     <property name="dialog">[
 {
-   &quot;text&quot;: &quot;A vast mine stretches out before you. It is nearly silent but for the distance echo of picks hitting stone. Dwarven runes inscribed on the walls indicate the likely residents of the place.&quot;,
+   &quot;text&quot;: &quot;A vast mine stretches out before you. It is nearly silent but for the distance echo of picks hitting stone. Dwarven runes inscribed on the walls indicate the likely residents of the place.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.062&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -306,12 +306,12 @@
     <property name="dialog">[
 	{
 		&quot;name&quot;: &quot;&quot;,
-		&quot;text&quot;: &quot;'Come, smallfolk. Listen to my tale.'&quot;,
+		&quot;text&quot;: &quot;'Come, smallfolk. Listen to my tale.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.004&quot;,
 		&quot;options&quot;:
 			[
 				{
-					&quot;name&quot;: &quot;I have demolished all the dwarves.&quot;,
-					&quot;text&quot;: &quot;'Wonderful! Wonderful! Now I need to figure out how to actually run this place...'&quot;,
+					&quot;name&quot;: &quot;I have demolished all the dwarves.&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.092&quot;,
+					&quot;text&quot;: &quot;'Wonderful! Wonderful! Now I need to figure out how to actually run this place...'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.038&quot;,
 					&quot;action&quot;: [ { &quot;deleteMapObject&quot;: -1 },
                     {&quot;grantRewards&quot;: [
                         { &quot;type&quot;: &quot;card&quot;, &quot;cardName&quot;: &quot;Bartel Runeaxe&quot;, &quot;count&quot;: 1 },
@@ -327,17 +327,17 @@
 							}
 						}
 					],
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot; } ]
 				},
 				{
-					&quot;name&quot;: &quot;Lets hear your tale then.&quot;,
-					&quot;text&quot;: &quot;'I am Bartel Runeaxe, and this mine is rightfully... mine. But when the mine and myself were stripped from our home plane and brought here, it took me a while to find it. When I got here, dwarves were infesting it. I'd be happy to kill them but I simply don't fit down these tunnels. My magic detects ten intruders. Kill them all and I'll share the bounty of a literal gold mine with you for your help in restoring my rightful property.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;name&quot;: &quot;Lets hear your tale then.&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.114&quot;,
+					&quot;text&quot;: &quot;'I am Bartel Runeaxe, and this mine is rightfully... mine. But when the mine and myself were stripped from our home plane and brought here, it took me a while to find it. When I got here, dwarves were infesting it. I'd be happy to kill them but I simply don't fit down these tunnels. My magic detects ten intruders. Kill them all and I'll share the bounty of a literal gold mine with you for your help in restoring my rightful property.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.015&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot; } ]
 				},
                 {
-					&quot;name&quot;: &quot;I don't have time for this.&quot;,
-					&quot;text&quot;: &quot;'So be it.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;name&quot;: &quot;I don't have time for this.&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.091&quot;,
+					&quot;text&quot;: &quot;'So be it.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.029&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot; } ]
 				}
 			]
 	}

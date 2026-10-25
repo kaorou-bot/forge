@@ -43,9 +43,9 @@
 	{
 	   &quot;text&quot;: &quot;The formerly pristine room is scattered with blood and rubble after your sprawling battle. Your foe staggers back against a wall, your last strike finally too much for her to handle.
 
-'That was... a hell of a final battle...'&quot;,
+'That was... a hell of a final battle...'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.140&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 	}
 	]</property>
     <property name="effect" value="{ &quot;startBattleWithCard&quot;: [ &quot;Command Tower&quot;, &quot;Exotic Orchard&quot;, &quot;Dune-Brood Nephilim&quot;, &quot;Conqueror's Flail&quot; ] }"/>
@@ -104,9 +104,9 @@
 {
    &quot;text&quot;: &quot;A single warrior stands before you, but despite her simple appearance, she radiates raw power.
 
-'Here for the key to the prison of the Ur-Dragon? Well, you won't be the first to die trying to get it. Come on, let's see what you're made of!'&quot;,
+'Here for the key to the prison of the Ur-Dragon? Well, you won't be the first to die trying to get it. Come on, let's see what you're made of!'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.059&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -117,9 +117,9 @@
 	{
 	   &quot;text&quot;: &quot;The formerly pristine room is scattered with blood and rubble after your sprawling battle. Your foe staggers back against a wall, your last strike finally too much for her to handle.
 
-'That was... a hell of a final battle...'&quot;,
+'That was... a hell of a final battle...'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.140&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 	}
 	]</property>
     <property name="effect" value="{ &quot;startBattleWithCard&quot;: [ &quot;Command Tower&quot;, &quot;Dune-Brood Nephilim&quot;, &quot;Conqueror's Flail&quot; ] }"/>

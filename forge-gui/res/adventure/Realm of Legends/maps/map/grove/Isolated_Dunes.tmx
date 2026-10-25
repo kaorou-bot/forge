@@ -38,9 +38,9 @@
    <properties>
     <property name="dialog">[
 {
-   &quot;text&quot;: &quot;A barren expanse of sand stretched before you. Not a soul in sight. The gleam of some mana shards can be seen ahead, but little else, though you do get an ominous feeling of something lurking underground.&quot;,
+   &quot;text&quot;: &quot;A barren expanse of sand stretched before you. Not a soul in sight. The gleam of some mana shards can be seen ahead, but little else, though you do get an ominous feeling of something lurking underground.&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.050&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>

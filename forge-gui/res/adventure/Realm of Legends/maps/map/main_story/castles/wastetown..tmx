@@ -46,11 +46,11 @@
    <properties>
     <property name="dialog">[
 	{
-		&quot;text&quot;: &quot;A big gate is blocking the path.&quot;,
+		&quot;text&quot;: &quot;A big gate is blocking the path.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.043&quot;,
 		&quot;options&quot;: [
-			{ &quot;name&quot;: &quot;Leave&quot; },
+			{ &quot;name&quot;: &quot;Leave&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.112&quot; },
 			{
-				&quot;name&quot;: &quot;Unlock with the five colored keys.&quot;,
+				&quot;name&quot;: &quot;Unlock with the five colored keys.&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.164&quot;,
 				&quot;condition&quot;: [
 					{ &quot;item&quot;: &quot;Blue Key&quot; },
 					{ &quot;item&quot;: &quot;Green Key&quot; },
@@ -58,10 +58,10 @@
 					{ &quot;item&quot;: &quot;White Key&quot; },
 					{ &quot;item&quot;: &quot;Red Key&quot; }
 				],
-				&quot;text&quot;: &quot;The gate is unlocked&quot;,
+				&quot;text&quot;: &quot;The gate is unlocked&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.142&quot;,
 				&quot;options&quot;: [
 					{
-						&quot;name&quot;: &quot;Continue&quot;,
+						&quot;name&quot;: &quot;Continue&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.079&quot;,
 						&quot;action&quot;: [
 							{ &quot;deleteMapObject&quot;: -1 },
 							{ &quot;removeItem&quot;: &quot;Blue Key&quot; },

@@ -69,9 +69,9 @@
    <properties>
     <property name="defeatDialog">[
 	{
-	   &quot;text&quot;: &quot;After a fierce battle, the small but mighty squirrel finally falls. Despite their strength, you do feel a bit bad about picking on something so much smaller than you.&quot;,
+	   &quot;text&quot;: &quot;After a fierce battle, the small but mighty squirrel finally falls. Despite their strength, you do feel a bit bad about picking on something so much smaller than you.&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.095&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 	}
 	]</property>
     <property name="effect" value="{&quot;startBattleWithCard&quot;: [&quot;Oakhollow Village|BLB&quot;,&quot;Mudflat Village|BLB&quot;, &quot;Sword of the Squeak|BLC&quot;, &quot;Squirrel Sovereign|MH2&quot;]}"/>
@@ -195,9 +195,9 @@
 {
    &quot;text&quot;: &quot;A farm spreads out before. The oddest thing about it is that at first it appears deserted, but upon closer inspection dozens and dozens of squirrels skitter about the trees, tending to the nuts growing off them.
 
-Your manasight stone glows brightly, sensing a truly mighty legend in this place.&quot;,
+Your manasight stone glows brightly, sensing a truly mighty legend in this place.&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.096&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -206,9 +206,9 @@ Your manasight stone glows brightly, sensing a truly mighty legend in this place
    <properties>
     <property name="dialog">[
 {
-   &quot;text&quot;: &quot;The squirrel ahead seems much more determined than the others. An aura of glowing mana emanates from them, its size far outstripping that of the squirrel.&quot;,
+   &quot;text&quot;: &quot;The squirrel ahead seems much more determined than the others. An aura of glowing mana emanates from them, its size far outstripping that of the squirrel.&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.097&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -219,9 +219,9 @@ Your manasight stone glows brightly, sensing a truly mighty legend in this place
 {
    &quot;text&quot;: &quot;A colossal scarecrow looms ahead. A horrific voice growls forth.
 
-'It's harvest time.'&quot;,
+'It's harvest time.'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.098&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -296,9 +296,9 @@ Your manasight stone glows brightly, sensing a truly mighty legend in this place
     <property name="dialog">[
   {
     &quot;text&quot;:&quot;'And the ignorant shall fall to the squirrels.'
--Chip 2:54&quot;,
+-Chip 2:54&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.099&quot;,
     &quot;options&quot;:[
-      { &quot;name&quot;:&quot;Leave&quot; }
+      { &quot;name&quot;:&quot;Leave&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.046&quot; }
 ]
 }
 ]</property>
@@ -320,10 +320,10 @@ Your manasight stone glows brightly, sensing a truly mighty legend in this place
    <properties>
     <property name="dialog">[
 	{
-		&quot;text&quot;: &quot;Hail, {var=player_name}. I see your travels have taken you far. I have been wandering as well, and have acquired some rare spells I am not in need of along the way. Take a look, perhaps they will be of use. Traveling this place does have its costs though, so I cannot simply give you them, but my prices are fair.&quot;,
+		&quot;text&quot;: &quot;Hail, {var=player_name}. I see your travels have taken you far. I have been wandering as well, and have acquired some rare spells I am not in need of along the way. Take a look, perhaps they will be of use. Traveling this place does have its costs though, so I cannot simply give you them, but my prices are fair.&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.100&quot;,
 		&quot;options&quot;: [
 			{
-				&quot;name&quot;: &quot;(Continue)&quot; }
+				&quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot; }
 		]
 	}
 ]</property>
@@ -383,9 +383,9 @@ Your manasight stone glows brightly, sensing a truly mighty legend in this place
    <properties>
     <property name="defeatDialog">[
 	{
-	   &quot;text&quot;: &quot;After a fierce battle, the small but mighty squirrel finally falls. Despite their strength, you do feel a bit bad about picking on something so much smaller than you.&quot;,
+	   &quot;text&quot;: &quot;After a fierce battle, the small but mighty squirrel finally falls. Despite their strength, you do feel a bit bad about picking on something so much smaller than you.&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.095&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 	}
 	]</property>
     <property name="effect" value="{&quot;startBattleWithCard&quot;: [&quot;Oakhollow Village|BLB&quot;, &quot;Mudflat Village|BLB&quot;, &quot;Sword of the Squeak|BLC&quot;]}"/>

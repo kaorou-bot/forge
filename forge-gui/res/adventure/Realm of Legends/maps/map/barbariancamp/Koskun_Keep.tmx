@@ -47,9 +47,9 @@
 {
    &quot;text&quot;: &quot;You enter a small keep, kept warm by numerous hearths and furnaces against the chill air outside it. A scarred man stands in its center.
 
-'Hello, trespasser. Let's see if you can kill me. Lots have, but I will say, it never sticks.'&quot;,
+'Hello, trespasser. Let's see if you can kill me. Lots have, but I will say, it never sticks.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.182&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -62,9 +62,9 @@
 
 'A good showing. You're strong. Well, steal my meager gold if you wish. And come back if you want to fight again.'
 
-With that, he walks off to the side and leans against a wall.&quot;,
+With that, he walks off to the side and leans against a wall.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.082&quot;,
 	   &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 	}
 	]</property>
     <property name="effect" value="{&quot;startBattleWithCard&quot;: [&quot;Anaba Bodyguard&quot;, &quot;Ambush Party&quot;, &quot;Koskun Keep&quot;]}"/>

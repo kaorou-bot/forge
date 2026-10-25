@@ -98,9 +98,9 @@
    <properties>
     <property name="dialog">[
 {
-   &quot;text&quot;: &quot;Signs ahead mark this camp the territory of the Temur Clan of Tarkir. Mighty warriors and tame bears run drills ahead. The weather is notably more chill than it was before you entered, almost certainly due to the snow-shrouded peaks which ring the camp.&quot;,
+   &quot;text&quot;: &quot;Signs ahead mark this camp the territory of the Temur Clan of Tarkir. Mighty warriors and tame bears run drills ahead. The weather is notably more chill than it was before you entered, almost certainly due to the snow-shrouded peaks which ring the camp.&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.101&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -116,9 +116,9 @@
 {
    &quot;text&quot;: &quot;A fierce, armored woman stands before you, her blade clad in blue flame.
 
-'You've had your warnings. Now it's time to face the real might of the Temur.'&quot;,
+'You've had your warnings. Now it's time to face the real might of the Temur.'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.102&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -127,10 +127,10 @@
    <properties>
     <property name="dialog">[
 	{
-		&quot;text&quot;: &quot;Hail, {var=player_name}. I see your travels have taken you far. I have been wandering as well, and have acquired some rare spells I am not in need of along the way. Take a look, perhaps they will be of use. Traveling this place does have its costs though, so I cannot simply give you them, but my prices are fair.&quot;,
+		&quot;text&quot;: &quot;Hail, {var=player_name}. I see your travels have taken you far. I have been wandering as well, and have acquired some rare spells I am not in need of along the way. Take a look, perhaps they will be of use. Traveling this place does have its costs though, so I cannot simply give you them, but my prices are fair.&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.100&quot;,
 		&quot;options&quot;: [
 			{
-				&quot;name&quot;: &quot;(Continue)&quot; }
+				&quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot; }
 		]
 	}
 ]</property>

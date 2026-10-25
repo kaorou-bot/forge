@@ -43,9 +43,9 @@
 {
    &quot;text&quot;: &quot;A fearsome phyrexian angel hovers before you, skittering legions of horrors waiting beneath for her orders.
 
-'In the new of New Phyrexia, you will never enter the prison of the Ur-Dragon. Submit to glorious compleation!'&quot;,
+'In the new of New Phyrexia, you will never enter the prison of the Ur-Dragon. Submit to glorious compleation!'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.048&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -56,9 +56,9 @@
 	{
 	   &quot;text&quot;: &quot;Atraxa plummets to the ground from your final strike, colliding with a loud crack. Oil leaks from her barely mobile body as she struggles to get out a few last words.
 
-'Mother of Machines... forgive my imperfection...'&quot;,
+'Mother of Machines... forgive my imperfection...'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.074&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 	}
 	]</property>
     <property name="effect" value="{&quot;startBattleWithCard&quot;: [&quot;Command Tower&quot;, &quot;Exotic Orchard&quot;, &quot;Witch-Maw Nephilim|GPT&quot;, &quot;Tablet of Compleation|ONE&quot;]}"/>
@@ -116,9 +116,9 @@
 	{
 	   &quot;text&quot;: &quot;Atraxa plummets to the ground from your final strike, colliding with a loud crack. Oil leaks from her barely mobile body as she struggles to get out a few last words.
 
-'Mother of Machines... forgive my imperfection...'&quot;,
+'Mother of Machines... forgive my imperfection...'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.074&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 	}
 	]</property>
     <property name="effect" value="{&quot;startBattleWithCard&quot;: [&quot;Command Tower&quot;, &quot;Witch-Maw Nephilim|GPT&quot;, &quot;Tablet of Compleation|ONE&quot;]}"/>

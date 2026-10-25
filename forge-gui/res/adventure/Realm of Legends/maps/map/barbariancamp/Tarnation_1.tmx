@@ -208,9 +208,9 @@
 {
    &quot;text&quot;: &quot;The first thing that you notice upon entering this place is miserable heat, stemming both from dry, desert-like air and a large pool of lava in the distance.
 
-Your manasight stone glows brightly, sensing a truly mighty legend in this place.&quot;,
+Your manasight stone glows brightly, sensing a truly mighty legend in this place.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.139&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -219,9 +219,9 @@ Your manasight stone glows brightly, sensing a truly mighty legend in this place
    <properties>
     <property name="dialog">[
 {
-   &quot;text&quot;: &quot;A truly bizarre foe blocks your way forward, an ooze with numerous arms and legs wearing a hat and clutching numerous weapons.&quot;,
+   &quot;text&quot;: &quot;A truly bizarre foe blocks your way forward, an ooze with numerous arms and legs wearing a hat and clutching numerous weapons.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.061&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -232,9 +232,9 @@ Your manasight stone glows brightly, sensing a truly mighty legend in this place
 {
    &quot;text&quot;: &quot;The smell of smoke and liquor fill the air as you draw closer to the lake of lava. The  crackles of thunder guns interspersed with hooting and hollering aplenty echo from the fortress beyond.
 
-Several outlaws stare at you with greed in their eyes as you continue your approach, chief amongst them a man sitting at the end of a wagon, its interior glowing with sinister magic.&quot;,
+Several outlaws stare at you with greed in their eyes as you continue your approach, chief amongst them a man sitting at the end of a wagon, its interior glowing with sinister magic.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.153&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -244,9 +244,9 @@ Several outlaws stare at you with greed in their eyes as you continue your appro
     <property name="dialog">[
   {
     &quot;text&quot;:&quot;HELLSPUR HEADQUARTERS. 
-TRESPASSERS WILL BE SHOT AND BURNED ALIVE.&quot;,
+TRESPASSERS WILL BE SHOT AND BURNED ALIVE.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.090&quot;,
     &quot;options&quot;:[
-      { &quot;name&quot;:&quot;Continue&quot; }
+      { &quot;name&quot;:&quot;Continue&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.079&quot; }
 ]
 }
 ]</property>
@@ -258,9 +258,9 @@ TRESPASSERS WILL BE SHOT AND BURNED ALIVE.&quot;,
   {
     &quot;text&quot;:&quot;TARNATION.
 OUTLAWS WELCOME.
-LAWMEN STAY OUT.&quot;,
+LAWMEN STAY OUT.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.132&quot;,
     &quot;options&quot;:[
-      { &quot;name&quot;:&quot;Continue&quot; }
+      { &quot;name&quot;:&quot;Continue&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.079&quot; }
 ]
 }
 ]</property>
@@ -278,10 +278,10 @@ LAWMEN STAY OUT.&quot;,
    <properties>
     <property name="dialog">[
 	{
-		&quot;text&quot;: &quot;Hail, {var=player_name}. I see your travels have taken you far. I have been wandering as well, and have acquired some rare spells I am not in need of along the way. Take a look, perhaps they will be of use. Traveling this place does have its costs though, so I cannot simply give you them, but my prices are fair.&quot;,
+		&quot;text&quot;: &quot;Hail, {var=player_name}. I see your travels have taken you far. I have been wandering as well, and have acquired some rare spells I am not in need of along the way. Take a look, perhaps they will be of use. Traveling this place does have its costs though, so I cannot simply give you them, but my prices are fair.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.088&quot;,
 		&quot;options&quot;: [
 			{
-				&quot;name&quot;: &quot;(Continue)&quot; }
+				&quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot; }
 		]
 	}
 ]</property>

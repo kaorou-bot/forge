@@ -150,9 +150,9 @@
 {
    &quot;text&quot;: &quot;A sprawling wilderness spreads out before you. The odd floating rocks hanging overhead in various places make you recall tales of the wild plane of Zendikar, where this place seems to have originally come from.
 
-Your manasight stone glows, sensing the power of the legends here.&quot;,
+Your manasight stone glows, sensing the power of the legends here.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.060&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -180,9 +180,9 @@ Your manasight stone glows, sensing the power of the legends here.&quot;,
 {
    &quot;text&quot;: &quot;A fierce-eyed Kor woman works a forge heated by lava, hammering away at a magnificent blade of stone.
 
-'Another fool come to rob me of my masterwork blades? Back off, or the sword you intend to steal will be the last thing you'll see before I plunge it between your eyes.'&quot;,
+'Another fool come to rob me of my masterwork blades? Back off, or the sword you intend to steal will be the last thing you'll see before I plunge it between your eyes.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.049&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -198,9 +198,9 @@ Your manasight stone glows, sensing the power of the legends here.&quot;,
 
 'Looks like we got ourselves an intruder, Mina!'
 
-'Told you today would be fun, Denn!'&quot;,
+'Told you today would be fun, Denn!'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.081&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -211,9 +211,9 @@ Your manasight stone glows, sensing the power of the legends here.&quot;,
 {
    &quot;text&quot;: &quot;A proud, heavily armored woman stands before you, an angelic halo around her neck.
 
-'So, you stroll into the camp of the Zendikari alliance and expect to just take whatever you wish? You'll find that together our alliance can defeat anyone!'&quot;,
+'So, you stroll into the camp of the Zendikari alliance and expect to just take whatever you wish? You'll find that together our alliance can defeat anyone!'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.055&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>

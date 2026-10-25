@@ -102,6 +102,7 @@ $Keystore = Resolve-RequiredPath $Keystore 'Android signing keystore'
 $buildToolsDirectory = Resolve-RequiredPath (Join-Path $AndroidSdk "build-tools\$BuildToolsVersion") 'Android Build Tools directory' -Container
 $androidJar = Resolve-RequiredPath (Join-Path $AndroidSdk "platforms\android-$androidPlatform\android.jar") 'Android platform android.jar'
 $jar = Resolve-RequiredPath (Join-Path $JavaHome 'bin\jar.exe') 'jar'
+$java = Resolve-RequiredPath (Join-Path $JavaHome 'bin\java.exe') 'java'
 $aapt = Resolve-RequiredPath (Join-Path $buildToolsDirectory 'aapt.exe') 'aapt'
 $d8 = Resolve-RequiredPath (Join-Path $buildToolsDirectory 'd8.bat') 'D8'
 $zipalign = Resolve-RequiredPath (Join-Path $buildToolsDirectory 'zipalign.exe') 'zipalign'
@@ -188,6 +189,9 @@ try {
     Invoke-Checked $d8 @("@$(Convert-ToShortRepoPath $d8ArgumentsFile $repositoryRoot $mapping.Drive)") 'D8'
     $dexFiles = @(Get-ChildItem -LiteralPath $dexDirectory -Filter 'classes*.dex' -File)
     if ($dexFiles.Count -eq 0) { throw 'D8 did not generate classes.dex.' }
+
+    Write-Step 'Reject Android 8-13 incompatible Stream.toList references in generated DEX'
+    Invoke-Checked $java @((Join-Path $scriptDirectory 'VerifyAndroidStreamApi.java'), $dexDirectory) 'Android Stream API compatibility'
 
     Write-Step 'Rebuild Android resources and assemble the complete APK'
     $resourcePackage = Join-Path $stageDirectory "forge-android-$revision.ap_"

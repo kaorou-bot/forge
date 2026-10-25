@@ -119,8 +119,8 @@
    <properties>
     <property name="dialog">[
 {
-   &quot;text&quot;: &quot;A boiling lake of lava ahead gives off sweltering heat, though the dragon slumbering beside it clearly enjoys the warmth. To the east, a rickety keep stands, surrounded by dozens of kobolds.&quot;,
-   &quot;options&quot;: [{&quot;name&quot;: &quot;(Continue)&quot;}],
+   &quot;text&quot;: &quot;A boiling lake of lava ahead gives off sweltering heat, though the dragon slumbering beside it clearly enjoys the warmth. To the east, a rickety keep stands, surrounded by dozens of kobolds.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.045&quot;,
+   &quot;options&quot;: [{&quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;}],
    &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]
 }
 ]</property>
@@ -147,9 +147,9 @@
     <property name="dialog">[
   {
     &quot;text&quot;:&quot;KHER KEEP. 
-POPULATION: 2 to 24 million, depending on how hungry Prossh has been lately.&quot;,
+POPULATION: 2 to 24 million, depending on how hungry Prossh has been lately.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.108&quot;,
     &quot;options&quot;:[
-      { &quot;name&quot;:&quot;Continue&quot; }
+      { &quot;name&quot;:&quot;Continue&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.079&quot; }
 ]
 }
 ]</property>

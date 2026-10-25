@@ -50,9 +50,9 @@
 
 'Someday I'll have my revenge on you... even if I have to claw my way out of hell... I have lots of friends there... it'll be... easy.' 
 
-With that, she finally collapses, dead.&quot;,
+With that, she finally collapses, dead.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.150&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 	}
 	]</property>
     <property name="effect" value="{ &quot;startBattleWithCard&quot;: [ &quot;Tariel, Reckoner of Souls|CMD&quot;, &quot;Nomad Outpost|TDM&quot;, &quot;Swiftfoot Boots&quot;, &quot;Scroll of griselbrand|AVR&quot;, &quot;Scroll of avacyn|AVR&quot;, &quot;Vial of Dragonfire|DTK&quot; ] }"/>
@@ -147,9 +147,9 @@ With that, she finally collapses, dead.&quot;,
 {
    &quot;text&quot;: &quot;As you step inside, heat emanates from all around. A discordant overlap of angelic song and demonic chanting is punctuated by groundshaking draconic roars. A great deal of powerful creatures are crammed into the relatively small church ahead, making the feeling of being out of your depth unignorable.
 
-Your manasight stone glows brightly, sensing a truly mighty legend in this place.&quot;,
+Your manasight stone glows brightly, sensing a truly mighty legend in this place.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.073&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -160,9 +160,9 @@ Your manasight stone glows brightly, sensing a truly mighty legend in this place
 {
    &quot;text&quot;: &quot;You approach a woman with two sets of wings, leaning against a pulpit. 
 
-'I command the heavens above, the hells below, and the mountains between! You may have defeated each of these mighty forces alone, but you will fall before all three at once!'&quot;,
+'I command the heavens above, the hells below, and the mountains between! You may have defeated each of these mighty forces alone, but you will fall before all three at once!'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.179&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -208,9 +208,9 @@ Your manasight stone glows brightly, sensing a truly mighty legend in this place
 
 'Someday I'll have my revenge on you... even if I have to claw my way out of hell... I have lots of friends there... it'll be... easy.' 
 
-With that, she finally collapses, dead.&quot;,
+With that, she finally collapses, dead.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.150&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 	}
 	]</property>
     <property name="effect" value="{ &quot;startBattleWithCard&quot;: [ &quot;Nomad Outpost|TDM&quot;, &quot;Swiftfoot Boots&quot;, &quot;Scroll of griselbrand|AVR&quot;, &quot;Scroll of avacyn|AVR&quot;, &quot;Vial of Dragonfire|DTK&quot; ] }"/>

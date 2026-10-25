@@ -111,9 +111,9 @@
 {
    &quot;text&quot;: &quot;The classrom ahead of you smells strongly of smoke and incense, odd artistic flourishes visible all over it. At the class's front, a dragon pauses its lecture and gives you a derisive glare.
 
-'Prismari isn't accepting new students at the moment. Leave now, or you'll become the subject of our latest artistic expression of destruction.'&quot;,
+'Prismari isn't accepting new students at the moment. Leave now, or you'll become the subject of our latest artistic expression of destruction.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.138&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -121,14 +121,14 @@
   <object id="67" template="../../../../common/maps/obj/gate.tx" gid="1073745949" x="287.144" y="216.97" width="34.1665" height="20.1818" rotation="0">
    <properties>
     <property name="dialog">[{
-    &quot;text&quot;:&quot;This gate is locked.&quot;,
+    &quot;text&quot;:&quot;This gate is locked.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.158&quot;,
     &quot;options&quot;:[
-    { &quot;name&quot;: &quot;(Leave)&quot; },
+    { &quot;name&quot;: &quot;(Leave)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.042&quot; },
     {      
-        &quot;name&quot;:&quot;Unlock with Prismari Key&quot;,     
+        &quot;name&quot;:&quot;Unlock with Prismari Key&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.163&quot;,     
         &quot;condition&quot;:[{&quot;item&quot;:&quot;Prismari Key&quot;}],    
-        &quot;text&quot;:&quot;The gate swings open.&quot;,
-        &quot;options&quot;:[{&quot;name&quot;: &quot;Continue&quot;, &quot;action&quot;:[ {&quot;deleteMapObject&quot;: 67}, {&quot;deleteMapObject&quot;: 70},{&quot;removeItem&quot;:&quot;Prismari Key&quot;}]} ]
+        &quot;text&quot;:&quot;The gate swings open.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.144&quot;,
+        &quot;options&quot;:[{&quot;name&quot;: &quot;Continue&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.079&quot;, &quot;action&quot;:[ {&quot;deleteMapObject&quot;: 67}, {&quot;deleteMapObject&quot;: 70},{&quot;removeItem&quot;:&quot;Prismari Key&quot;}]} ]
     }
     ]
 }]</property>

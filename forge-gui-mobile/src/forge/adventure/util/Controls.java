@@ -519,6 +519,7 @@ public class Controls {
         FileHandle skinFile = Config.instance().getFile(Paths.SKIN);
         Skin skin = Forge.getAssets().manager().get(skinFile.path(), Skin.class, false);
         if (skin == null) {
+            Forge.getAssets().manager().setLoader(Skin.class, new AdventureSkinLoader(Config.instance().getLang()));
             Forge.getAssets().manager().load(skinFile.path(), Skin.class);
             Forge.getAssets().manager().finishLoadingAsset(skinFile.path());
             skin = Forge.getAssets().manager().get(skinFile.path(), Skin.class, false);

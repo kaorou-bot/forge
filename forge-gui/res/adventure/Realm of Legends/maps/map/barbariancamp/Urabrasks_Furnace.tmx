@@ -125,8 +125,8 @@
 {
    &quot;text&quot;: &quot;The acrid smoke filling this place is so thick you can barely breathe, and the withering heat makes you feel like nothing so much as that you stepped directly into the middle of a roaring inferno. Blinding flashes of light and the deafening echo of massive machinery completes the sensory assault. Still, you must press on somehow.
 
-Your manasight stone glows, sensing the power of the legends here.&quot;,
-   &quot;options&quot;: [{&quot;name&quot;: &quot;(Continue)&quot;}],
+Your manasight stone glows, sensing the power of the legends here.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.134&quot;,
+   &quot;options&quot;: [{&quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;}],
    &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]
 }
 ]</property>
@@ -166,8 +166,8 @@ Your manasight stone glows, sensing the power of the legends here.&quot;,
 {
    &quot;text&quot;: &quot;The strange master of this accursed furnace stands ahead of you. He turns from his work directing vast vats of molten metal and addresses you directly. 
 
-'All will be reforged in the fires of glory.'&quot;,
-   &quot;options&quot;: [{&quot;name&quot;: &quot;(Continue)&quot;}],
+'All will be reforged in the fires of glory.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.155&quot;,
+   &quot;options&quot;: [{&quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;}],
    &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]
 }
 ]</property>

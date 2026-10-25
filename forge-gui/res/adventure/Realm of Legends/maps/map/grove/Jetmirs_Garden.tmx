@@ -127,9 +127,9 @@
    <properties>
     <property name="dialog">[
 {
-   &quot;text&quot;: &quot;A beautiful, elaborately maintained garden unveils itself before you. Lively jazz music fills the space as various partygoers laugh and chat over glowing drinks of a substance you recognize as the magical drug halo.&quot;,
+   &quot;text&quot;: &quot;A beautiful, elaborately maintained garden unveils itself before you. Lively jazz music fills the space as various partygoers laugh and chat over glowing drinks of a substance you recognize as the magical drug halo.&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.054&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -140,9 +140,9 @@
 {
    &quot;text&quot;: &quot;A large cat-demon stands before you, spreading his arms wide in greeting.
 
-'The Cabaretti welcome you! Lets get this party started!'&quot;,
+'The Cabaretti welcome you! Lets get this party started!'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.055&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>

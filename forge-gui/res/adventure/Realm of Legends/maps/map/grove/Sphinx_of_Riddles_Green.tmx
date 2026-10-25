@@ -57,15 +57,15 @@
     {
     &quot;text&quot;: &quot;You find yourself on a lone platform in a vast starry void. A sphinx sits before you, an altered wolf curled next to him.
 
-'Answer my riddle and be rewarded. Fail it and face my fangs. I will allow you to choose your subject.'&quot;,
+'Answer my riddle and be rewarded. Fail it and face my fangs. I will allow you to choose your subject.'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.073&quot;,
     &quot;options&quot;: [
       {
-        &quot;name&quot;: &quot;Ancient Lore&quot;,
-        &quot;text&quot;: &quot;'Which of the following legends was NOT a participant in the Mirage War of Jamuraa?'&quot;,
+        &quot;name&quot;: &quot;Ancient Lore&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.074&quot;,
+        &quot;text&quot;: &quot;'Which of the following legends was NOT a participant in the Mirage War of Jamuraa?'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.075&quot;,
         &quot;options&quot;: [
           {
-            &quot;name&quot;: &quot;Greven&quot;,
-            &quot;text&quot;: &quot;'Correct. Take this reward for your cleverness and be on your way, lest you test my patience.'&quot;,
+            &quot;name&quot;: &quot;Greven&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.076&quot;,
+            &quot;text&quot;: &quot;'Correct. Take this reward for your cleverness and be on your way, lest you test my patience.'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.077&quot;,
             &quot;action&quot;: [
               {&quot;deleteMapObject&quot;:-1}, 
               {&quot;grantRewards&quot;: [
@@ -75,52 +75,52 @@
                 ]
               }
             ],
-            &quot;options&quot;: [{&quot;name&quot;: &quot;(Continue)&quot;}]
+            &quot;options&quot;: [{&quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot;}]
           },
           {
-            &quot;name&quot;: &quot;Mangara&quot;,
-            &quot;text&quot;: &quot;'Wrong. Now, foolish one, leave this place or I shall devour you.'&quot;,
-            &quot;options&quot;: [{&quot;name&quot;: &quot;Oops&quot;}],
+            &quot;name&quot;: &quot;Mangara&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.078&quot;,
+            &quot;text&quot;: &quot;'Wrong. Now, foolish one, leave this place or I shall devour you.'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.079&quot;,
+            &quot;options&quot;: [{&quot;name&quot;: &quot;Oops&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.080&quot;}],
             &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]
           },
           {
-            &quot;name&quot;: &quot;Kaervek&quot;,
-            &quot;text&quot;: &quot;'Wrong. Now, foolish one, leave this place or I shall devour you.'&quot;,
-            &quot;options&quot;: [{&quot;name&quot;: &quot;Oops&quot;}],
+            &quot;name&quot;: &quot;Kaervek&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.081&quot;,
+            &quot;text&quot;: &quot;'Wrong. Now, foolish one, leave this place or I shall devour you.'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.079&quot;,
+            &quot;options&quot;: [{&quot;name&quot;: &quot;Oops&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.080&quot;}],
             &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]
           },
           {
-            &quot;name&quot;: &quot;Jolrael&quot;,
-            &quot;text&quot;: &quot;'Wrong. Now, foolish one, leave this place or I shall devour you.'&quot;,
-            &quot;options&quot;: [{&quot;name&quot;: &quot;Oops&quot;}],
+            &quot;name&quot;: &quot;Jolrael&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.082&quot;,
+            &quot;text&quot;: &quot;'Wrong. Now, foolish one, leave this place or I shall devour you.'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.079&quot;,
+            &quot;options&quot;: [{&quot;name&quot;: &quot;Oops&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.080&quot;}],
             &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]
           }]
 },
 {
-  &quot;name&quot;: &quot;Planar Lore&quot;,
-  &quot;text&quot;: &quot;'Which animal is the symbol of the only one of Amonkhet's original five gods to survive the Hour of Devastation?'&quot;,
+  &quot;name&quot;: &quot;Planar Lore&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.083&quot;,
+  &quot;text&quot;: &quot;'Which animal is the symbol of the only one of Amonkhet's original five gods to survive the Hour of Devastation?'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.084&quot;,
   &quot;options&quot;: [
     {
-      &quot;name&quot;: &quot;Crocodile&quot;,
-      &quot;text&quot;: &quot;'Wrong. Now, foolish one, leave this place or I shall devour you.'&quot;,
-      &quot;options&quot;: [{&quot;name&quot;: &quot;Oops&quot;}],
+      &quot;name&quot;: &quot;Crocodile&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.085&quot;,
+      &quot;text&quot;: &quot;'Wrong. Now, foolish one, leave this place or I shall devour you.'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.079&quot;,
+      &quot;options&quot;: [{&quot;name&quot;: &quot;Oops&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.080&quot;}],
       &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]
     },
     {
-      &quot;name&quot;: &quot;Caracal&quot;,
-      &quot;text&quot;: &quot;'Wrong. Now, foolish one, leave this place or I shall devour you.'&quot;,
-      &quot;options&quot;: [{&quot;name&quot;: &quot;Oops&quot;}],
+      &quot;name&quot;: &quot;Caracal&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.086&quot;,
+      &quot;text&quot;: &quot;'Wrong. Now, foolish one, leave this place or I shall devour you.'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.079&quot;,
+      &quot;options&quot;: [{&quot;name&quot;: &quot;Oops&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.080&quot;}],
       &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]
     },
     {
-      &quot;name&quot;: &quot;Ibis&quot;,
-      &quot;text&quot;: &quot;'Wrong. Now, foolish one, leave this place or I shall devour you.'&quot;,
-      &quot;options&quot;: [{&quot;name&quot;: &quot;Oops&quot;}],
+      &quot;name&quot;: &quot;Ibis&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.087&quot;,
+      &quot;text&quot;: &quot;'Wrong. Now, foolish one, leave this place or I shall devour you.'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.079&quot;,
+      &quot;options&quot;: [{&quot;name&quot;: &quot;Oops&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.080&quot;}],
       &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]
     },
     {
-      &quot;name&quot;: &quot;Jackal&quot;,
-      &quot;text&quot;: &quot;'Correct. Take this reward for your cleverness and be on your way, lest you test my patience.'&quot;,
+      &quot;name&quot;: &quot;Jackal&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.088&quot;,
+      &quot;text&quot;: &quot;'Correct. Take this reward for your cleverness and be on your way, lest you test my patience.'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.077&quot;,
       &quot;action&quot;: [
         {&quot;deleteMapObject&quot;:-1}, 
         {&quot;grantRewards&quot;: [
@@ -130,34 +130,34 @@
           ]
         }
       ],
-      &quot;options&quot;: [{&quot;name&quot;: &quot;(Continue)&quot;}]
+      &quot;options&quot;: [{&quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot;}]
     }]
 },
 {
-  &quot;name&quot;: &quot;Knowledge of Planeswalkers&quot;,
-  &quot;text&quot;: &quot;'If the planeswalker Wrenn were to have been desparked, she would have been considered a...'&quot;,
+  &quot;name&quot;: &quot;Knowledge of Planeswalkers&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.089&quot;,
+  &quot;text&quot;: &quot;'If the planeswalker Wrenn were to have been desparked, she would have been considered a...'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.090&quot;,
   &quot;options&quot;: [
     {
-      &quot;name&quot;: &quot;Treefolk&quot;,
-      &quot;text&quot;: &quot;'Wrong. Now, foolish one, leave this place or I shall devour you.'&quot;,
-      &quot;options&quot;: [{&quot;name&quot;: &quot;Oops&quot;}],
+      &quot;name&quot;: &quot;Treefolk&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.091&quot;,
+      &quot;text&quot;: &quot;'Wrong. Now, foolish one, leave this place or I shall devour you.'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.079&quot;,
+      &quot;options&quot;: [{&quot;name&quot;: &quot;Oops&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.080&quot;}],
       &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]
     },
     {
-      &quot;name&quot;: &quot;Human&quot;,
-      &quot;text&quot;: &quot;'Wrong. Now, foolish one, leave this place or I shall devour you.'&quot;,
-      &quot;options&quot;: [{&quot;name&quot;: &quot;Oops&quot;}],
+      &quot;name&quot;: &quot;Human&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.092&quot;,
+      &quot;text&quot;: &quot;'Wrong. Now, foolish one, leave this place or I shall devour you.'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.079&quot;,
+      &quot;options&quot;: [{&quot;name&quot;: &quot;Oops&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.080&quot;}],
       &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]
     },
     {
-      &quot;name&quot;: &quot;Elemental&quot;,
-      &quot;text&quot;: &quot;'Wrong. Now, foolish one, leave this place or I shall devour you.'&quot;,
-      &quot;options&quot;: [{&quot;name&quot;: &quot;Oops&quot;}],
+      &quot;name&quot;: &quot;Elemental&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.093&quot;,
+      &quot;text&quot;: &quot;'Wrong. Now, foolish one, leave this place or I shall devour you.'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.079&quot;,
+      &quot;options&quot;: [{&quot;name&quot;: &quot;Oops&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.080&quot;}],
       &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]
     },
     {
-      &quot;name&quot;: &quot;Dryad&quot;,
-      &quot;text&quot;: &quot;'Correct. Take this reward for your cleverness and be on your way, lest you test my patience.'&quot;,
+      &quot;name&quot;: &quot;Dryad&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.094&quot;,
+      &quot;text&quot;: &quot;'Correct. Take this reward for your cleverness and be on your way, lest you test my patience.'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.077&quot;,
       &quot;action&quot;: [
         {&quot;deleteMapObject&quot;:-1}, 
         {&quot;grantRewards&quot;: [
@@ -167,7 +167,7 @@
           ]
         }
       ],
-      &quot;options&quot;: [{&quot;name&quot;: &quot;(Continue)&quot;}]
+      &quot;options&quot;: [{&quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot;}]
     }]
 }
     ]

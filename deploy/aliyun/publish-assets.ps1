@@ -29,6 +29,10 @@ if ($assets.PSIsContainer -or $assets.Length -le 0) {
     throw "Invalid assets archive: $AssetsZip"
 }
 
+# Existing clients create directories only for explicit ZIP directory entries.
+# Reject incompatible packages before any upload or manifest change.
+& (Join-Path $PSScriptRoot '../verify-assets-zip-layout.ps1') -AssetsZip $assets.FullName
+
 $assetsObject = "forge/assets/$Version/$($assets.Name)"
 $manifestObject = "oss://$Bucket/forge/manifest-v1.properties"
 $assetsHash = (Get-FileHash -LiteralPath $assets.FullName -Algorithm SHA256).Hash.ToLowerInvariant()

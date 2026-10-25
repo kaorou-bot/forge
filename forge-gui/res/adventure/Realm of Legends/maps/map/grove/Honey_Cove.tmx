@@ -125,9 +125,9 @@
    <properties>
     <property name="dialog">[
 {
-   &quot;text&quot;: &quot;A vast stretch of woods sprawls out before you. The refreshing scent of pine fills your nose, giving you a sense of peace that is only somewhat lessened by the fact that you see several large bears plodding about in the distance.&quot;,
+   &quot;text&quot;: &quot;A vast stretch of woods sprawls out before you. The refreshing scent of pine fills your nose, giving you a sense of peace that is only somewhat lessened by the fact that you see several large bears plodding about in the distance.&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.043&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -141,9 +141,9 @@
    <properties>
     <property name="dialog">[
 {
-   &quot;text&quot;: &quot;The deliciously sweet smell of honey is thick in the air as you approach a clearing stuffed with a great many jars overflowing with the sticky substance. Its clear the bears who call this place home value the stuff highly.&quot;,
+   &quot;text&quot;: &quot;The deliciously sweet smell of honey is thick in the air as you approach a clearing stuffed with a great many jars overflowing with the sticky substance. Its clear the bears who call this place home value the stuff highly.&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.044&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>

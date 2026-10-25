@@ -57,9 +57,9 @@
 {
    &quot;text&quot;: &quot;The very air in this place is thick with red mana, filling you with overwhelming heat and passion. In front of the lava pools ahead, an insanely muscular man stands, the infamous mox ruby hung around his neck.
 
-Your manasight stone blazes with power, near-blindingly bright.&quot;,
+Your manasight stone blazes with power, near-blindingly bright.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.156&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>

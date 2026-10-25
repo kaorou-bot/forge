@@ -208,9 +208,9 @@
    <properties>
     <property name="dialog">[
 {
-   &quot;text&quot;: &quot;The woods ahead are majestic and the air is filled with the refreshing scent of pine. In the distance, a chorus of wolves howls loudly.&quot;,
+   &quot;text&quot;: &quot;The woods ahead are majestic and the air is filled with the refreshing scent of pine. In the distance, a chorus of wolves howls loudly.&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.110&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -245,12 +245,12 @@
     <property name="dialog">[
 	{
 		&quot;name&quot;: &quot;&quot;,
-		&quot;text&quot;: &quot;'Pst! You there, {var=player_name}! Come here, quickly!'&quot;,
+		&quot;text&quot;: &quot;'Pst! You there, {var=player_name}! Come here, quickly!'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.111&quot;,
 		&quot;options&quot;:
 			[
 				{
-					&quot;name&quot;: &quot;The wolves have howled their last&quot;,
-					&quot;text&quot;: &quot;'Justice is served! Now let us enjoy the rewards of a job well done!'&quot;,
+					&quot;name&quot;: &quot;The wolves have howled their last&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.112&quot;,
+					&quot;text&quot;: &quot;'Justice is served! Now let us enjoy the rewards of a job well done!'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.113&quot;,
 					&quot;action&quot;: [ { &quot;deleteMapObject&quot;: -1 },
                     {&quot;grantRewards&quot;: [
                         { &quot;type&quot;: &quot;card&quot;, &quot;cardName&quot;: &quot;Jacob Hauken, Inspector&quot;, &quot;count&quot;: 1 },
@@ -266,17 +266,17 @@
 							}
 						}
 					],
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot; } ]
 				},
 				{
-					&quot;name&quot;: &quot;Who are you and how do you know my name?&quot;,
-					&quot;text&quot;: &quot;'Why, I'm Jacob Hauken, Innistrad's best investigator! Knowing things is my business. I've tracked down the culprits for a series of brutal murders to this very den! The problem is the culprits are a pack of wolves and werewolves, and I'm not equipped to bring them to justice. So, if you take care of that part, I'll happily split the reward with you!'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;name&quot;: &quot;Who are you and how do you know my name?&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.114&quot;,
+					&quot;text&quot;: &quot;'Why, I'm Jacob Hauken, Innistrad's best investigator! Knowing things is my business. I've tracked down the culprits for a series of brutal murders to this very den! The problem is the culprits are a pack of wolves and werewolves, and I'm not equipped to bring them to justice. So, if you take care of that part, I'll happily split the reward with you!'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.115&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot; } ]
 				},
                 {
-					&quot;name&quot;: &quot;Not interested, weirdo.&quot;,
-					&quot;text&quot;: &quot;'Hmph. Some people.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;name&quot;: &quot;Not interested, weirdo.&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.116&quot;,
+					&quot;text&quot;: &quot;'Hmph. Some people.'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.117&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot; } ]
 				}
 			]
 	}

@@ -43,11 +43,11 @@
     <property name="dialog">[
 	{
 		&quot;name&quot;: &quot;&quot;,
-		&quot;text&quot;: &quot;The gate is sealed by complex wards. While the guardians stand, its impenetrable.&quot;,
+		&quot;text&quot;: &quot;The gate is sealed by complex wards. While the guardians stand, its impenetrable.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.141&quot;,
 		&quot;options&quot;:
 			[
 				{
-					&quot;name&quot;: &quot;With the guardians defeated, you fire a blast of magic to test the gate.&quot;,
+					&quot;name&quot;: &quot;With the guardians defeated, you fire a blast of magic to test the gate.&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.177&quot;,
 					&quot;action&quot;: [ { &quot;deleteMapObject&quot;: 90 }, { &quot;deleteMapObject&quot;: 55 } ],
 					&quot;condition&quot;: [
 						{
@@ -58,13 +58,13 @@
 							}
 						}
 					],
-					&quot;text&quot;: &quot;With a gust of red wind, the door shatters and dissolves into raw mana. You are now free to pass.&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;text&quot;: &quot;With a gust of red wind, the door shatters and dissolves into raw mana. You are now free to pass.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.175&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot; } ]
 				},
 				{
-					&quot;name&quot;: &quot;You attempt to open the gate normally.&quot;,
-					&quot;text&quot;: &quot;The gate remains closed.&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;name&quot;: &quot;You attempt to open the gate normally.&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.180&quot;,
+					&quot;text&quot;: &quot;The gate remains closed.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.143&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot; } ]
 				}
 			]
 	}
@@ -195,9 +195,9 @@
 {
    &quot;text&quot;: &quot;What was once a brutal castle dedicated to red magic is now infused with every other color of mana. The gate ahead has five wards on it, and five guardians stand ready for battle against you. The way forward seems clear.
 
-Your manasight stone glows brightly, sensing a truly mighty legend in this place.&quot;,
+Your manasight stone glows brightly, sensing a truly mighty legend in this place.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.167&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -206,10 +206,10 @@ Your manasight stone glows brightly, sensing a truly mighty legend in this place
    <properties>
     <property name="dialog">[
 	{
-		&quot;text&quot;: &quot;Hail, {var=player_name}. I see you are challenging one of the greatest obstacles of your quest! Well, I have been saving some of my most mythical spells for just such an occasion. See if any strike your fancy.&quot;,
+		&quot;text&quot;: &quot;Hail, {var=player_name}. I see you are challenging one of the greatest obstacles of your quest! Well, I have been saving some of my most mythical spells for just such an occasion. See if any strike your fancy.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.087&quot;,
 		&quot;options&quot;: [
 			{
-				&quot;name&quot;: &quot;(Continue)&quot; }
+				&quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot; }
 		]
 	}
 ]</property>

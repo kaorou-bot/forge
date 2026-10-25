@@ -3,8 +3,13 @@ package forge.util;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -73,8 +78,38 @@ public final class UpdateManifest {
     }
 
     public static UpdateManifest load(final String manifestUrl) throws IOException {
-        final String content = FileUtil.readFileToString(new URL(manifestUrl));
-        if (content == null || content.isBlank()) {
+        // Do not use FileUtil's five-second worker timeout: it can return partial
+        // text and leave a blocked network reader behind after interrupted startup.
+        final URLConnection connection = new URL(manifestUrl).openConnection();
+        connection.setConnectTimeout(10000);
+        connection.setReadTimeout(15000);
+        connection.setUseCaches(false);
+        final String content;
+        try {
+            if (connection instanceof HttpURLConnection http
+                    && http.getResponseCode() != HttpURLConnection.HTTP_OK) {
+                throw new IOException("Update server returned HTTP " + http.getResponseCode());
+            }
+            try (InputStream input = connection.getInputStream();
+                 ByteArrayOutputStream output = new ByteArrayOutputStream()) {
+                byte[] buffer = new byte[8192];
+                int count;
+                while ((count = input.read(buffer)) != -1) {
+                    if (output.size() + count > 1024 * 1024) {
+                        throw new IOException("Update manifest exceeds size limit");
+                    }
+                    output.write(buffer, 0, count);
+                }
+                long expectedLength = connection.getContentLengthLong();
+                if (expectedLength >= 0 && output.size() != expectedLength) {
+                    throw new IOException("Incomplete update manifest");
+                }
+                content = new String(output.toByteArray(), StandardCharsets.UTF_8);
+            }
+        } finally {
+            if (connection instanceof HttpURLConnection http) { http.disconnect(); }
+        }
+        if (content.isBlank()) {
             throw new IOException("Empty update manifest: " + manifestUrl);
         }
         final Properties properties = new Properties();

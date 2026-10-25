@@ -57,21 +57,21 @@
     {
     &quot;text&quot;: &quot;You find yourself on a lone platform in a vast starry void. A fire-maned sphinx sits before you.
 
-'Answer my riddle and be rewarded. Fail it and face my fangs. I will allow you to choose your subject.'&quot;,
+'Answer my riddle and be rewarded. Fail it and face my fangs. I will allow you to choose your subject.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.183&quot;,
     &quot;options&quot;: [
       {
-        &quot;name&quot;: &quot;Ancient Lore&quot;,
-        &quot;text&quot;: &quot;'Which of these legends was NEVER a member of the crew of the original skyship Weatherlight?'&quot;,
+        &quot;name&quot;: &quot;Ancient Lore&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.069&quot;,
+        &quot;text&quot;: &quot;'Which of these legends was NEVER a member of the crew of the original skyship Weatherlight?'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.036&quot;,
         &quot;options&quot;: [
           {
-            &quot;name&quot;: &quot;Crovax&quot;,
-            &quot;text&quot;: &quot;'Wrong. Now, foolish one, leave this place or I shall devour you.'&quot;,
-            &quot;options&quot;: [{&quot;name&quot;: &quot;Oops&quot;}],
+            &quot;name&quot;: &quot;Crovax&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.080&quot;,
+            &quot;text&quot;: &quot;'Wrong. Now, foolish one, leave this place or I shall devour you.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.039&quot;,
+            &quot;options&quot;: [{&quot;name&quot;: &quot;Oops&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.118&quot;}],
             &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]
           },
           {
-            &quot;name&quot;: &quot;Selenia&quot;,
-            &quot;text&quot;: &quot;'Correct. Take this reward for your cleverness and be on your way, lest you test my patience.'&quot;,
+            &quot;name&quot;: &quot;Selenia&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.124&quot;,
+            &quot;text&quot;: &quot;'Correct. Take this reward for your cleverness and be on your way, lest you test my patience.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.005&quot;,
             &quot;action&quot;: [
               {&quot;deleteMapObject&quot;:-1}, 
               {&quot;grantRewards&quot;: [
@@ -81,28 +81,28 @@
                 ]
               }
             ],
-            &quot;options&quot;: [{&quot;name&quot;: &quot;(Continue)&quot;}]
+            &quot;options&quot;: [{&quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;}]
           },
           {
-            &quot;name&quot;: &quot;Karn&quot;,
-            &quot;text&quot;: &quot;'Wrong. Now, foolish one, leave this place or I shall devour you.'&quot;,
-            &quot;options&quot;: [{&quot;name&quot;: &quot;Oops&quot;}],
+            &quot;name&quot;: &quot;Karn&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.107&quot;,
+            &quot;text&quot;: &quot;'Wrong. Now, foolish one, leave this place or I shall devour you.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.039&quot;,
+            &quot;options&quot;: [{&quot;name&quot;: &quot;Oops&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.118&quot;}],
             &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]
           },
           {
-            &quot;name&quot;: &quot;Squee&quot;,
-            &quot;text&quot;: &quot;'Wrong. Now, foolish one, leave this place or I shall devour you.'&quot;,
-            &quot;options&quot;: [{&quot;name&quot;: &quot;Oops&quot;}],
+            &quot;name&quot;: &quot;Squee&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.129&quot;,
+            &quot;text&quot;: &quot;'Wrong. Now, foolish one, leave this place or I shall devour you.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.039&quot;,
+            &quot;options&quot;: [{&quot;name&quot;: &quot;Oops&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.118&quot;}],
             &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]
           }]
 },
 {
-  &quot;name&quot;: &quot;Planar Lore&quot;,
-  &quot;text&quot;: &quot;'Which of the following is NOT one of the ten realms of Kaldheim?'&quot;,
+  &quot;name&quot;: &quot;Planar Lore&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.120&quot;,
+  &quot;text&quot;: &quot;'Which of the following is NOT one of the ten realms of Kaldheim?'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.035&quot;,
   &quot;options&quot;: [
     {
-      &quot;name&quot;: &quot;Alfheim&quot;,
-      &quot;text&quot;: &quot;'Correct. Take this reward for your cleverness and be on your way, lest you test my patience.'&quot;,
+      &quot;name&quot;: &quot;Alfheim&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.065&quot;,
+      &quot;text&quot;: &quot;'Correct. Take this reward for your cleverness and be on your way, lest you test my patience.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.005&quot;,
       &quot;action&quot;: [
         {&quot;deleteMapObject&quot;:-1}, 
         {&quot;grantRewards&quot;: [
@@ -112,40 +112,40 @@
           ]
         }
       ],
-      &quot;options&quot;: [{&quot;name&quot;: &quot;(Continue)&quot;}]
+      &quot;options&quot;: [{&quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;}]
     },
     {
-      &quot;name&quot;: &quot;Immerstrum&quot;,
-      &quot;text&quot;: &quot;'Wrong. Now, foolish one, leave this place or I shall devour you.'&quot;,
-      &quot;options&quot;: [{&quot;name&quot;: &quot;Oops&quot;}],
+      &quot;name&quot;: &quot;Immerstrum&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.104&quot;,
+      &quot;text&quot;: &quot;'Wrong. Now, foolish one, leave this place or I shall devour you.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.039&quot;,
+      &quot;options&quot;: [{&quot;name&quot;: &quot;Oops&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.118&quot;}],
       &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]
     },
     {
-      &quot;name&quot;: &quot;Bretagard&quot;,
-      &quot;text&quot;: &quot;'Wrong. Now, foolish one, leave this place or I shall devour you.'&quot;,
-      &quot;options&quot;: [{&quot;name&quot;: &quot;Oops&quot;}],
+      &quot;name&quot;: &quot;Bretagard&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.077&quot;,
+      &quot;text&quot;: &quot;'Wrong. Now, foolish one, leave this place or I shall devour you.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.039&quot;,
+      &quot;options&quot;: [{&quot;name&quot;: &quot;Oops&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.118&quot;}],
       &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]
     },
     {
-      &quot;name&quot;: &quot;Starnheim&quot;,
-      &quot;text&quot;: &quot;'Wrong. Now, foolish one, leave this place or I shall devour you.'&quot;,
-      &quot;options&quot;: [{&quot;name&quot;: &quot;Oops&quot;}],
+      &quot;name&quot;: &quot;Starnheim&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.130&quot;,
+      &quot;text&quot;: &quot;'Wrong. Now, foolish one, leave this place or I shall devour you.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.039&quot;,
+      &quot;options&quot;: [{&quot;name&quot;: &quot;Oops&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.118&quot;}],
       &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]
     }]
 },
 {
-  &quot;name&quot;: &quot;Knowledge of Planeswalkers&quot;,
-  &quot;text&quot;: &quot;'Which of the following bosses of the New Capenna crime families was murdered by Ob Nixlis?'&quot;,
+  &quot;name&quot;: &quot;Knowledge of Planeswalkers&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.109&quot;,
+  &quot;text&quot;: &quot;'Which of the following bosses of the New Capenna crime families was murdered by Ob Nixlis?'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.034&quot;,
   &quot;options&quot;: [
     {
-      &quot;name&quot;: &quot;Raffine&quot;,
-      &quot;text&quot;: &quot;'Wrong. Now, foolish one, leave this place or I shall devour you.'&quot;,
-      &quot;options&quot;: [{&quot;name&quot;: &quot;Oops&quot;}],
+      &quot;name&quot;: &quot;Raffine&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.121&quot;,
+      &quot;text&quot;: &quot;'Wrong. Now, foolish one, leave this place or I shall devour you.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.039&quot;,
+      &quot;options&quot;: [{&quot;name&quot;: &quot;Oops&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.118&quot;}],
       &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]
     },
     {
-      &quot;name&quot;: &quot;Lord Xander&quot;,
-      &quot;text&quot;: &quot;'Correct. Take this reward for your cleverness and be on your way, lest you test my patience.'&quot;,
+      &quot;name&quot;: &quot;Lord Xander&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.115&quot;,
+      &quot;text&quot;: &quot;'Correct. Take this reward for your cleverness and be on your way, lest you test my patience.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.005&quot;,
       &quot;action&quot;: [
         {&quot;deleteMapObject&quot;:-1}, 
         {&quot;grantRewards&quot;: [
@@ -155,18 +155,18 @@
           ]
         }
       ],
-      &quot;options&quot;: [{&quot;name&quot;: &quot;(Continue)&quot;}]
+      &quot;options&quot;: [{&quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;}]
     },
     {
-      &quot;name&quot;: &quot;Falco Spara&quot;,
-      &quot;text&quot;: &quot;'Wrong. Now, foolish one, leave this place or I shall devour you.'&quot;,
-      &quot;options&quot;: [{&quot;name&quot;: &quot;Oops&quot;}],
+      &quot;name&quot;: &quot;Falco Spara&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.083&quot;,
+      &quot;text&quot;: &quot;'Wrong. Now, foolish one, leave this place or I shall devour you.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.039&quot;,
+      &quot;options&quot;: [{&quot;name&quot;: &quot;Oops&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.118&quot;}],
       &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]
     },
     {
-      &quot;name&quot;: &quot;Jetmir&quot;,
-      &quot;text&quot;: &quot;'Wrong. Now, foolish one, leave this place or I shall devour you.'&quot;,
-      &quot;options&quot;: [{&quot;name&quot;: &quot;Oops&quot;}],
+      &quot;name&quot;: &quot;Jetmir&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.106&quot;,
+      &quot;text&quot;: &quot;'Wrong. Now, foolish one, leave this place or I shall devour you.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.039&quot;,
+      &quot;options&quot;: [{&quot;name&quot;: &quot;Oops&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.118&quot;}],
       &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]
     }]
 }

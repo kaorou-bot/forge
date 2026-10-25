@@ -174,9 +174,9 @@
 {
    &quot;text&quot;: &quot;The merfolk woman in front of you gives you a disdainful look as she readies her trident.
 
-'This area is off-limits. Just you being here has tainted the data for multiple highly sensitive experiments. Let's hope your corpse is useful enough to justify your trespass.'&quot;,
+'This area is off-limits. Just you being here has tainted the data for multiple highly sensitive experiments. Let's hope your corpse is useful enough to justify your trespass.'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.063&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -185,9 +185,9 @@
    <properties>
     <property name="dialog">[
 {
-   &quot;text&quot;: &quot;The pool ahead smells of chemicals, strange plants growing thick below the surface. Oddly-shaped silhouettes swim about, like no other creatures you've ever seen before. Prominent signage informs you that this is the territory of Ravnica's Simic Combine.&quot;,
+   &quot;text&quot;: &quot;The pool ahead smells of chemicals, strange plants growing thick below the surface. Oddly-shaped silhouettes swim about, like no other creatures you've ever seen before. Prominent signage informs you that this is the territory of Ravnica's Simic Combine.&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.064&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>

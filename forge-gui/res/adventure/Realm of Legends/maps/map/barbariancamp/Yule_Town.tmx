@@ -209,9 +209,9 @@
    <properties>
     <property name="dialog">[
 {
-   &quot;text&quot;: &quot;The area ahead is blanketed in snow. A town stands ahead, multicolored lights twinkling from its walls. A delicious scent drifts on the wind, and the distant sounds of music can be heard as well.&quot;,
+   &quot;text&quot;: &quot;The area ahead is blanketed in snow. A town stands ahead, multicolored lights twinkling from its walls. A delicious scent drifts on the wind, and the distant sounds of music can be heard as well.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.136&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -222,9 +222,9 @@
 {
    &quot;text&quot;: &quot;As you draw closer to the town, cheery, festive music can be heard loudly from up ahead. The frigid air is fought back by a warmth that seems to emanate, perhaps magically, from inside. Delicious smells of baking cookies waft through the gates, enticing you to enter, though guardians stand in your way. 
 
-'Hail traveler, we apologize but we can't let you pass. Too many have taken advantage of our generosity and tried to ruin our winter wonderland. We must now treat all visitors as naughty and meet them with our full might.'&quot;,
+'Hail traveler, we apologize but we can't let you pass. Too many have taken advantage of our generosity and tried to ruin our winter wonderland. We must now treat all visitors as naughty and meet them with our full might.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.071&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -233,9 +233,9 @@
    <properties>
     <property name="dialog">[
 {
-   &quot;text&quot;: &quot;The nearby clearing is thick with chilling fog. The silhouette of a reindeer is visible ahead, a red light shimmering out from its nose.&quot;,
+   &quot;text&quot;: &quot;The nearby clearing is thick with chilling fog. The silhouette of a reindeer is visible ahead, a red light shimmering out from its nose.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.151&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -246,9 +246,9 @@
 {
    &quot;text&quot;: &quot;Far off behind the town, a wicked-looking lair sits, a nasty creature in front of it, its sinister eyes flicking towards you.
 
-'You... you smell naughty... you must be... punished...'&quot;,
+'You... you smell naughty... you must be... punished...'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.084&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -259,9 +259,9 @@
 {
    &quot;text&quot;: &quot;As you approach, you see a jolly man in red. 
 
-'HO HO HO! Looting and fighting through our festive little town! You've been quite naughty! Someone like you deserves to be punished!'&quot;,
+'HO HO HO! Looting and fighting through our festive little town! You've been quite naughty! Someone like you deserves to be punished!'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.070&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -270,9 +270,9 @@
    <properties>
     <property name="dialog">[
 {
-   &quot;text&quot;: &quot;The smell of gingerbread is strong and delicious here, the home ahead seeming to be made entirely from it, somehow.&quot;,
+   &quot;text&quot;: &quot;The smell of gingerbread is strong and delicious here, the home ahead seeming to be made entirely from it, somehow.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.152&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -466,12 +466,12 @@
     <property name="dialog">[
 	{
 		&quot;name&quot;: &quot;&quot;,
-		&quot;text&quot;: &quot;'Come, child. Have you ever wanted to ruin Christmas forever?'&quot;,
+		&quot;text&quot;: &quot;'Come, child. Have you ever wanted to ruin Christmas forever?'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.003&quot;,
 		&quot;options&quot;:
 			[
 				{
-					&quot;name&quot;: &quot;Christmas is cancelled.&quot;,
-					&quot;text&quot;: &quot;'Fantastic! Now on to more worthy uses of my time.' With that, he vanishes in a cloud of foul-smelling smoke.&quot;,
+					&quot;name&quot;: &quot;Christmas is cancelled.&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.078&quot;,
+					&quot;text&quot;: &quot;'Fantastic! Now on to more worthy uses of my time.' With that, he vanishes in a cloud of foul-smelling smoke.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.011&quot;,
 					&quot;action&quot;: [ { &quot;deleteMapObject&quot;: -1 },
                     {&quot;grantRewards&quot;: [
                         { &quot;type&quot;: &quot;card&quot;, &quot;cardName&quot;: &quot;Heartless Hidetsugu&quot;, &quot;count&quot;: 1 },
@@ -490,31 +490,31 @@
 							}
 						}
 					],
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot; } ]
 				},
 				{
-					&quot;name&quot;: &quot;Always hated the holiday.&quot;,
-					&quot;text&quot;: &quot;'Excellent. I am Hidetsugu. I have been called many things over the years - heartless, the devouring chaos... but these frivilous snow-folk insist on calling me a Grinch and a Scrooge! I cannot abide such foolish titles. And while I'd love nothing more to burn them all alive inside their precious town, their ice magic is an infuriatingly effective counter to my fire. So I ask this: kill them all, and be rewarded.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;name&quot;: &quot;Always hated the holiday.&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.067&quot;,
+					&quot;text&quot;: &quot;'Excellent. I am Hidetsugu. I have been called many things over the years - heartless, the devouring chaos... but these frivilous snow-folk insist on calling me a Grinch and a Scrooge! I cannot abide such foolish titles. And while I'd love nothing more to burn them all alive inside their precious town, their ice magic is an infuriatingly effective counter to my fire. So I ask this: kill them all, and be rewarded.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.010&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot; } ]
 				},
                 {
-					&quot;name&quot;: &quot;Absolutely not!&quot;,
+					&quot;name&quot;: &quot;Absolutely not!&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.064&quot;,
 					&quot;text&quot;: &quot;'A shame, truly. Well, I have waited here in the cold long enough.' 
 
 With that, he vanishes in a cloud of smoke. Almost immediately after, another being appears in a puff of cinnamon, a tiny elf (or perhaps gnome?) wearing a suit of green velvet in a little red hat.
 
-'You've gotten rid of that Grinch for good! Have some presents for being such a nice person, {var=player_name}!'&quot;,
+'You've gotten rid of that Grinch for good! Have some presents for being such a nice person, {var=player_name}!'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.000&quot;,
 					&quot;action&quot;: [ { &quot;deleteMapObject&quot;: -1 },
                     {&quot;grantRewards&quot;: [
                         { &quot;type&quot;: &quot;card&quot;, &quot;cardTypes&quot;: [&quot;Artifact&quot;], &quot;rarity&quot;: [ &quot;Rare&quot;, &quot;Mythic Rare&quot; ], &quot;count&quot;: 4 }       
                       ]
                     } ],
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot; } ]
 				},
                 {
-					&quot;name&quot;: &quot;I don't have time for this.&quot;,
-					&quot;text&quot;: &quot;'Leave then, while you still can.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+					&quot;name&quot;: &quot;I don't have time for this.&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.091&quot;,
+					&quot;text&quot;: &quot;'Leave then, while you still can.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.023&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot; } ]
 				}
 			]
 	}

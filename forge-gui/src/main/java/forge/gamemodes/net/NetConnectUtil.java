@@ -24,6 +24,7 @@ import forge.localinstance.properties.ForgePreferences.FPref;
 import forge.model.FModel;
 import forge.player.GamePlayerUtil;
 import forge.util.Localizer;
+import forge.util.StreamUtil;
 import forge.util.URLValidator;
 import forge.relay.RelayProtocol;
 import forge.relay.client.RelayEndpoint;
@@ -186,7 +187,7 @@ public class NetConnectUtil {
 
     public static List<RelayProtocol.RoomSnapshot> findRelayRoom(final String code) throws IOException {
         final List<RelayProtocol.RoomSnapshot> rooms = listRelayRooms().stream()
-                .filter(room -> room.roomId().equals(code.trim())).toList();
+                .filter(room -> room.roomId().equals(code.trim())).collect(StreamUtil.toImmutableList());
         if (rooms.isEmpty()) throw new IOException(Localizer.getInstance().getMessage("lblNetworkRoomNotFound"));
         return rooms;
     }

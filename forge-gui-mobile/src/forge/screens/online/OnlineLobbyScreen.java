@@ -49,6 +49,7 @@ import forge.toolbox.FOptionPane;
 import forge.toolbox.FTextField;
 import forge.toolbox.FOverlay;
 import forge.util.Utils;
+import forge.util.StreamUtil;
 import forge.relay.RelayProtocol;
 
 import java.util.Objects;
@@ -937,7 +938,7 @@ public class OnlineLobbyScreen extends LobbyScreen implements IOnlineLobby, IDra
             }
             final int maxPlayers = Integer.parseInt(selectedPlayerLimit);
             final List<String> formatLabels = forge.gamemodes.net.RelayRoomPresentation.FORMATS.stream()
-                    .map(forge.gamemodes.net.RelayRoomPresentation::formatLabel).toList();
+                    .map(forge.gamemodes.net.RelayRoomPresentation::formatLabel).collect(StreamUtil.toImmutableList());
             final String selectedFormat = SOptionPane.showInputDialog(
                     Forge.getLocalizer().getMessage("lblRoomTagNotice"),
                     Forge.getLocalizer().getMessage("lblRoomFormat"), null, formatLabels.get(0), formatLabels, false);

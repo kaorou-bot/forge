@@ -162,9 +162,9 @@
    <properties>
     <property name="dialog">[
 {
-   &quot;text&quot;: &quot;The cave ahead echoes with screams of pain and sighs of pleasure. Loud, thumping music can be heard, and all manner of scantily-clad people walk about in a party-like atmosphere. A sign marks this as the territory of Ravnica's Rakdos Cult.&quot;,
+   &quot;text&quot;: &quot;The cave ahead echoes with screams of pain and sighs of pleasure. Loud, thumping music can be heard, and all manner of scantily-clad people walk about in a party-like atmosphere. A sign marks this as the territory of Ravnica's Rakdos Cult.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.137&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -174,9 +174,9 @@
     <property name="dialog">[
 {
    &quot;text&quot;: &quot;WARNING: Ball pit currently out of balls.
-Only masochists are advised to jump in.&quot;,
+Only masochists are advised to jump in.&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.165&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;}]
 }
 ]</property>
    </properties>
@@ -187,9 +187,9 @@ Only masochists are advised to jump in.&quot;,
 {
    &quot;text&quot;: &quot;The smells of blood and smoke are overwhelming as you round the corner and come face to face with a huge demon, the namesake of the cult, the demon Rakdos himself. He looks down at you before flames blaze around him.
 
-'Entertain me.'&quot;,
+'Entertain me.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.154&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>

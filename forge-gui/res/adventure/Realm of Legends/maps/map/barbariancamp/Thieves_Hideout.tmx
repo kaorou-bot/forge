@@ -52,31 +52,31 @@
    <properties>
     <property name="dialog">[
   {
-    &quot;text&quot;: &quot;'Why hello dearie, its your Auntie Blyte! Say, heard of tokens? Powerful items in their own special slot? Capitols charge a fortune for them, but I have some unique and very strong ones for no gold at all! They just cost a few slivers of your soul, no big deal really. You'd look great with a bit less soul anyway. Fitter. Sleeker. Sexier. So, why take some for a spin?!'&quot;,
+    &quot;text&quot;: &quot;'Why hello dearie, its your Auntie Blyte! Say, heard of tokens? Powerful items in their own special slot? Capitols charge a fortune for them, but I have some unique and very strong ones for no gold at all! They just cost a few slivers of your soul, no big deal really. You'd look great with a bit less soul anyway. Fitter. Sleeker. Sexier. So, why take some for a spin?!'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.037&quot;,
     &quot;options&quot;: [
       {
-        &quot;name&quot;: &quot;This sounds like a bad idea.&quot;,
-        &quot;text&quot;: &quot;'But the bad ideas are the most fun! I'll be here if you decide to play things less safe.'&quot;,
+        &quot;name&quot;: &quot;This sounds like a bad idea.&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.159&quot;,
+        &quot;text&quot;: &quot;'But the bad ideas are the most fun! I'll be here if you decide to play things less safe.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.001&quot;,
         &quot;options&quot;: [
           {
-            &quot;name&quot;: &quot;(Continue)&quot;
+            &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;
           }
         ]
       },
       {
-        &quot;name&quot;: &quot;Tell me about what you're offering.&quot;,
-        &quot;text&quot;: &quot;'Of course, darling! I have a 1/1 devil token that deals 1 damage to anything when it dies, a 1/1 changeling that's every creature type, a munitions artifact token that deals 2 damage to anything when it goes to the graveyard, and my ultimate token - a 1/1 ninja that can't be blocked!'&quot;,
+        &quot;name&quot;: &quot;Tell me about what you're offering.&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.133&quot;,
+        &quot;text&quot;: &quot;'Of course, darling! I have a 1/1 devil token that deals 1 damage to anything when it dies, a 1/1 changeling that's every creature type, a munitions artifact token that deals 2 damage to anything when it goes to the graveyard, and my ultimate token - a 1/1 ninja that can't be blocked!'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.026&quot;,
         &quot;options&quot;: [
           {
-            &quot;name&quot;: &quot;Alright, what about prices.&quot;,
-            &quot;text&quot;: &quot;'I think you'll find them a steal!'&quot;,
+            &quot;name&quot;: &quot;Alright, what about prices.&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.066&quot;,
+            &quot;text&quot;: &quot;'I think you'll find them a steal!'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.021&quot;,
             &quot;options&quot;: [
               {
-                &quot;name&quot;: &quot;I'll take the devil token! (PAY 4 MAX LIFE.)&quot;,
-                &quot;text&quot;: &quot;'Excellent choice! Just between us, that one's my favorite! But then, I'm a bit biased.'&quot;,
+                &quot;name&quot;: &quot;I'll take the devil token! (PAY 4 MAX LIFE.)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.101&quot;,
+                &quot;text&quot;: &quot;'Excellent choice! Just between us, that one's my favorite! But then, I'm a bit biased.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.007&quot;,
                 &quot;options&quot;: [
                   {
-                    &quot;name&quot;: &quot;(Continue)&quot;,
+                    &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;,
                     &quot;action&quot;: [
                       {
                         &quot;grantRewards&quot;: [
@@ -96,11 +96,11 @@
                 ]
               },
               {
-                &quot;name&quot;: &quot;I'll take the changeling token! (PAY 3 MAX LIFE.)&quot;,
-                &quot;text&quot;: &quot;'Excellent choice! Versatile and useful for any deck! I hear they can really do ANYTHING if you know what I mean...'&quot;,
+                &quot;name&quot;: &quot;I'll take the changeling token! (PAY 3 MAX LIFE.)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.100&quot;,
+                &quot;text&quot;: &quot;'Excellent choice! Versatile and useful for any deck! I hear they can really do ANYTHING if you know what I mean...'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.009&quot;,
                 &quot;options&quot;: [
                   {
-                    &quot;name&quot;: &quot;(Continue)&quot;,
+                    &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;,
                     &quot;action&quot;: [
                       {
                         &quot;grantRewards&quot;: [
@@ -120,11 +120,11 @@
                 ]
               },
               {
-                &quot;name&quot;: &quot;I'll take the munitions token! (PAY 2 MAX LIFE.)&quot;,
-                &quot;text&quot;: &quot;'Excellent choice! Nothing like blowing things up to improve your day!'&quot;,
+                &quot;name&quot;: &quot;I'll take the munitions token! (PAY 2 MAX LIFE.)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.102&quot;,
+                &quot;text&quot;: &quot;'Excellent choice! Nothing like blowing things up to improve your day!'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.008&quot;,
                 &quot;options&quot;: [
                   {
-                    &quot;name&quot;: &quot;(Continue)&quot;,
+                    &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;,
                     &quot;action&quot;: [
                       {
                         &quot;grantRewards&quot;: [
@@ -144,11 +144,11 @@
                 ]
               },
               {
-                &quot;name&quot;: &quot;I'll take the Ninja token! (PAY 6 MAX LIFE.)&quot;,
-                &quot;text&quot;: &quot;'Excellent choice! I respect you going for the most opulent and expensive! Nothing beats the power of money!'&quot;,
+                &quot;name&quot;: &quot;I'll take the Ninja token! (PAY 6 MAX LIFE.)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.103&quot;,
+                &quot;text&quot;: &quot;'Excellent choice! I respect you going for the most opulent and expensive! Nothing beats the power of money!'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.006&quot;,
                 &quot;options&quot;: [
                   {
-                    &quot;name&quot;: &quot;(Continue)&quot;,
+                    &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;,
                     &quot;action&quot;: [
                       {
                         &quot;grantRewards&quot;: [
@@ -168,11 +168,11 @@
                 ]
               },
               {
-                &quot;name&quot;: &quot;I think I'll pass.&quot;,
-                &quot;text&quot;: &quot;'Perhaps some other time, hmm darling? I'll be waiting with tea when you get back!'&quot;,
+                &quot;name&quot;: &quot;I think I'll pass.&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.093&quot;,
+                &quot;text&quot;: &quot;'Perhaps some other time, hmm darling? I'll be waiting with tea when you get back!'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.027&quot;,
                 &quot;options&quot;: [
                   {
-                    &quot;name&quot;: &quot;(Continue)&quot;
+                    &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;
                   }
                 ]
               }
@@ -198,9 +198,9 @@
    <properties>
     <property name="dialog">[
 {
-   &quot;text&quot;: &quot;Muttering and shaded eyes glance about in this cave. To your left, someone selling stolen goods. To your right, a tiny winged devil holds a cup of tea and gives you an inviting smile. Ahead, you can see some gold glimmering unguarded - might have to rob the robbers...&quot;,
+   &quot;text&quot;: &quot;Muttering and shaded eyes glance about in this cave. To your left, someone selling stolen goods. To your right, a tiny winged devil holds a cup of tea and gives you an inviting smile. Ahead, you can see some gold glimmering unguarded - might have to rob the robbers...&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.116&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -211,9 +211,9 @@
 {
    &quot;text&quot;: &quot;A shaded figure calls out from the stall ahead.
 
-'I got what you need to succeed in the cutthroat world out there. Unique items for the cunning rogue. Cash only, no refunds.'&quot;,
+'I got what you need to succeed in the cutthroat world out there. Unique items for the cunning rogue. Cash only, no refunds.'&quot;, &quot;loctext&quot;: &quot;adv.realm.redcastle.058&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.redcastle.041&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>

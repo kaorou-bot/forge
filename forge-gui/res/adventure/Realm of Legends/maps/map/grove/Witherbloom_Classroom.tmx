@@ -117,9 +117,9 @@
 {
    &quot;text&quot;: &quot;The classrom ahead of you smells strongly of mushrooms and rot. At the class's front, a dragon pauses its lecture and gives you a derisive glare.
 
-'Witherbloom isn't accepting new students at the moment. Leave now, or we'll be forced to expel you violently.'&quot;,
+'Witherbloom isn't accepting new students at the moment. Leave now, or we'll be forced to expel you violently.'&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.105&quot;,
    &quot;options&quot;: [{
-      &quot;name&quot;: &quot;(Continue)&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
+      &quot;name&quot;: &quot;(Continue)&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.001&quot;, &quot;action&quot;: [{&quot;deleteMapObject&quot;:-1}]}]
 }
 ]</property>
    </properties>
@@ -127,14 +127,14 @@
   <object id="67" template="../../../../common/maps/obj/gate.tx" gid="1073745949" x="287.175" y="216.728" width="34.1665" height="20.1818" rotation="0">
    <properties>
     <property name="dialog">[{
-    &quot;text&quot;:&quot;This gate is locked.&quot;,
+    &quot;text&quot;:&quot;This gate is locked.&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.106&quot;,
     &quot;options&quot;:[
-    { &quot;name&quot;:&quot;Leave&quot; },
+    { &quot;name&quot;:&quot;Leave&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.046&quot; },
     {      
-        &quot;name&quot;:&quot;Unlock with Witherbloom Key&quot;,     
+        &quot;name&quot;:&quot;Unlock with Witherbloom Key&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.107&quot;,     
         &quot;condition&quot;:[{&quot;item&quot;:&quot;Witherbloom Key&quot;}],    
-        &quot;text&quot;:&quot;The gate swings open.&quot;,
-        &quot;options&quot;:[{&quot;name&quot;:&quot;Continue&quot;, &quot;action&quot;:[ {&quot;deleteMapObject&quot;:-1}, {&quot;deleteMapObject&quot;:68}, {&quot;removeItem&quot;:&quot;Witherbloom Key&quot;}]} ]
+        &quot;text&quot;:&quot;The gate swings open.&quot;, &quot;loctext&quot;: &quot;adv.realm.greenmirror.108&quot;,
+        &quot;options&quot;:[{&quot;name&quot;:&quot;Continue&quot;, &quot;locname&quot;: &quot;adv.realm.greenmirror.109&quot;, &quot;action&quot;:[ {&quot;deleteMapObject&quot;:-1}, {&quot;deleteMapObject&quot;:68}, {&quot;removeItem&quot;:&quot;Witherbloom Key&quot;}]} ]
     }
     ]
 }]</property>
