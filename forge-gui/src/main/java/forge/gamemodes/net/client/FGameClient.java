@@ -689,7 +689,10 @@ public class FGameClient implements IToServer, IHasForgeLog, AutoCloseable {
                 onDisconnected();
                 final boolean notifyListeners;
                 synchronized (reconnectLock) {
-                    notifyListeners = loginAccepted && !shuttingDown && reconnectState != ReconnectState.RECONNECTING;
+                    // A server rejects a login by closing the channel. That client must
+                    // notify its listeners, but onDisconnected keeps it CONNECTED because
+                    // it never held a seat, so it still cannot enter the reconnect loop.
+                    notifyListeners = !shuttingDown && reconnectState != ReconnectState.RECONNECTING;
                 }
                 if (notifyListeners) {
                     for (final ILobbyListener listener : lobbyListeners) {
