@@ -61,16 +61,20 @@ Filename: "{app}\forge.exe"; Description: "启动 Forge"; Flags: nowait postinst
 [Code]
 function PrepareToInstall(var NeedsRestart: Boolean): String;
 var
-  InstalledVersion: AnsiString;
+  InstalledVersion: TArrayOfString;
 begin
   Result := '';
 #if PackageKind == "patch"
-  if not LoadStringFromFile(ExpandConstant('{app}\forge-community-version.txt'), InstalledVersion) then
+  // The marker is UTF-8. LoadStringFromFile returns AnsiString and corrupts
+  // Chinese display versions, which made a valid cn1026 installation appear
+  // to be the wrong patch baseline.
+  if not LoadStringsFromFile(ExpandConstant('{app}\forge-community-version.txt'), InstalledVersion) or
+      (GetArrayLength(InstalledVersion) <> 1) then
   begin
     Result := '未找到已安装版本。请下载并运行完整安装包。';
     Exit;
   end;
-  if Trim(String(InstalledVersion)) <> '{#GetEnv("FORGE_PREVIOUS_VERSION")}' then
+  if Trim(InstalledVersion[0]) <> '{#GetEnv("FORGE_PREVIOUS_VERSION")}' then
     Result := '当前安装版本不匹配，不能应用此增量包。请下载完整安装包。';
 #endif
 end;
