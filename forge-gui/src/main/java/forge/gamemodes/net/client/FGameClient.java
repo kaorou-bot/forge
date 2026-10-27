@@ -77,6 +77,8 @@ public class FGameClient implements IToServer, IHasForgeLog, AutoCloseable {
     private volatile long roundTripMillis = -1;
     private final CountDownLatch initialLobby = new CountDownLatch(1);
     private volatile boolean loginAccepted;
+    // A server refuses a login by closing the connection, so only a client that held a seat reconnects
+    private volatile boolean seated;
     private ReconnectState reconnectState = ReconnectState.CONNECTED;
     private boolean shuttingDown = false;
     private final Object reconnectLock = new Object();
@@ -384,6 +386,8 @@ public class FGameClient implements IToServer, IHasForgeLog, AutoCloseable {
     }
 
     void setGameControllers(final Iterable<PlayerView> myPlayers) {
+        // A client that takes back a parked seat gets its match without a lobby update
+        seated = true;
         for (final PlayerView p : myPlayers) {
             NetGameController controller = new NetGameController(this);
             clientGui.setOriginalGameController(p, controller);
@@ -425,7 +429,7 @@ public class FGameClient implements IToServer, IHasForgeLog, AutoCloseable {
                 initialLobby.countDown();
                 return;
             }
-            if (shuttingDown || reconnectState != ReconnectState.CONNECTED) {
+            if (shuttingDown || reconnectState != ReconnectState.CONNECTED || !seated) {
                 return;
             }
             reconnectState = ReconnectState.RECONNECTING;
@@ -651,6 +655,9 @@ public class FGameClient implements IToServer, IHasForgeLog, AutoCloseable {
                 if (isActiveChannel(ctx.channel()) && getReconnectState() == ReconnectState.RECONNECTING) {
                     if (inMatch) return;
                     onResumeResponseReceived();
+                }
+                if (event.getSlot() >= 0) {
+                    seated = true;
                 }
                 for (final ILobbyListener listener : lobbyListeners) {
                     listener.update(event.getState(), event.getSlot());

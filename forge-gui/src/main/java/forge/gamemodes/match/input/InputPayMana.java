@@ -66,18 +66,14 @@ public abstract class InputPayMana extends InputSyncronizedBase {
 
     @Override
     protected void onStop() {
-        try {
-            getController().clearActionableCards();
-        } finally {
-            if (!isFinished()) {
-                // Rules-side resources must be released even if a disconnected UI failed.
-                try {
-                    saPaidFor.setManaCostBeingPaid(null);
-                } finally {
-                    try { player.popPaidForSA(); }
-                    finally {
-                        if (wasFloatingMana) getController().getGui().hideManaPool(PlayerView.get(player));
-                    }
+        if (!isFinished()) {
+            // Rules-side resources must be released even if a disconnected UI failed.
+            try {
+                saPaidFor.setManaCostBeingPaid(null);
+            } finally {
+                try { player.popPaidForSA(); }
+                finally {
+                    if (wasFloatingMana) getController().getGui().hideManaPool(PlayerView.get(player));
                 }
             }
         }
@@ -116,14 +112,25 @@ public abstract class InputPayMana extends InputSyncronizedBase {
     }
 
     protected List<SpellAbility> getAllManaAbilities(Card card) {
+        return getAllManaAbilities(card, player);
+    }
+
+    /**
+     * The playable mana abilities of {@code card} for {@code activator}. Only mana abilities (and
+     * their alternative costs) are considered, never spells, so this does not reach the stack
+     * look-ahead in {@link GameActionUtil#getAlternativeCosts} that rewrites layer state through
+     * {@code checkStaticAbilities}. That makes it the right predicate for UI-thread callers
+     * such as the payment highlights, which must not mutate the game while the game thread runs.
+     */
+    public static List<SpellAbility> getAllManaAbilities(Card card, Player activator) {
         List<SpellAbility> result = Lists.newArrayList();
         for (SpellAbility sa : card.getManaAbilities()) {
             result.add(sa);
-            result.addAll(GameActionUtil.getAlternativeCosts(sa, player, false));
+            result.addAll(GameActionUtil.getAlternativeCosts(sa, activator, false));
         }
         final Collection<SpellAbility> toRemove = Lists.newArrayListWithCapacity(result.size());
         for (final SpellAbility sa : result) {
-            sa.setActivatingPlayer(player);
+            sa.setActivatingPlayer(activator);
             if (sa.canPlay(true)) {
                 continue;
             }
@@ -410,15 +417,14 @@ public abstract class InputPayMana extends InputSyncronizedBase {
                 getController().getGui().updateButtons(getOwner(), Localizer.getInstance().getMessage("lblAuto"), Localizer.getInstance().getMessage("lblCancel"), true, !mandatory, true);
             }
         }
-        // Drop just-tapped sources from the highlight set; emphasize the AI's auto-tap plan.
-        getController().pushActionableCards(true, getAutoTapPreviewViews());
+        // Just-tapped sources leave the highlights, and the AI's auto-tap plan is emphasized
+        showSelection();
         showMessage(getMessage(), saPaidFor.getView());
     }
 
     @Override
     public void showMessage() {
         if (isFinished()) { return; }
-        getController().pushActionableCards(true);
         updateButtons();
         onStateChanged();
     }
@@ -454,6 +460,11 @@ public abstract class InputPayMana extends InputSyncronizedBase {
         runAsAi(proc);
         autoPayManaSources = proc.getResult();
         autoPayManaSourcesKnown = true;
+    }
+
+    @Override
+    protected List<CardView> getActionable() {
+        return getController().getActionableCards(true, getAutoTapPreviewViews());
     }
 
     /** Cards the Auto button would tap, for emphasized highlighting; null when unavailable. */
