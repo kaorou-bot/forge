@@ -32,7 +32,6 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -304,7 +303,7 @@ public class InputCancellationLifecycleTest {
         }
     }
 
-    public void failingActionableHighlightCleanupDoesNotLeakPaymentResources() throws Exception {
+    public void selectionCleanupDoesNotLeakPaymentResourcesWhenScopeCancels() throws Exception {
         try (Harness h = new Harness()) {
             final Player payer = mock(Player.class);
             final ManaPool pool = mock(ManaPool.class);
@@ -317,15 +316,16 @@ public class InputCancellationLifecycleTest {
             final InputPayManaOfCostPayment input = new InputPayManaOfCostPayment(
                     h.controller, cost, ability, payer, null, false);
             h.inputs.add(input);
-            final RuntimeException failure = new IllegalStateException("Cannot clear actionable highlights");
-            doThrow(failure).when(h.controller).clearActionableCards();
             final GuiRequestScope scope = new GuiRequestScope();
             final Worker waiting = h.start(scope, input);
             h.awaitInput();
             scope.cancel(GuiRequestScope.Reason.TIMED_OUT);
             final Throwable outcome = waiting.result();
             assertTimeout(outcome);
-            Assert.assertTrue(List.of(outcome.getSuppressed()).contains(failure));
+            // Actionable marks belong to Selection now; InputSyncronizedBase restores
+            // the chosen-only selection while stopping instead of asking the controller
+            // to clear a separate weakly-selectable layer.
+            verify(h.gui).setSelection(any());
             verify(ability).setManaCostBeingPaid(null);
             verify(payer).popPaidForSA();
             Assert.assertNull(h.queue.getInput());

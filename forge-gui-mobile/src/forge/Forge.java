@@ -539,6 +539,7 @@ public class Forge implements ApplicationListener {
                                     clearSplashScreen();
                                     openedRealScreen = true;
                                 }
+                            }
                                 safeToClose = true;
                                 clearTransitionScreen();
                                 if (openedRealScreen) {
