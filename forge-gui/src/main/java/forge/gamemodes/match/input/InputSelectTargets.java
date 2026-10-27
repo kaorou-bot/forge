@@ -336,7 +336,7 @@ public final class InputSelectTargets extends InputSyncronizedBase {
     }
 
     @Override
-    public boolean selectAbility(final SpellAbility ab) {
+    protected boolean onAbilitySelected(final SpellAbility ab) {
         final Card host = ab == null ? null : ab.getHostCard();
         if (isFinished() || ab == null || !ab.isSpell()) { return false; }
         if (host == null || !choices.contains(host)) { return false; }
