@@ -1204,7 +1204,6 @@ public class PlayerControllerHuman extends PlayerController implements IGameCont
                 } else {
                     getGui().reveal(fm, collection);
                 }
-                getGui().updateRevealedCards(collection);
             } finally {
                 try { getGui().hideRevealedCards(); }
                 finally { endTempShowCards(); }
