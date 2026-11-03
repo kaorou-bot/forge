@@ -126,6 +126,7 @@ public class Player extends GameEntity implements Comparable<Player> {
 
     private List<Card> discardedThisTurn = new ArrayList<>();
     private List<Card> sacrificedThisTurn = new ArrayList<>();
+    private List<Card> playedLandsThisTurn = new ArrayList<>();
 
     private int simultaneousDamage = 0;
 
@@ -1659,10 +1660,13 @@ public class Player extends GameEntity implements Comparable<Player> {
 
         Map<AbilityKey, Object> runParams = AbilityKey.mapFromCard(land);
         runParams.put(AbilityKey.Origin, land.getZone().getZoneType().name());
+        // LKI from before the move remembers the zone the land is played from
+        final Card playedLKI = CardCopyService.getLKICopy(land);
 
         game.copyLastState();
         final Card c = game.getAction().moveTo(getZone(ZoneType.Battlefield), land, cause);
         game.updateLastStateForCard(c);
+        playedLandsThisTurn.add(playedLKI);
 
         // Run triggers
         runParams.put(AbilityKey.SpellAbility, cause);
@@ -2252,6 +2256,9 @@ public class Player extends GameEntity implements Comparable<Player> {
     public final int getLandsPlayedThisTurn() {
         return landsPlayedThisTurn;
     }
+    public final List<Card> getPlayedLandsThisTurn() {
+        return playedLandsThisTurn;
+    }
     public final int getLandsPlayedLastTurn() {
         return landsPlayedLastTurn;
     }
@@ -2262,6 +2269,7 @@ public class Player extends GameEntity implements Comparable<Player> {
     }
     public final void resetLandsPlayedThisTurn() {
         landsPlayedThisTurn = 0;
+        playedLandsThisTurn.clear();
         view.updateNumLandThisTurn(this);
     }
     public final void setLandsPlayedThisTurn(int num) {
@@ -2632,7 +2640,6 @@ public class Player extends GameEntity implements Comparable<Player> {
     public void updateAvatar() {
         view.updateAvatarIndex(this);
         view.updateAvatarCardImageKey(this);
-        view.setAvatarLifeDifference(0);
         view.setHasLost(false);
     }
 
@@ -3781,16 +3788,19 @@ public class Player extends GameEntity implements Comparable<Player> {
         return !StaticAbilityCantDiscard.cantDiscard(this, sa, effect);
     }
 
-    public boolean canSearchLibraryWith(SpellAbility sa, Player targetPlayer) {
-        if (sa == null) {
-            return true;
+    /**
+     * The cards of targetPlayer's library this player looks at when searching it with sa: only the top four
+     * while a search is limited, none while searching is not allowed.
+     */
+    public CardCollectionView getSearchableLibrary(SpellAbility sa, Player targetPlayer) {
+        if (hasKeyword("CantSearchLibrary") ||
+                (targetPlayer.equals(sa.getActivatingPlayer()) && hasKeyword("Spells and abilities you control can't cause you to search your library."))) {
+            return null;
         }
-
-        if (hasKeyword("CantSearchLibrary")) {
-            return false;
+        if (hasKeyword("LimitSearchLibrary")) {
+            return targetPlayer.getCardsIn(ZoneType.Library, 4);
         }
-        return targetPlayer == null || !targetPlayer.equals(sa.getActivatingPlayer())
-                || !hasKeyword("Spells and abilities you control can't cause you to search your library.");
+        return targetPlayer.getCardsIn(ZoneType.Library);
     }
 
     public void addAdditionalVote(long timestamp, int value) {

@@ -144,6 +144,9 @@ public abstract class InputBase implements java.io.Serializable, Input {
         finished = false;
         runInputAction(() -> {
             controller.cancelAwaitNextInput();
+            if (isBusy()) {
+                return;
+            }
             showMessage();
             // showMessage can finish the input, which has already reset the selection.
             if (!isFinished()) {
@@ -154,6 +157,11 @@ public abstract class InputBase implements java.io.Serializable, Input {
     }
 
     protected abstract void showMessage();
+
+    /** Whether an action this input started is still running. That action shows the input again when it ends. */
+    protected boolean isBusy() {
+        return false;
+    }
 
     /** What this prompt marks. */
     protected Selection getSelection() {

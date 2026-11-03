@@ -7,6 +7,7 @@ import forge.gamemodes.net.CompatibleObjectDecoder;
 import forge.gamemodes.net.CompatibleObjectEncoder;
 import forge.gamemodes.net.GameProtocolHandler;
 import forge.gamemodes.net.GuiRequestControl;
+import forge.gui.FThreads;
 import forge.gui.GuiBase;
 import forge.gui.GuiRequestScope;
 import forge.gamemodes.net.event.GuiGameEvent;
@@ -15,6 +16,7 @@ import forge.util.IHasForgeLog;
 import forge.gamemodes.net.IRemote;
 import forge.gamemodes.net.ProtocolMethod;
 import forge.gamemodes.net.ReplyPool;
+import forge.gamemodes.net.TrackableSerializer;
 import forge.gamemodes.net.event.LoginEvent;
 import forge.gamemodes.net.server.RemoteClientGuiGame;
 import forge.gui.interfaces.IGuiGame;
@@ -27,8 +29,9 @@ import forge.trackable.TrackableTypes;
 import forge.trackable.Tracker;
 import io.netty.channel.ChannelHandlerContext;
 
-import java.util.EnumMap;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.concurrent.FutureTask;
 
 final class GameClientHandler extends GameProtocolHandler<IGuiGame> implements IHasForgeLog {
 
@@ -141,6 +144,24 @@ final class GameClientHandler extends GameProtocolHandler<IGuiGame> implements I
     }
 
     @Override
+    protected Object[] decodeArgs(final ProtocolMethod protocolMethod, final byte[] encodedArgs) {
+        try {
+            // Deltas are applied on the GUI thread in arrival order, so a prompt handled on another thread waits for the ones before it
+            final FutureTask<Void> deltasApplied = new FutureTask<>(() -> {}, null);
+            FThreads.invokeInEdtNowOrLater(deltasApplied);
+            deltasApplied.get();
+            final Object[] args = TrackableSerializer.decodeArgs(encodedArgs, tracker);
+            protocolMethod.checkArgs(args);
+            updateTrackers(args);
+            return args;
+        } catch (final Exception e) {
+            // Handled like a failed call, so the host still gets its reply
+            netLog.error(e, "Failed to decode args for {}", protocolMethod);
+            return null;
+        }
+    }
+
+    @Override
     protected boolean shouldDispatchToGuiThread(final ProtocolMethod protocolMethod) {
         // Libgdx modal prompts block via WaitCallback and deadlock on the GL thread. Return-value
         // methods always block; message/showErrorDialog return void but still open a blocking modal.
@@ -241,7 +262,7 @@ final class GameClientHandler extends GameProtocolHandler<IGuiGame> implements I
                 if (trackableObject.getTracker() == null) {
                     trackableObject.setTracker(this.tracker);
                     // walk the props
-                    EnumMap props = trackableObject.getProps();
+                    Map props = trackableObject.getProps();
                     if (props != null) {
                         for (Object propObj : props.values()) {
                             updateTrackers(new Object[]{propObj});
@@ -288,7 +309,7 @@ final class GameClientHandler extends GameProtocolHandler<IGuiGame> implements I
     private void refreshTrackerCardViews(final GameView gv) {
         if (gv.getPlayers() == null) { return; }
         for (final PlayerView pv : gv.getPlayers()) {
-            final EnumMap<?, ?> props = pv.getProps();
+            final Map props = pv.getProps();
             if (props == null) { continue; }
             for (final Object value : props.values()) {
                 if (value instanceof TrackableCollection<?> collection) {

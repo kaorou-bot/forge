@@ -91,6 +91,7 @@ public final class ReplaySession implements IHasForgeLog {
         final List<PlayerView> mine = new ArrayList<>();
         for (final PlayerControllerHuman hc : observed) {
             hc.getInputQueue().addObserver(forwarder);
+            hc.setReplayGui(gui);
             mine.add(hc.getLocalPlayerView());
         }
         gui.openView(new TrackableCollection<>(mine));
@@ -116,6 +117,7 @@ public final class ReplaySession implements IHasForgeLog {
     private void detach() {
         for (final PlayerControllerHuman hc : observed) {
             hc.getInputQueue().deleteObserver(forwarder);
+            hc.setReplayGui(null);
         }
         gui.shutdownForwarder();
         recorder.close();
