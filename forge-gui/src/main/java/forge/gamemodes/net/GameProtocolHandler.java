@@ -126,6 +126,7 @@ public abstract class GameProtocolHandler<T> extends ChannelInboundHandlerAdapte
                 } else {
                     Serializable reply = null;
                     try {
+                        final Object theReply = method.invoke(protocolMethod.receiver(toInvoke), callArgs);
                         if (theReply instanceof Serializable) {
                             protocolMethod.checkReturnValue(theReply);
                             reply = (Serializable) theReply;
