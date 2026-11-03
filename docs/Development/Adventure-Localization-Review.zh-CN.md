@@ -496,3 +496,32 @@ GuiDownloadZipService 下载先写同目录的 filename.part，只有完成长�
 生成依据和英中映射保存在 dist/translation-work/round32-greenmirror；正式独立报告为 dist/independent-network-tests/round32-greenmirror/final-report.txt，逐字段与去重待办在其 verified/realm-unbound-fields.json、realm-unbound-unique.json。未覆盖真实设备、模拟器、界面排版交互、完整剧情试玩、APK 安装及桌面构建。
 
 本轮没有改版号、打包、提交、推送或部署。Round29 汉化、Round30 发布预检和 Round31 下载恢复改动保持原样，不夹带发布。后续交付本批地图翻译须同时提供匹配的资源包与语言资源，不能只依赖旧版已下载地图。
+
+## 全部内置冒险物品本地化（2026-11-03，Round41–42）
+
+范围为 common、Innistrad、Realm of Legends、Shandalar Old Border 的背包物品显示，不等同于所有 NPC、地图或玩法已经汉化。四份 items.json 共 1,231 条定义、950 个不同内部名称、1,059 个名称与说明组合；其中 925 个组合有非空原说明，134 个为空（对应 267 条定义）。所有物品均有中文显示名称；空说明仍为空，不编造效果，也不串用另一世界同名物品的说明。
+
+### 实现和后续维护
+
+- 名称使用 `adv.item.<去除非ASCII字母数字的name>.displayName`。本轮检查无键碰撞；新增物品须一并检查。原 name 始终是英文内部 ID，不修改商店、奖励、装备、命令或存档引用。
+- 每条定义绑定 `locdescription`，同名不同原文采用稳定的 `.variantN` 键。已有绑定不重编号，空说明也有独立键，避免错误回退。EN 保留原文，ZH 显示润色译文。英文末尾必要空格用 Java Properties 的 `\u0020` 保存，不能随手删掉。
+- ItemData 只增加可选显示元数据。旧存档仅在 name、description 都与当前定义匹配且未带显示键时补 locdescription；不重建实例、不改 longID、装备/破损状态、价格、效果或命令。未知模组名称/说明/栏位继续回退原文。
+- 14 种装备栏位和动态效果标签本地化；效果中的牌名先用现有 CardTranslation，未收录的冒险自定义牌/衍生物使用 52 个 adv.itemCard 兜底键，未知牌仍显示英文。没有改动独立项目提供的 cardnames-zh-CN.txt。
+- 部分系列产品名保留英文，例如 Bloomburrow、Lorwyn Eclipsed；这是系列标题的选择，不是留空的物品操作说明。Bloomburrow 中文官方页面标题保留英文且内页也有繁体名称，不据此声称不存在中文称呼。
+- 原英文摘要不总是准确：中文以当前卡牌脚本核对关键费用、条件、目标和期限。例如龙袭暴返回自身，愚人书仅空手且费用 2+横置，门槛地需要坟墓场至少七张牌，消耗品须牺牲，玛尔都纪念碑衍生物不会回合末牺牲。区分牺牲与消灭、伤害与支付生命。此轮只修显示说明，英文原文和规则实现保留。
+- 装备的 lifeModifier 在 DuelScene.addEffects 中调整对局 startingLife，不修改地图 maxLife；对应说明使用“对局起始生命”，而真正的回复上限比例说明不改。
+- AdventureItemLocalizationTest 覆盖全部定义、英文精确匹配、中文非空、空说明隔离、世界变体、全部栏位、未知模组回退、复制/JSON、旧存档显示键辅助方法、效果牌名与关键规则说明。上游新增物品导致数量或绑定断言失败时，应补齐实际内容后更新盘点，不跳过测试。
+
+### 交付和限制
+
+需随匹配的客户端及共用 res 资源包交付：代码位于 forge-gui-mobile；语言表位于 forge-gui/res/languages；物品定义位于 forge-gui/res/adventure/<world>/world/items.json。仅替换旧客户端的一份语言表，不能保证其支持新增 locdescription 和旧存档显示键补齐。本轮未改版号、打包、提交、推送、上传或部署。
+
+静态审计确认四份 JSON 去掉 locdescription 后，与 HEAD bb9e8b08aae050b40b9dff652378a188b50cb1c3 完全一致。已有 common/Innistrad 的 Change 引用 c_a_gold_draw，但该 token 脚本在 HEAD 已缺失；本轮记录限制，不以翻译任务擅自替换玩法资源。其余已解析效果牌引用均有中文来源或兜底。
+
+独立验证任务：01a12110-42fb-7a42-97a8-a074bf5df870；开发任务：019ff001-903b-7223-afe5-c82577db0508。报告存于固定开发树 dist/independent-network-tests/round42-all-adventure-items。未执行实机、模拟器、界面交互、完整历史存档端到端加载或所有玩法，不把编译和自动化通过表述为真实设备兼容性已验收。
+
+### 独立验证结果
+
+Round42-r2 全量 81 项 Adventure 自动化测试通过，Android 10 模块编译、Checkstyle 通过。r3 只修改旧边框天界之剑的一条中文说明，将“消灭”纠正为由操控者“牺牲”，并明确己方目标；实际重跑物品本地化 9 项全通过，另外 72 项和 Android 编译明确继承 r2，不表述为 r3 再次执行全量测试。哈希及资源对照证明只有约定的一行差异。
+
+r3 全量资源、4,160 条真实 Java Properties/MessageFormat、TTF 4,060 个所需码点、像素字体 3,891 个所需汉字及 diff-check 全通过；字体无缺失或空白。独立任务通读 1,059 个说明变体，已报告的问题和费用候选均关闭。测试前后源码、受保护文件和独立牌名表哈希一致。完整报告为 dist/independent-network-tests/round42-all-adventure-items/final-report.txt，r2/r3 子目录保存日志、哈希清单和继承依据。测试归还源码/缓存后，开发仅补本文，不改变已验证产品和测试源码。

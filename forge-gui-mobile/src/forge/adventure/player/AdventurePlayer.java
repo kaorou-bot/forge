@@ -486,6 +486,9 @@ public class AdventurePlayer implements Serializable, SaveFileContent {
                 for (int i = 0; i < inv.length; i++) {
                     ItemData itemData = inv[i];
                     if (itemData != null) {
+                        if (itemData.locdescription == null || itemData.locdescription.isEmpty()) {
+                            itemData.updateLocalizationFrom(ItemListData.getItem(itemData.name));
+                        }
                         inventoryItems.add(itemData);
                     }
                 }

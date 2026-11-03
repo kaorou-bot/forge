@@ -2,20 +2,24 @@
   {
     "name": "Challenge Coin",
 	"description": "A heavy coin made of gold.",
+	"locdescription": "adv.item.ChallengeCoin.description.variant2",
     "iconName": "ChallengeCoin"
   },
   {
     "name": "Silver Challenge Coin",
 	"description": "A decorative coin made of silver.",
+	"locdescription": "adv.item.SilverChallengeCoin.description.variant2",
     "iconName": "SilverChallengeCoin"
   },
   {
     "name": "Bronze Challenge Coin",
 	"description": "A lightweight coin made of bronze.",
+	"locdescription": "adv.item.BronzeChallengeCoin.description.variant2",
     "iconName": "BronzeChallengeCoin"
   },
   {
 	  "name": "Sir Donovan's Amulet",
+	  "locdescription": "adv.item.SirDonovansAmulet.description",
 	  "usableOnWorldMap":true,
 	  "description": "A talisman for remotely contacting your employer",
 	  "iconName": "SirDonovansAmulet",
@@ -68,30 +72,35 @@
   },
   {
 	  "name": "Landscape Sketchbook",
+	  "locdescription": "adv.item.LandscapeSketchbook.description",
 	  "description": "A leather bound notebook containing sketches of various landscapes across Shandalar",
 	  "iconName": "LandscapeSketchbook",
 	  "questItem": true
   },
   {
 	  "name": "Landscape Sketchbook - Mirage",
+	  "locdescription": "adv.item.LandscapeSketchbookMirage.description",
 	  "unique": true,
 	  "description": "A leather bound notebook containing sketches of tropical locations",
 	  "iconName": "LandscapeSketchbook"
   },
   {
 	  "name": "Landscape Sketchbook - Urza's Saga",
+	  "locdescription": "adv.item.LandscapeSketchbookUrzasSaga.description",
 	  "unique": true,
 	  "description": "A leather bound notebook containing many different angles of the same terrain features",
 	  "iconName": "LandscapeSketchbook"
   },
   {
 	  "name": "Landscape Sketchbook - Coldsnap",
+	  "locdescription": "adv.item.LandscapeSketchbookColdsnap.description",
 	  "unique": true,
 	  "description": "A leather bound notebook containing sketches of frost covered vistas",
 	  "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Chandra's Tome",
+    "locdescription": "adv.item.ChandrasTome.description.variant2",
 	"description": "Draft a Chandra themed card that can be cast with mana of any color.",
     "equipmentSlot": "Left",
     "iconName": "ChandrasTome",
@@ -104,6 +113,7 @@
   {
   
     "name": "Phoenix Charm",
+    "locdescription": "adv.item.PhoenixCharm.description.variant2",
 	"description": "Draft a Phoenix card, or conjure one to be cast with mana of any color.",
     "equipmentSlot": "Neck",
     "iconName": "PhoenixCharm",
@@ -115,11 +125,13 @@
   },
   {
     "name": "Chandra's Stone",
+    "locdescription": "adv.item.ChandrasStone.description.variant2",
 	"description": "A small red gemstone recovered after your battle with Chandra.",
     "iconName": "r"
   },
   {
     "name": "Phoenix",
+    "locdescription": "adv.item.Phoenix.description.variant2",
 	"description": "Draft a Phoenix card, or conjure one to be cast with mana of any color.",
     "equipmentSlot": "Neck",
     "iconName": "PhoenixCharm",
@@ -131,11 +143,13 @@
   },
   {
     "name": "Liliana's Stone",
+    "locdescription": "adv.item.LilianasStone.description.variant2",
 	"description": "A small black gemstone recovered after your battle with Liliana.",
     "iconName": "b"
   },
   {
     "name": "Demonic Contract",
+    "locdescription": "adv.item.DemonicContract.description",
 	"description": "Sign away your soul to know what the future holds",
     "equipmentSlot": "Right",
     "iconName": "DemonicContract",
@@ -147,6 +161,7 @@
   },
   {
     "name": "Piper's Charm",
+    "locdescription": "adv.item.PipersCharm.description",
     "equipmentSlot": "Neck",
     "iconName": "PipersCharm",
     "cost": 4000,
@@ -157,6 +172,7 @@
     }
   },{
     "name": "Sleep Wand",
+    "locdescription": "adv.item.SleepWand.description",
     "equipmentSlot": "Left",
     "cost": 4000,
     "iconName": "SleepWand",
@@ -167,6 +183,7 @@
     }
   },{
     "name": "Hill Giant Club",
+    "locdescription": "adv.item.HillGiantClub.description",
     "equipmentSlot": "Right",
     "cost": 2000,
     "iconName": "HillGiantClub",
@@ -177,6 +194,7 @@
     }
   },{
     "name": "Cursed Treasure",
+    "locdescription": "adv.item.CursedTreasure.description",
     "equipmentSlot": "Right",
     "iconName": "CursedTreasure",
     "cost": 4000,
@@ -187,6 +205,7 @@
     }
   },{
     "name": "Farmer's Tools",
+    "locdescription": "adv.item.FarmersTools.description",
     "equipmentSlot": "Left",
     "iconName": "FarmersTools",
     "cost": 6000,
@@ -197,6 +216,7 @@
     }
   },{
     "name": "Sol Ring",
+    "locdescription": "adv.item.SolRing.description",
     "equipmentSlot": "Left",
     "iconName": "SolRing",
     "effect": {
@@ -207,6 +227,7 @@
   },
   {
     "name": "Mox Emerald",
+    "locdescription": "adv.item.MoxEmerald.description",
     "equipmentSlot": "Neck",
     "iconName": "MoxEmerald",
     "effect": {
@@ -217,6 +238,7 @@
   },
   {
     "name": "Black Lotus",
+    "locdescription": "adv.item.BlackLotus.description",
     "equipmentSlot": "Right",
     "iconName": "BlackLotus",
     "effect": {
@@ -227,6 +249,7 @@
   },
   {
     "name": "Mox Jet",
+    "locdescription": "adv.item.MoxJet.description",
     "equipmentSlot": "Neck",
     "iconName": "MoxJet",
     "effect": {
@@ -237,6 +260,7 @@
   },
   {
     "name": "Mox Pearl",
+    "locdescription": "adv.item.MoxPearl.description",
     "equipmentSlot": "Neck",
     "iconName": "MoxPearl",
     "effect": {
@@ -247,6 +271,7 @@
   },
   {
     "name": "Mox Ruby",
+    "locdescription": "adv.item.MoxRuby.description",
     "equipmentSlot": "Neck",
     "iconName": "MoxRuby",
     "effect": {
@@ -257,6 +282,7 @@
   },
   {
     "name": "Mox Sapphire",
+    "locdescription": "adv.item.MoxSapphire.description",
     "equipmentSlot": "Neck",
     "iconName": "MoxSapphire",
     "effect": {
@@ -267,6 +293,7 @@
   },
   {
     "name": "Battle Standard",
+    "locdescription": "adv.item.BattleStandard.description",
     "equipmentSlot": "Left",
     "iconName": "BattleStandard",
     "effect": {
@@ -278,6 +305,7 @@
  },
  {
     "name": "Hivestone",
+    "locdescription": "adv.item.Hivestone.description",
     "equipmentSlot": "Left",
     "iconName": "Hivestone",
     "effect": {
@@ -288,6 +316,7 @@
   },
   {
     "name": "Life Amulet",
+    "locdescription": "adv.item.LifeAmulet.description",
     "equipmentSlot": "Neck",
     "iconName": "LifeAmulet",
     "cost": 4000,
@@ -297,76 +326,91 @@
   },
   {
     "name": "Red Key",
+    "locdescription": "adv.item.RedKey.description",
     "iconName": "RedKey",
     "questItem": true
   },
   {
     "name": "Basement Key",
+    "locdescription": "adv.item.BasementKey.description",
     "iconName": "RedKey",
     "questItem": true
   },
   {
     "name": "Outer Gate Key",
+    "locdescription": "adv.item.OuterGateKey.description",
     "iconName": "RedKey",
     "questItem": true
   },
   {
     "name": "Nahiri's Key",
+    "locdescription": "adv.item.NahirisKey.description",
     "iconName": "RedKey",
     "questItem": true
   },
   {
     "name": "White Key",
+    "locdescription": "adv.item.WhiteKey.description",
     "iconName": "WhiteKey",
     "questItem": true
   },
   {
     "name": "Blue Key",
+    "locdescription": "adv.item.BlueKey.description",
     "iconName": "BlueKey",
     "questItem": true
   },
   {
     "name": "Green Key",
+    "locdescription": "adv.item.GreenKey.description",
     "iconName": "GreenKey",
     "questItem": true
   },
   {
     "name": "Black Key",
+    "locdescription": "adv.item.BlackKey.description",
     "iconName": "BlackKey",
     "questItem": true
   },
   {
     "name": "Strange Key",
+    "locdescription": "adv.item.StrangeKey.description",
     "iconName": "StrangeKey",
     "questItem": true
   },
   {
     "name": "Torturer's Key",
+    "locdescription": "adv.item.TorturersKey.description",
     "iconName": "StrangeKey",
     "questItem": true
   },
   {
     "name": "Grolnok's Key",
+    "locdescription": "adv.item.GrolnoksKey.description",
     "iconName": "StrangeKey",
     "questItem": true
   },
   {
     "name": "Rusty Old Key",
+    "locdescription": "adv.item.RustyOldKey.description",
     "iconName": "StrangeKey",
     "questItem": true
   },
   {
     "name": "Illusionist's Key",
+    "locdescription": "adv.item.IllusionistsKey.description",
     "iconName": "StrangeKey",
     "questItem": true
   },
   {
     "name": "Tibalt's Key",
+    "locdescription": "adv.item.TibaltsKey.description",
     "iconName": "StrangeKey",
     "questItem": true
   },
   {
     "name": "Axt",
+    "locdescription": "adv.item.Axt.description",
     "equipmentSlot": "Left",
     "iconName": "SteelAxt",
     "cost": 2500,
@@ -378,6 +422,7 @@
   },
   {
     "name": "Bronze Sword",
+    "locdescription": "adv.item.BronzeSword.description",
     "equipmentSlot": "Left",
     "iconName": "BronzeSword",
     "cost": 2500,
@@ -389,6 +434,7 @@
   },
   {
     "name": "Iron Boots",
+    "locdescription": "adv.item.IronBoots.description",
     "equipmentSlot": "Boots",
     "iconName": "IronBoots",
     "cost": 2000,
@@ -398,6 +444,7 @@
   },
   {
     "name": "Iron Shield",
+    "locdescription": "adv.item.IronShield.description",
     "equipmentSlot": "Right",
     "iconName": "IronShield",
     "cost": 3500,
@@ -407,6 +454,7 @@
   },
   {
     "name": "Iron Armor",
+    "locdescription": "adv.item.IronArmor.description",
     "equipmentSlot": "Body",
     "cost": 3000,
     "iconName": "IronArmor",
@@ -416,6 +464,7 @@
   },
   {
     "name": "Steel Sword",
+    "locdescription": "adv.item.SteelSword.description",
     "equipmentSlot": "Left",
     "iconName": "SteelSword",
     "cost": 4500,
@@ -427,6 +476,7 @@
   },
   {
     "name": "Steel Boots",
+    "locdescription": "adv.item.SteelBoots.description",
     "equipmentSlot": "Boots",
     "iconName": "SteelBoots",
     "cost": 4500,
@@ -437,6 +487,7 @@
   },
   {
     "name": "Steel Shield",
+    "locdescription": "adv.item.SteelShield.description",
     "equipmentSlot": "Right",
     "iconName": "SteelShield",
     "cost": 6500,
@@ -448,6 +499,7 @@
   },
   {
     "name": "Steel Armor",
+    "locdescription": "adv.item.SteelArmor.description",
     "equipmentSlot": "Body",
     "cost": 5000,
     "iconName": "SteelArmor",
@@ -457,6 +509,7 @@
   },
   {
     "name": "Armor of the Hivelord",
+    "locdescription": "adv.item.ArmoroftheHivelord.description",
     "equipmentSlot": "Body",
     "iconName": "HiveLordArmor",
     "effect": {
@@ -466,6 +519,7 @@
   },
   {
     "name": "Leather Boots",
+    "locdescription": "adv.item.LeatherBoots.description",
     "equipmentSlot": "Boots",
     "iconName": "LeatherBoots",
     "effect": {
@@ -474,6 +528,7 @@
   },
   {
     "name": "Jungle Shield",
+    "locdescription": "adv.item.JungleShield.description",
     "equipmentSlot": "Right",
     "iconName": "JungleShield",
     "cost": 2500,
@@ -485,6 +540,7 @@
   },
   {
     "name": "Dagger",
+    "locdescription": "adv.item.Dagger.description",
     "equipmentSlot": "Left",
     "iconName": "Dagger",
     "cost": 2500,
@@ -496,6 +552,7 @@
   },
   {
     "name": "Cheat",
+    "locdescription": "adv.item.Cheat.description",
     "equipmentSlot": "Neck",
     "iconName": "Goose",
     "effect": {
@@ -508,6 +565,7 @@
   },
   {
     "name": "Aladdin's Ring",
+    "locdescription": "adv.item.AladdinsRing.description",
     "equipmentSlot": "Right",
     "cost": 3000,
     "iconName": "AladdinsRing",
@@ -519,6 +577,7 @@
   },
   {
     "name": "Spell Book",
+    "locdescription": "adv.item.SpellBook.description",
     "iconName": "SpellBook",
     "equipmentSlot": "Left",
     "cost": 3000,
@@ -528,6 +587,7 @@
   },
   {
     "name": "Cursed Ring",
+    "locdescription": "adv.item.CursedRing.description",
     "equipmentSlot": "Right",
     "iconName": "CursedRing",
     "effect": {
@@ -540,6 +600,7 @@
   },
   {
     "name": "Mithril Boots",
+    "locdescription": "adv.item.MithrilBoots.description",
     "equipmentSlot": "Boots",
     "iconName": "MithrilBoots",
     "cost": 10000,
@@ -550,6 +611,7 @@
   },
   {
     "name": "Mithril Shield",
+    "locdescription": "adv.item.MithrilShield.description",
     "equipmentSlot": "Right",
     "iconName": "MithrilShield",
     "cost": 4500,
@@ -562,6 +624,7 @@
   },
   {
     "name": "Mithril Armor",
+    "locdescription": "adv.item.MithrilArmor.description",
     "equipmentSlot": "Body",
     "iconName": "MithrilArmor",
     "cost": 15000,
@@ -571,6 +634,7 @@
   },
   {
     "name": "Presence of the Hydra",
+    "locdescription": "adv.item.PresenceoftheHydra.description",
     "equipmentSlot": "Left",
     "iconName": "PresenceoftheHydra",
     "effect": {
@@ -582,6 +646,7 @@
   },
   {
     "name": "Death Ring",
+    "locdescription": "adv.item.DeathRing.description",
     "equipmentSlot": "Right",
     "iconName": "DeathRing",
     "effect": {
@@ -592,6 +657,7 @@
   },
   {
     "name": "Flame Sword",
+    "locdescription": "adv.item.FlameSword.description",
     "equipmentSlot": "Left",
     "iconName": "FlameSword",
     "effect": {
@@ -602,6 +668,7 @@
   },
   {
     "name": "Mirror Shield",
+    "locdescription": "adv.item.MirrorShield.description",
     "equipmentSlot": "Right",
     "iconName": "MirrorShield",
     "effect": {
@@ -612,6 +679,7 @@
   },
   {
     "name": "Dungeon Map",
+    "locdescription": "adv.item.DungeonMap.description",
     "equipmentSlot": "Right",
     "iconName": "DungeonMap",
     "effect": {
@@ -622,6 +690,7 @@
   },
   {
     "name": "Aladdin's Lamp",
+    "locdescription": "adv.item.AladdinsLamp.description",
     "equipmentSlot": "Right",
     "iconName": "AladdinsLamp",
     "effect": {
@@ -632,6 +701,7 @@
   },
   {
     "name": "Heart-Piercer",
+    "locdescription": "adv.item.HeartPiercer.description",
     "equipmentSlot": "Left",
     "iconName": "CompositeBow",
     "effect": {
@@ -642,6 +712,7 @@
   },
   {
     "name": "Wood Bow",
+    "locdescription": "adv.item.WoodBow.description",
     "equipmentSlot": "Left",
     "iconName": "WoodBow",
     "effect": {
@@ -650,6 +721,7 @@
   },
   {
     "name": "Sandals",
+    "locdescription": "adv.item.Sandals.description",
     "equipmentSlot": "Boots",
     "iconName": "Sandals",
     "effect": {
@@ -658,6 +730,7 @@
   },
   {
     "name": "Gold Boots",
+    "locdescription": "adv.item.GoldBoots.description",
     "equipmentSlot": "Boots",
     "iconName": "GoldBoots",
     "effect": {
@@ -667,6 +740,7 @@
   },
   {
     "name": "Gold Shield",
+    "locdescription": "adv.item.GoldShield.description",
     "equipmentSlot": "Right",
     "iconName": "GoldShield",
     "effect": {
@@ -675,6 +749,7 @@
   },
   {
     "name": "Gold Armor",
+    "locdescription": "adv.item.GoldArmor.description",
     "equipmentSlot": "Body",
     "iconName": "GoldArmor",
     "effect": {
@@ -683,6 +758,7 @@
   },
   {
     "name": "Dark Boots",
+    "locdescription": "adv.item.DarkBoots.description",
     "equipmentSlot": "Boots",
     "iconName": "DarkBoots",
     "cost": 2000,
@@ -696,6 +772,7 @@
   },
   {
     "name": "Dark Shield",
+    "locdescription": "adv.item.DarkShield.description",
     "equipmentSlot": "Right",
     "iconName": "DarkShield",
     "cost": 2500,
@@ -708,6 +785,7 @@
   },
   {
     "name": "Dark Armor",
+    "locdescription": "adv.item.DarkArmor.description",
     "equipmentSlot": "Body",
     "cost": 3000,
     "iconName": "DarkArmor",
@@ -720,6 +798,7 @@
   },
   {
     "name": "Blood Vial",
+    "locdescription": "adv.item.BloodVial.description",
     "equipmentSlot": "Right",
     "iconName": "Blood",
     "effect": {
@@ -730,6 +809,7 @@
   },
   {
     "name": "Charm",
+    "locdescription": "adv.item.Charm.description",
     "equipmentSlot": "Right",
     "iconName": "Clue",
     "effect": {
@@ -740,6 +820,7 @@
   },
   {
     "name": "Snack",
+    "locdescription": "adv.item.Snack.description",
     "equipmentSlot": "Right",
     "iconName": "Cheese",
     "effect": {
@@ -750,6 +831,7 @@
   },
   {
     "name": "Change",
+    "locdescription": "adv.item.Change.description",
     "equipmentSlot": "Right",
     "iconName": "GoldStack",
     "effect": {
@@ -760,6 +842,7 @@
   },
   {
     "name": "Treasure",
+    "locdescription": "adv.item.Treasure.description",
     "equipmentSlot": "Right",
     "iconName": "Treasure",
     "effect": {
@@ -770,6 +853,7 @@
   },
   {
     "name": "Magic Shard",
+    "locdescription": "adv.item.MagicShard.description",
     "equipmentSlot": "Right",
     "iconName": "Shard",
     "effect": {
@@ -780,6 +864,7 @@
   },
   {
     "name": "Mad Staff",
+    "locdescription": "adv.item.MadStaff.description",
     "equipmentSlot": "Left",
     "iconName": "MadStaff",
     "effect": {
@@ -790,6 +875,7 @@
   },
   {
     "name": "Dark Amulet",
+    "locdescription": "adv.item.DarkAmulet.description",
     "equipmentSlot": "Neck",
     "cost": 3000,
     "iconName": "DarkAmulet",
@@ -801,6 +887,7 @@
   },
   {
     "name": "Pandora's Box",
+    "locdescription": "adv.item.PandorasBox.description",
     "equipmentSlot": "Right",
     "iconName": "PandorasBox",
     "effect": {
@@ -811,6 +898,7 @@
   },
   {
     "name": "Disrupting Scepter",
+    "locdescription": "adv.item.DisruptingScepter.description",
     "equipmentSlot": "Left",
     "iconName": "DisruptingScepter",
     "effect": {
@@ -821,6 +909,7 @@
   },
   {
     "name": "Entrancing Lyre",
+    "locdescription": "adv.item.EntrancingLyre.description",
     "equipmentSlot": "Right",
     "iconName": "EntrancingLyre",
     "effect": {
@@ -831,6 +920,7 @@
   },
   {
     "name": "Heavy Arbalest",
+    "locdescription": "adv.item.HeavyArbalest.description",
     "equipmentSlot": "Left",
     "iconName": "HeavyArbalest",
     "effect": {
@@ -841,6 +931,7 @@
   },
   {
     "name": "Ring of Three Wishes",
+    "locdescription": "adv.item.RingofThreeWishes.description",
     "equipmentSlot": "Right",
     "iconName": "RingofThreeWishes",
     "effect": {
@@ -851,6 +942,7 @@
   },
   {
     "name": "The Blackstaff of Waterdeep",
+    "locdescription": "adv.item.TheBlackstaffofWaterdeep.description",
     "equipmentSlot": "Left",
     "iconName": "TheBlackstaffofWaterdeep",
     "effect": {
@@ -861,6 +953,7 @@
   },
   {
     "name": "Unerring Sling",
+    "locdescription": "adv.item.UnerringSling.description",
     "equipmentSlot": "Left",
     "iconName": "UnerringSling",
     "effect": {
@@ -871,6 +964,7 @@
   },
   {
     "name": "Jeweled Amulet",
+    "locdescription": "adv.item.JeweledAmulet.description",
     "equipmentSlot": "Neck",
     "iconName": "JeweledAmulet",
     "effect": {
@@ -881,6 +975,7 @@
   },
   {
     "name": "Traveler's Amulet",
+    "locdescription": "adv.item.TravelersAmulet.description",
     "equipmentSlot": "Neck",
     "iconName": "TravelersAmulet",
     "effect": {
@@ -891,6 +986,7 @@
   },
   {
     "name": "Relic Amulet",
+    "locdescription": "adv.item.RelicAmulet.description",
     "equipmentSlot": "Neck",
     "iconName": "RelicAmulet",
     "effect": {
@@ -901,6 +997,7 @@
   },
   {
     "name": "Amulet of Kroog",
+    "locdescription": "adv.item.AmuletofKroog.description",
     "equipmentSlot": "Neck",
     "iconName": "AmuletofKroog",
     "effect": {
@@ -911,6 +1008,7 @@
   },
   {
     "name": "Amulet of Vigor",
+    "locdescription": "adv.item.AmuletofVigor.description",
     "equipmentSlot": "Neck",
     "iconName": "AmuletofVigor",
     "effect": {
@@ -921,6 +1019,7 @@
   },
   {
     "name": "Veilstone Amulet",
+    "locdescription": "adv.item.VeilstoneAmulet.description",
     "equipmentSlot": "Neck",
     "iconName": "VeilstoneAmulet",
     "effect": {
@@ -931,6 +1030,7 @@
   },
   {
     "name": "Jandor's Ring",
+    "locdescription": "adv.item.JandorsRing.description",
     "equipmentSlot": "Right",
     "iconName": "JandorsRing",
     "effect": {
@@ -941,6 +1041,7 @@
   },
   {
     "name": "Jinxed Ring",
+    "locdescription": "adv.item.JinxedRing.description",
     "equipmentSlot": "Right",
     "iconName": "JinxedRing",
     "effect": {
@@ -953,6 +1054,7 @@
   },
   {
     "name": "Nine-Ringed Bo",
+    "locdescription": "adv.item.NineRingedBo.description",
     "equipmentSlot": "Left",
     "iconName": "Nine-RingedBo",
     "effect": {
@@ -963,6 +1065,7 @@
   },
   {
     "name": "Ring of Immortals",
+    "locdescription": "adv.item.RingofImmortals.description",
     "equipmentSlot": "Right",
     "iconName": "RingofImmortals",
     "effect": {
@@ -973,6 +1076,7 @@
   },
   {
     "name": "Prism Ring",
+    "locdescription": "adv.item.PrismRing.description",
     "equipmentSlot": "Right",
     "iconName": "PrismRing",
     "effect": {
@@ -983,6 +1087,7 @@
   },
   {
     "name": "Ring of Renewal",
+    "locdescription": "adv.item.RingofRenewal.description",
     "equipmentSlot": "Right",
     "iconName": "RingofRenewal",
     "effect": {
@@ -993,6 +1098,7 @@
   },
   {
     "name": "Kite Shield",
+    "locdescription": "adv.item.KiteShield.description",
     "equipmentSlot": "Right",
     "iconName": "KiteShield",
     "effect": {
@@ -1003,6 +1109,7 @@
   },
   {
     "name": "Shell Wand",
+    "locdescription": "adv.item.ShellWand.description",
     "equipmentSlot": "Left",
     "effect": {
       "opponent": {
@@ -1019,10 +1126,12 @@
 		"colorView": true
 	},
 	"description": "Grants Manasight, letting you know the colors used by your adversaries.",
+	"locdescription": "adv.item.ManasightAmulet.description.variant2",
 	"iconName": "RelicAmulet"
 },
 {
 	"name": "Fortune Coin",
+	"locdescription": "adv.item.FortuneCoin.description",
 	"equipmentSlot": "Left",
 	"effect": {
 		"name": "",
@@ -1037,6 +1146,7 @@
 	"usableOnWorldMap":true,
     "equipmentSlot": "Ability2",
 	"description": "Teleports you to the center",
+	"locdescription": "adv.item.Colorlessrune.description",
 	"commandOnUse": "teleport to poi Spawn",
 	"iconName": "ColorlessRune",
 	"questItem": true,
@@ -1051,6 +1161,7 @@
 		"name": ""
 	},
 	"description": "Teleports you to the plains",
+	"locdescription": "adv.item.Whiterune.description",
 	"commandOnUse": "teleport to poi \"Plains Capital\"",
 	"iconName": "WhiteRune",
 	"questItem": true,
@@ -1065,6 +1176,7 @@
 		"name": ""
 	},
 	"description": "Teleports you to the swamp",
+	"locdescription": "adv.item.Blackrune.description",
 	"commandOnUse": "teleport to poi \"Swamp Capital\"",
 	"iconName": "BlackRune",
 	"questItem": true,
@@ -1079,6 +1191,7 @@
 		"name": ""
 	},
 	"description": "Teleports you to the island",
+	"locdescription": "adv.item.Bluerune.description",
 	"commandOnUse": "teleport to poi \"Island Capital\"",
 	"iconName": "BlueRune",
 	"questItem": true,
@@ -1093,6 +1206,7 @@
 		"name": ""
 	},
 	"description": "Teleports you to the mountain",
+	"locdescription": "adv.item.Redrune.description",
 	"commandOnUse": "teleport to poi \"Mountain Capital\"",
 	"iconName": "RedRune",
 	"questItem": true,
@@ -1107,6 +1221,7 @@
 		"name": ""
 	},
 	"description": "Teleports you to the forest",
+	"locdescription": "adv.item.Greenrune.description",
 	"commandOnUse": "teleport to poi \"Forest Capital\"",
 	"iconName": "GreenRune",
 	"questItem": true,
@@ -1122,6 +1237,7 @@
 		"name": ""
 	},
 	"description": "Heals you half of your life",
+	"locdescription": "adv.item.WhiteStaff.description",
 	"commandOnUse": "heal percent 0.5",
 	"iconName": "WhiteStaff",
 	"questItem": true,
@@ -1137,6 +1253,7 @@
 		"name": ""
 	},
 	"description": "Hide from enemies for some time",
+	"locdescription": "adv.item.BlackStaff.description",
 	"commandOnUse": "hide 10",
 	"iconName": "BlackStaff",
 	"questItem": true,
@@ -1151,6 +1268,7 @@
 		"name": ""
 	},
 	"description": "Lets you fly for some time",
+	"locdescription": "adv.item.BlueStaff.description",
 	"commandOnUse": "fly 10",
     "iconName": "BlueStaff",
 	"questItem": true,
@@ -1165,6 +1283,7 @@
 		"name": ""
 	},
 	"description": "Kills the closest enemy on the Overworld",
+	"locdescription": "adv.item.RedStaff.description",
 	"commandOnUse": "remove enemy nearest",
 	"iconName": "RedStaff",
 	"questItem": true,
@@ -1180,6 +1299,7 @@
 		"name": ""
 	},
 	"description": "Doubles your speed for some time",
+	"locdescription": "adv.item.GreenStaff.description",
 	"commandOnUse": "sprint 10",
 	"iconName": "GreenStaff",
 	"questItem": true,
@@ -1188,6 +1308,7 @@
 },
 {
     "name": "Slimefoot's Slimy Staff",
+    "locdescription": "adv.item.SlimefootsSlimyStaff.description",
     "equipmentSlot": "Left",
     "iconName": "GreenStaff",
     "effect": {
@@ -1199,6 +1320,7 @@
 },
 {
     "name": "Kiora's Bident",
+    "locdescription": "adv.item.KiorasBident.description",
     "equipmentSlot": "Left",
     "iconName": "SleepWand",
     "effect": {
@@ -1213,6 +1335,7 @@
 },
 {
     "name": "Slime-Covered Boots",
+    "locdescription": "adv.item.SlimeCoveredBoots.description",
     "equipmentSlot": "Boots",
     "iconName": "SteelBoots",
     "effect": {
@@ -1225,6 +1348,7 @@
 },
 {
     "name": "Jace's Signature Hoodie",
+    "locdescription": "adv.item.JacesSignatureHoodie.description",
     "equipmentSlot": "Body",
     "iconName": "BlueRobes",
     "effect": {
@@ -1237,6 +1361,7 @@
 },
 {
     "name": "Teferi's Staff",
+    "locdescription": "adv.item.TeferisStaff.description",
     "equipmentSlot": "Left",
     "iconName": "MadStaff",
     "effect": {
@@ -1249,6 +1374,7 @@
 },
 {
     "name": "Garruk's Mighty Axe",
+    "locdescription": "adv.item.GarruksMightyAxe.description",
     "equipmentSlot": "Left",
     "iconName": "GarrukAxe",
     "effect": {
@@ -1260,6 +1386,7 @@
 },
 {
     "name": "Nahiri's Armory",
+    "locdescription": "adv.item.NahirisArmory.description",
     "equipmentSlot": "Right",
     "iconName": "Armory",
     "effect": {
@@ -1271,6 +1398,7 @@
 },
 {
     "name": "Giant Scythe",
+    "locdescription": "adv.item.GiantScythe.description",
     "equipmentSlot": "Left",
     "iconName": "Scythe",
     "effect": {
@@ -1282,6 +1410,7 @@
 },
 {
     "name": "Chicken Egg",
+    "locdescription": "adv.item.ChickenEgg.description",
     "equipmentSlot": "Right",
     "iconName": "ChickenEgg",
     "effect": {
@@ -1293,6 +1422,7 @@
 },
 {
     "name": "Tibalt's Bag of Tricks",
+    "locdescription": "adv.item.TibaltsBagofTricks.description",
     "equipmentSlot": "Left",
     "iconName": "BurningBook",
     "effect": {
@@ -1304,6 +1434,7 @@
 },
 {
     "name": "Xira's Fancy Hat",
+    "locdescription": "adv.item.XirasFancyHat.description",
     "equipmentSlot": "Neck",
     "iconName": "BrownHat",
     "effect": {
@@ -1315,6 +1446,7 @@
 },
 {
     "name": "The Underworld Cookbook",
+    "locdescription": "adv.item.TheUnderworldCookbook.description",
     "equipmentSlot": "Left",
     "iconName": "UnderworldCookbook",
     "effect": {
@@ -1326,6 +1458,7 @@
 },
 {
     "name": "Mantle of Ancient Lore",
+    "locdescription": "adv.item.MantleofAncientLore.description",
     "equipmentSlot": "Body",
     "iconName": "Conjurer's Mantle",
     "effect": {
@@ -1337,6 +1470,7 @@
 },
 {
     "name": "Zedruu's Lantern",
+    "locdescription": "adv.item.ZedruusLantern.description",
     "equipmentSlot": "Left",
     "iconName": "ZedruuLantern",
     "effect": {
@@ -1348,6 +1482,7 @@
 },
 {
     "name": "Grolnok's Skin",
+    "locdescription": "adv.item.GrolnoksSkin.description",
     "equipmentSlot": "Right",
     "iconName": "FrogSkin",
     "effect": {
@@ -1359,6 +1494,7 @@
 },
 {
     "name": "Slobad's Iron Boots",
+    "locdescription": "adv.item.SlobadsIronBoots.description",
     "equipmentSlot": "Boots",
     "iconName": "MetallicBoots",
     "effect": {
@@ -1371,6 +1507,7 @@
 },
   {
     "name": "Hallowed Sigil",
+    "locdescription": "adv.item.HallowedSigil.description.variant2",
 	"description": "Turn a creature hexproof until end of turn.",
     "equipmentSlot": "Neck",
     "iconName": "HallowedSigil",
@@ -1382,6 +1519,7 @@
   },
   {
     "name": "Unhallowed Sigil",
+    "locdescription": "adv.item.UnhallowedSigil.description.variant2",
 	"description": "Devour the life of an enemy creature, killing it.",
     "equipmentSlot": "Right",
     "iconName": "UnhallowedSigil",
@@ -1393,6 +1531,7 @@
   },
   {
     "name": "Cultist's Key",
+    "locdescription": "adv.item.CultistsKey.description",
     "iconName": "StrangeKey",
     "questItem": true
   }

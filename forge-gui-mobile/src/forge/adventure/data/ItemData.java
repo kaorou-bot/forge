@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import forge.adventure.util.Config;
 
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -17,6 +18,7 @@ public class ItemData implements Serializable, Cloneable {
     public String equipmentSlot;
     public EffectData effect;
     public String description; //Manual description of the item.
+    public String locdescription; //Optional world-specific display text key; never an item ID.
     public String iconName;
     public boolean questItem=false;
     public boolean unique=false; // If true, cannot be obtained while already in inventory
@@ -42,6 +44,7 @@ public class ItemData implements Serializable, Cloneable {
         equipmentSlot     = cpy.equipmentSlot;
         effect            = new EffectData(cpy.effect);
         description       = cpy.description;
+        locdescription    = cpy.locdescription;
         iconName          = cpy.iconName;
         questItem         = cpy.questItem;
         unique            = cpy.unique;
@@ -57,15 +60,27 @@ public class ItemData implements Serializable, Cloneable {
         return Config.instance().getItemSprite(iconName);
     }
 
+    /** Refresh display metadata on old saves without replacing gameplay or instance state. */
+    public void updateLocalizationFrom(ItemData definition) {
+        if ((locdescription == null || locdescription.isEmpty()) && definition != null
+                && Objects.equals(name, definition.name) && Objects.equals(description, definition.description)) {
+            locdescription = definition.locdescription;
+        }
+    }
+
     public String getDescription() {
         String result = "";
         String translatedDescription = forge.Forge.getLocalizer().getMessageorUseDefault(
-            "adv.item." + makeKey(name) + ".description", "");
+            locdescription != null && !locdescription.isEmpty()
+                ? locdescription : "adv.item." + makeKey(name) + ".description", "");
         String baseDescription = !translatedDescription.isEmpty() ? translatedDescription : this.description;
         if(baseDescription != null && !baseDescription.isEmpty())
             result += baseDescription + "\n";
-        if(this.equipmentSlot != null && !this.equipmentSlot.isEmpty())
-            result += "Slot: " + this.equipmentSlot + "\n";
+        if(this.equipmentSlot != null && !this.equipmentSlot.isEmpty()) {
+            String slot = forge.Forge.getLocalizer().getMessageorUseDefault(
+                "adv.item.slot." + this.equipmentSlot, this.equipmentSlot);
+            result += forge.Forge.getLocalizer().getMessage("adv.item.slotLabel", slot) + "\n";
+        }
         if(effect != null)
             result += effect.getDescription();
         if(shardsNeeded != 0)

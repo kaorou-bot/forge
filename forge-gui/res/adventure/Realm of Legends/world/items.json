@@ -2,742 +2,868 @@
   {
     "name": "Challenge Coin",
     "description": "A heavy coin made of gold. Redeem for a free draft.",
+    "locdescription": "adv.item.ChallengeCoin.description.variant3",
     "iconName": "ChallengeCoin"
   },
   {
     "name": "Silver Challenge Coin",
     "description": "A heavy coin made of silver. Redeem for a free sealed event.",
+    "locdescription": "adv.item.SilverChallengeCoin.description.variant3",
     "iconName": "SilverChallengeCoin"
   },
   {
     "name": "Landscape Sketchbook - Mirage",
+    "locdescription": "adv.item.LandscapeSketchbookMirage.description.variant2",
     "unique": true,
     "description": "Gives access to Mirage land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Urza's Saga",
+    "locdescription": "adv.item.LandscapeSketchbookUrzasSaga.description.variant2",
     "unique": true,
     "description": "Gives access to Urza's Saga land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Coldsnap",
+    "locdescription": "adv.item.LandscapeSketchbookColdsnap.description.variant2",
     "unique": true,
     "description": "Gives access to Coldsnap land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Zendikar",
+    "locdescription": "adv.item.LandscapeSketchbookZendikar.description.variant2",
     "unique": true,
     "description": "Gives access to Zendikar land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Innistrad",
+    "locdescription": "adv.item.LandscapeSketchbookInnistrad.description.variant2",
     "unique": true,
     "description": "Gives access to Innistrad land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Ravnica Allegiance",
+    "locdescription": "adv.item.LandscapeSketchbookRavnicaAllegiance.description.variant2",
     "unique": true,
     "description": "Gives access to Ravnica Allegiance land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Theros",
+    "locdescription": "adv.item.LandscapeSketchbookTheros.description.variant2",
     "unique": true,
     "description": "Gives access to Theros land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Kamigawa Neon Dynasty",
+    "locdescription": "adv.item.LandscapeSketchbookKamigawaNeonDynasty.description.variant2",
     "unique": true,
     "description": "Gives access to Neon Dynasty land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Dominaria",
+    "locdescription": "adv.item.LandscapeSketchbookDominaria.description.variant2",
     "unique": true,
     "description": "Gives access to Dominaria land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Lorwyn",
+    "locdescription": "adv.item.LandscapeSketchbookLorwyn.description.variant2",
     "unique": true,
     "description": "Gives access to Lorwyn land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Shards of Alara",
+    "locdescription": "adv.item.LandscapeSketchbookShardsofAlara.description.variant2",
     "unique": true,
     "description": "Gives access to Shards of Alara land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Amonkhet",
+    "locdescription": "adv.item.LandscapeSketchbookAmonkhet.description.variant2",
     "unique": true,
     "description": "Gives access to Amonkhet land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Ixalan",
+    "locdescription": "adv.item.LandscapeSketchbookIxalan.description.variant2",
     "unique": true,
     "description": "Gives access to Ixalan land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Unglued",
+    "locdescription": "adv.item.LandscapeSketchbookUnglued.description",
     "unique": true,
     "description": "Gives access to Unglued land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Unhinged",
+    "locdescription": "adv.item.LandscapeSketchbookUnhinged.description",
     "unique": true,
     "description": "Gives access to Unhinged land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Unstable",
+    "locdescription": "adv.item.LandscapeSketchbookUnstable.description",
     "unique": true,
     "description": "Gives access to Unstable land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Unfinity",
+    "locdescription": "adv.item.LandscapeSketchbookUnfinity.description",
     "unique": true,
     "description": "Gives access to Unfinity land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Aetherdrift",
+    "locdescription": "adv.item.LandscapeSketchbookAetherdrift.description.variant2",
     "unique": true,
     "description": "Gives access to Aetherdrift land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Edge of Eternities",
+    "locdescription": "adv.item.LandscapeSketchbookEdgeofEternities.description",
     "unique": true,
     "description": "Gives access to Edge of Eternities land arts in the add basic lands menu of the deckbuilder's upper right corner.y",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Strixhaven: School of Mages",
+    "locdescription": "adv.item.LandscapeSketchbookStrixhavenSchoolofMages.description.variant2",
     "unique": true,
     "description": "Gives access to Strixhaven land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Streets of New Capenna",
+    "locdescription": "adv.item.LandscapeSketchbookStreetsofNewCapenna.description.variant2",
     "unique": true,
     "description": "Gives access to New Capenna land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Kaldheim",
+    "locdescription": "adv.item.LandscapeSketchbookKaldheim.description.variant2",
     "unique": true,
     "description": "Gives access to Kaldheim land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Ikoria: Lair of Behemoths",
+    "locdescription": "adv.item.LandscapeSketchbookIkoriaLairofBehemoths.description.variant2",
     "unique": true,
     "description": "Gives access to Ikoria land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Throne of Eldraine",
+    "locdescription": "adv.item.LandscapeSketchbookThroneofEldraine.description.variant2",
     "unique": true,
     "description": "Gives access to Eldraine land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Shadows Over Innistrad",
+    "locdescription": "adv.item.LandscapeSketchbookShadowsOverInnistrad.description.variant2",
     "unique": true,
     "description": "Gives access to Shadows Over Innistrad land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Battle for Zendikar",
+    "locdescription": "adv.item.LandscapeSketchbookBattleforZendikar.description.variant2",
     "unique": true,
     "description": "Gives access to Battle for Zendikar land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Khans of Tarkir",
+    "locdescription": "adv.item.LandscapeSketchbookKhansofTarkir.description.variant2",
     "unique": true,
     "description": "Gives access to Khans of Tarkir land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Hour of Devastation",
+    "locdescription": "adv.item.LandscapeSketchbookHourofDevastation.description.variant2",
     "unique": true,
     "description": "Gives access to Hour of Devastation land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Kaladesh",
+    "locdescription": "adv.item.LandscapeSketchbookKaladesh.description.variant2",
     "unique": true,
     "description": "Gives access to Kaladesh land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Mercadian Masques",
+    "locdescription": "adv.item.LandscapeSketchbookMercadianMasques.description.variant2",
     "unique": true,
     "description": "Gives access to Mercadian Masques land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - New Phyrexia",
+    "locdescription": "adv.item.LandscapeSketchbookNewPhyrexia.description.variant2",
     "unique": true,
     "description": "Gives access to New Phyrexia land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Mirrodin Besieged",
+    "locdescription": "adv.item.LandscapeSketchbookMirrodinBesieged.description.variant2",
     "unique": true,
     "description": "Gives access to Mirrodin Besieged land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Scars of Mirrodin",
+    "locdescription": "adv.item.LandscapeSketchbookScarsofMirrodin.description.variant2",
     "unique": true,
     "description": "Gives access to Scars of Mirrodin land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Magic Origins",
+    "locdescription": "adv.item.LandscapeSketchbookMagicOrigins.description.variant2",
     "unique": true,
     "description": "Gives access to Magic Origins land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Core Set 2021",
+    "locdescription": "adv.item.LandscapeSketchbookCoreSet2021.description.variant2",
     "unique": true,
     "description": "Gives access to M21 land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Modern Horizons",
+    "locdescription": "adv.item.LandscapeSketchbookModernHorizons.description.variant2",
     "unique": true,
     "description": "Gives access to Modern Horizons land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Tempest",
+    "locdescription": "adv.item.LandscapeSketchbookTempest.description.variant2",
     "unique": true,
     "description": "Gives access to Tempest land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Onslaught",
+    "locdescription": "adv.item.LandscapeSketchbookOnslaught.description.variant2",
     "unique": true,
     "description": "Gives access to Onslaught land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Odyssey",
+    "locdescription": "adv.item.LandscapeSketchbookOdyssey.description.variant2",
     "unique": true,
     "description": "Gives access to Odyssey land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Rise of the Eldrazi",
+    "locdescription": "adv.item.LandscapeSketchbookRiseoftheEldrazi.description.variant2",
     "unique": true,
     "description": "Gives access to Rise of the Eldrazi land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Dragons of Tarkir",
+    "locdescription": "adv.item.LandscapeSketchbookDragonsofTarkir.description.variant2",
     "unique": true,
     "description": "Gives access to Dragons of Tarkir land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Duskmourn: House of Horror",
+    "locdescription": "adv.item.LandscapeSketchbookDuskmournHouseofHorror.description.variant2",
     "unique": true,
     "description": "Gives access to Duskmorn land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Outlaws of Thunder Junction",
+    "locdescription": "adv.item.LandscapeSketchbookOutlawsofThunderJunction.description.variant2",
     "unique": true,
     "description": "Gives access to Thunder Junction land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Bloomburrow",
+    "locdescription": "adv.item.LandscapeSketchbookBloomburrow.description.variant2",
     "unique": true,
     "description": "Gives access to Bloomburrow land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - The Brothers War",
+    "locdescription": "adv.item.LandscapeSketchbookTheBrothersWar.description.variant2",
     "unique": true,
     "description": "Gives access to Brothers War land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Seventh Edition",
+    "locdescription": "adv.item.LandscapeSketchbookSeventhEdition.description",
     "unique": true,
     "description": "Gives access to 7th Ed land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Limited Edition Alpha",
+    "locdescription": "adv.item.LandscapeSketchbookLimitedEditionAlpha.description",
     "unique": true,
     "description": "Gives access to Alpha land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Limited Edition Beta",
+    "locdescription": "adv.item.LandscapeSketchbookLimitedEditionBeta.description",
     "unique": true,
     "description": "Gives access to Beta land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Revised Edition",
+    "locdescription": "adv.item.LandscapeSketchbookRevisedEdition.description",
     "unique": true,
     "description": "Gives access to Revised land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Fourth Edition",
+    "locdescription": "adv.item.LandscapeSketchbookFourthEdition.description",
     "unique": true,
     "description": "Gives access to 4th Ed land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Fifth Edition",
+    "locdescription": "adv.item.LandscapeSketchbookFifthEdition.description",
     "unique": true,
     "description": "Gives access to 5th Ed land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Classic Sixth Edition",
+    "locdescription": "adv.item.LandscapeSketchbookClassicSixthEdition.description",
     "unique": true,
     "description": "Gives access to 6th Ed land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Ice Age",
+    "locdescription": "adv.item.LandscapeSketchbookIceAge.description",
     "unique": true,
     "description": "Gives access to Ice Age non-snow land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Tempest",
+    "locdescription": "adv.item.LandscapeSketchbookTempest.description.variant2",
     "unique": true,
     "description": "Gives access to Tempest land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Portal",
+    "locdescription": "adv.item.LandscapeSketchbookPortal.description",
     "unique": true,
     "description": "Gives access to Portal land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Portal Second Age",
+    "locdescription": "adv.item.LandscapeSketchbookPortalSecondAge.description",
     "unique": true,
     "description": "Gives access to Portal Second Age land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Portal Three Kingdoms",
+    "locdescription": "adv.item.LandscapeSketchbookPortalThreeKingdoms.description",
     "unique": true,
     "description": "Gives access to Three Kingdoms land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Starter 1999",
+    "locdescription": "adv.item.LandscapeSketchbookStarter1999.description",
     "unique": true,
     "description": "Gives access to Starter 99 land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Starter 2000",
+    "locdescription": "adv.item.LandscapeSketchbookStarter2000.description",
     "unique": true,
     "description": "Gives access to Starter 2000 land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Battle Royale",
+    "locdescription": "adv.item.LandscapeSketchbookBattleRoyale.description",
     "unique": true,
     "description": "Gives access to Battle Royale Box Set land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Beatdown Box Set",
+    "locdescription": "adv.item.LandscapeSketchbookBeatdownBoxSet.description",
     "unique": true,
     "description": "Gives access to Beatdown Box Set land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Lorwyn Eclipsed",
+    "locdescription": "adv.item.LandscapeSketchbookLorwynEclipsed.description",
     "unique": true,
     "description": "Gives access to Lorwyn Eclipsed land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Tarkir: Dragonstorm",
+    "locdescription": "adv.item.LandscapeSketchbookTarkirDragonstorm.description",
     "unique": true,
     "description": "Gives access to Tarkir Dragonstorm land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Secrets of Strixhaven",
+    "locdescription": "adv.item.LandscapeSketchbookSecretsofStrixhaven.description",
     "unique": true,
     "description": "Gives access to Secrets of Strixhaven land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Landscape Sketchbook - Reality Fracture",
+    "locdescription": "adv.item.LandscapeSketchbookRealityFracture.description",
     "unique": true,
     "description": "Gives access to Reality Fracture land arts in the add basic lands menu of the deckbuilder's upper right corner.",
     "iconName": "LandscapeSketchbook"
   },
   {
     "name": "Victor's Key",
+    "locdescription": "adv.item.VictorsKey.description",
     "description": "Unlocks the back of the church.",
     "iconName": "BlackKey",
     "questItem": true
   },
   {
     "name": "Hylda's Key",
+    "locdescription": "adv.item.HyldasKey.description",
     "description": "One of three keys to the basement gate.",
     "iconName": "BlueKey",
     "questItem": true
   },
   {
     "name": "Eriette's Key",
+    "locdescription": "adv.item.EriettesKey.description",
     "description": "One of three keys to the basement gate.",
     "iconName": "BlackKey",
     "questItem": true
   },
   {
     "name": "Agatha's Key",
+    "locdescription": "adv.item.AgathasKey.description",
     "description": "One of three keys to the basement gate.",
     "iconName": "RedKey",
     "questItem": true
   },
   {
     "name": "Grenzo's Key",
+    "locdescription": "adv.item.GrenzosKey.description",
     "description": "Unlocks the prison behind him.",
     "iconName": "RedKey",
     "questItem": true
   },
   {
     "name": "Marchesa's Key",
+    "locdescription": "adv.item.MarchesasKey.description",
     "description": "Unlocks the right gate.",
     "iconName": "BlackKey",
     "questItem": true
   },
   {
     "name": "Gitrog's Key",
+    "locdescription": "adv.item.GitrogsKey.description",
     "description": "Unlocks the treasure room near the basement entrance.",
     "iconName": "GreenKey",
     "questItem": true
   },
   {
     "name": "Prismari Key",
+    "locdescription": "adv.item.PrismariKey.description",
     "description": "Unlocks the lower gate.",
     "iconName": "RedKey",
     "questItem": true
   },
   {
     "name": "Lorehold Key",
+    "locdescription": "adv.item.LoreholdKey.description",
     "description": "Unlocks the lower gate.",
     "iconName": "WhiteKey",
     "questItem": true
   },
   {
     "name": "Quandrix Key",
+    "locdescription": "adv.item.QuandrixKey.description",
     "description": "Unlocks the lower gate.",
     "iconName": "BlueKey",
     "questItem": true
   },
   {
     "name": "Witherbloom Key",
+    "locdescription": "adv.item.WitherbloomKey.description",
     "description": "Unlocks the lower gate.",
     "iconName": "GreenKey",
     "questItem": true
   },
   {
     "name": "Silverquill Key",
+    "locdescription": "adv.item.SilverquillKey.description",
     "description": "Unlocks the lower gate.",
     "iconName": "BlackKey",
     "questItem": true
   },
   {
     "name": "Key to the Castle",
+    "locdescription": "adv.item.KeytotheCastle.description",
     "description": "Unlocks the castle gate.",
     "iconName": "WhiteKey",
     "questItem": true
   },
   {
     "name": "Red Gate Key",
+    "locdescription": "adv.item.RedGateKey.description",
     "iconName": "RedKey",
     "questItem": true
   },
   {
     "name": "White Gate Key",
+    "locdescription": "adv.item.WhiteGateKey.description",
     "iconName": "WhiteKey",
     "questItem": true
   },
   {
     "name": "Blue Gate Key",
+    "locdescription": "adv.item.BlueGateKey.description",
     "iconName": "BlueKey",
     "questItem": true
   },
   {
     "name": "Green Gate Key",
+    "locdescription": "adv.item.GreenGateKey.description",
     "iconName": "GreenKey",
     "questItem": true
   },
   {
     "name": "Black Gate Key",
+    "locdescription": "adv.item.BlackGateKey.description",
     "iconName": "BlackKey",
     "questItem": true
   },
   {
     "name": "Strange Gate Key",
+    "locdescription": "adv.item.StrangeGateKey.description",
     "iconName": "StrangeKey",
     "questItem": true
   },
   {
     "name": "Red Key",
+    "locdescription": "adv.item.RedKey.description",
     "iconName": "RedKey",
     "questItem": true
   },
   {
     "name": "White Key",
+    "locdescription": "adv.item.WhiteKey.description",
     "iconName": "WhiteKey",
     "questItem": true
   },
   {
     "name": "Blue Key",
+    "locdescription": "adv.item.BlueKey.description",
     "iconName": "BlueKey",
     "questItem": true
   },
   {
     "name": "Green Key",
+    "locdescription": "adv.item.GreenKey.description",
     "iconName": "GreenKey",
     "questItem": true
   },
   {
     "name": "Black Key",
+    "locdescription": "adv.item.BlackKey.description",
     "iconName": "BlackKey",
     "questItem": true
   },
     {
     "name": "Red Key to the Ur-Dragon",
+    "locdescription": "adv.item.RedKeytotheUrDragon.description",
     "description": "One of the five keys to the Prison of the Ur-Dragon in the wastes.",
     "iconName": "RedKey",
     "questItem": true
   },
   {
     "name": "White Key to the Ur-Dragon",
+    "locdescription": "adv.item.WhiteKeytotheUrDragon.description",
     "description": "One of the five keys to the Prison of the Ur-Dragon in the wastes.",
     "iconName": "WhiteKey",
     "questItem": true
   },
   {
     "name": "Blue Key to the Ur-Dragon",
+    "locdescription": "adv.item.BlueKeytotheUrDragon.description",
     "description": "One of the five keys to the Prison of the Ur-Dragon in the wastes.",
     "iconName": "BlueKey",
     "questItem": true
   },
   {
     "name": "Green Key to the Ur-Dragon",
+    "locdescription": "adv.item.GreenKeytotheUrDragon.description",
     "description": "One of the five keys to the Prison of the Ur-Dragon in the wastes.",
     "iconName": "GreenKey",
     "questItem": true
   },
   {
     "name": "Black Key to the Ur-Dragon",
+    "locdescription": "adv.item.BlackKeytotheUrDragon.description",
     "description": "One of the five keys to the Prison of the Ur-Dragon in the wastes.",
     "iconName": "BlackKey",
     "questItem": true
   },
   {
     "name": "Eldrazi Pentakey Shard 1",
+    "locdescription": "adv.item.EldraziPentakeyShard1.description",
     "description": "One of the five keys to the Eldrazi Prison.",
     "iconName": "StrangeKey",
     "questItem": true
   },
   {
     "name": "Eldrazi Pentakey Shard 2",
+    "locdescription": "adv.item.EldraziPentakeyShard2.description",
     "description": "One of the five keys to the Eldrazi Prison.",
     "iconName": "StrangeKey",
     "questItem": true
   },
   {
     "name": "Eldrazi Pentakey Shard 3",
+    "locdescription": "adv.item.EldraziPentakeyShard3.description",
     "description": "One of the five keys to the Eldrazi Prison.",
     "iconName": "StrangeKey",
     "questItem": true
   },
   {
     "name": "Eldrazi Pentakey Shard 4",
+    "locdescription": "adv.item.EldraziPentakeyShard4.description",
     "description": "One of the five keys to the Eldrazi Prison.",
     "iconName": "StrangeKey",
     "questItem": true
   },
   {
     "name": "Eldrazi Pentakey Shard 5",
+    "locdescription": "adv.item.EldraziPentakeyShard5.description",
     "description": "One of the five keys to the Eldrazi Prison.",
     "iconName": "StrangeKey",
     "questItem": true
   },
   {
     "name": "Ulalek's Hexkey",
+    "locdescription": "adv.item.UlaleksHexkey.description",
     "description": "One of six keys which will open the final gate alongside the Ur-Dragon's Key.",
     "iconName": "StrangeKey",
     "questItem": true
   },
   {
     "name": "Azlask's Hexkey",
+    "locdescription": "adv.item.AzlasksHexkey.description",
     "description": "One of six keys which will open the final gate alongside the Ur-Dragon's Key.",
     "iconName": "StrangeKey",
     "questItem": true
   },
   {
     "name": "Zhulodok's Hexkey",
+    "locdescription": "adv.item.ZhulodoksHexkey.description",
     "description": "One of six keys which will open the final gate alongside the Ur-Dragon's Key.",
     "iconName": "StrangeKey",
     "questItem": true
   },
   {
     "name": "Kozilek's Hexkey",
+    "locdescription": "adv.item.KozileksHexkey.description",
     "description": "One of six keys which will open the final gate alongside the Ur-Dragon's Key.",
     "iconName": "StrangeKey",
     "questItem": true
   },
   {
     "name": "Ulamog's Hexkey",
+    "locdescription": "adv.item.UlamogsHexkey.description",
     "description": "One of six keys which will open the final gate alongside the Ur-Dragon's Key.",
     "iconName": "StrangeKey",
     "questItem": true
   },
   {
     "name": "Emrakul's Hexkey",
+    "locdescription": "adv.item.EmrakulsHexkey.description",
     "description": "One of six keys which will open the final gate alongside the Ur-Dragon's Key.",
     "iconName": "StrangeKey",
     "questItem": true
   },
   {
     "name": "Ur-Dragon's Key",
+    "locdescription": "adv.item.UrDragonsKey.description",
     "description": "Unlocks the gate to your final goal somewhere within the Eldrazi Prison.",
     "iconName": "GoldKey",
     "questItem": true
   },
   {
     "name": "Bowl of Ancient Blood",
+    "locdescription": "adv.item.BowlofAncientBlood.description",
     "description": "Able to revive an elder vampire. Return to the swamp capitol for a reward.",
     "iconName": "BowlofAncientBlood",
     "questItem": true
   }, 
   {
     "name": "Arguel's Bloody Helm",
+    "locdescription": "adv.item.ArguelsBloodyHelm.description",
     "description": "Proof of the high marshal's death. Return to the plains capitol for a reward.",
     "iconName": "ArguelsBloodyHelm",
     "questItem": true
   }, 
   {
     "name": "White Cartouche of Victory",
+    "locdescription": "adv.item.WhiteCartoucheofVictory.description",
     "description": "Proof you defeated Elesh Norn. Return to the plains capitol for a reward.",
     "iconName": "WhiteCartouche",
     "questItem": true
   }, 
   {
     "name": "Warding Statue Torso",
+    "locdescription": "adv.item.WardingStatueTorso.description",
     "description": "One third of what you need to return to the swamp capitol for a reward.",
     "iconName": "WardingStatueTorso",
     "questItem": true
   }, 
   {
     "name": "Warding Statue Skirt",
+    "locdescription": "adv.item.WardingStatueSkirt.description",
     "description": "One third of what you need to return to the swamp capitol for a reward.",
     "iconName": "WardingStatueSkirt",
     "questItem": true
   }, 
   {
     "name": "Warding Statue Arms",
+    "locdescription": "adv.item.WardingStatueArms.description",
     "description": "One third of what you need to return to the swamp capitol for a reward.",
     "iconName": "WardingStatueArms",
     "questItem": true
   }, 
   {
     "name": "Map to the Hostages",
+    "locdescription": "adv.item.MaptotheHostages.description",
     "description": "Shows how to rescue some prisoners. Return to the island capitol for a reward.",
     "iconName": "MaptotheHostages",
     "questItem": true
   }, 
   {
     "name": "The Luckiest Clover",
+    "locdescription": "adv.item.TheLuckiestClover.description",
     "description": "Feels gross, but somehow intact. Return to the forest capitol for a reward.",
     "iconName": "TheLuckiestClover",
     "questItem": true
   }, 
   {
     "name": "Cheese of Bees",
+    "locdescription": "adv.item.CheeseofBees.description",
     "description": "Smells delicious and attracts tons of bees. Return to the forest capitol for a reward.",
     "iconName": "CheeseofBees",
     "questItem": true
   }, 
   {
     "name": "One Thousand Chickens",
+    "locdescription": "adv.item.OneThousandChickens.description",
     "description": "Very loud and delicious. Return to the mountain capitol for a reward.",
     "iconName": "OneThousandChickens",
     "questItem": true
   }, 
   {
     "name": "Blue Cartouche of Victory",
+    "locdescription": "adv.item.BlueCartoucheofVictory.description",
     "description": "Proof you defeated Jin-Gitaxias. Return to the island capitol for a reward.",
     "iconName": "BlueCartouche",
     "questItem": true
   }, 
   {
     "name": "Everflowing Watering Can",
+    "locdescription": "adv.item.EverflowingWateringCan.description",
     "description": "Great for agriculture. Return to the plains capitol for a reward.",
     "iconName": "EverflowingWateringCan",
     "questItem": true
   }, 
   {
     "name": "Black Cartouche of Victory",
+    "locdescription": "adv.item.BlackCartoucheofVictory.description",
     "description": "Proof you defeated Sheoldred. Return to the swamp capitol for a reward.",
     "iconName": "BlackCartouche",
     "questItem": true
   }, 
   {
     "name": "Tome of Temporal Repair",
+    "locdescription": "adv.item.TomeofTemporalRepair.description",
     "description": "Shows how to fix time distortions. Return to the island capitol for a reward.",
     "iconName": "TomeofTemporalRepair",
     "questItem": true
   }, 
   {
     "name": "Red Cartouche of Victory",
+    "locdescription": "adv.item.RedCartoucheofVictory.description",
     "description": "Proof you defeated Urabrask. Return to the mountain capitol for a reward.",
     "iconName": "RedCartouche",
     "questItem": true
   }, 
   {
     "name": "Green Cartouche of Victory",
+    "locdescription": "adv.item.GreenCartoucheofVictory.description",
     "description": "Proof you defeated Vorinclex. Return to the forest capitol for a reward.",
     "iconName": "GreenCartouche",
     "questItem": true
   }, 
   {
     "name": "Victory Standard",
+    "locdescription": "adv.item.VictoryStandard.description",
     "description": "The victory is yours now. Return to the mountain capitol for a reward.",
     "iconName": "VictoryStandard",
     "questItem": true
   },
   {
     "name": "Kill Trophy",
+    "locdescription": "adv.item.KillTrophy.description",
     "description": "Shows triumph over a monster. Give to Chevill for a reward.",
     "iconName": "KillTrophy",
     "questItem": true
@@ -747,6 +873,7 @@
     "usableOnWorldMap": true,
     "equipmentSlot": "Ability2",
     "description": "Teleports you to the mysterious library",
+    "locdescription": "adv.item.Colorlessrune.description.variant2",
     "commandOnUse": "teleport to poi Spawn",
     "iconName": "ColorlessRune",
     "questItem": true,
@@ -758,6 +885,7 @@
     "usableOnWorldMap": true,
     "equipmentSlot": "Ability2",
     "description": "Teleports you to the eldrazi prison",
+    "locdescription": "adv.item.Eldrazirune.description",
     "commandOnUse": "teleport to poi \"Eldrazi Prison\"",
     "iconName": "MulticolorRune",
     "questItem": true,
@@ -771,6 +899,7 @@
       "name": ""
     },
     "description": "Teleports you to the capitol of the plains",
+    "locdescription": "adv.item.Whiterune.description.variant2",
     "commandOnUse": "teleport to poi \"Plains Capital\"",
     "iconName": "WhiteRune",
     "questItem": true,
@@ -785,6 +914,7 @@
       "name": ""
     },
     "description": "Teleports you to the capitol of the swamps",
+    "locdescription": "adv.item.Blackrune.description.variant2",
     "commandOnUse": "teleport to poi \"Swamp Capital\"",
     "iconName": "BlackRune",
     "questItem": true,
@@ -799,6 +929,7 @@
       "name": ""
     },
     "description": "Teleports you to the capitol of the islands",
+    "locdescription": "adv.item.Bluerune.description.variant2",
     "commandOnUse": "teleport to poi \"Island Capital\"",
     "iconName": "BlueRune",
     "questItem": true,
@@ -813,6 +944,7 @@
       "name": ""
     },
     "description": "Teleports you to the capitol of the mountains",
+    "locdescription": "adv.item.Redrune.description.variant2",
     "commandOnUse": "teleport to poi \"Mountain Capital\"",
     "iconName": "RedRune",
     "questItem": true,
@@ -827,6 +959,7 @@
       "name": ""
     },
     "description": "Teleports you to the capitol of the forests",
+    "locdescription": "adv.item.Greenrune.description.variant2",
     "commandOnUse": "teleport to poi \"Forest Capital\"",
     "iconName": "GreenRune",
     "questItem": true,
@@ -841,6 +974,7 @@
       "name": ""
     },
     "description": "Teleports you to the ghost town",
+    "locdescription": "adv.item.Ghostrune.description",
     "commandOnUse": "teleport to poi \"Ghost Town\"",
     "iconName": "GhostRune",
     "questItem": true,
@@ -855,6 +989,7 @@
       "name": ""
     },
     "description": "Teleports you to Omenport",
+    "locdescription": "adv.item.OmenportOmenstone.description",
     "commandOnUse": "teleport to poi Omenport",
     "iconName": "Diamond",
     "questItem": true,
@@ -869,6 +1004,7 @@
       "name": ""
     },
     "description": "Teleports you to Tarnation",
+    "locdescription": "adv.item.TarnationOmenstone.description",
     "commandOnUse": "teleport to poi Tarnation",
     "iconName": "MoxRuby",
     "questItem": true,
@@ -883,6 +1019,7 @@
       "name": ""
     },
     "description": "Teleports you to Three Tree City",
+    "locdescription": "adv.item.ThreeTreeOmenstone.description",
     "commandOnUse": "teleport to poi \"Three Tree City\"",
     "iconName": "Ivory",
     "questItem": true,
@@ -897,6 +1034,7 @@
       "name": ""
     },
     "description": "Teleports you to the Wizard Palace",
+    "locdescription": "adv.item.WizardPalaceOmenstone.description",
     "commandOnUse": "teleport to poi \"Wizard Palace\"",
     "iconName": "MoxSapphire",
     "questItem": true,
@@ -911,6 +1049,7 @@
       "name": ""
     },
     "description": "Teleports you to the Squirrel Farm",
+    "locdescription": "adv.item.SquirrelFarmOmenstone.description",
     "commandOnUse": "teleport to poi \"Squirrel Farm\"",
     "iconName": "MoxEmerald",
     "questItem": true,
@@ -925,6 +1064,7 @@
       "name": ""
     },
     "description": "Teleports you to Gitrog Bog",
+    "locdescription": "adv.item.GitrogBogOmenstone.description",
     "commandOnUse": "teleport to poi \"Gitrog Bog\"",
     "iconName": "MoxJet",
     "questItem": true,
@@ -939,6 +1079,7 @@
       "name": ""
     },
     "description": "Teleports you to the Aerie",
+    "locdescription": "adv.item.AerieOmenstone.description",
     "commandOnUse": "teleport to poi Aerie",
     "iconName": "MoxPearl",
     "questItem": true,
@@ -953,6 +1094,7 @@
       "name": ""
     },
     "description": "Teleports you to the Valor's Reach Arena",
+    "locdescription": "adv.item.ValorsReachOmenstone.description",
     "commandOnUse": "teleport to poi \"Valor's Reach Arena\"",
     "iconName": "Ruby",
     "questItem": true,
@@ -964,6 +1106,7 @@
     "usableOnWorldMap": true,
     "equipmentSlot": "Ability2",
     "description": "Teleports you to the otherworldly market",
+    "locdescription": "adv.item.OtherworldlyReturnCard.description",
     "commandOnUse": "teleport to poi \"Otherworldly Market\"",
     "iconName": "Pull",
     "questItem": true,
@@ -977,6 +1120,7 @@
       "name": ""
     },
     "description": "Greatly increases speed for a while.",
+    "locdescription": "adv.item.StaffofSpeed.description",
     "commandOnUse": "sprint 30",
     "iconName": "StaffofSpeed",
     "questItem": true,
@@ -990,6 +1134,7 @@
       "name": ""
     },
     "description": "Fly over rough terrain for a while.",
+    "locdescription": "adv.item.StaffofFlight.description",
     "commandOnUse": "fly 30",
     "iconName": "StaffofFlight",
     "questItem": true,
@@ -1003,6 +1148,7 @@
       "name": ""
     },
     "description": "Recovers your life after a lost duel without visiting a town.",
+    "locdescription": "adv.item.StaffofHealing.description",
     "commandOnUse": "heal percent 1",
     "iconName": "StaffofHealing",
     "questItem": true,
@@ -1016,6 +1162,7 @@
       "name": ""
     },
     "description": "Hide from enemies for a while.",
+    "locdescription": "adv.item.StaffofInvisibility.description",
     "commandOnUse": "hide 30",
     "iconName": "StaffofInvisibility",
     "cost": 2000,
@@ -1023,6 +1170,7 @@
   },
 {
     "name": "Bronze Blessing of Speed",
+    "locdescription": "adv.item.BronzeBlessingofSpeed.description",
     "equipmentSlot": "Blessing",
     "effect": {
       "moveSpeed": 1.25
@@ -1033,6 +1181,7 @@
   },
 {
     "name": "Silver Blessing of Speed",
+    "locdescription": "adv.item.SilverBlessingofSpeed.description",
     "equipmentSlot": "Blessing",
     "effect": {
       "moveSpeed": 1.5
@@ -1043,6 +1192,7 @@
   },
 {
     "name": "Gold Blessing of Speed",
+    "locdescription": "adv.item.GoldBlessingofSpeed.description",
     "equipmentSlot": "Blessing",
     "effect": {
       "moveSpeed": 2
@@ -1058,11 +1208,13 @@
       "colorView": true
     },
     "description": "Grants Manasight, to see enemy colors.",
+    "locdescription": "adv.item.ManasightStone.description",
     "questItem": true,
     "iconName": "ManasightStone"
   },
   {
     "name": "Captive Soul of a Priest",
+    "locdescription": "adv.item.CaptiveSoulofaPriest.description",
     "description": "Only makes things harder; no benefits. Uses a special slot.",
     "equipmentSlot": "Heart",
     "iconName": "PureSoul",
@@ -1073,6 +1225,7 @@
   },
   {
     "name": "Captive Soul of a Saint",
+    "locdescription": "adv.item.CaptiveSoulofaSaint.description",
     "description": "Makes things much harder; no benefits. Uses a special slot.",
     "equipmentSlot": "Heart",
     "iconName": "SaintSoul",
@@ -1083,6 +1236,7 @@
   },
   {
     "name": "Captive Soul of a Knight",
+    "locdescription": "adv.item.CaptiveSoulofaKnight.description",
     "description": "A stolen soul that gives you 1 life. Uses a special slot.",
     "equipmentSlot": "Heart",
     "iconName": "CaptiveSoul",
@@ -1093,6 +1247,7 @@
   },
   {
     "name": "Captive Soul of a Noble",
+    "locdescription": "adv.item.CaptiveSoulofaNoble.description",
     "description": "A stolen soul that gives you 2 life. Uses a special slot.",
     "equipmentSlot": "Heart",
     "iconName": "NobleSoul",
@@ -1103,6 +1258,7 @@
   },
   {
     "name": "Captive Soul of a Royal",
+    "locdescription": "adv.item.CaptiveSoulofaRoyal.description",
     "description": "A stolen soul that gives you 3 life. Uses a special slot.",
     "equipmentSlot": "Heart",
     "iconName": "RoyalSoul",
@@ -1113,6 +1269,7 @@
   },
   {
     "name": "Cutthroat Skirt",
+    "locdescription": "adv.item.CutthroatSkirt.description",
     "description": "3/2 vampire, level up for deathtouch",
     "equipmentSlot": "Boots",
     "iconName": "CutthroatSkirt",
@@ -1126,6 +1283,7 @@
   },
     {
     "name": "Utopia Anklet",
+    "locdescription": "adv.item.UtopiaAnklet.description",
     "description": "0/2 taps for any color",
     "equipmentSlot": "Boots",
     "iconName": "UtopiaAnklet",
@@ -1138,6 +1296,7 @@
   },
   {
     "name": "Amulet of Agony",
+    "locdescription": "adv.item.AmuletofAgony.description",
     "description": "Blood counters when you pay life. 4 blood, 1B: Kill a creature",
     "equipmentSlot": "Neck",
     "iconName": "AmuletofAgony",
@@ -1149,6 +1308,7 @@
   },
     {
     "name": "Kobold Boots",
+    "locdescription": "adv.item.KoboldBoots.description",
     "description": "Two 0/1 kobolds, one for each boot.",
     "equipmentSlot": "Boots",
     "iconName": "KoboldBoots",
@@ -1161,6 +1321,7 @@
   },
     {
     "name": "Cloudseeder Shoes",
+    "locdescription": "adv.item.CloudseederShoes.description",
     "description": "1/1 faerie with flying, U, T, discard to make 1/1 flying faeries that only block fliers",
     "equipmentSlot": "Boots",
     "iconName": "CloudseederShoes",
@@ -1173,6 +1334,7 @@
   },
     {
     "name": "Courier's Boots",
+    "locdescription": "adv.item.CouriersBoots.description",
     "description": "1/1 goblin, sac to give haste",
     "equipmentSlot": "Boots",
     "iconName": "Courier'sBoots",
@@ -1187,6 +1349,7 @@
   },
     {
       "name": "Jolly Boots",
+      "locdescription": "adv.item.JollyBoots.description",
       "description": "2/3 that draws you a card when you give a gift.",
       "equipmentSlot": "Boots",
       "iconName": "JollyBoots",
@@ -1201,6 +1364,7 @@
     },
     {
     "name": "Symbiote Bondband",
+    "locdescription": "adv.item.SymbioteBondband.description",
     "description": "2/2 that gives a +1/+1 counter to any creature that mutates and also 2 life",
     "equipmentSlot": "Boots",
     "iconName": "SymbioteBondband",
@@ -1212,6 +1376,7 @@
   },
     {
     "name": "Imposter's Sliverband",
+    "locdescription": "adv.item.ImpostersSliverband.description",
     "description": "A 3/3 artifact sliver with no abilities",
     "equipmentSlot": "Boots",
     "iconName": "MistformSliverband",
@@ -1223,6 +1388,7 @@
   },
     {
     "name": "Maestro Loafers",
+    "locdescription": "adv.item.MaestroLoafers.description",
     "description": "3/1 vampire, pay 4(U/R) to exile from grave to draw two, discard one",
     "equipmentSlot": "Boots",
     "iconName": "MaestroLoafers",
@@ -1235,6 +1401,7 @@
   },
     {
     "name": "Brimstone Boots",
+    "locdescription": "adv.item.BrimstoneBoots.description",
     "description": "2/2 shaman, level up to ping",
     "equipmentSlot": "Boots",
     "iconName": "BrimstoneBoots",
@@ -1247,6 +1414,7 @@
   },
     {
     "name": "Peddler's Shoes",
+    "locdescription": "adv.item.PeddlersShoes.description",
     "description": "1/1 Human that can pay W, tap, and discard to gain 3",
     "equipmentSlot": "Boots",
     "iconName": "Peddler'sShoes",
@@ -1260,6 +1428,7 @@
   },
     {
     "name": "Sky Skiff Turnkey",
+    "locdescription": "adv.item.SkySkiffTurnkey.description",
     "description": "2/3 flying vehicle with crew 1",
     "equipmentSlot": "Boots",
     "iconName": "SkySkiffTurnkey",
@@ -1272,6 +1441,7 @@
   },
     {
     "name": "Bloodfire Boots",
+    "locdescription": "adv.item.BloodfireBoots.description",
     "description": "1/1 dwarf, pay R and sac to deal 1 to each nonflier",
     "equipmentSlot": "Boots",
     "iconName": "BloodfireBoots",
@@ -1286,6 +1456,7 @@
   },
     {
     "name": "Witch's Shoes",
+    "locdescription": "adv.item.WitchsShoes.description",
     "description": "1/1 Human that can pay B, tap, and discard to give -1/-1",
     "equipmentSlot": "Boots",
     "iconName": "Witch'sShoes",
@@ -1299,6 +1470,7 @@
   },
     {
     "name": "Petalmane Pants",
+    "locdescription": "adv.item.PetalmanePants.description",
     "description": "1/2 spirit, gets ki when spirit/arcane, 1 and remove X ki for X mana",
     "equipmentSlot": "Boots",
     "iconName": "PetalmanePants",
@@ -1311,6 +1483,7 @@
   },
     {
     "name": "Enduring Sliverband",
+    "locdescription": "adv.item.EnduringSliverband.description",
     "description": "2/2 sliver; slivers gain 2, T: Get a +1/+1 counter at sorcery speed",
     "equipmentSlot": "Boots",
     "iconName": "EnduringSliverband",
@@ -1323,6 +1496,7 @@
   },
     {
     "name": "Jade Anklet",
+    "locdescription": "adv.item.JadeAnklet.description",
     "description": "Artifact that becomes a 4/4 until EOT when you cast a spirit or arcane",
     "equipmentSlot": "Boots",
     "iconName": "JadeAnklet",
@@ -1335,6 +1509,7 @@
   },
     {
     "name": "Coiled Anklet",
+    "locdescription": "adv.item.CoiledAnklet.description",
     "description": "3/3 Serpent token",
     "equipmentSlot": "Boots",
     "iconName": "CoiledAnklet",
@@ -1346,6 +1521,7 @@
   },
     {
       "name": "Witch-Maw Anklet",
+      "locdescription": "adv.item.WitchMawAnklet.description",
       "description": "1/1 that gets two +1/+1 counters for each of your spells. Trample at 10+ power",
       "equipmentSlot": "Boots",
       "iconName": "Witch-MawAnklet",
@@ -1359,6 +1535,7 @@
   },
     {
     "name": "Deathspore Shoes",
+    "locdescription": "adv.item.DeathsporeShoes.description",
     "description": "1/1 that builds spores, remove 3 for a saproling or sac a saproling for -1/-1",
     "equipmentSlot": "Boots",
     "iconName": "DeathsporeShoes",
@@ -1371,6 +1548,7 @@
   },
     {
     "name": "Obscura Shoes",
+    "locdescription": "adv.item.ObscuraShoes.description",
     "description": "2/2 flying bird, pay 1(B/W) for lifelink",
     "equipmentSlot": "Boots",
     "iconName": "ObscuraShoes",
@@ -1383,6 +1561,7 @@
   },
     {
     "name": "Angelic Ring",
+    "locdescription": "adv.item.AngelicRing.description",
     "description": "Sacrifice to revive a creature that just died.",
     "equipmentSlot": "Left",
     "iconName": "AngelicRing",
@@ -1394,6 +1573,7 @@
   },
     {
     "name": "Steel Boots",
+    "locdescription": "adv.item.SteelBoots.description.variant2",
     "description": "0/4 artifact wall with defender",
     "equipmentSlot": "Boots",
     "iconName": "SteelBoots",
@@ -1406,6 +1586,7 @@
   },
     {
     "name": "Mamba Bondband",
+    "locdescription": "adv.item.MambaBondband.description",
     "description": "1/1 that gives -2/-2 on mutate",
     "equipmentSlot": "Boots",
     "iconName": "MambaBondband",
@@ -1417,6 +1598,7 @@
   },
     {
     "name": "Cabaretti Kicks",
+    "locdescription": "adv.item.CabarettiKicks.description",
     "description": "1/2 raccoon, pay 2(R/W) for double strike",
     "equipmentSlot": "Boots",
     "iconName": "CabarettiKicks",
@@ -1428,6 +1610,7 @@
   },
     {
     "name": "Sheldon's Shoes",
+    "locdescription": "adv.item.SheldonsShoes.description",
     "description": "2/2 that dark confidants each player during your upkeep",
     "equipmentSlot": "Boots",
     "iconName": "Sheldon'sShoes",
@@ -1440,6 +1623,7 @@
   },
     {
     "name": "Empyrial Greaves",
+    "locdescription": "adv.item.EmpyrialGreaves.description",
     "description": "1/1 Human Cleric, pay 2W and triple sac for Empyrial Archangel",
     "equipmentSlot": "Boots",
     "iconName": "EmpyrialGreaves",
@@ -1452,6 +1636,7 @@
   },
     {
     "name": "Gixian Graft",
+    "locdescription": "adv.item.GixianGraft.description",
     "description": "3/1 phyrexian, when it dies, copy it into grave, unearth 1B",
     "equipmentSlot": "Boots",
     "iconName": "GixianGraft",
@@ -1464,6 +1649,7 @@
   },
     {
     "name": "Artificial Sliverband",
+    "locdescription": "adv.item.ArtificialSliverband.description",
     "description": "1/1 artifact, 1, T, discard to make a 1/1 metallic sliver",
     "equipmentSlot": "Boots",
     "iconName": "ArtificialSliverband",
@@ -1476,6 +1662,7 @@
   },
     {
     "name": "Shoes of the Swarm",
+    "locdescription": "adv.item.ShoesoftheSwarm.description",
     "description": "*/1 rat, * is your rat count.",
     "equipmentSlot": "Boots",
     "iconName": "SinuousShoes",
@@ -1487,6 +1674,7 @@
   },
     {
     "name": "Caravaneer's Greaves",
+    "locdescription": "adv.item.CaravaneersGreaves.description",
     "description": "1/1 knight, level up to get bigger",
     "equipmentSlot": "Boots",
     "iconName": "Caravaneer'sGreaves",
@@ -1500,6 +1688,7 @@
   },
     {
     "name": "Joraga Boots",
+    "locdescription": "adv.item.JoragaBoots.description",
     "description": "1/1, level up to tap for GG, then let all elves tap for GG",
     "equipmentSlot": "Boots",
     "iconName": "JoragaBoots",
@@ -1512,6 +1701,7 @@
   },
     {
     "name": "Hellkite Greaves",
+    "locdescription": "adv.item.HellkiteGreaves.description",
     "description": "1/1 Goblin Shaman, pay 2R and triple sac for Hellkite Overlord",
     "equipmentSlot": "Boots",
     "iconName": "HellkiteGreaves",
@@ -1524,6 +1714,7 @@
   },
     {
       "name": "Yore-Tiller Anklet",
+      "locdescription": "adv.item.YoreTillerAnklet.description",
       "description": "2/2 that reanimates tapped and attacking on attack",
       "equipmentSlot": "Boots",
       "iconName": "Yore-TillerAnklet",
@@ -1537,6 +1728,7 @@
   },
     {
     "name": "Silvergill Tailband",
+    "locdescription": "adv.item.SilvergillTailband.description",
     "description": "1/1 merfolk that taps to give -X/-0 where X is merfolk and faerie count",
     "equipmentSlot": "Boots",
     "iconName": "SilvergillTailband",
@@ -1548,6 +1740,7 @@
   },
     {
     "name": "Riveteer Greaves",
+    "locdescription": "adv.item.RiveteerGreaves.description",
     "description": "2/2 lizard, pay 1(B/G) for deathtouch",
     "equipmentSlot": "Boots",
     "iconName": "RiveteerGreaves",
@@ -1559,6 +1752,7 @@
   },
     {
     "name": "Valorous Greaves",
+    "locdescription": "adv.item.ValorousGreaves.description",
     "description": "2/2 knight, +1/+1 to your other knights",
     "equipmentSlot": "Boots",
     "iconName": "ValorousGreaves",
@@ -1570,6 +1764,7 @@
   },
   {
     "name": "Battle Cry Boots",
+    "locdescription": "adv.item.BattleCryBoots.description",
     "description": "2/2, 1R: +1/+0 and haste to gobs; attack w/6+ power: gob token",
     "equipmentSlot": "Boots",
     "iconName": "BattleCryBoots",
@@ -1581,6 +1776,7 @@
   },
     {
     "name": "Deathspitter Skirt",
+    "locdescription": "adv.item.DeathspitterSkirt.description",
     "description": "3/2 dinosaur, enrage 2 to opp",
     "equipmentSlot": "Boots",
     "iconName": "DeathspitterSkirt",
@@ -1592,6 +1788,7 @@
   },
     {
     "name": "Lookout's Harness",
+    "locdescription": "adv.item.LookoutsHarness.description",
     "description": "1/1 ally that can pay 4W to give your board +1/+1",
     "equipmentSlot": "Boots",
     "iconName": "Lookout'sHarness",
@@ -1604,6 +1801,7 @@
   },
     {
     "name": "Bearhide Breeches",
+    "locdescription": "adv.item.BearhideBreeches.description",
     "description": "2/2 bear, 3GG and exile from grave to make two 2/2s",
     "equipmentSlot": "Boots",
     "iconName": "BearhideBreeches",
@@ -1615,6 +1813,7 @@
   },
     {
     "name": "Vindicator Greaves",
+    "locdescription": "adv.item.VindicatorGreaves.description",
     "description": "2/4 knight, 2W twice for 3/6 +1/+1 all, 3 more levels for 4/8 +2/+2 all",
     "equipmentSlot": "Boots",
     "iconName": "VindicatorGreaves",
@@ -1628,6 +1827,7 @@
   },
     {
     "name": "Timebug Boots",
+    "locdescription": "adv.item.TimebugBoots.description",
     "description": "1/2 artifact, tap to add or remove a time counter from permanent or suspended card",
     "equipmentSlot": "Boots",
     "iconName": "TimebugBoots",
@@ -1639,6 +1839,7 @@
   },
     {
     "name": "Glimmerbell Bondband",
+    "locdescription": "adv.item.GlimmerbellBondband.description",
     "description": "1/3 flyer that can pay 1U to untap itself",
     "equipmentSlot": "Boots",
     "iconName": "GlimmerbellBondband",
@@ -1650,6 +1851,7 @@
   },
     {
     "name": "Firefrightener Shoes",
+    "locdescription": "adv.item.FirefrightenerShoes.description",
     "description": "1/1 goblin that can pay 1R, tap, and discard to give red fear",
     "equipmentSlot": "Boots",
     "iconName": "FirefrightenerShoes",
@@ -1663,6 +1865,7 @@
   },
     {
     "name": "Despoiler's Boots",
+    "locdescription": "adv.item.DespoilersBoots.description",
     "description": "5/5 eldrazi",
     "equipmentSlot": "Boots",
     "iconName": "Despoiler'sBoots",
@@ -1675,6 +1878,7 @@
   },
     {
     "name": "Sovereign Greaves",
+    "locdescription": "adv.item.SovereignGreaves.description",
     "description": "1/1 artifact Wizard, pay 2U and triple sac for Sphinx Sovereign",
     "equipmentSlot": "Boots",
     "iconName": "SovereignGreaves",
@@ -1687,6 +1891,7 @@
   },
     {
     "name": "Bloodsworn Bite",
+    "locdescription": "adv.item.BloodswornBite.description",
     "description": "2/1 vampire with flying, can't block, pay R to give a vampire haste",
     "equipmentSlot": "Boots",
     "iconName": "BloodswornBite",
@@ -1699,6 +1904,7 @@
   },
     {
     "name": "Victual Sliverband",
+    "locdescription": "adv.item.VictualSliverband.description",
     "description": "2/2 sliver; slivers gain 2 and sac: gain 4",
     "equipmentSlot": "Boots",
     "iconName": "VictualSliverband",
@@ -1711,6 +1917,7 @@
   },
     {
     "name": "Gingerboots",
+    "locdescription": "adv.item.Gingerboots.description",
     "description": "1/1 artifact with haste, pay 1 to give semi-unblockable, pay 2 to eat food for 3 life",
     "equipmentSlot": "Boots",
     "iconName": "Gingerboots",
@@ -1723,6 +1930,7 @@
   },
   {
     "name": "Joven's Shoes",
+    "locdescription": "adv.item.JovensShoes.description",
     "description": "3/3 legendary rogue. RRR, T: Destroy a non-creature artifact.",
     "equipmentSlot": "Boots",
     "iconName": "Joven'sShoes",
@@ -1735,6 +1943,7 @@
   },
   {
     "name": "Chandler's Shoes",
+    "locdescription": "adv.item.ChandlersShoes.description",
     "description": "3/3 legendary rogue. RRR, T: Destroy an artifact creature.",
     "equipmentSlot": "Boots",
     "iconName": "Chandler'sShoes",
@@ -1747,6 +1956,7 @@
   },
   {
     "name": "Murderer's Axe",
+    "locdescription": "adv.item.MurderersAxe.description",
     "description": "Equip - discard. Gives +2/+2.",
     "equipmentSlot": "Right",
     "iconName": "Murderer'sAxe",
@@ -1758,6 +1968,7 @@
   },
     {
       "name": "Dune-Brood Anklet",
+      "locdescription": "adv.item.DuneBroodAnklet.description",
       "description": "3/3 that gives a 1/1 for each land on attack",
       "equipmentSlot": "Boots",
       "iconName": "Dune-BroodAnklet",
@@ -1770,6 +1981,7 @@
   },
     {
     "name": "Brokers Boots",
+    "locdescription": "adv.item.BrokersBoots.description",
     "description": "0/4 cat, pay 4(G/U) to make a 5/5 for a turn",
     "equipmentSlot": "Boots",
     "iconName": "BrokersBoots",
@@ -1781,6 +1993,7 @@
   },
     {
     "name": "Beastbreaker Boots",
+    "locdescription": "adv.item.BeastbreakerBoots.description",
     "description": "2/2 human, level up to get stronger",
     "equipmentSlot": "Boots",
     "iconName": "BeastbreakerBoots",
@@ -1793,6 +2006,7 @@
   },
     {
     "name": "Ghoulcaller Greaves",
+    "locdescription": "adv.item.GhoulcallerGreaves.description",
     "description": "3/3 zombie, deals 1 to you a turn",
     "equipmentSlot": "Boots",
     "iconName": "GhoulcallerGreaves",
@@ -1804,6 +2018,7 @@
   },
     {
     "name": "Princely Greaves",
+    "locdescription": "adv.item.PrincelyGreaves.description",
     "description": "1/1 Human Wizard, pay 2B and triple sac for Prince of Thralls",
     "equipmentSlot": "Boots",
     "iconName": "PrincelyGreaves",
@@ -1816,6 +2031,7 @@
   },
     {
     "name": "Packsong Pants",
+    "locdescription": "adv.item.PacksongPants.description",
     "description": "1/1 wolf, +1/+1 counter/turn if you have another wolf/werewolf, gain life when it dies",
     "equipmentSlot": "Boots",
     "iconName": "PacksongPants",
@@ -1827,6 +2043,7 @@
   },
     {
     "name": "Acidic Sliverband",
+    "locdescription": "adv.item.AcidicSliverband.description",
     "description": "2/2 sliver; slivers gain 2 and sac: shock for 2",
     "equipmentSlot": "Boots",
     "iconName": "AcidicSliverband",
@@ -1838,6 +2055,7 @@
   },
     {
     "name": "Anklet of the End",
+    "locdescription": "adv.item.AnkletoftheEnd.description",
     "description": "2/2 that gives other colorless +1/+1. Colorless spells w/ 7+ MV are 1 cheaper",
     "equipmentSlot": "Boots",
     "iconName": "AnkletoftheEnd",
@@ -1850,6 +2068,7 @@
   },
     {
     "name": "Scarecrow Socks",
+    "locdescription": "adv.item.ScarecrowSocks.description",
     "description": "2/1 reach, filters mana once a turn",
     "equipmentSlot": "Boots",
     "iconName": "ScarecrowSocks",
@@ -1862,6 +2081,7 @@
   },
     {
     "name": "Spectral Sliverband",
+    "locdescription": "adv.item.SpectralSliverband.description",
     "description": "2/2 sliver; slivers gain 2: +1/+1 until EOT",
     "equipmentSlot": "Boots",
     "iconName": "SpectralSliverband",
@@ -1874,6 +2094,7 @@
   },
     {
     "name": "Sabertooth Bondband",
+    "locdescription": "adv.item.SabertoothBondband.description",
     "description": "3/1 cat",
     "equipmentSlot": "Boots",
     "iconName": "SabertoothBondband",
@@ -1886,6 +2107,7 @@
   },
     {
     "name": "Bandar Boots",
+    "locdescription": "adv.item.BandarBoots.description",
     "description": "1/1 Cat Monkey, pay 2G to make indestructible",
     "equipmentSlot": "Boots",
     "iconName": "BandarBoots",
@@ -1898,6 +2120,7 @@
   },
     {
     "name": "Trickster's Shoes",
+    "locdescription": "adv.item.TrickstersShoes.description",
     "description": "1/1 Human that can pay U, tap, and discard to tap or untap",
     "equipmentSlot": "Boots",
     "iconName": "Trickster'sShoes",
@@ -1911,6 +2134,7 @@
   },
     {
     "name": "Godsire Greaves",
+    "locdescription": "adv.item.GodsireGreaves.description",
     "description": "1/1 Elf Shaman, pay 2G and triple sac for Godsire",
     "equipmentSlot": "Boots",
     "iconName": "GodsireGreaves",
@@ -1923,6 +2147,7 @@
   },
     {
     "name": "Draped Dragonhide",
+    "locdescription": "adv.item.DrapedDragonhide.description",
     "description": "2/3 dragon with flying and limited to 4 or die firebreathing",
     "equipmentSlot": "Boots",
     "iconName": "DrapedDragonhide",
@@ -1935,6 +2160,7 @@
   },
     {
     "name": "Cryptologist's Fins",
+    "locdescription": "adv.item.CryptologistsFins.description",
     "description": "0/1 merfolk wizard. 1U: looter; twice more: T: draw.",
     "equipmentSlot": "Boots",
     "iconName": "Cryptologist'sFins",
@@ -1947,6 +2173,7 @@
   },
   {
     "name": "Blistering Breeches",
+    "locdescription": "adv.item.BlisteringBreeches.description",
     "description": "5/2 wall.",
     "equipmentSlot": "Boots",
     "iconName": "BlisteringBreeches",
@@ -1959,6 +2186,7 @@
   },
   {
     "name": "Greaves of Glare",
+    "locdescription": "adv.item.GreavesofGlare.description",
     "description": "0/5 wall, can block any # of creatures.",
     "equipmentSlot": "Boots",
     "iconName": "GreavesofGlare",
@@ -1971,6 +2199,7 @@
   },
   {
     "name": "Cragflame",
+    "locdescription": "adv.item.Cragflame.description",
     "description": "Equip 2, +1/+1 vigilance, trample, and haste.",
     "equipmentSlot": "Right",
     "iconName": "Cragflame",
@@ -1983,6 +2212,7 @@
   },
   {
     "name": "Spore Skirt",
+    "locdescription": "adv.item.SporeSkirt.description",
     "description": "0/1 flying wall, taps down for 4 turns on block.",
     "equipmentSlot": "Boots",
     "iconName": "WhipWrap",
@@ -1995,6 +2225,7 @@
   },
   {
     "name": "Soul Shoes",
+    "locdescription": "adv.item.SoulShoes.description",
     "description": "0/4 wall, reflects damage dealt to it to opponent.",
     "equipmentSlot": "Boots",
     "iconName": "SoulShoes",
@@ -2007,6 +2238,7 @@
   },
   {
     "name": "Barrier Breeches",
+    "locdescription": "adv.item.BarrierBreeches.description",
     "description": "0/6 flying wall.",
     "equipmentSlot": "Boots",
     "iconName": "BarrierBreeches",
@@ -2019,6 +2251,7 @@
   },
     {
       "name": "Glint-Eye Anklet",
+      "locdescription": "adv.item.GlintEyeAnklet.description",
       "description": "2/2 that draws equal to damage on hit. 1 and discard for +1/+1 until EOT.",
       "equipmentSlot": "Boots",
       "iconName": "Glint-EyeAnklet",
@@ -2031,6 +2264,7 @@
   },
     {
       "name": "Ink-Treader Anklet",
+      "locdescription": "adv.item.InkTreaderAnklet.description",
       "description": "3/3 that radiates all single target instants and sorceries",
       "equipmentSlot": "Boots",
       "iconName": "Ink-TreaderAnklet",
@@ -2043,6 +2277,7 @@
   },
     {
     "name": "Fblthp's Lost Socks",
+    "locdescription": "adv.item.FblthpsLostSocks.description",
     "description": "2/5 hexproof",
     "equipmentSlot": "Boots",
     "iconName": "Fblthp'sLostSocks",
@@ -2055,6 +2290,7 @@
   },
     {
     "name": "Raptor Bondband",
+    "locdescription": "adv.item.RaptorBondband.description",
     "description": "4/2 dinosaur",
     "equipmentSlot": "Boots",
     "iconName": "RaptorBondband",
@@ -2067,6 +2303,7 @@
   },
     {
     "name": "Plated Sliverband",
+    "locdescription": "adv.item.PlatedSliverband.description",
     "description": "1/1 sliver; all slivers get +0/+1",
     "equipmentSlot": "Boots",
     "iconName": "PlatedSliverband",
@@ -2079,6 +2316,7 @@
   },
     {
     "name": "Greenseeker's Shoes",
+    "locdescription": "adv.item.GreenseekersShoes.description",
     "description": "1/1 elf that can pay G, tap, and discard to tutor a basic",
     "equipmentSlot": "Boots",
     "iconName": "Greenseeker'sShoes",
@@ -2092,6 +2330,7 @@
   },
     {
     "name": "Angelic Greaves",
+    "locdescription": "adv.item.AngelicGreaves.description",
     "description": "0/4 wall with flying",
     "equipmentSlot": "Boots",
     "iconName": "AngelicGreaves",
@@ -2104,6 +2343,7 @@
   },
     {
     "name": "Abzan Gauntlet",
+    "locdescription": "adv.item.AbzanGauntlet.description",
     "description": "1WBG for an X/X where X is biggest toughness",
     "equipmentSlot": "Left",
     "iconName": "AbzanGauntlet",
@@ -2116,6 +2356,7 @@
   },
     {
     "name": "Basilica Skullbomb",
+    "locdescription": "adv.item.BasilicaSkullbomb.description",
     "description": "Pay 1 for a card or 2W for +2/+2 and flying and a card",
     "equipmentSlot": "Left",
     "iconName": "BasilicaSkullbomb",
@@ -2128,6 +2369,7 @@
   },
     {
     "name": "Fblthp's Lost Bauble",
+    "locdescription": "adv.item.FblthpsLostBauble.description",
     "description": "Pay 2 and sac for a tapped basic to play. ",
     "equipmentSlot": "Left",
     "iconName": "Fblthp'sLostBauble",
@@ -2140,6 +2382,7 @@
   },
     {
     "name": "Tome of Fire",
+    "locdescription": "adv.item.TomeofFire.description",
     "description": "Shock for 2",
     "equipmentSlot": "Left",
     "iconName": "TomeofFire",
@@ -2152,6 +2395,7 @@
   },
     {
     "name": "Golden Egg",
+    "locdescription": "adv.item.GoldenEgg.description",
     "description": "Filter mana or pay 2 for 3 life",
     "equipmentSlot": "Left",
     "iconName": "GoldenEgg",
@@ -2164,6 +2408,7 @@
   },
     {
     "name": "Urza's Bauble",
+    "locdescription": "adv.item.UrzasBauble.description",
     "description": "Peek at hand, slow draw for free",
     "equipmentSlot": "Left",
     "iconName": "Urza'sBauble",
@@ -2176,6 +2421,7 @@
   },
     {
     "name": "Malign Prayerbook",
+    "locdescription": "adv.item.MalignPrayerbook.description",
     "description": "Pay 1B to have an opponent exile 2 cards from their hand at sorcery speed",
     "equipmentSlot": "Left",
     "iconName": "MalignPrayerbook",
@@ -2188,6 +2434,7 @@
   },
     {
     "name": "Tome of Triumph",
+    "locdescription": "adv.item.TomeofTriumph.description",
     "description": "Creature gets +X/+0 and trample =lore for 3 turns, then fight",
     "equipmentSlot": "Left",
     "iconName": "TomeofTriumph",
@@ -2199,6 +2446,7 @@
   },
     {
     "name": "Mishra's Bauble",
+    "locdescription": "adv.item.MishrasBauble.description",
     "description": "Peek at deck, slow draw for free",
     "equipmentSlot": "Left",
     "iconName": "Mishra'sBauble",
@@ -2211,6 +2459,7 @@
   },
     {
     "name": "Furnace Skullbomb",
+    "locdescription": "adv.item.FurnaceSkullbomb.description",
     "description": "Pay 1 for a card or 1R for 2 oil and draw",
     "equipmentSlot": "Left",
     "iconName": "FurnaceSkullbomb",
@@ -2225,6 +2474,7 @@
   },
     {
     "name": "Map to the World Tree",
+    "locdescription": "adv.item.MaptotheWorldTree.description",
     "description": "Pay 2WUBRG to gain 2, draw 2, deal 2, burn a creature 2, and make a 2/2 bear",
     "equipmentSlot": "Left",
     "iconName": "MaptotheWorldTree",
@@ -2237,6 +2487,7 @@
   },
     {
     "name": "Thaumaton Torpedo",
+    "locdescription": "adv.item.ThaumatonTorpedo.description",
     "description": "Pay 6 to destroy a nonland, or pay 3 if you attacked with a spacecraft",
     "equipmentSlot": "Left",
     "iconName": "ThaumatonTorpedo",
@@ -2248,6 +2499,7 @@
   },
     {
     "name": "Scroll of Griselbrand",
+    "locdescription": "adv.item.ScrollofGriselbrand.description",
     "description": "Pay 1 for a discard, also deal 3 if you have a demon",
     "equipmentSlot": "Left",
     "iconName": "ScrollofGriselbrand",
@@ -2259,6 +2511,7 @@
   },
     {
     "name": "Keys to the House",
+    "locdescription": "adv.item.KeystotheHouse.description",
     "description": "Pay 1 for a basic to hand or 3 to lock or unlock a room",
     "equipmentSlot": "Left",
     "iconName": "KeystotheHouse",
@@ -2270,6 +2523,7 @@
   },
     {
     "name": "Scroll of Avacyn",
+    "locdescription": "adv.item.ScrollofAvacyn.description",
     "description": "Pay 1 for a draw, also gain 5 if you have an angel",
     "equipmentSlot": "Left",
     "iconName": "ScrollofAvacyn",
@@ -2281,6 +2535,7 @@
   },
     {
     "name": "Necrogen Gauntlet",
+    "locdescription": "adv.item.NecrogenGauntlet.description",
     "description": "Pay 1 for a card or B for a discard",
     "equipmentSlot": "Left",
     "iconName": "NecrogenGauntlet",
@@ -2293,6 +2548,7 @@
   },
     {
     "name": "Aether Gauntlet",
+    "locdescription": "adv.item.AetherGauntlet.description",
     "description": "Pay 1 for a card or U to bounce",
     "equipmentSlot": "Left",
     "iconName": "AetherGauntlet",
@@ -2305,6 +2561,7 @@
   },
     {
     "name": "Poisoner's Glove",
+    "locdescription": "adv.item.PoisonersGlove.description",
     "description": "Pay 1 for deathtouch",
     "equipmentSlot": "Left",
     "iconName": "Poisoner'sGlove",
@@ -2319,6 +2576,7 @@
   },
     {
     "name": "Chimeric Coils",
+    "locdescription": "adv.item.ChimericCoils.description",
     "description": "Pay 1X for an X/X once",
     "equipmentSlot": "Left",
     "iconName": "ChimericCoils",
@@ -2331,6 +2589,7 @@
   },
     {
     "name": "Triangle of War",
+    "locdescription": "adv.item.TriangleofWar.description",
     "description": "Pay 2 to fight",
     "equipmentSlot": "Left",
     "iconName": "TriangleofWar",
@@ -2342,6 +2601,7 @@
   },
     {
     "name": "Lotus Petal",
+    "locdescription": "adv.item.LotusPetal.description",
     "description": "One mana of any color once",
     "equipmentSlot": "Left",
     "iconName": "LotusPetal",
@@ -2355,6 +2615,7 @@
   },
     {
     "name": "Black Lotus",
+    "locdescription": "adv.item.BlackLotus.description.variant2",
     "description": "Three mana of any color once",
     "equipmentSlot": "Left",
     "iconName": "BlackLotus",
@@ -2368,6 +2629,7 @@
   },
     {
     "name": "Pyrite Gauntlet",
+    "locdescription": "adv.item.PyriteGauntlet.description",
     "description": "Pay 1 for a card or R for 2 damage",
     "equipmentSlot": "Left",
     "iconName": "PyriteGauntlet",
@@ -2380,6 +2642,7 @@
   },
     {
     "name": "Temur Gauntlet",
+    "locdescription": "adv.item.TemurGauntlet.description",
     "description": "3GUR for a 5/5 elephant",
     "equipmentSlot": "Left",
     "iconName": "TemurGauntlet",
@@ -2392,6 +2655,7 @@
   },
     {
     "name": "Chromatic Sphere",
+    "locdescription": "adv.item.ChromaticSphere.description",
     "description": "Filter mana and draw",
     "equipmentSlot": "Left",
     "iconName": "ChromaticSphere",
@@ -2404,6 +2668,7 @@
   },
     {
     "name": "Tome of the Builder",
+    "locdescription": "adv.item.TomeoftheBuilder.description",
     "description": "Tutor a plains / 0/4 artifact wall / gain 2 life",
     "equipmentSlot": "Left",
     "iconName": "TomeoftheBuilder",
@@ -2416,6 +2681,7 @@
   },
     {
     "name": "Amnesiac Prayerbook",
+    "locdescription": "adv.item.AmnesiacPrayerbook.description",
     "description": "Pay U to mill three and draw",
     "equipmentSlot": "Left",
     "iconName": "AmnesiacPrayerbook",
@@ -2427,6 +2693,7 @@
   },
     {
     "name": "Kaleidostone",
+    "locdescription": "adv.item.Kaleidostone.description",
     "description": "Filter 5 into WUBRG",
     "equipmentSlot": "Left",
     "iconName": "Kaleidostone",
@@ -2439,6 +2706,7 @@
   },
     {
     "name": "Sunbeam Gauntlet",
+    "locdescription": "adv.item.SunbeamGauntlet.description",
     "description": "Pay 1 for a card or W for 5 life",
     "equipmentSlot": "Left",
     "iconName": "SunbeamGauntlet",
@@ -2452,6 +2720,7 @@
   },
     {
     "name": "Tome of the Executioner",
+    "locdescription": "adv.item.TomeoftheExecutioner.description",
     "description": "Pay 1B and sacrifice to destroy a nonblack creature",
     "equipmentSlot": "Left",
     "iconName": "TomeofDoom",
@@ -2464,6 +2733,7 @@
   },
     {
     "name": "Sultai Gauntlet",
+    "locdescription": "adv.item.SultaiGauntlet.description",
     "description": "2BUG for two 2/2 zombies",
     "equipmentSlot": "Left",
     "iconName": "SultaiGauntlet",
@@ -2476,6 +2746,7 @@
   },
     {
     "name": "Maze Skullbomb",
+    "locdescription": "adv.item.MazeSkullbomb.description",
     "description": "Pay 1 for a card or 2G for +3/+3 and trample and a card",
     "equipmentSlot": "Left",
     "iconName": "MazeSkullbomb",
@@ -2488,6 +2759,7 @@
   },
     {
     "name": "Prayerbook of Vigor",
+    "locdescription": "adv.item.PrayerbookofVigor.description",
     "description": "Pay 2W to gain 7 life",
     "equipmentSlot": "Left",
     "iconName": "PrayerbookofVigor",
@@ -2500,6 +2772,7 @@
   },
     {
     "name": "Mardu Gauntlet",
+    "locdescription": "adv.item.MarduGauntlet.description",
     "description": "2RWB for three 1/1s with menace and haste that die at EOT",
     "equipmentSlot": "Left",
     "iconName": "MarduGauntlet",
@@ -2512,6 +2785,7 @@
   },
     {
     "name": "Jeskai Gauntlet",
+    "locdescription": "adv.item.JeskaiGauntlet.description",
     "description": "1WUR for two 1/1 birds",
     "equipmentSlot": "Left",
     "iconName": "JeskaiGauntlet",
@@ -2524,6 +2798,7 @@
   },
     {
     "name": "Surgical Skullbomb",
+    "locdescription": "adv.item.SurgicalSkullbomb.description",
     "description": "Pay 1 for a card or 2U to bounce and draw",
     "equipmentSlot": "Left",
     "iconName": "SurgicalSkullbomb",
@@ -2536,6 +2811,7 @@
   },
     {
     "name": "Triassic Egg",
+    "locdescription": "adv.item.TriassicEgg.description",
     "description": "Pay 3 for a counter. After 2, cheat in or revive a creature",
     "equipmentSlot": "Left",
     "iconName": "TriassicEgg",
@@ -2547,6 +2823,7 @@
   },
     {
     "name": "Sinister Concoction",
+    "locdescription": "adv.item.SinisterConcoction.description",
     "description": "Pay B, 1 life, mill one, discard one, sac: destroy a creature",
     "equipmentSlot": "Left",
     "iconName": "SinisterConcoction",
@@ -2558,6 +2835,7 @@
   },
     {
     "name": "Tempting Apple",
+    "locdescription": "adv.item.TemptingApple.description",
     "description": "Pay 2 and sac for 3 life or 3 life loss to opp",
     "equipmentSlot": "Left",
     "iconName": "TemptingApple",
@@ -2570,6 +2848,7 @@
   },
     {
     "name": "Tome of Removal",
+    "locdescription": "adv.item.TomeofRemoval.description",
     "description": "Bounce a creature",
     "equipmentSlot": "Left",
     "iconName": "TomeofRemoval",
@@ -2583,6 +2862,7 @@
   },
     {
     "name": "Nascent Prayerbook",
+    "locdescription": "adv.item.NascentPrayerbook.description",
     "description": "Pay 1G to look at the top four, take a permanent, mill the rest",
     "equipmentSlot": "Left",
     "iconName": "NascentPrayerbook",
@@ -2594,6 +2874,7 @@
   },
     {
     "name": "Little Black Book",
+    "locdescription": "adv.item.LittleBlackBook.description",
     "description": "Pay 2 five times to destroy two creatures",
     "equipmentSlot": "Left",
     "iconName": "LittleBlackBook",
@@ -2608,6 +2889,7 @@
   },
     {
     "name": "Prayerbook of Return",
+    "locdescription": "adv.item.PrayerbookofReturn.description",
     "description": "Pay 3B to return 3 dead creatures to hand",
     "equipmentSlot": "Left",
     "iconName": "PrayerbookofReturn",
@@ -2619,6 +2901,7 @@
   },
     {
     "name": "Soul-Guide Gauntlet",
+    "locdescription": "adv.item.SoulGuideGauntlet.description",
     "description": "Sac to exile a graveyard or 1 and sac to draw",
     "equipmentSlot": "Left",
     "iconName": "SoulguideGauntlet",
@@ -2631,6 +2914,7 @@
   },
     {
     "name": "Tome of Dispelling",
+    "locdescription": "adv.item.TomeofDispelling.description",
     "description": "Pay 2W and sac to destroy an artifact or enchantment",
     "equipmentSlot": "Left",
     "iconName": "TomeofCleansing",
@@ -2643,6 +2927,7 @@
   },
     {
     "name": "Prayerbook of Ire",
+    "locdescription": "adv.item.PrayerbookofIre.description",
     "description": "3R for 5 damage to a player",
     "equipmentSlot": "Left",
     "iconName": "PrayerbookofIre",
@@ -2657,6 +2942,7 @@
   },
     {
     "name": "Lifespark Gauntlet",
+    "locdescription": "adv.item.LifesparkGauntlet.description",
     "description": "Pay 1 for a card or G to make a land a 3/3",
     "equipmentSlot": "Left",
     "iconName": "LifesparkGauntlet",
@@ -2670,6 +2956,7 @@
   },
     {
     "name": "Tome of Binding",
+    "locdescription": "adv.item.TomeofBinding.description",
     "description": "Each player mills 3 / Exile 2 from graves, gain 1 per creature / return a creature or land",
     "equipmentSlot": "Left",
     "iconName": "TomeofBinding",
@@ -2682,6 +2969,7 @@
   },
     {
     "name": "Volatile Prayerbook",
+    "locdescription": "adv.item.VolatilePrayerbook.description",
     "description": "Pay 1R for RRRR",
     "equipmentSlot": "Left",
     "iconName": "VolatilePrayerbook",
@@ -2694,6 +2982,7 @@
   },
     {
     "name": "Amulet of Compleation",
+    "locdescription": "adv.item.AmuletofCompleation.description",
     "description": "Your phyrexians get +1/+1",
     "equipmentSlot": "Neck",
     "iconName": "AmuletofCompleation",
@@ -2705,6 +2994,7 @@
   },
     {
     "name": "Prayerbook of Fortunes",
+    "locdescription": "adv.item.PrayerbookofFortunes.description",
     "description": "1U to draw 2",
     "equipmentSlot": "Left",
     "iconName": "PrayerbookofFortunes",
@@ -2717,6 +3007,7 @@
   },
     {
     "name": "Wedding Invitation",
+    "locdescription": "adv.item.WeddingInvitation.description",
     "description": "Sac for one time unblockable, lifelink if a vampire",
     "equipmentSlot": "Left",
     "iconName": "WeddingInvitation",
@@ -2729,6 +3020,7 @@
   },
     {
     "name": "Dross Skullbomb",
+    "locdescription": "adv.item.DrossSkullbomb.description",
     "description": "Pay 1 for a card or 2B to return a creature and draw",
     "equipmentSlot": "Left",
     "iconName": "DrossSkullbomb",
@@ -2741,6 +3033,7 @@
   },
     {
     "name": "Mephitic Draught",
+    "locdescription": "adv.item.MephiticDraught.description",
     "description": "When this dies, draw 1 and lose 1",
     "equipmentSlot": "Left",
     "iconName": "MephiticDraught",
@@ -2752,6 +3045,7 @@
   },
     {
     "name": "Tome of Might",
+    "locdescription": "adv.item.TomeofMight.description",
     "description": "Give +3/+3 until EOT",
     "equipmentSlot": "Left",
     "iconName": "TomeofMight",
@@ -2764,6 +3058,7 @@
   },
     {
     "name": "Ephemeral Prayerbook",
+    "locdescription": "adv.item.EphemeralPrayerbook.description",
     "description": "Pay 2W for two 1/1 fliers",
     "equipmentSlot": "Left",
     "iconName": "EphemeralPrayerbook",
@@ -2775,6 +3070,7 @@
   },
     {
     "name": "Prayerbook of Fertility",
+    "locdescription": "adv.item.PrayerbookofFertility.description",
     "description": "Pay 1G for a tapped basic to play",
     "equipmentSlot": "Left",
     "iconName": "PrayerbookofFertility",
@@ -2786,6 +3082,7 @@
   },
     {
     "name": "Gourmand's Hat",
+    "locdescription": "adv.item.GourmandsHat.description",
     "description": "Your artifacts are food, 2G for a 3/3 on first life gain, 3G for +1/+1 to board on first lifegain",
     "equipmentSlot": "Neck",
     "iconName": "Gourmand'sHat",
@@ -2798,6 +3095,7 @@
   },
     {
     "name": "Ooze Amulet",
+    "locdescription": "adv.item.OozeAmulet.description",
     "description": "1G: Remove X +1/+1 counters, make an X/X ooze",
     "equipmentSlot": "Neck",
     "iconName": "OozeAmulet",
@@ -2810,6 +3108,7 @@
   },
   {
     "name": "Ajani's Amulet",
+    "locdescription": "adv.item.AjanisAmulet.description",
     "description": "Gain 1 life at each of your upkeeps",
     "equipmentSlot": "Neck",
     "iconName": "Ajani'sAmulet",
@@ -2821,6 +3120,7 @@
   },
   {
     "name": "Pack Leader Pants",
+    "locdescription": "adv.item.PackLeaderPants.description",
     "description": "2/2 dog, Other dogs get +1/+1 and attack safely",
     "equipmentSlot": "Boots",
     "iconName": "PackLeaderPants",
@@ -2832,6 +3132,7 @@
   },
   {
     "name": "Team Pennant",
+    "locdescription": "adv.item.TeamPennant.description",
     "description": "Equip 3 or Equip token 1. +1/+1, vigilance, and trample.",
     "equipmentSlot": "Right",
     "iconName": "TeamPennant",
@@ -2843,6 +3144,7 @@
   },
   {
     "name": "Referee's Shoes",
+    "locdescription": "adv.item.RefereesShoes.description",
     "description": "2/1, gets a +1/+1 counter when you cast a multicolored spell.",
     "equipmentSlot": "Boots",
     "iconName": "Referee'sShoes",
@@ -2855,6 +3157,7 @@
   },
   {
     "name": "Girlfriend's Skirt",
+    "locdescription": "adv.item.GirlfriendsSkirt.description",
     "description": "2/2 lesbians w/ first strike. When opp. has more cards, prepare a date.",
     "equipmentSlot": "Boots",
     "iconName": "Girlfriend'sSkirt",
@@ -2867,6 +3170,7 @@
   },
   {
     "name": "Leech Breeches",
+    "locdescription": "adv.item.LeechBreeches.description",
     "description": "2/2. When you gain life 1st time, prepare: B: Opp loses 2 life.",
     "equipmentSlot": "Boots",
     "iconName": "LeechBreeches",
@@ -2878,6 +3182,7 @@
   },
   {
     "name": "Chaos Wand",
+    "locdescription": "adv.item.ChaosWand.description",
     "description": "4, T: Cast a random instant/sorcery from opp's deck.",
     "equipmentSlot": "Right",
     "iconName": "ChaosWand",
@@ -2889,6 +3194,7 @@
   },
   {
     "name": "Bear Helm",
+    "locdescription": "adv.item.BearHelm.description",
     "description": "1G, exile 2 cards from your yard: Create a 2/2 bear. The bear is gay.",
     "equipmentSlot": "Neck",
     "iconName": "BearHelm",
@@ -2901,6 +3207,7 @@
   },
   {
     "name": "Alesha's War Skirt",
+    "locdescription": "adv.item.AleshasWarSkirt.description",
     "description": "3/2 transfem legend w/ first strike. On atk, pay B/W B/W to revive 2< power attacking.",
     "equipmentSlot": "Boots",
     "iconName": "Alesha'sWarSkirt",
@@ -2914,6 +3221,7 @@
   },
   {
     "name": "Acolyte's Anklet",
+    "locdescription": "adv.item.AcolytesAnklet.description",
     "description": "2/2 trans guy, pay 2 and discard to specialize into a variety of forms.",
     "equipmentSlot": "Boots",
     "iconName": "Acolyte'sAnklet",
@@ -2925,6 +3233,7 @@
   },
     {
     "name": "Mask of Compulsion",
+    "locdescription": "adv.item.MaskofCompulsion.description",
     "description": "1U and discard to draw or 1U and sac to draw",
     "equipmentSlot": "Neck",
     "iconName": "MaskofCompulsion",
@@ -2938,6 +3247,7 @@
   },
     {
     "name": "Breaching Stormcrown",
+    "locdescription": "adv.item.BreachingStormcrown.description",
     "description": "Bounce on dragon, 4R to discover 8",
     "equipmentSlot": "Neck",
     "iconName": "BreachingStormcrown",
@@ -2950,6 +3260,7 @@
   },
     {
     "name": "Mask of Narcissism",
+    "locdescription": "adv.item.MaskofNarcissism.description",
     "description": "G and discard for +2/+2 or G and sac for +2/+2",
     "equipmentSlot": "Neck",
     "iconName": "MaskofNarcissism",
@@ -2962,6 +3273,7 @@
   },
     {
     "name": "Acorn Amulet",
+    "locdescription": "adv.item.AcornAmulet.description",
     "description": "Your commander has: at your EOT, if a creature went to grave, make two tapped squirrels",
     "equipmentSlot": "Neck",
     "iconName": "AcornAmulet",
@@ -2973,6 +3285,7 @@
   },
     {
     "name": "Amulet of Aeons Torn",
+    "locdescription": "adv.item.AmuletofAeonsTorn.description",
     "description": "Draw two when you cast a 7+ MV colorless creature",
     "equipmentSlot": "Neck",
     "iconName": "AmuletofAeonsTorn",
@@ -2985,6 +3298,7 @@
   },
     {
     "name": "Mask of Valgavoth",
+    "locdescription": "adv.item.MaskofValgavoth.description",
     "description": "You can cast off top of library by sacing a nonland",
     "equipmentSlot": "Neck",
     "iconName": "MaskofValgavoth",
@@ -2996,6 +3310,7 @@
   },
     {
     "name": "Roiling Stormcrown",
+    "locdescription": "adv.item.RoilingStormcrown.description",
     "description": "Bounce on dragon, 1U to draw two discard one",
     "equipmentSlot": "Neck",
     "iconName": "RoilingStormcrown",
@@ -3008,6 +3323,7 @@
   },
     {
     "name": "Amulet of Awakening",
+    "locdescription": "adv.item.AmuletofAwakening.description",
     "description": "Make a 0/1 spawn every turn",
     "equipmentSlot": "Neck",
     "iconName": "AmuletofAwakening",
@@ -3020,6 +3336,7 @@
   },
     {
     "name": "Amulet of Telepathy",
+    "locdescription": "adv.item.AmuletofTelepathy.description.variant2",
     "description": "Look at your opponent's hand",
     "equipmentSlot": "Neck",
     "iconName": "AmuletofTelepathy",
@@ -3031,6 +3348,7 @@
   },
     {
     "name": "Pinnacle Circlet",
+    "locdescription": "adv.item.PinnacleCirclet.description",
     "description": "Pay 100 mana to win the game",
     "equipmentSlot": "Neck",
     "iconName": "PinnacleCirclet",
@@ -3043,6 +3361,7 @@
   },
     {
     "name": "Fblthp's Lost Hat",
+    "locdescription": "adv.item.FblthpsLostHat.description",
     "description": "Gain future sight if you find Fblthp.",
     "equipmentSlot": "Neck",
     "iconName": "Fblthp'sLostHat",
@@ -3054,6 +3373,7 @@
   },
   {
     "name": "Soothsayer's Hat",
+    "locdescription": "adv.item.SoothsayersHat.description",
     "description": "X: Rearrange top X of library. 3UU: Shuffle.",
     "equipmentSlot": "Neck",
     "iconName": "Soothsayer'sHat",
@@ -3066,6 +3386,7 @@
   },
     {
     "name": "Bonder's Helm",
+    "locdescription": "adv.item.BondersHelm.description",
     "description": "Pay 2 and sac a creature to shock for 2",
     "equipmentSlot": "Neck",
     "iconName": "Bonder'sHelm",
@@ -3078,6 +3399,7 @@
   },
     {
     "name": "Amulet of Annihilation",
+    "locdescription": "adv.item.AmuletofAnnihilation.description",
     "description": "Eldrazi tap for any color, gain 4 on 7+ MV creature cast",
     "equipmentSlot": "Neck",
     "iconName": "AmuletofAnnihilation",
@@ -3090,6 +3412,7 @@
   },
     {
     "name": "Artist's Beret",
+    "locdescription": "adv.item.ArtistsBeret.description",
     "description": "Rummage on noncreature, 2R for noncreature cost -1, 2R for +2 noncombat damage",
     "equipmentSlot": "Neck",
     "iconName": "Artist'sBeret",
@@ -3102,6 +3425,7 @@
   },
     {
     "name": "Corroding Stormcrown",
+    "locdescription": "adv.item.CorrodingStormcrown.description",
     "description": "Bounce on dragon, 1B to drain 2 and suveil 2",
     "equipmentSlot": "Neck",
     "iconName": "CorrodingStormcrown",
@@ -3114,6 +3438,7 @@
   },
     {
     "name": "Arguel's Amulet",
+    "locdescription": "adv.item.ArguelsAmulet.description",
     "description": "Pay 1B and 2 life to draw, flip at 5< life into strong land",
     "equipmentSlot": "Neck",
     "iconName": "Arguel'sAmulet",
@@ -3126,6 +3451,7 @@
   },
     {
     "name": "Amulet of Fury",
+    "locdescription": "adv.item.AmuletofFury.description",
     "description": "Pay 3R for random burn",
     "equipmentSlot": "Neck",
     "iconName": "AmuletofFury",
@@ -3141,6 +3467,7 @@
   },
     {
     "name": "Mask of Mortiphobia",
+    "locdescription": "adv.item.MaskofMortiphobia.description",
     "description": "1B and discard to exile a grave card or 1B and sac to exile a grave card",
     "equipmentSlot": "Neck",
     "iconName": "MaskofMortiphobia",
@@ -3154,6 +3481,7 @@
   },
     {
     "name": "Mask of Pyromania",
+    "locdescription": "adv.item.MaskofPyromania.description",
     "description": "1R and random discard to ping 1 or 1R and sac to ping 1. Also lowers opp life.",
     "equipmentSlot": "Neck",
     "iconName": "MaskofPyromania",
@@ -3167,6 +3495,7 @@
   },
     {
     "name": "Mask of Hypochondria",
+    "locdescription": "adv.item.MaskofHypochondria.description",
     "description": "W and discard to prevent 3 damage or W and sac to prevent 3 damage",
     "equipmentSlot": "Neck",
     "iconName": "MaskofHypochondria",
@@ -3180,6 +3509,7 @@
   },
     {
     "name": "Teeming Stormcrown",
+    "locdescription": "adv.item.TeemingStormcrown.description",
     "description": "Bounce on dragon, 3W for two 2/2 soldiers",
     "equipmentSlot": "Neck",
     "iconName": "TeemingStormcrown",
@@ -3192,6 +3522,7 @@
   },
     {
     "name": "Skywise Talisman",
+    "locdescription": "adv.item.SkywiseTalisman.description",
     "description": "Pay 1U when you play a noncreature for a 2/2 flying djinn",
     "equipmentSlot": "Neck",
     "iconName": "SkywiseTalisman",
@@ -3204,6 +3535,7 @@
   },
     {
     "name": "Amulet of Mirth",
+    "locdescription": "adv.item.AmuletofMirth.description",
     "description": "Pay 3W for random lifegain",
     "equipmentSlot": "Neck",
     "iconName": "AmuletofMirth",
@@ -3217,6 +3549,7 @@
   },
     {
     "name": "Worn Coin",
+    "locdescription": "adv.item.WornCoin.description",
     "description": "Whenever blocks happen, flip. Win=blockers die, lose=attackers die",
     "equipmentSlot": "Neck",
     "iconName": "WornCoin",
@@ -3228,6 +3561,7 @@
   },
   {
     "name": "Morcant's Crown",
+    "locdescription": "adv.item.MorcantsCrown.description",
     "description": "Surveil 1 in upkeep, 4GG, sac for X 2/2 elves = elves in GY as sorcery.",
     "equipmentSlot": "Neck",
     "iconName": "Morcant'sCrown",
@@ -3240,6 +3574,7 @@
   },
   {
     "name": "Faerie Crown",
+    "locdescription": "adv.item.FaerieCrown.description",
     "description": "Opponent loses 1 life when you cast a spell during their turn.",
     "equipmentSlot": "Neck",
     "iconName": "FaerieCrown",
@@ -3251,6 +3586,7 @@
   },
   {
     "name": "Evershrike Anklet",
+    "locdescription": "adv.item.EvershrikeAnklet.description",
     "description": "2/2 flyer, +2/+2 for each aura on it, can revive with an aura from hand.",
     "equipmentSlot": "Boots",
     "iconName": "EvershrikeAnklet",
@@ -3263,6 +3599,7 @@
   },
   {
     "name": "Flamecaster Pants",
+    "locdescription": "adv.item.FlamecasterPants.description",
     "description": "3/2 elemental with reach, burn opp 2 when you cast a MV 4+ spell.",
     "equipmentSlot": "Boots",
     "iconName": "FlamecasterPants",
@@ -3275,6 +3612,7 @@
   },
   {
     "name": "Tarfire Helm",
+    "locdescription": "adv.item.TarfireHelm.description",
     "description": "At each end step, if you put a counter on a creature, burn opp 2.",
     "equipmentSlot": "Neck",
     "iconName": "TarfireHelm",
@@ -3286,6 +3624,7 @@
   },
   {
     "name": "Starfish On Your Foot",
+    "locdescription": "adv.item.StarfishOnYourFoot.description",
     "description": "0/1 starfish. U: regenerate. Get a 0/1 token at end step if you regened",
     "equipmentSlot": "Boots",
     "iconName": "StarfishOnYourFoot",
@@ -3297,6 +3636,7 @@
   },
   {
     "name": "Tidal Amulet",
+    "locdescription": "adv.item.TidalAmulet.description",
     "description": "Gets a counter on upkeep. At one, all blue get -2/-0. At three, +2/+0. Resets at four.",
     "equipmentSlot": "Neck",
     "iconName": "TidalAmulet",
@@ -3309,6 +3649,7 @@
   },
   {
     "name": "Pegasus Helm",
+    "locdescription": "adv.item.PegasusHelm.description",
     "description": "2, Discard a card: Make a 1/1 flying pegasus token.",
     "equipmentSlot": "Neck",
     "iconName": "PegasusHelm",
@@ -3321,6 +3662,7 @@
   },
   {
     "name": "Interplanar Armor",
+    "locdescription": "adv.item.InterplanarArmor.description",
     "description": "Gain 1 life on PW cast. Taps for C or 1, T: Add two of dif. colors for PWs.",
     "equipmentSlot": "Body",
     "iconName": "InterplanarArmor",
@@ -3333,6 +3675,7 @@
   },
   {
     "name": "Cloud Keeper Armor",
+    "locdescription": "adv.item.CloudKeeperArmor.description",
     "description": "T, pay 2 life: Adds CC to spend only on legendary spells.",
     "equipmentSlot": "Body",
     "iconName": "CloudKeeperArmor",
@@ -3345,6 +3688,7 @@
   },
     {
     "name": "Amulet of Mischief",
+    "locdescription": "adv.item.AmuletofMischief.description",
     "description": "Pay 3U for random spell steal",
     "equipmentSlot": "Neck",
     "iconName": "AmuletofMischief",
@@ -3358,6 +3702,7 @@
   },
     {
     "name": "Amulet of Scorn",
+    "locdescription": "adv.item.AmuletofScorn.description",
     "description": "Pay 3B for random debuff",
     "equipmentSlot": "Neck",
     "iconName": "AmuletofScorn",
@@ -3371,6 +3716,7 @@
   },
     {
     "name": "Fortune Teller's Hat",
+    "locdescription": "adv.item.FortuneTellersHat.description",
     "description": "Peek at top, 3U to play top if you've cast a spell, 2U to make nonhand spells cost -2",
     "equipmentSlot": "Neck",
     "iconName": "FortuneTeller'sHat",
@@ -3383,6 +3729,7 @@
   },
     {
     "name": "Crown of Winter",
+    "locdescription": "adv.item.CrownofWinter.description",
     "description": "Put a +1/+1 counter when you tap an opp's untapped creature",
     "equipmentSlot": "Neck",
     "iconName": "CrownofWinter",
@@ -3395,6 +3742,7 @@
   },
     {
     "name": "Scavenger's Bandana",
+    "locdescription": "adv.item.ScavengersBandana.description",
     "description": "Food on death 1/turn, 1B for mill 2 on sac, 2B to sac 3 for revive with finality",
     "equipmentSlot": "Neck",
     "iconName": "Scavenger'sBandana",
@@ -3407,6 +3755,7 @@
   },
     {
     "name": "Caretaker's Cap",
+    "locdescription": "adv.item.CaretakersCap.description",
     "description": "Draw on first token; W for populate, 3W for +2/+2 to tokens",
     "equipmentSlot": "Neck",
     "iconName": "Caretaker'sCap",
@@ -3419,6 +3768,7 @@
   },
     {
     "name": "Encroaching Stormcrown",
+    "locdescription": "adv.item.EncroachingStormcrown.description",
     "description": "Bounce on dragon, 3G to ramp two basics out tapped",
     "equipmentSlot": "Neck",
     "iconName": "EncroachingStormcrown",
@@ -3431,6 +3781,7 @@
   },
     {
     "name": "Amulet of Favor",
+    "locdescription": "adv.item.AmuletofFavor.description",
     "description": "Pay 3G for random buff",
     "equipmentSlot": "Neck",
     "iconName": "AmuletofFavor",
@@ -3444,6 +3795,7 @@
   },
   {
     "name": "Ominous Amulet",
+    "locdescription": "adv.item.OminousAmulet.description",
     "description": "Every 8 card draws, make an 8/8 kraken",
     "equipmentSlot": "Neck",
     "iconName": "OminousAmulet",
@@ -3456,6 +3808,7 @@
   },
     {
     "name": "Silverskin Gauntlet",
+    "locdescription": "adv.item.SilverskinGauntlet.description",
     "description": "Equip 2, +1/+1 and become an artifact",
     "equipmentSlot": "Right",
     "iconName": "SilverskinGauntlet",
@@ -3468,6 +3821,7 @@
   },
     {
     "name": "Bladed Bracer",
+    "locdescription": "adv.item.BladedBracer.description",
     "description": "Equip 2, +1/+1, vigilance if a human or angel",
     "equipmentSlot": "Right",
     "iconName": "BladedBracer",
@@ -3480,6 +3834,7 @@
   },
     {
     "name": "Echo Shield",
+    "locdescription": "adv.item.EchoShield.description",
     "description": "Equip 1, equipped can block an extra creature",
     "equipmentSlot": "Right",
     "iconName": "EchoShield",
@@ -3493,6 +3848,7 @@
   },
     {
     "name": "Sorcerer's Wand",
+    "locdescription": "adv.item.SorcerersWand.description",
     "description": "Equip 3, ping a player for 1 or 2 if a wizard",
     "equipmentSlot": "Right",
     "iconName": "Sorcerer'sWand",
@@ -3504,6 +3860,7 @@
   },
     {
     "name": "Celestial Sword",
+    "locdescription": "adv.item.CelestialSword.description",
     "description": "Pay 3 for +3/+3 and die at EOT, not an equipment",
     "equipmentSlot": "Right",
     "iconName": "CelestialSword",
@@ -3516,6 +3873,7 @@
   },
     {
     "name": "Aegis of the Meek",
+    "locdescription": "adv.item.AegisoftheMeek.description",
     "description": "Pay 1 to give a 1/1 +1/+2 until EOT",
     "equipmentSlot": "Right",
     "iconName": "AegisoftheMeek",
@@ -3528,6 +3886,7 @@
   },
     {
     "name": "Runed Stalactite",
+    "locdescription": "adv.item.RunedStalactite.description",
     "description": "Equip 2, +1/+1 and changeling",
     "equipmentSlot": "Right",
     "iconName": "RunedStalactite",
@@ -3540,6 +3899,7 @@
   },
     {
     "name": "Sword of the Ur-Dragon",
+    "locdescription": "adv.item.SwordoftheUrDragon.description",
     "description": "Equip 4, costs 1 less per color of target, +2/+2 and hexproof from monocolor",
     "equipmentSlot": "Right",
     "iconName": "SwordoftheUr-Dragon",
@@ -3551,6 +3911,7 @@
   },
     {
     "name": "Tawnos's Wand",
+    "locdescription": "adv.item.TawnossWand.description",
     "description": "Pay 2, creature with power 2 or less unblockable for a turn",
     "equipmentSlot": "Right",
     "iconName": "Tawnos'sWand",
@@ -3563,6 +3924,7 @@
   },
     {
     "name": "Spy Kit",
+    "locdescription": "adv.item.SpyKit.description",
     "description": "Equip 2, +1/+1 and gain every name",
     "equipmentSlot": "Right",
     "iconName": "SpyKit",
@@ -3575,6 +3937,7 @@
   },
     {
     "name": "Shield of the Righteous",
+    "locdescription": "adv.item.ShieldoftheRighteous.description",
     "description": "Equip 2, +0/+2 and vigilance, stun on block",
     "equipmentSlot": "Right",
     "iconName": "ShieldoftheRighteous",
@@ -3587,6 +3950,7 @@
   },
     {
     "name": "Short Sword",
+    "locdescription": "adv.item.ShortSword.description",
     "description": "Equip 1, +1/+1.",
     "equipmentSlot": "Right",
     "iconName": "ShortSword",
@@ -3599,6 +3963,7 @@
   },
     {
     "name": "Steelclaw Lance",
+    "locdescription": "adv.item.SteelclawLance.description",
     "description": "Equip 3 or equip knight 1, +2/+2",
     "equipmentSlot": "Right",
     "iconName": "SteelclawLance",
@@ -3611,6 +3976,7 @@
   },
     {
     "name": "Starforged Sword",
+    "locdescription": "adv.item.StarforgedSword.description",
     "description": "Equip 3, +3/+3 and lose flying",
     "equipmentSlot": "Right",
     "iconName": "StarforgedSword",
@@ -3623,6 +3989,7 @@
   },
     {
     "name": "Kor Halberd",
+    "locdescription": "adv.item.KorHalberd.description",
     "description": "Equip 1, +1/+1 and vigilance",
     "equipmentSlot": "Right",
     "iconName": "KorHalberd",
@@ -3634,6 +4001,7 @@
   },
     {
     "name": "Trusty Machete",
+    "locdescription": "adv.item.TrustyMachete.description",
     "description": "Equip 2, +2/+1",
     "equipmentSlot": "Right",
     "iconName": "TrustyMachete",
@@ -3646,6 +4014,7 @@
   },
     {
     "name": "Ceremonial Knife",
+    "locdescription": "adv.item.CeremonialKnife.description",
     "description": "Equip 2, +1/+0 and blood on hit",
     "equipmentSlot": "Right",
     "iconName": "CeremonialKnife",
@@ -3658,6 +4027,7 @@
   },
     {
     "name": "Blight Sickle",
+    "locdescription": "adv.item.BlightSickle.description",
     "description": "Equip 2, +1/+0 and wither",
     "equipmentSlot": "Right",
     "iconName": "BlightSickle",
@@ -3670,6 +4040,7 @@
   },
     {
     "name": "Goldvein Pick",
+    "locdescription": "adv.item.GoldveinPick.description",
     "description": "Equip 1, +1/+1 and Treasure on hit",
     "equipmentSlot": "Right",
     "iconName": "GoldveinPick",
@@ -3682,6 +4053,7 @@
   },
     {
     "name": "Enormous Energy Blade",
+    "locdescription": "adv.item.EnormousEnergyBlade.description",
     "description": "Equip 2, +4/+0 but tap on equip",
     "equipmentSlot": "Right",
     "iconName": "EnormousEnergyBlade",
@@ -3693,6 +4065,7 @@
   },
     {
     "name": "Angelic Armaments",
+    "locdescription": "adv.item.AngelicArmaments.description",
     "description": "Equip 4, +2/+2 and flying and become an angel",
     "equipmentSlot": "Right",
     "iconName": "AngelicArmaments",
@@ -3705,6 +4078,7 @@
   },
     {
     "name": "Brawler's Cestus",
+    "locdescription": "adv.item.BrawlersCestus.description",
     "description": "Equip 4, +2/+2 and trample",
     "equipmentSlot": "Right",
     "iconName": "Brawler'sCestus",
@@ -3718,6 +4092,7 @@
   },
     {
     "name": "Shield of Kaldra",
+    "locdescription": "adv.item.ShieldofKaldra.description",
     "description": "Equip 4, gives and is indestructible",
     "equipmentSlot": "Right",
     "iconName": "ShieldofKaldra",
@@ -3729,6 +4104,7 @@
   },
     {
     "name": "Jousting Lance",
+    "locdescription": "adv.item.JoustingLance.description",
     "description": "Equip 3, +2/+0 and first strike on your turn",
     "equipmentSlot": "Right",
     "iconName": "JoustingLance",
@@ -3742,6 +4118,7 @@
   },
     {
     "name": "Fblthp's Lost Fishing Pole",
+    "locdescription": "adv.item.FblthpsLostFishingPole.description",
     "description": "Equip 2, creature can pay 1 and tap to then untap for a 1/1 fish",
     "equipmentSlot": "Right",
     "iconName": "Fblthp'sLostFishingPole",
@@ -3754,6 +4131,7 @@
   },
     {
     "name": "Ramosian Greatsword",
+    "locdescription": "adv.item.RamosianGreatsword.description",
     "description": "Equip 2, +3/+1 and trample",
     "equipmentSlot": "Right",
     "iconName": "RamosianGreatsword",
@@ -3765,6 +4143,7 @@
   },
     {
     "name": "Ring of Xathrid",
+    "locdescription": "adv.item.RingofXathrid.description",
     "description": "Equip 1, pay 2 to regenerate and a +1/+1 each upkeep if black",
     "equipmentSlot": "Right",
     "iconName": "RingofXathrid",
@@ -3778,6 +4157,7 @@
   },
     {
     "name": "Hoversail Glove",
+    "locdescription": "adv.item.HoversailGlove.description",
     "description": "Equip 2, flying",
     "equipmentSlot": "Right",
     "iconName": "HoversailGlove",
@@ -3790,6 +4170,7 @@
   },
     {
     "name": "Petrified Head",
+    "locdescription": "adv.item.PetrifiedHead.description",
     "description": "Equip 2, deathtouch",
     "equipmentSlot": "Right",
     "iconName": "PetrifiedHead",
@@ -3802,6 +4183,7 @@
   },
     {
     "name": "Bespoke Gauntlet",
+    "locdescription": "adv.item.BespokeGauntlet.description",
     "description": "Equip 2, +2/+0, auto-attaches if 2 nontoken permanents entered",
     "equipmentSlot": "Right",
     "iconName": "BespokeGauntlet",
@@ -3814,6 +4196,7 @@
   },
     {
     "name": "Ring of Dragon Blood",
+    "locdescription": "adv.item.RingofDragonBlood.description",
     "description": "Pay 3 and tap for a +1/+1 counter",
     "equipmentSlot": "Right",
     "iconName": "RingofDragonBlood",
@@ -3826,6 +4209,7 @@
   },
     {
     "name": "Ring of Thune",
+    "locdescription": "adv.item.RingofThune.description",
     "description": "Equip 1, vigilance and a +1/+1 each upkeep if white",
     "equipmentSlot": "Right",
     "iconName": "RingofThune",
@@ -3839,6 +4223,7 @@
   },
     {
     "name": "Ring of Valkas",
+    "locdescription": "adv.item.RingofValkas.description",
     "description": "Equip 1, haste and a +1/+1 each upkeep if red",
     "equipmentSlot": "Right",
     "iconName": "RingofValkas",
@@ -3852,6 +4237,7 @@
   },
     {
     "name": "Pirate Hat in Hand",
+    "locdescription": "adv.item.PirateHatinHand.description",
     "description": "Equip 2 or Equip Pirate 1, +1/+1 and loot on attack",
     "equipmentSlot": "Right",
     "iconName": "PirateHatinHand",
@@ -3863,6 +4249,7 @@
   },
     {
     "name": "Witches' Eye",
+    "locdescription": "adv.item.WitchesEye.description",
     "description": "Equip 1, equipped creature can pay 1 and tap to scry 1",
     "equipmentSlot": "Right",
     "iconName": "Witches'Eye",
@@ -3875,6 +4262,7 @@
   },
     {
     "name": "Draconian Cylix",
+    "locdescription": "adv.item.DraconianCylix.description",
     "description": "Pay 2, random discard, and tap to regenerate",
     "equipmentSlot": "Right",
     "iconName": "DraconianCylix",
@@ -3887,6 +4275,7 @@
   },
     {
     "name": "Adventuring Gear",
+    "locdescription": "adv.item.AdventuringGear.description",
     "description": "Equip 1, +2/+2 per landfall",
     "equipmentSlot": "Right",
     "iconName": "AdventuringGear",
@@ -3898,6 +4287,7 @@
   },
     {
     "name": "Ring of Kalonia",
+    "locdescription": "adv.item.RingofKalonia.description",
     "description": "Equip 1, trample and a +1/+1 each upkeep if green",
     "equipmentSlot": "Right",
     "iconName": "RingofKalonia",
@@ -3911,6 +4301,7 @@
   },
     {
     "name": "Ring of Evos Isle",
+    "locdescription": "adv.item.RingofEvosIsle.description",
     "description": "Equip 1, pay 2 for hexproof and a +1/+1 each upkeep if blue",
     "equipmentSlot": "Right",
     "iconName": "RingofEvosIsle",
@@ -3924,6 +4315,7 @@
   },
     {
     "name": "Siren Song Lyre",
+    "locdescription": "adv.item.SirenSongLyre.description",
     "description": "Equip 2, equipped creature can pay 2 to tap a creature",
     "equipmentSlot": "Right",
     "iconName": "SirenSongLyre",
@@ -3936,6 +4328,7 @@
   },
     {
     "name": "Spidersilk Glove",
+    "locdescription": "adv.item.SpidersilkGlove.description",
     "description": "Equip 2, +0/+2 and reach",
     "equipmentSlot": "Right",
     "iconName": "SpidersilkGlove",
@@ -3949,6 +4342,7 @@
   },
   {
     "name": "Spidersilk Helm",
+    "locdescription": "adv.item.SpidersilkHelm.description",
     "description": "Your creatures get +0/+1 and reach.",
     "equipmentSlot": "Neck",
     "iconName": "SpidersilkHelm",
@@ -3961,6 +4355,7 @@
   },
     {
     "name": "Full Moon Necklace",
+    "locdescription": "adv.item.FullMoonNecklace.description",
     "description": "Wolves and Werewolves get +1/+1 and trample.",
     "equipmentSlot": "Neck",
     "iconName": "FullMoonNecklace",
@@ -3972,6 +4367,7 @@
   },
     {
     "name": "Strider Reins",
+    "locdescription": "adv.item.StriderReins.description",
     "description": "Equip 1, +1/+1 and haste",
     "equipmentSlot": "Right",
     "iconName": "StriderReins",
@@ -3983,6 +4379,7 @@
   },
     {
       "name": "Truth Butcher's Armor",
+      "locdescription": "adv.item.TruthButchersArmor.description",
       "description": "Huge hand size boost for huge life penalty",
       "equipmentSlot": "Body",
       "iconName": "TruthButcher'sArmor",
@@ -3993,6 +4390,7 @@
   },
     {
       "name": "Flaming Armor",
+      "locdescription": "adv.item.FlamingArmor.description",
       "description": "Lowers foe's starting health, ups your a bit.",
       "equipmentSlot": "Body",
       "iconName": "FlamingArmor",
@@ -4006,6 +4404,7 @@
     },
     {
     "name": "Armor of Ramunap",
+    "locdescription": "adv.item.ArmorofRamunap.description",
     "description": "Taps for C or R for 1 life; 2RR, T, sac a desert to burn opp 2",
     "equipmentSlot": "Body",
     "iconName": "ArmorofRamunap",
@@ -4018,6 +4417,7 @@
   },
     {
     "name": "Crucible Armor",
+    "locdescription": "adv.item.CrucibleArmor.description",
     "description": "Taps for C or 1, T to store, remove storage later for any color for dragons/dragon abilities",
     "equipmentSlot": "Body",
     "iconName": "CrucibleArmor",
@@ -4030,6 +4430,7 @@
   },
     {
       "name": "Blessed Armor",
+      "locdescription": "adv.item.BlessedArmor.description",
       "description": "A powerful life boost, but boosts your foe as well.",
       "equipmentSlot": "Body",
       "iconName": "DivinelyBlessedArmor",
@@ -4043,6 +4444,7 @@
     },
     {
     "name": "Nomad Armor",
+    "locdescription": "adv.item.NomadArmor.description",
     "description": "Adds W for 1 life or W, T, sac, gain 4 life",
     "equipmentSlot": "Body",
     "iconName": "NomadArmor",
@@ -4055,6 +4457,7 @@
   },
     {
       "name": "Forbidden Robes",
+      "locdescription": "adv.item.ForbiddenRobes.description",
       "description": "Three extra cards at the cost of life",
       "equipmentSlot": "Body",
       "iconName": "RestrictedRobes",
@@ -4066,6 +4469,7 @@
   },
     {
     "name": "Cabal Armor",
+    "locdescription": "adv.item.CabalArmor.description",
     "description": "Adds B for 1 life or B, T, sac, give -2/-2",
     "equipmentSlot": "Body",
     "iconName": "CabalArmor",
@@ -4078,6 +4482,7 @@
   },
     {
     "name": "Armor of Ifnir",
+    "locdescription": "adv.item.ArmorofIfnir.description",
     "description": "Taps for C or B for 1 life; 2BB, T, sac a desert for 2 -1/-1 counters at sorcery speed",
     "equipmentSlot": "Body",
     "iconName": "ArmorofIfnir",
@@ -4090,6 +4495,7 @@
   },
     {
       "name": "Crystalline Armor",
+      "locdescription": "adv.item.CrystallineArmor.description",
       "description": "Taps for C or 5, T for WUBRG",
       "equipmentSlot": "Body",
       "iconName": "CrystallineArmor",
@@ -4102,6 +4508,7 @@
   },
     {
     "name": "Centaur Armor",
+    "locdescription": "adv.item.CentaurArmor.description",
     "description": "Adds G for 1 life or G, T, sac, give +3/+3",
     "equipmentSlot": "Body",
     "iconName": "CentaurArmor",
@@ -4114,6 +4521,7 @@
   },
     {
     "name": "Oracle's Robes",
+    "locdescription": "adv.item.OraclesRobes.description",
     "description": "Taps for C or 1, T to filter or tap for a +1/+1 counter if you've cast an inst/sorc",
     "equipmentSlot": "Body",
     "iconName": "Oracle'sRobes",
@@ -4126,6 +4534,7 @@
   },
     {
     "name": "Nivix Vest",
+    "locdescription": "adv.item.NivixVest.description",
     "description": "Taps for C or 2UR, T to impulse draw an instant/sorc",
     "equipmentSlot": "Body",
     "iconName": "NivixVest",
@@ -4139,6 +4548,7 @@
   },
     {
     "name": "Rancher's Garb",
+    "locdescription": "adv.item.RanchersGarb.description",
     "description": "Taps for C or any color for a Mount, 3 and T to look at top and draw if a mount",
     "equipmentSlot": "Body",
     "iconName": "Rancher'sGarb",
@@ -4152,6 +4562,7 @@
   },
     {
     "name": "Steel Armor",
+    "locdescription": "adv.item.SteelArmor.description.variant2",
     "description": "Basic life boost",
     "equipmentSlot": "Body",
     "iconName": "SteelArmor",
@@ -4162,6 +4573,7 @@
   },
     {
     "name": "Armor of Ipnu",
+    "locdescription": "adv.item.ArmorofIpnu.description",
     "description": "Taps for C or U for 1 life; 1U, T, sac a desert to mill someone four",
     "equipmentSlot": "Body",
     "iconName": "ArmorofIpnu",
@@ -4174,6 +4586,7 @@
   },
   {
     "name": "Heavy Armor",
+    "locdescription": "adv.item.HeavyArmor.description",
     "description": "A massive life boost.",
     "equipmentSlot": "Body",
     "iconName": "UltraHeavyArmor",
@@ -4184,6 +4597,7 @@
   },
   {
     "name": "Liliana's Veil",
+    "locdescription": "adv.item.LilianasVeil.description",
     "description": "At each end step, create a 2/2 zombie if you played a walker.",
     "equipmentSlot": "Neck",
     "iconName": "Liliana'sVeil",
@@ -4195,6 +4609,7 @@
   },
     {
     "name": "Armor of the First",
+    "locdescription": "adv.item.ArmoroftheFirst.description",
     "description": "Taps for C or any color for a Sliver, 5 and tap for a 1/1 sliver token if you control a sliver",
     "equipmentSlot": "Body",
     "iconName": "ArmoroftheFirst",
@@ -4207,6 +4622,7 @@
   },
     {
     "name": "Barbarian Armor",
+    "locdescription": "adv.item.BarbarianArmor.description",
     "description": "Adds R for 1 life or R, T, sac, ping for 2",
     "equipmentSlot": "Body",
     "iconName": "BarbarianArmor",
@@ -4219,6 +4635,7 @@
   },
     {
     "name": "Librarian's Robes",
+    "locdescription": "adv.item.LibrariansRobes.description",
     "description": "Taps for C or 2, T to look at top and draw if inst/sorc if hand size 0 or 7",
     "equipmentSlot": "Body",
     "iconName": "Librarian'sRobes",
@@ -4232,6 +4649,7 @@
   },
     {
     "name": "Sanctuary Armor",
+    "locdescription": "adv.item.SanctuaryArmor.description",
     "description": "Adds C or 2, T: Put a +1/+1 counter on a Bird, Cat, Dog, Goat, Ox, or Snake.",
     "equipmentSlot": "Body",
     "iconName": "SanctuaryArmor",
@@ -4244,6 +4662,7 @@
   },
     {
     "name": "Glacial Armor",
+    "locdescription": "adv.item.GlacialArmor.description",
     "description": "Taps for Snow or 4S, T, Sac for 4 damage to a creature",
     "equipmentSlot": "Body",
     "iconName": "GlacialArmor",
@@ -4257,6 +4676,7 @@
   },
     {
     "name": "Nest Warden's Armor",
+    "locdescription": "adv.item.NestWardensArmor.description",
     "description": "Taps for C or 1, T, to move a counter at sorcery speed",
     "equipmentSlot": "Body",
     "iconName": "NestWarden'sArmor",
@@ -4270,6 +4690,7 @@
   },
     {
     "name": "Fblthp's Lost Shirt",
+    "locdescription": "adv.item.FblthpsLostShirt.description",
     "description": "Taps for C or 4, T to remove an attacker",
     "equipmentSlot": "Body",
     "iconName": "Fblthp'sLostShirt",
@@ -4282,6 +4703,7 @@
   },
     {
     "name": "Armor of Urami",
+    "locdescription": "adv.item.ArmorofUrami.description",
     "description": "Taps for B but lose 1 unless you have an ogre, 2BB, T, Sac all your lands: make a 5/5 flying demon",
     "equipmentSlot": "Body",
     "iconName": "ArmorofUrami",
@@ -4294,6 +4716,7 @@
   },
     {
     "name": "Mithril Armor",
+    "locdescription": "adv.item.MithrilArmor.description.variant2",
     "description": "Solid life boost",
     "equipmentSlot": "Body",
     "iconName": "MithrilArmor",
@@ -4304,6 +4727,7 @@
   },
   {
     "name": "Cloak of the Wastes",
+    "locdescription": "adv.item.CloakoftheWastes.description",
     "description": "Gives a colorless land, but -1 hand size",
     "equipmentSlot": "Body",
     "iconName": "CloakoftheWastes",
@@ -4317,6 +4741,7 @@
   },
   {
     "name": "Meadow Outfit",
+    "locdescription": "adv.item.MeadowOutfit.description",
     "description": "Taps for W. -5 life, -1 hand size.",
     "equipmentSlot": "Body",
     "iconName": "OutpostOutfit",
@@ -4331,6 +4756,7 @@
   },
   {
     "name": "Isle Shirt",
+    "locdescription": "adv.item.IsleShirt.description",
     "description": "Taps for U. -5 life, -1 hand size.",
     "equipmentSlot": "Body",
     "iconName": "SeafloorShirt",
@@ -4345,6 +4771,7 @@
   },
   {
     "name": "Mire Leather",
+    "locdescription": "adv.item.MireLeather.description",
     "description": "Taps for B. -5 life, -1 hand size.",
     "equipmentSlot": "Body",
     "iconName": "BogDwellerLeather",
@@ -4359,6 +4786,7 @@
   },
   {
     "name": "Smoldering Cloak",
+    "locdescription": "adv.item.SmolderingCloak.description",
     "description": "Taps for R. -5 life, -1 hand size.",
     "equipmentSlot": "Body",
     "iconName": "HighlandCloak",
@@ -4373,6 +4801,7 @@
   },
   {
     "name": "Karst Shawl",
+    "locdescription": "adv.item.KarstShawl.description",
     "description": "Taps for G. -5 life, -1 hand size.",
     "equipmentSlot": "Body",
     "iconName": "TimberlandShawl",
@@ -4387,6 +4816,7 @@
   },
   {
     "name": "Token of Bounty",
+    "locdescription": "adv.item.TokenofBounty.description",
     "description": "Grants a token in a special slot with 2, T, sac: Gain 3 life.",
     "equipmentSlot": "Token",
     "iconName": "TokenofBounty",
@@ -4399,6 +4829,7 @@
   },
   {
     "name": "Token of Investigation",
+    "locdescription": "adv.item.TokenofInvestigation.description",
     "description": "Grants a token in a special slot with 2, sac: Draw a card.",
     "equipmentSlot": "Token",
     "iconName": "TokenofInvestigation",
@@ -4411,6 +4842,7 @@
   },
   {
     "name": "Token of Blood",
+    "locdescription": "adv.item.TokenofBlood.description",
     "description": "Grants a token in a special slot with 1, T, sac: Discard, then draw.",
     "equipmentSlot": "Token",
     "iconName": "TokenofBlood",
@@ -4423,6 +4855,7 @@
   },
   {
     "name": "Token of Violence",
+    "locdescription": "adv.item.TokenofViolence.description",
     "description": "Grants a token in a special slot with equip 1: 1, T, sac: ping for 2",
     "equipmentSlot": "Token",
     "iconName": "TokenofViolence",
@@ -4435,6 +4868,7 @@
   },
   {
     "name": "Token of Exploration",
+    "locdescription": "adv.item.TokenofExploration.description",
     "description": "Grants a token in a special slot with 1, T, sac: Explore.",
     "equipmentSlot": "Token",
     "iconName": "TokenofExploration",
@@ -4447,6 +4881,7 @@
   },
   {
     "name": "Phelddagrif Plate",
+    "locdescription": "adv.item.PhelddagrifPlate.description",
     "description": "Opponent gets a 2/2 hippo; you get two cards and some life",
     "equipmentSlot": "Body",
     "iconName": "PhelddagrifPlate",
@@ -4462,6 +4897,7 @@
 },
     {
       "name": "Parun's Armor",
+      "locdescription": "adv.item.ParunsArmor.description",
       "description": "Taps for any color only for multicolor",
       "equipmentSlot": "Body",
       "iconName": "Parun'sArmor",
@@ -4475,6 +4911,7 @@
   },
     {
     "name": "Cephalid Armor",
+    "locdescription": "adv.item.CephalidArmor.description",
     "description": "Adds U for 1 life or U, T, sac, draw 3 discard 3",
     "equipmentSlot": "Body",
     "iconName": "CephalidArmor",
@@ -4487,6 +4924,7 @@
   },
     {
     "name": "Opal Cloak",
+    "locdescription": "adv.item.OpalCloak.description",
     "description": "Taps for C or 1, T add any color and give a +1/+1 to commander for each cast",
     "equipmentSlot": "Body",
     "iconName": "OpalCloak",
@@ -4499,6 +4937,7 @@
   },
   {
     "name": "Urza's Robe",
+    "locdescription": "adv.item.UrzasRobe.description",
     "description": "Taps for C for each urza's land if metalcraft",
     "equipmentSlot": "Body",
     "iconName": "Urza'sRobe",
@@ -4511,6 +4950,7 @@
   },
     {
     "name": "Cloak of Prahv",
+    "locdescription": "adv.item.CloakofPrahv.description",
     "description": "Taps for C or 4WU, T to prevent all damage from one source",
     "equipmentSlot": "Body",
     "iconName": "CloakofPrahv",
@@ -4524,6 +4964,7 @@
   },
     {
     "name": "Cloak of Svogthos",
+    "locdescription": "adv.item.CloakofSvogthos.description",
     "description": "Taps for C or 3BG to animate as an X/X where X is creatures in your graveyard",
     "equipmentSlot": "Body",
     "iconName": "CloakofSvogthos",
@@ -4537,6 +4978,7 @@
   },
     {
     "name": "Vitu-Ghazi Cloak",
+    "locdescription": "adv.item.VituGhaziCloak.description",
     "description": "Taps for C or 2WG, T to make a 1/1 saproling",
     "equipmentSlot": "Body",
     "iconName": "Vitu-GhaziCloak",
@@ -4550,6 +4992,7 @@
   },
     {
       "name": "Pinecrest Cloak",
+      "locdescription": "adv.item.PinecrestCloak.description",
       "description": "Taps for C or G/R but then skips untapping",
       "equipmentSlot": "Body",
       "iconName": "PinecrestCloak",
@@ -4563,6 +5006,7 @@
   },
     {
     "name": "Reliquary Robes",
+    "locdescription": "adv.item.ReliquaryRobes.description",
     "description": "Taps for C, no max hand size",
     "equipmentSlot": "Body",
     "iconName": "ReliquaryRobes",
@@ -4575,6 +5019,7 @@
   },
     {
     "name": "Mantle of Dusk",
+    "locdescription": "adv.item.MantleofDusk.description",
     "description": "Taps for C or UB, T to have target player mill 1",
     "equipmentSlot": "Body",
     "iconName": "MantleofDusk",
@@ -4588,6 +5033,7 @@
   },
     {
     "name": "Cloak of Orzhova",
+    "locdescription": "adv.item.CloakofOrzhova.description",
     "description": "Taps for C or 3BW, T to drain 1",
     "equipmentSlot": "Body",
     "iconName": "CloakofOrzhova",
@@ -4601,6 +5047,7 @@
   },
     {
       "name": "Tranquil Cloak",
+      "locdescription": "adv.item.TranquilCloak.description",
       "description": "Taps for C or W/G but then skips untapping",
       "equipmentSlot": "Body",
       "iconName": "TranquilCloak",
@@ -4614,6 +5061,7 @@
   },
     {
     "name": "Novijen Cloak",
+    "locdescription": "adv.item.NovijenCloak.description",
     "description": "Taps for C or GU, T to give each creature that entered this turn a +1/+1 counter",
     "equipmentSlot": "Body",
     "iconName": "NovijenCloak",
@@ -4627,6 +5075,7 @@
   },
     {
     "name": "Explorer's Cloak",
+    "locdescription": "adv.item.ExplorersCloak.description",
     "description": "Taps for C or 3, T to make a power 3< creature unblockable",
     "equipmentSlot": "Body",
     "iconName": "Explorer'sCloak",
@@ -4639,6 +5088,7 @@
   },
     {
     "name": "Witch's Cloak",
+    "locdescription": "adv.item.WitchsCloak.description",
     "description": "Taps for C or 2, T to give a commander lifelink",
     "equipmentSlot": "Body",
     "iconName": "Witch'sCloak",
@@ -4651,6 +5101,7 @@
   },
     {
       "name": "Cloudcrest Cloak",
+      "locdescription": "adv.item.CloudcrestCloak.description",
       "description": "Taps for C or W/U but then skips untapping",
       "equipmentSlot": "Body",
       "iconName": "CloudcrestCloak",
@@ -4664,6 +5115,7 @@
   },
     {
     "name": "Seraphim Wings",
+    "locdescription": "adv.item.SeraphimWings.description",
     "description": "Taps for C, gain 1 when an angel enters",
     "equipmentSlot": "Body",
     "iconName": "SeraphimWings",
@@ -4676,6 +5128,7 @@
   },
     {
       "name": "Lantern-Lit Cloak",
+      "locdescription": "adv.item.LanternLitCloak.description",
       "description": "Taps for C or B/R but then skips untapping",
       "equipmentSlot": "Body",
       "iconName": "Lantern-LitCloak",
@@ -4689,6 +5142,7 @@
   },
     {
     "name": "Sunhome Cloak",
+    "locdescription": "adv.item.SunhomeCloak.description",
     "description": "Taps for C or 2WR, T for double strike",
     "equipmentSlot": "Body",
     "iconName": "SunhomeCloak",
@@ -4702,6 +5156,7 @@
   },
     {
     "name": "Student's Robes",
+    "locdescription": "adv.item.StudentsRobes.description",
     "description": "Taps for C or 1, T to filter and scry based on commander casts",
     "equipmentSlot": "Body",
     "iconName": "Student'sRobes",
@@ -4714,6 +5169,7 @@
   },
     {
     "name": "Commander's Robes",
+    "locdescription": "adv.item.CommandersRobes.description",
     "description": "Taps for any color of your commander; no penalties",
     "equipmentSlot": "Body",
     "iconName": "Commander'sRobes",
@@ -4725,6 +5181,7 @@
   },
     {
       "name": "Sage's Robes",
+      "locdescription": "adv.item.SagesRobes.description",
       "description": "Two extra cards and some life.",
       "equipmentSlot": "Body",
       "iconName": "GrandSage'sRobes",
@@ -4736,6 +5193,7 @@
   },
     {
     "name": "Skargg Cloak",
+    "locdescription": "adv.item.SkarggCloak.description",
     "description": "Taps for C or GR, T for +1/+1 and trample",
     "equipmentSlot": "Body",
     "iconName": "SkarggCloak",
@@ -4749,6 +5207,7 @@
   },
     {
     "name": "Diamond Belt",
+    "locdescription": "adv.item.DiamondBelt.description",
     "description": "Tap to sac a creature for life equal to its toughness. Doesn't give mana.",
     "equipmentSlot": "Body",
     "iconName": "DiamondBelt",
@@ -4761,6 +5220,7 @@
   },
     {
       "name": "Waterveil Cloak",
+      "locdescription": "adv.item.WaterveilCloak.description",
       "description": "Taps for C or B/U but then skips untapping",
       "equipmentSlot": "Body",
       "iconName": "WaterveilCloak",
@@ -4774,6 +5234,7 @@
   },
     {
     "name": "Rix Maadi Cloak",
+    "locdescription": "adv.item.RixMaadiCloak.description",
     "description": "Taps for C or 1BR, T to make each player discard at sorcery speed",
     "equipmentSlot": "Body",
     "iconName": "RixMaadiCloak",
@@ -4787,6 +5248,7 @@
   },
   {
     "name": "Scrapling Shoes",
+    "locdescription": "adv.item.ScraplingShoes.description",
     "description": "A 1/1 Myr. Sac for a +1/+1 counter.",
     "equipmentSlot": "Boots",
     "iconName": "ScraplingShoes",
@@ -4798,6 +5260,7 @@
   },
   {
     "name": "Infernal Armor",
+    "locdescription": "adv.item.InfernalArmor.description",
     "description": "Four extra cards, but you are stalked by a 5/5 flying demon.",
     "equipmentSlot": "Body",
     "iconName": "InfernalArmor",
@@ -4812,6 +5275,7 @@
   },
   {
     "name": "Thunder Lasso",
+    "locdescription": "adv.item.ThunderLasso.description",
     "description": "Equip 2, +1/+1 and tap a creature on attack",
     "equipmentSlot": "Right",
     "iconName": "ThunderLasso",
@@ -4823,6 +5287,7 @@
   },
   {
     "name": "Generous Armor",
+    "locdescription": "adv.item.GenerousArmor.description",
     "description": "Gift your foe 10 life. Get better win rewards.",
     "equipmentSlot": "Body",
     "iconName": "GenerousArmor",
@@ -4836,6 +5301,7 @@
   },
   {
     "name": "Generous Pants",
+    "locdescription": "adv.item.GenerousPants.description",
     "description": "Gift your foe a 5/5 reach trampler. Get better win rewards.",
     "equipmentSlot": "Boots",
     "iconName": "GenerousPants",
@@ -4851,6 +5317,7 @@
   },
   {
     "name": "Generous Necklace",
+    "locdescription": "adv.item.GenerousNecklace.description",
     "description": "Gift your foe rhystic study. Get better win rewards.",
     "equipmentSlot": "Neck",
     "iconName": "GenerousNecklace",
@@ -4866,6 +5333,7 @@
   },
   {
     "name": "Generous Ring",
+    "locdescription": "adv.item.GenerousRing.description",
     "description": "Gift your foe swiftfoot boots. Get better win rewards.",
     "equipmentSlot": "Right",
     "iconName": "GenerousRing",
@@ -4881,6 +5349,7 @@
   },
   {
     "name": "Generous Coin",
+    "locdescription": "adv.item.GenerousCoin.description",
     "description": "Gift your foe buried treasure. Get better win rewards.",
     "equipmentSlot": "Left",
     "iconName": "CursedTreasure",
@@ -4896,6 +5365,7 @@
   },
   {
     "name": "Generous Ingot",
+    "locdescription": "adv.item.GenerousIngot.description",
     "description": "Gift your foe a mana rock. Get better win rewards. Uses its own slot.",
     "equipmentSlot": "Pocket",
     "iconName": "GenerousIngot",
@@ -4911,6 +5381,7 @@
   },
   {
     "name": "Medal of the Outnumbered",
+    "locdescription": "adv.item.MedaloftheOutnumbered.description",
     "description": "Opponent starts with two creatures, greatly improves win rewards.",
     "equipmentSlot": "Medal",
     "iconName": "MedalOutnumbered",
@@ -4927,6 +5398,7 @@
   },
   {
     "name": "Medal of the Outgunned",
+    "locdescription": "adv.item.MedaloftheOutgunned.description",
     "description": "Opponent starts with two equipments, improves win rewards.",
     "equipmentSlot": "Medal",
     "iconName": "MedalOutgunned",
@@ -4943,6 +5415,7 @@
   },
   {
     "name": "Medal of the Outmaneuvered",
+    "locdescription": "adv.item.MedaloftheOutmaneuvered.description",
     "description": "Opponent starts with an extra land, improves win rewards.",
     "equipmentSlot": "Medal",
     "iconName": "MedalOutmaneuvered",
@@ -4958,6 +5431,7 @@
   },
   {
     "name": "Medal of the Outmatched",
+    "locdescription": "adv.item.MedaloftheOutmatched.description",
     "description": "Opponent starts with two enchantments, greatly improves win rewards.",
     "equipmentSlot": "Medal",
     "iconName": "MedalOutmatched",
@@ -4974,6 +5448,7 @@
   },
   {
     "name": "Medal of the Overpowered Opponent",
+    "locdescription": "adv.item.MedaloftheOverpoweredOpponent.description",
     "description": "Opponent starts with four cards, vastly improves rewards.",
     "equipmentSlot": "Medal",
     "iconName": "MedalOverpowered",
@@ -4992,6 +5467,7 @@
   },
   {
     "name": "Medal of the Overwhelmed Champion",
+    "locdescription": "adv.item.MedaloftheOverwhelmedChampion.description",
     "description": "Start with a big handicap, vastly improves win rewards.",
     "equipmentSlot": "Medal",
     "iconName": "MedalOverwhelmed",
@@ -5007,6 +5483,7 @@
   },
   {
     "name": "Medal of Ultimate Victory",
+    "locdescription": "adv.item.MedalofUltimateVictory.description",
     "description": "A medal awarded to the one who has defeated the ultimate opponent.",
     "equipmentSlot": "Medal",
     "iconName": "MedalVictory",
@@ -5020,6 +5497,7 @@
   },
   {
     "name": "Mad Hat",
+    "locdescription": "adv.item.MadHat.description",
     "description": "Randomly swap permanents each upkeep.",
     "equipmentSlot": "Neck",
     "iconName": "MadHat",
@@ -5031,6 +5509,7 @@
   },
   {
     "name": "Faerie Anklet",
+    "locdescription": "adv.item.FaerieAnklet.description",
     "description": "1/3 flier. Pay 1GG for a random effect.",
     "equipmentSlot": "Boots",
     "iconName": "FaerieAnklet",
@@ -5043,6 +5522,7 @@
   },
   {
     "name": "Fleshwright Chaps",
+    "locdescription": "adv.item.FleshwrightChaps.description",
     "description": "3/1 flying zombie, 1U and discard 2 to reanimate tapper",
     "equipmentSlot": "Boots",
     "iconName": "FleshwrightChaps",
@@ -5055,6 +5535,7 @@
   },
   {
     "name": "Thirsting Axe",
+    "locdescription": "adv.item.ThirstingAxe.description",
     "description": "Equip 2, +4/+0 but die at EOT if it hasn't hit a creature",
     "equipmentSlot": "Right",
     "iconName": "ThirstingAxe",
@@ -5067,6 +5548,7 @@
   },
   {
     "name": "Ghostfire Blade",
+    "locdescription": "adv.item.GhostfireBlade.description",
     "description": "Equip 3 or 1 to colorless, +2/+2",
     "equipmentSlot": "Right",
     "iconName": "GhostfireBlade",
@@ -5078,6 +5560,7 @@
   },
   {
     "name": "Chitinous Club",
+    "locdescription": "adv.item.ChitinousClub.description",
     "description": "Equip 3, +2/+2 and menace",
     "equipmentSlot": "Right",
     "iconName": "ChitinousClub",
@@ -5091,6 +5574,7 @@
   },
   {
     "name": "Dire Flail",
+    "locdescription": "adv.item.DireFlail.description",
     "description": "Equip 1, +2/+0, Craft with artifact for 3RR to upgrade.",
     "equipmentSlot": "Right",
     "iconName": "DireFlail",
@@ -5103,6 +5587,7 @@
   },
   {
     "name": "Poet's Quill",
+    "locdescription": "adv.item.PoetsQuill.description",
     "description": "Equip 1B, +1/+1 and lifelink.",
     "equipmentSlot": "Right",
     "iconName": "PoetsQuill",
@@ -5115,6 +5600,7 @@
   },
   {
     "name": "Giant's Bracer",
+    "locdescription": "adv.item.GiantsBracer.description",
     "description": "Equip 2, +0/+1 and hexproof while untapped.",
     "equipmentSlot": "Right",
     "iconName": "Giant'sBracer",
@@ -5127,6 +5613,7 @@
   },
   {
     "name": "Skyclave Maul",
+    "locdescription": "adv.item.SkyclaveMaul.description",
     "description": "Equip 2WW, +2/+2 flying and first strike",
     "equipmentSlot": "Right",
     "iconName": "SkyclaveMaul",
@@ -5139,6 +5626,7 @@
   },
   {
     "name": "Colossal Dreadmace",
+    "locdescription": "adv.item.ColossalDreadmace.description",
     "description": "Equip 3GG, +6/+6 and trample.",
     "equipmentSlot": "Right",
     "iconName": "ColossalDreadmace",
@@ -5151,6 +5639,7 @@
   },
   {
     "name": "Jewel of Blessings",
+    "locdescription": "adv.item.JewelofBlessings.description",
     "description": "All your creatures gain vigilance.",
     "equipmentSlot": "Neck",
     "iconName": "MoxPearl",
@@ -5163,6 +5652,7 @@
   },
   {
     "name": "Jewel of War",
+    "locdescription": "adv.item.JewelofWar.description",
     "description": "Your attacking creatures get +1/+0.",
     "equipmentSlot": "Neck",
     "iconName": "MoxRuby",
@@ -5175,6 +5665,7 @@
   },
   {
     "name": "Jewel of Winds",
+    "locdescription": "adv.item.JewelofWinds.description",
     "description": "Your flying creatures get +1/+1.",
     "equipmentSlot": "Neck",
     "iconName": "MoxSapphire",
@@ -5187,6 +5678,7 @@
   },
   {
     "name": "Ghoulish Jewel",
+    "locdescription": "adv.item.GhoulishJewel.description",
     "description": "Once a turn when a nontoken dies make a 2/2 decayed zombie.",
     "equipmentSlot": "Neck",
     "iconName": "MoxJet",
@@ -5199,6 +5691,7 @@
   },
   {
     "name": "Jewel of Rage",
+    "locdescription": "adv.item.JewelofRage.description",
     "description": "All your creatures gain trample.",
     "equipmentSlot": "Neck",
     "iconName": "MoxEmerald",
@@ -5211,6 +5704,7 @@
   },
   {
     "name": "High Ground Helm",
+    "locdescription": "adv.item.HighGroundHelm.description",
     "description": "Your creatures can each block an extra creature.",
     "equipmentSlot": "Neck",
     "iconName": "HighGroundHelm",
@@ -5223,6 +5717,7 @@
   },
   {
     "name": "Cunning Mask",
+    "locdescription": "adv.item.CunningMask.description",
     "description": "You can bounce your blocked attackers.",
     "equipmentSlot": "Neck",
     "iconName": "CunningMask",
@@ -5235,6 +5730,7 @@
   },
   {
     "name": "Mighty Helm",
+    "locdescription": "adv.item.MightyHelm.description",
     "description": "Your creatures with power 5+ get two +1/+1s on enter.",
     "equipmentSlot": "Neck",
     "iconName": "MightyHelm",
@@ -5247,6 +5743,7 @@
   },
   {
     "name": "Helm of the Fallen",
+    "locdescription": "adv.item.HelmoftheFallen.description",
     "description": "Each upkeep, if opp lost life last turn, put a +1/+1 counter.",
     "equipmentSlot": "Neck",
     "iconName": "HelmoftheFallen",
@@ -5259,6 +5756,7 @@
   },
   {
     "name": "Helm of Battle",
+    "locdescription": "adv.item.HelmofBattle.description",
     "description": "During your combat, give a creature +2/+0.",
     "equipmentSlot": "Neck",
     "iconName": "HelmofBattle",
@@ -5271,6 +5769,7 @@
   },
   {
     "name": "Vampiric Amulet",
+    "locdescription": "adv.item.VampiricAmulet.description",
     "description": "Your attacking creatures get first strike, vampires get a +1/+1 counters on hit.",
     "equipmentSlot": "Neck",
     "iconName": "VampiricAmulet",
@@ -5282,6 +5781,7 @@
   },
   {
     "name": "Massacre Helm",
+    "locdescription": "adv.item.MassacreHelm.description",
     "description": "When your creatures die, opp loses 1. When theirs die, you gain 1.",
     "equipmentSlot": "Neck",
     "iconName": "MassacreHelm",
@@ -5293,6 +5793,7 @@
   },
   {
     "name": "Glorious Helm",
+    "locdescription": "adv.item.GloriousHelm.description",
     "description": "Your creatures get +1/+1.",
     "equipmentSlot": "Neck",
     "iconName": "GloriousHelm",
@@ -5304,6 +5805,7 @@
   },
   {
     "name": "War Helm",
+    "locdescription": "adv.item.WarHelm.description",
     "description": "Your creatures get menace.",
     "equipmentSlot": "Neck",
     "iconName": "WarHelm",
@@ -5315,6 +5817,7 @@
   },
   {
     "name": "Helm of Contemplation",
+    "locdescription": "adv.item.HelmofContemplation.description",
     "description": "When you cast a noncreature, pay 1 to tap and stun a creature.",
     "equipmentSlot": "Neck",
     "iconName": "HelmofContemplation",
@@ -5326,6 +5829,7 @@
   },
   {
     "name": "Helm of Myth",
+    "locdescription": "adv.item.HelmofMyth.description",
     "description": "Your commander recasts cost 1 less, draw when commander is zoned.",
     "equipmentSlot": "Neck",
     "iconName": "HelmofMyth",
@@ -5337,6 +5841,7 @@
   },
   {
     "name": "Outlaw's Hat",
+    "locdescription": "adv.item.OutlawsHat.description",
     "description": "Gives a 1/1 mercenary. When one of your outlaws dies, drain opp 1 life.",
     "equipmentSlot": "Neck",
     "iconName": "OutlawsHat",
@@ -5349,6 +5854,7 @@
   },
   {
     "name": "Manaforce Mace",
+    "locdescription": "adv.item.ManaforceMace.description",
     "description": "Equip 3. +X/+X equal to domain",
     "equipmentSlot": "Right",
     "iconName": "ManaforceMace",
@@ -5361,6 +5867,7 @@
   },
   {
     "name": "Shadowspear",
+    "locdescription": "adv.item.Shadowspear.description",
     "description": "Equip 2: +1/+1 trample and lifelink. Can also remove hexproof/indest.",
     "equipmentSlot": "Right",
     "iconName": "Shadowspear",
@@ -5372,6 +5879,7 @@
   },
   {
     "name": "Heirloom Blade",
+    "locdescription": "adv.item.HeirloomBlade.description",
     "description": "Equip 1, +3/+1, on death get a random card of same creature type.",
     "equipmentSlot": "Right",
     "iconName": "HeirloomBlade",
@@ -5384,6 +5892,7 @@
   },
   {
     "name": "Hengestrider Boots",
+    "locdescription": "adv.item.HengestriderBoots.description",
     "description": "3/4 artifact creature, 2: trample until EOT.",
     "equipmentSlot": "Boots",
     "iconName": "HengestriderBoots",
@@ -5395,6 +5904,7 @@
   },
   {
     "name": "Tome of Blight",
+    "locdescription": "adv.item.TomeofBlight.description",
     "description": "3, T, Sac: Destroy target land",
     "equipmentSlot": "Left",
     "iconName": "TomeofBlight",
@@ -5407,6 +5917,7 @@
   },
   {
     "name": "Winter Boots",
+    "locdescription": "adv.item.WinterBoots.description",
     "description": "0/4, T, sac: -0/-X where X is snow lands",
     "equipmentSlot": "Boots",
     "iconName": "WinterBoots",
@@ -5418,6 +5929,7 @@
   },
   {
     "name": "Token of Blades",
+    "locdescription": "adv.item.TokenofBlades.description",
     "description": "Grants a token in a special slot with Equip 2: +1/+1.",
     "equipmentSlot": "Token",
     "iconName": "TokenofBlades",
@@ -5430,6 +5942,7 @@
   },
   {
     "name": "Token of Decay",
+    "locdescription": "adv.item.TokenofDecay.description",
     "description": "Grants a 2/2 decayed zombie token in a special slot.",
     "equipmentSlot": "Token",
     "iconName": "TokenofDecay",
@@ -5442,6 +5955,7 @@
   },
   {
     "name": "Token of Insight",
+    "locdescription": "adv.item.TokenofInsight.description",
     "description": "Grants a token in a special slot with 2, sac: Scry 1 then draw.",
     "equipmentSlot": "Token",
     "iconName": "TokenofInsight",
@@ -5455,6 +5969,7 @@
   },
   {
     "name": "Token of Shielding",
+    "locdescription": "adv.item.TokenofShielding.description",
     "description": "Grants a 0/3 defender wall token in a special slot.",
     "equipmentSlot": "Token",
     "iconName": "TokenofShielding",
@@ -5467,6 +5982,7 @@
   },
   {
     "name": "Token of Landing",
+    "locdescription": "adv.item.TokenofLanding.description",
     "description": "Grants a token in a special slot with 2, T, sac: get a tapped basic.",
     "equipmentSlot": "Token",
     "iconName": "TokenofLanding",
@@ -5481,6 +5997,7 @@
   },
   {
     "name": "Token of Spirit",
+    "locdescription": "adv.item.TokenofSpirit.description",
     "description": "Grants a 1/1 colorless spirit token in a special slot.",
     "equipmentSlot": "Token",
     "iconName": "TokenofSpirit",
@@ -5493,6 +6010,7 @@
   },
   {
     "name": "Token of Soaring Spirit",
+    "locdescription": "adv.item.TokenofSoaringSpirit.description",
     "description": "Grants a 1/1 white/black spirit token with flying in a special slot.",
     "equipmentSlot": "Token",
     "iconName": "TokenofSoaringSpirit",
@@ -5505,6 +6023,7 @@
   },
   {
     "name": "Gisa's Favorite Shovel",
+    "locdescription": "adv.item.GisasFavoriteShovel.description",
     "description": "This item has been removed. Please discard it.",
     "equipmentSlot": "Right",
     "iconName": "GhostRune",
@@ -5516,6 +6035,7 @@
   },
   {
     "name": "Segovian Sandals",
+    "locdescription": "adv.item.SegovianSandals.description",
     "description": "This item has been removed. Please discard it.",
     "equipmentSlot": "Boots",
     "iconName": "GhostRune",
@@ -5527,6 +6047,7 @@
   },
   {
     "name": "Darksteel Axe",
+    "locdescription": "adv.item.DarksteelAxe.description",
     "description": "This item has been removed. Please discard it.",
     "equipmentSlot": "Right",
     "iconName": "DarksteelAxe",
@@ -5539,6 +6060,7 @@
   },
   {
     "name": "Pocket Thopter",
+    "locdescription": "adv.item.PocketThopter.description",
     "description": "This item has been removed. Please discard it.",
     "equipmentSlot": "Boots",
     "iconName": "GhostRune",
@@ -5550,6 +6072,7 @@
   },
   {
     "name": "Miser's Shoes",
+    "locdescription": "adv.item.MisersShoes.description",
     "description": "This item has been removed. Please discard it.",
     "equipmentSlot": "Boots",
     "iconName": "GhostRune",
@@ -5561,6 +6084,7 @@
   },
   {
     "name": "Sinuous Shoes",
+    "locdescription": "adv.item.SinuousShoes.description",
     "description": "This item has been discontinued. Please discard it.",
     "equipmentSlot": "Boots",
     "iconName": "SinuousShoes",
@@ -5572,6 +6096,7 @@
   },
   {
     "name": "Outpost Outfit",
+    "locdescription": "adv.item.OutpostOutfit.description",
     "description": "This item has been removed. Please discard it.",
     "equipmentSlot": "Body",
     "iconName": "GhostRune",
@@ -5584,6 +6109,7 @@
   },
   {
     "name": "Seafloor Shirt",
+    "locdescription": "adv.item.SeafloorShirt.description",
     "description": "This item has been removed. Please discard it.",
     "equipmentSlot": "Body",
     "iconName": "GhostRune",
@@ -5596,6 +6122,7 @@
   },
   {
     "name": "Bog Dweller Leather",
+    "locdescription": "adv.item.BogDwellerLeather.description",
     "description": "This item has been removed. Please discard it.",
     "equipmentSlot": "Body",
     "iconName": "GhostRune",
@@ -5608,6 +6135,7 @@
   },
   {
     "name": "Highland Cloak",
+    "locdescription": "adv.item.HighlandCloak.description",
     "description": "This item has been removed. Please discard it.",
     "equipmentSlot": "Body",
     "iconName": "GhostRune",
@@ -5620,6 +6148,7 @@
   },
   {
     "name": "Timberland Shawl",
+    "locdescription": "adv.item.TimberlandShawl.description",
     "description": "This item has been removed. Please discard it.",
     "equipmentSlot": "Body",
     "iconName": "GhostRune",
@@ -5632,6 +6161,7 @@
   },
   {
     "name": "Blazing Armor",
+    "locdescription": "adv.item.BlazingArmor.description",
     "description": "This item has been discontinued.",
     "equipmentSlot": "Body",
     "iconName": "BlazingArmor",
@@ -5645,6 +6175,7 @@
   },
   {
     "name": "Plains Outfit",
+    "locdescription": "adv.item.PlainsOutfit.description",
     "description": "This item has been removed. Please discard it.",
     "equipmentSlot": "Body",
     "iconName": "OutpostOutfit",
@@ -5659,6 +6190,7 @@
   },
   {
     "name": "Island Shirt",
+    "locdescription": "adv.item.IslandShirt.description",
     "description": "This item has been removed. Please discard it.",
     "equipmentSlot": "Body",
     "iconName": "SeafloorShirt",
@@ -5673,6 +6205,7 @@
   },
   {
     "name": "Swamp Leather",
+    "locdescription": "adv.item.SwampLeather.description",
     "description": "This item has been removed. Please discard it.",
     "equipmentSlot": "Body",
     "iconName": "BogDwellerLeather",
@@ -5687,6 +6220,7 @@
   },
   {
     "name": "Whip Wrap",
+    "locdescription": "adv.item.WhipWrap.description",
     "description": "This item has been discontinued.",
     "equipmentSlot": "Boots",
     "iconName": "WhipWrap",
@@ -5699,6 +6233,7 @@
   },
   {
     "name": "Restricted Robes",
+    "locdescription": "adv.item.RestrictedRobes.description",
     "description": "This item has been discontinued.",
     "equipmentSlot": "Body",
     "iconName": "RestrictedRobes",
@@ -5710,6 +6245,7 @@
   },
   {
     "name": "Spiked Ripsaw",
+    "locdescription": "adv.item.SpikedRipsaw.description",
     "description": "This item has been discontinued.",
     "equipmentSlot": "Right",
     "iconName": "SpikedRipsaw",
@@ -5722,6 +6258,7 @@
   },
   {
     "name": "Jewel of Aggression",
+    "locdescription": "adv.item.JewelofAggression.description",
     "description": "This item has been discontinued.",
     "equipmentSlot": "Neck",
     "iconName": "MoxJet",
@@ -5734,6 +6271,7 @@
   },
   {
     "name": "Mountain Cloak",
+    "locdescription": "adv.item.MountainCloak.description",
     "description": "This item has been removed. Please discard it.",
     "equipmentSlot": "Body",
     "iconName": "HighlandCloak",
@@ -5748,6 +6286,7 @@
   },
   {
     "name": "Forest Shawl",
+    "locdescription": "adv.item.ForestShawl.description",
     "description": "This item has been removed. Please discard it.",
     "equipmentSlot": "Body",
     "iconName": "TimberlandShawl",
@@ -5762,6 +6301,7 @@
   },
   {
     "name": "Grand Sage's Robes",
+    "locdescription": "adv.item.GrandSagesRobes.description",
     "description": "This item has been discontinued.",
     "equipmentSlot": "Body",
     "iconName": "GrandSage'sRobes",
@@ -5772,6 +6312,7 @@
   },
   {
     "name": "Ultra Heavy Armor",
+    "locdescription": "adv.item.UltraHeavyArmor.description",
     "description": "This item has been discontinued.",
     "equipmentSlot": "Body",
     "iconName": "UltraHeavyArmor",
@@ -5783,6 +6324,7 @@
   },
   {
     "name": "Divinely Blessed Armor",
+    "locdescription": "adv.item.DivinelyBlessedArmor.description",
     "description": "This item has been removed. Please discard it.",
     "equipmentSlot": "Body",
     "iconName": "DivinelyBlessedArmor",
@@ -5796,6 +6338,7 @@
   },
   {
     "name": "Commander's Sphere",
+    "locdescription": "adv.item.CommandersSphere.description",
     "description": "Taps for any of your colors or sacrifice for a card. Uses its own special slot.",
     "equipmentSlot": "Special",
     "iconName": "CommandersSphere",
@@ -5808,6 +6351,7 @@
   },
   {
     "name": "Armor of Wak-Wak",
+    "locdescription": "adv.item.ArmorofWakWak.description",
     "description": "T: Target flier's power is 0 this turn. Doesn't give mana.",
     "equipmentSlot": "Body",
     "iconName": "ArmorofWak-Wak",
@@ -5821,6 +6365,7 @@
   },
   {
     "name": "Gladiator Armor",
+    "locdescription": "adv.item.GladiatorArmor.description",
     "description": "3, T: One of your creatures and opponent's of their choice fight. Doesn't give mana.",
     "equipmentSlot": "Body",
     "iconName": "GladiatorArmor",
@@ -5836,6 +6381,7 @@
   },
   {
     "name": "Armor of Safety",
+    "locdescription": "adv.item.ArmorofSafety.description",
     "description": "2, T: Exile one of your creatures. Sac in upkeep to bring all back. Doesn't give mana.",
     "equipmentSlot": "Body",
     "iconName": "ArmorofSafety",
@@ -5849,6 +6395,7 @@
   },
   {
     "name": "Armor of Sorrow",
+    "locdescription": "adv.item.ArmorofSorrow.description",
     "description": "T: Switch two blockers, then take 2 to self and your creatures. Doesn't give mana.",
     "equipmentSlot": "Body",
     "iconName": "ArmorofSorrow",
@@ -5862,6 +6409,7 @@
   },
   {
     "name": "Icy Armor",
+    "locdescription": "adv.item.IcyArmor.description",
     "description": "T: Stop a nonflying attacker from untapping by keeping tapped. Doesn't give mana.",
     "equipmentSlot": "Body",
     "iconName": "IcyArmor",
@@ -5875,6 +6423,7 @@
   },
   {
     "name": "Oasis Outfit",
+    "locdescription": "adv.item.OasisOutfit.description",
     "description": "T: Prevent 1 damage to a creature. Doesn't give mana.",
     "equipmentSlot": "Body",
     "iconName": "OasisOutfit",
@@ -5888,6 +6437,7 @@
   },
   {
     "name": "Rainbow Armor",
+    "locdescription": "adv.item.RainbowArmor.description",
     "description": "Taps for any color, then give it to your opponent.",
     "equipmentSlot": "Body",
     "iconName": "RainbowArmor",
@@ -5900,6 +6450,7 @@
   },
   {
     "name": "Adventurer's Outfit",
+    "locdescription": "adv.item.AdventurersOutfit.description",
     "description": "Your green legends band with other legends. Doesn't give mana.",
     "equipmentSlot": "Body",
     "iconName": "Adventurer'sOutfit",
@@ -5914,6 +6465,7 @@
   },
   {
     "name": "Armor of Serra",
+    "locdescription": "adv.item.ArmorofSerra.description",
     "description": "Your white legends band with other legends. Doesn't give mana.",
     "equipmentSlot": "Body",
     "iconName": "ArmorofSerra",
@@ -5928,6 +6480,7 @@
   },
   {
     "name": "Unholy Armor",
+    "locdescription": "adv.item.UnholyArmor.description",
     "description": "Your black legends band with other legends. Doesn't give mana.",
     "equipmentSlot": "Body",
     "iconName": "UnholyArmor",
@@ -5942,6 +6495,7 @@
   },
   {
     "name": "Seafarer's Outfit",
+    "locdescription": "adv.item.SeafarersOutfit.description",
     "description": "Your blue legends band with other legends. Doesn't give mana.",
     "equipmentSlot": "Body",
     "iconName": "Seafarer'sOutfit",
@@ -5955,6 +6509,7 @@
   },
   {
     "name": "Stronghold Armor",
+    "locdescription": "adv.item.StrongholdArmor.description",
     "description": "Your red legends band with other legends. Doesn't give mana.",
     "equipmentSlot": "Body",
     "iconName": "StrongholdArmor",
@@ -5971,6 +6526,7 @@
   },
   {
     "name": "Horrible Pants",
+    "locdescription": "adv.item.HorriblePants.description",
     "description": "Two weird-looking 2/2 artifact spirit creatures with rampage 1.",
     "equipmentSlot": "Boots",
     "iconName": "HorriblePants",
@@ -5983,6 +6539,7 @@
   },
   {
     "name": "Aysen Armor",
+    "locdescription": "adv.item.AysenArmor.description",
     "description": "T: Add C. 1, T: Add W. 2, T: Add U or G.",
     "equipmentSlot": "Body",
     "iconName": "AysenArmor",
@@ -5995,6 +6552,7 @@
   },
   {
     "name": "An-Havva Armor",
+    "locdescription": "adv.item.AnHavvaArmor.description",
     "description": "T: Add C. 1, T: Add G. 2, T: Add W or R.",
     "equipmentSlot": "Body",
     "iconName": "An-HavvaArmor",
@@ -6007,6 +6565,7 @@
   },
   {
     "name": "Sengir Cloak",
+    "locdescription": "adv.item.SengirCloak.description",
     "description": "T: Add C. 1, T: Add B. 2, T: Add U or R.",
     "equipmentSlot": "Body",
     "iconName": "SengirCloak",
@@ -6019,6 +6578,7 @@
   },
   {
     "name": "Wizard's Armor",
+    "locdescription": "adv.item.WizardsArmor.description",
     "description": "T: Add C. 1, T: Add U. 2, T: Add W or B.",
     "equipmentSlot": "Body",
     "iconName": "Wizard'sArmor",
@@ -6031,6 +6591,7 @@
   },
   {
     "name": "Koskun Armor",
+    "locdescription": "adv.item.KoskunArmor.description",
     "description": "T: Add C. 1, T: Add R. 2, T: Add G or B.",
     "equipmentSlot": "Body",
     "iconName": "KoskunArmor",
@@ -6043,6 +6604,7 @@
   },
   {
     "name": "Token of the Devil",
+    "locdescription": "adv.item.TokenoftheDevil.description",
     "description": "1/1 creature token that deals 1 to any target when it dies.",
     "equipmentSlot": "Token",
     "iconName": "TokenoftheDevil",
@@ -6054,6 +6616,7 @@
   },
   {
     "name": "Token of Munitions",
+    "locdescription": "adv.item.TokenofMunitions.description",
     "description": "Artifact token that deals 2 to any target when it leaves.",
     "equipmentSlot": "Token",
     "iconName": "TokenofMunitions",
@@ -6065,6 +6628,7 @@
   },
   {
     "name": "Token of Change",
+    "locdescription": "adv.item.TokenofChange.description",
     "description": "Colorless 1/1 creature token that's every creature type.",
     "equipmentSlot": "Token",
     "iconName": "TokenofChange",
@@ -6076,6 +6640,7 @@
   },
   {
     "name": "Token of Ninjutsu",
+    "locdescription": "adv.item.TokenofNinjutsu.description",
     "description": "Blue 1/1 ninja creature token that can't be blocked.",
     "equipmentSlot": "Token",
     "iconName": "TokenofNinjutsu",
@@ -6087,6 +6652,7 @@
   },
   {
     "name": "Token of Gold",
+    "locdescription": "adv.item.TokenofGold.description",
     "description": "Artifact token that can be sacrificed for any color of mana.",
     "equipmentSlot": "Token",
     "iconName": "TokenofGold",
@@ -6099,6 +6665,7 @@
   },
   {
     "name": "Didgeridoo",
+    "locdescription": "adv.item.Didgeridoo.description",
     "description": "3: Put a minotaur from your hand onto the field. Repeatable.",
     "equipmentSlot": "Left",
     "iconName": "Didgeridoo",
@@ -6110,6 +6677,7 @@
   },
   {
     "name": "Crab Hat",
+    "locdescription": "adv.item.CrabHat.description",
     "description": "1, Discard a card: Make a 0/3 crab. Delirium - Crabs get +1/+1.",
     "equipmentSlot": "Neck",
     "iconName": "CrabHat",
@@ -6121,6 +6689,7 @@
   },
   {
     "name": "Vectis Boots",
+    "locdescription": "adv.item.VectisBoots.description",
     "description": "4/3 artifact rogue creature with UB: Unblockable and -2/-0.",
     "equipmentSlot": "Boots",
     "iconName": "VectisBoots",
@@ -6134,6 +6703,7 @@
   },
   {
     "name": "Bane Alley Boots",
+    "locdescription": "adv.item.BaneAlleyBoots.description",
     "description": "0/3 rogue. T: Draw, then put a card into exile. UB, T: Draw back a card she exiled.",
     "equipmentSlot": "Boots",
     "iconName": "BaneAlleyBoots",
@@ -6147,6 +6717,7 @@
   },
   {
     "name": "Swindler Shoes",
+    "locdescription": "adv.item.SwindlerShoes.description",
     "description": "2/2 rogue. T: Bet 3 life double or nothing on a coin flip.",
     "equipmentSlot": "Boots",
     "iconName": "SwindlerShoes",
@@ -6159,6 +6730,7 @@
   },
   {
     "name": "High Merchant's Shirt",
+    "locdescription": "adv.item.HighMerchantsShirt.description",
     "description": "T: Add C. T, Sacrifice a creature: Gain 1 life.",
     "equipmentSlot": "Body",
     "iconName": "HighMerchant'sShirt",
@@ -6173,6 +6745,7 @@
   },
   {
     "name": "Throwing Knife",
+    "locdescription": "adv.item.ThrowingKnife.description",
     "description": "Equip 2. +2/+0 and you can sac the dagger on attack to ping for 2.",
     "equipmentSlot": "Right",
     "iconName": "ThrowingKnife",
@@ -6185,6 +6758,7 @@
   },
   {
     "name": "Whispersteel Dagger",
+    "locdescription": "adv.item.WhispersteelDagger.description",
     "description": "Equip 3. +2/+0 and on hit, you can cast a creature from opp's GY with any mana.",
     "equipmentSlot": "Right",
     "iconName": "WhispersteelDagger",
@@ -6198,6 +6772,7 @@
   },
   {
     "name": "Thought Dissector",
+    "locdescription": "adv.item.ThoughtDissector.description",
     "description": "X, T: Opp reveals X cards from deck. If they hit an artifact, steal it and sac this.",
     "equipmentSlot": "Left",
     "iconName": "ThoughtDissector",
@@ -6210,6 +6785,7 @@
   },
   {
     "name": "Skulker's Hood",
+    "locdescription": "adv.item.SkulkersHood.description",
     "description": "Your creatures have skulk. 4W: Your creatures get +1/+1 this turn.",
     "equipmentSlot": "Neck",
     "iconName": "Skulker'sHood",
@@ -6222,6 +6798,7 @@
   },
   {
     "name": "Vexing Boots",
+    "locdescription": "adv.item.VexingBoots.description",
     "description": "4/4 flier w/ cumulative upkeep: discard a card, but when it dies, draw=age.",
     "equipmentSlot": "Boots",
     "iconName": "VexingBoots",
@@ -6233,6 +6810,7 @@
   },
   {
     "name": "Sphinx Helm",
+    "locdescription": "adv.item.SphinxHelm.description",
     "description": "When you draw, mill opp two, and again if they match colors. 5U: Loot.",
     "equipmentSlot": "Neck",
     "iconName": "SphinxHelm",
@@ -6244,6 +6822,7 @@
   },
   {
     "name": "Veteran's Blade",
+    "locdescription": "adv.item.VeteransBlade.description",
     "description": "Equip 2. Auto-equips to soldiers. Gives +1/+1 for each of your attacking or blocking creatures.",
     "equipmentSlot": "Right",
     "iconName": "Veteran'sBlade",
@@ -6255,6 +6834,7 @@
   },
   {
     "name": "Soldier's Helm",
+    "locdescription": "adv.item.SoldiersHelm.description",
     "description": "Soldiers have vigilance. 2W: Create a 1/1 soldier token.",
     "equipmentSlot": "Neck",
     "iconName": "Soldier'sHelm",
@@ -6266,6 +6846,7 @@
   },
   {
     "name": "Armor of Horrors",
+    "locdescription": "adv.item.ArmorofHorrors.description",
     "description": "Three extra cards AND a 7/7... but it dies on upkeep and you take 7.",
     "equipmentSlot": "Body",
     "iconName": "ArmorofHorrors",
@@ -6278,6 +6859,7 @@
   },
   {
     "name": "Blor's Bow",
+    "locdescription": "adv.item.BlorsBow.description",
     "description": "Equip 1. Gives +1/+1, vigilance, and reach.",
     "equipmentSlot": "Right",
     "iconName": "Blor'sBow",
@@ -6289,6 +6871,7 @@
   },
   {
     "name": "Blor's Shield",
+    "locdescription": "adv.item.BlorsShield.description",
     "description": "Equip 3. +2/+2, haste, can't be sacrificed, can give to opponent.",
     "equipmentSlot": "Right",
     "iconName": "Blor'sShield",
@@ -6301,6 +6884,7 @@
   },
   {
     "name": "Brushwagg Boots",
+    "locdescription": "adv.item.BrushwaggBoots.description",
     "description": "A silly-looking 3/2, -2/+2 when it blocks or becomes blocked.",
     "equipmentSlot": "Boots",
     "iconName": "BrushwaggBoots",
@@ -6312,6 +6896,7 @@
   },
   {
     "name": "Brute Shield",
+    "locdescription": "adv.item.BruteShield.description",
     "description": "Indestructible. 3: Becomes a 2/2 until EOT. Repeatable.",
     "equipmentSlot": "Left",
     "iconName": "BruteShield",
@@ -6323,6 +6908,7 @@
   },
   {
     "name": "Sneakling Shoes",
+    "locdescription": "adv.item.SneaklingShoes.description",
     "description": "A 2/2 that's every creature type.",
     "equipmentSlot": "Boots",
     "iconName": "SneaklingShoes",
@@ -6335,6 +6921,7 @@
   },
   {
     "name": "Necklace of Flourishing",
+    "locdescription": "adv.item.NecklaceofFlourishing.description",
     "description": "Both players draw an extra card and can play another land each turn.",
     "equipmentSlot": "Neck",
     "iconName": "NecklaceofFlourishing",
@@ -6347,6 +6934,7 @@
   },
   {
     "name": "Scoria Anklet",
+    "locdescription": "adv.item.ScoriaAnklet.description",
     "description": "A 7/7, but you have to win a flip each upkeep or it bounces, costs 4R to replay.",
     "equipmentSlot": "Boots",
     "iconName": "ScoriaAnklet",
@@ -6358,6 +6946,7 @@
   },
   {
     "name": "Armor of Sands",
+    "locdescription": "adv.item.ArmorofSands.description",
     "description": "T: Add C. 2, T: Exile one of your creatures. 4, T, sac: Bring them all back.",
     "equipmentSlot": "Body",
     "iconName": "ArmorofSands",
@@ -6370,6 +6959,7 @@
   },
   {
     "name": "Jandor's Saddlebags",
+    "locdescription": "adv.item.JandorsSaddlebags.description",
     "description": "3, T: Untap target creature. Not an equipment.",
     "equipmentSlot": "Right",
     "iconName": "Jandor'sSaddlebags",
@@ -6381,6 +6971,7 @@
   },
   {
     "name": "Jester's Cap",
+    "locdescription": "adv.item.JestersCap.description",
     "description": "2, T, sac: Exile three cards from a library.",
     "equipmentSlot": "Left",
     "iconName": "Jester'sCap",
@@ -6394,6 +6985,7 @@
   },
   {
     "name": "Forebear's Blade",
+    "locdescription": "adv.item.ForebearsBlade.description",
     "description": "Equip 3. +3/+0, vigilance, and trample. When equipped dies, move to another creature.",
     "equipmentSlot": "Right",
     "iconName": "Forebear'sBlade",
@@ -6406,6 +6998,7 @@
   },
   {
     "name": "Mostly Kitten-Proof Pants",
+    "locdescription": "adv.item.MostlyKittenProofPants.description",
     "description": "An extremely cute 3/3 flying cat dragon token.",
     "equipmentSlot": "Boots",
     "iconName": "MostlyKitten-ProofPants",
@@ -6418,6 +7011,7 @@
   },
   {
     "name": "Hero's Heirloom",
+    "locdescription": "adv.item.HerosHeirloom.description",
     "description": "Equip 2. +2/+1. If legendary, gives trample and haste.",
     "equipmentSlot": "Right",
     "iconName": "Hero'sHeirloom",
@@ -6429,6 +7023,7 @@
   },
   {
     "name": "Graduation Cap",
+    "locdescription": "adv.item.GraduationCap.description",
     "description": "When you cast an instant/sorcery that targets a creature, put a +1/+1 counter.",
     "equipmentSlot": "Neck",
     "iconName": "GraduationCap",
@@ -6440,6 +7035,7 @@
   },
   {
     "name": "Soltari Skirt",
+    "locdescription": "adv.item.SoltariSkirt.description",
     "description": "A 1/1 soldier with shadow (can't block/be blocked except for shadow).",
     "equipmentSlot": "Boots",
     "iconName": "SoltariSkirt",
@@ -6451,6 +7047,7 @@
   },
   {
     "name": "Gate Smasher",
+    "locdescription": "adv.item.GateSmasher.description",
     "description": "Equip 3, only to toughness 4+. +3/+0 and trample.",
     "equipmentSlot": "Right",
     "iconName": "GateSmasher",
@@ -6462,6 +7059,7 @@
   },
   {
     "name": "Riot Helm",
+    "locdescription": "adv.item.RiotHelm.description",
     "description": "During your turn, your creatures get +1/+0 and trample.",
     "equipmentSlot": "Neck",
     "iconName": "RiotHelm",
@@ -6473,6 +7071,7 @@
   },
   {
     "name": "Scroll of the Masters",
+    "locdescription": "adv.item.ScrolloftheMasters.description",
     "description": "When you cast a noncreature, get lore. 3, T: Give +X/+X=lore until EOT.",
     "equipmentSlot": "Right",
     "iconName": "ScrolloftheMasters",
@@ -6485,6 +7084,7 @@
   },
   {
     "name": "Time Bomb",
+    "locdescription": "adv.item.TimeBomb.description",
     "description": "Counter on upkeep. 1, T, sac: Damage=counters to each creature/player.",
     "equipmentSlot": "Left",
     "iconName": "TimeBomb",
@@ -6496,6 +7096,7 @@
   },
   {
     "name": "Mind Sculptor Necklace",
+    "locdescription": "adv.item.MindSculptorNecklace.description",
     "description": "When you activate a loyalty ability that takes 2+ loyalty, draw.",
     "equipmentSlot": "Neck",
     "iconName": "MindSculptorNecklace",
@@ -6508,6 +7109,7 @@
   },
   {
     "name": "Deathbringer Necklace",
+    "locdescription": "adv.item.DeathbringerNecklace.description",
     "description": "Your planeswalkers have -2: Sac a creature, make a 4/4 trample.",
     "equipmentSlot": "Neck",
     "iconName": "DeathbringerNecklace",
@@ -6519,6 +7121,7 @@
   },
   {
     "name": "Healer Necklace",
+    "locdescription": "adv.item.HealerNecklace.description",
     "description": "Your planeswalkers have -2: Make a 2/2 and surveil 1.",
     "equipmentSlot": "Neck",
     "iconName": "HealerNecklace",
@@ -6530,6 +7133,7 @@
   },
   {
     "name": "Warlord Necklace",
+    "locdescription": "adv.item.WarlordNecklace.description",
     "description": "Your planeswalkers have -4: Burn creature/walker and a player for 2.",
     "equipmentSlot": "Neck",
     "iconName": "WarlordNecklace",
@@ -6541,6 +7145,7 @@
   },
   {
     "name": "Paradox Necklace",
+    "locdescription": "adv.item.ParadoxNecklace.description",
     "description": "When you activate a loyalty ability, gain 1 life and you can play another land.",
     "equipmentSlot": "Neck",
     "iconName": "ParadoxNecklace",
@@ -6553,6 +7158,7 @@
   },
   {
     "name": "Thief's Hat",
+    "locdescription": "adv.item.ThiefsHat.description",
     "description": "When you cast a spell you don't own, drain opp 2 life.",
     "equipmentSlot": "Neck",
     "iconName": "Thief'sHat",
@@ -6565,6 +7171,7 @@
   },
   {
     "name": "Spiteful Helm",
+    "locdescription": "adv.item.SpitefulHelm.description",
     "description": "Players draw an extra card each turn, take 1 damage per draw.",
     "equipmentSlot": "Neck",
     "iconName": "SpitefulHelm",
@@ -6577,6 +7184,7 @@
   },
   {
     "name": "Fulcrum Gauntlet",
+    "locdescription": "adv.item.FulcrumGauntlet.description",
     "description": "5, T, exile this: Destroy all creatures at sorcery speed.",
     "equipmentSlot": "Left",
     "iconName": "FulcrumGauntlet",
@@ -6589,6 +7197,7 @@
   },
   {
     "name": "Pants of the Fattest Butt",
+    "locdescription": "adv.item.PantsoftheFattestButt.description",
     "description": "A legendary 3/9 with many gigantic thighs.",
     "equipmentSlot": "Boots",
     "iconName": "PantsoftheFattestButt",
@@ -6601,6 +7210,7 @@
   },
   {
     "name": "Decayed Pants",
+    "locdescription": "adv.item.DecayedPants.description",
     "description": "Two 2/2 zombie tokens that can't block and die after attacking.",
     "equipmentSlot": "Boots",
     "iconName": "DecayedPants",
@@ -6613,6 +7223,7 @@
   },
     {
     "name": "Pilgrim's Cloak",
+    "locdescription": "adv.item.PilgrimsCloak.description",
     "description": "Sac for a tapped basic",
     "equipmentSlot": "Body",
     "iconName": "Pilgrim'sCloak",

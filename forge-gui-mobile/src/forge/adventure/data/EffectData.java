@@ -6,6 +6,7 @@ import forge.item.IPaperCard;
 import forge.item.PaperCard;
 import forge.item.PaperToken;
 import forge.model.FModel;
+import forge.util.CardTranslation;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -90,30 +91,41 @@ public class EffectData implements Serializable {
     public String itemize(Array<IPaperCard> paperCards) {
         StringBuilder ret = new StringBuilder();
         Map<IPaperCard, Integer> duplicateCountMap = Arrays.stream(paperCards.toArray()).collect(Collectors.toMap(Function.identity(), cards -> 1, Math::addExact));
-        duplicateCountMap.forEach((key, value) -> ret.append("\n").append(value).append("x ").append(key));
+        duplicateCountMap.forEach((key, value) -> ret.append("\n").append(value).append("x ")
+                .append(localizedCardName(key)));
         return ret.toString();
+    }
+
+    private static String localizedCardName(IPaperCard card) {
+        String name = card.getName();
+        String translated = CardTranslation.getTranslatedName(name);
+        if (!name.equals(translated)) return translated;
+        // Adventure-only cards and tokens may not exist in the independent card translation table.
+        // A missing entry (including a user mod) must retain its original name.
+        return Forge.getLocalizer().getMessageorUseDefault(
+                "adv.itemCard." + name.replaceAll("[^A-Za-z0-9]", ""), name);
     }
 
     public String getDescription() {
         String description = "";
-        if(colorView) description += "Manasight.\n";
+        if(colorView) description += Forge.getLocalizer().getMessage("adv.effect.manasight") + "\n";
         if(lifeModifier != 0)
             description += "[+Life] " + ((lifeModifier > 0) ? "+" : "") + lifeModifier + "\n";
         if(startBattleWithCard != null && startBattleWithCard.length != 0)
-            description+="Battlefield:" + itemize(startBattleWithCards()) + "\n";
+            description+=Forge.getLocalizer().getMessage("adv.effect.battlefield") + itemize(startBattleWithCards()) + "\n";
         if(startBattleWithCardInCommandZone != null && startBattleWithCardInCommandZone.length != 0)
-            description+="Command:" + itemize(startBattleWithCardsInCommandZone()) + "\n";
+            description+=Forge.getLocalizer().getMessage("adv.effect.command") + itemize(startBattleWithCardsInCommandZone()) + "\n";
         if(changeStartCards != 0)
-            description+="Starting hand: " + changeStartCards + "\n";
+            description+=Forge.getLocalizer().getMessage("adv.effect.startingHand", changeStartCards) + "\n";
         if(moveSpeed!=0 && moveSpeed != 1)
             description+="[+MovementSpeed] " + ((moveSpeed > 0) ? "+" : "") + Math.round((moveSpeed-1.f)*100) + "%\n";
         if(goldModifier > 0.0f)
-            description+="Shop discount: x" + (goldModifier) + "\n";
+            description+=Forge.getLocalizer().getMessage("adv.effect.shopPrice", goldModifier) + "\n";
         if(cardRewardBonus > 0)
             description += Forge.getLocalizer().getMessage("advBonusEnemyDeckRewards", cardRewardBonus);
         if(this.opponent != null) {
             String oppEffect = this.opponent.getDescription();
-            description += "Gives Opponent:\n";
+            description += Forge.getLocalizer().getMessage("adv.effect.opponent") + "\n";
             if(!oppEffect.isEmpty()) {
                 description += oppEffect;
             }
