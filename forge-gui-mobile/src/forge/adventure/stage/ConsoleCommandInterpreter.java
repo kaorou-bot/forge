@@ -375,11 +375,11 @@ public class ConsoleCommandInterpreter {
         });
         registerCommand(new String[]{"rename"}, s -> {
             if (s.length < 1 || s[0] == null || s[0].trim().isEmpty())
-                return "Command needs 1 parameter: Name.";
+                return Forge.getLocalizer().getMessage("adv.console.rename.usage");
             String newName = s[0].trim();
             Current.player().setName(newName);
             GamePlayerUtil.getGuiPlayer().setName(newName);
-            return "Renamed player to " + newName;
+            return Forge.getLocalizer().getMessage("adv.console.rename.success", newName);
         });
         registerCommand(new String[]{"resetQuests"}, s -> {
             Current.player().resetQuestFlags();

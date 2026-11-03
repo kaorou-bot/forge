@@ -109,8 +109,9 @@ public class QuestLogScene extends UIScene {
             TypingLabel nameLabel = Controls.newTypingLabel(headerCode + quest.getName());
             nameLabel.skipToTheEnd();
             nameLabel.setWrap(true);
-            scrollContainer.add(nameLabel).align(Align.left).expandX();
             Button details = Controls.newTextButton(Forge.getLocalizer().getMessage("lblDetails"));
+            scrollContainer.add(nameLabel).align(Align.left)
+                    .width(Math.max(1f, root.getWidth() - details.getPrefWidth() - 25f));
             details.addListener(new ClickListener() {
                 public void clicked(InputEvent event, float x, float y){
                     loadDetailsPane(quest);
@@ -161,7 +162,7 @@ public class QuestLogScene extends UIScene {
         dNameLabel.setWrap(true);
         dNameLabel.setColor(Color.BLACK);
 
-        detailScrollContainer.add(dNameLabel).align(Align.left).expandX().padLeft(10);
+        detailScrollContainer.add(dNameLabel).align(Align.left).padLeft(10).width(detailRoot.getWidth() - 25);
 
         abandonQuestButton.setVisible(!quest.storyQuest);
         trackButton.setVisible(true);
@@ -181,7 +182,7 @@ public class QuestLogScene extends UIScene {
             completeLabel.skipToTheEnd();
             completeLabel.setWrap(true);
             detailScrollContainer.row();
-            detailScrollContainer.add(completeLabel).align(Align.left).padLeft(25);
+            detailScrollContainer.add(completeLabel).align(Align.left).padLeft(25).width(detailRoot.getWidth() - 40);
         }
 
         for (AdventureQuestStage stage : quest.getActiveStages()) {
@@ -191,7 +192,7 @@ public class QuestLogScene extends UIScene {
             activeLabel.setColor(Color.BLACK);
             activeLabel.setWrap(true);
             detailScrollContainer.row();
-            detailScrollContainer.add(activeLabel).align(Align.left).padLeft(25);
+            detailScrollContainer.add(activeLabel).align(Align.left).padLeft(25).width(detailRoot.getWidth() - 40);
 
             TypingLabel activeDescriptionLabel = Controls.newTypingLabel(stage.description);
             activeDescriptionLabel.skipToTheEnd();

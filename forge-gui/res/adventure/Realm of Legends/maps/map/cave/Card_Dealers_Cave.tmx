@@ -43,18 +43,21 @@
 ]</property>
    </properties>
   </object>
-  <object id="59" template="../../../../common/maps/obj/dialog.tx" x="178.532" y="183.25" width="43.6023" height="15.5" visible="1">
+<object id="59" template="../../../../common/maps/obj/dialog.tx" x="178.532" y="183.25" width="43.6023" height="15.5" visible="1">
    <properties>
     <property name="dialog">[
   {
     &quot;text&quot;: &quot;'I happen to have come across some extremely rare items. Spell packs of a most ancient kind - Beta. Contained within are many spells the smiths of today can't make - sixteen of them in total. This is the only place to find most of them, and those you can get elsewhere are fiercely guarded indeed. There are also many other powerful spells within. Who knows what treasures you'll find? Care to test your luck?'&quot;,
+      &quot;loctext&quot;: &quot;adv.realm.cardDealer.beta.0&quot;,
     &quot;options&quot;: [
       {
         &quot;name&quot;: &quot;I'm feeling lucky. (Spend 25,000 gold)&quot;,
+      &quot;locname&quot;: &quot;adv.realm.cardDealer.beta.1&quot;,
         &quot;condition&quot;: [
           { &quot;hasGold&quot;: 25000 }
         ],
         &quot;text&quot;: &quot;'Come back soon - I have more for sale!'&quot;,
+      &quot;loctext&quot;: &quot;adv.realm.cardDealer.beta.2&quot;,
         &quot;action&quot;: [
           {
             &quot;addGold&quot;: -25000,
@@ -377,16 +380,22 @@
       },
       {
         &quot;name&quot;: &quot;I'm feeling lucky. (Spend 25,000 gold)&quot;,
+      &quot;locname&quot;: &quot;adv.realm.cardDealer.beta.1&quot;,
         &quot;condition&quot;: [
           { &quot;hasGold&quot;: 25000, &quot;not&quot;: true }
         ],
         &quot;text&quot;: &quot;'Afraid power like this is out of your price range for now.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+      &quot;loctext&quot;: &quot;adv.realm.cardDealer.beta.3&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;,
+      &quot;locname&quot;: &quot;adv.realm.cardDealer.beta.4&quot; } ]
       },
 				{
 					&quot;name&quot;: &quot;Doesn't seem worth it.&quot;,
+      &quot;locname&quot;: &quot;adv.realm.cardDealer.beta.5&quot;,
 					&quot;text&quot;: &quot;'Suit yourself. Someone else will come looking for a Black Lotus if you're too poor or foolish to want one.'&quot;,
-					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot; } ]
+      &quot;loctext&quot;: &quot;adv.realm.cardDealer.beta.6&quot;,
+					&quot;options&quot;: [ { &quot;name&quot;: &quot;(Continue)&quot;,
+      &quot;locname&quot;: &quot;adv.realm.cardDealer.beta.4&quot; } ]
 				}
     ]
   }

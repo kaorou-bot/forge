@@ -255,8 +255,13 @@ public class UIScene extends Scene {
         Dialog dialog = new Dialog(title == null ? "" : title, Controls.getSkin());
         textboxOpen = true;
 
-        if (label != null)
-            dialog.getContentTable().add(Controls.newTextraLabel(label).setWrap(wrap)).center().fill();
+        if (label != null) {
+            TextraLabel message = Controls.newTextraLabel(label);
+            float availableWidth = Math.max(1f, Math.min(300f, stage.getWidth() * 0.8f));
+            float textWidth = Math.max(1f, Math.min(message.getPrefWidth(), availableWidth));
+            message.setWrap(wrap || message.getPrefWidth() > availableWidth);
+            dialog.getContentTable().add(message).width(textWidth).center().fill();
+        }
 
         dialog.button(Controls.newTextButton(stringYes, runnableYes));
 

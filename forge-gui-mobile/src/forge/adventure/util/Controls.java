@@ -45,11 +45,12 @@ public class Controls {
 
     static class LabelFix extends TextraLabel {
         public LabelFix(String text, Font font) {
-            super(text, getSkin(), font);
+            super(AdventureText.wrap(text), getSkin(), AdventureText.prepareFont(font));
         }
 
         @Override
         public void setText(@Null String text) {
+            text = AdventureText.wrap(text);
             this.storedText = text;
             this.layout.setTargetWidth(this.getMaxWidth());
             this.getFont().markup(text, this.layout.clear());
@@ -66,7 +67,7 @@ public class Controls {
 
     static class TextButtonFix extends TextraButton {
         public TextButtonFix(@Null String text) {
-            super(text == null ? "NULL" : text, Controls.getSkin(), Controls.getTextraFont());
+            super(AdventureText.wrap(text == null ? "NULL" : text), Controls.getSkin(), Controls.getTextraFont());
             addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -85,11 +86,12 @@ public class Controls {
 
         @Override
         public String getText() {
-            return this.getTextraLabel().storedText;
+            return this.getTextraLabel().storedText.replace("\u200B", "");
         }
 
         @Override
         public void setText(@Null String text) {
+            text = AdventureText.wrap(text);
             getTextraLabel().storedText = text;
             getTextraLabel().layout.setTargetWidth(getTextraLabel().getMaxWidth());
             getTextraLabel().getFont().markup(text, getTextraLabel().layout.clear());
@@ -100,6 +102,16 @@ public class Controls {
     }
 
     static class TypingButtonFix extends TypingButton {
+        @Override
+        protected TypingLabel newLabel(String text, Label.LabelStyle style) {
+            return new AdventureTypingLabel(text, style, Controls.getTextraFont());
+        }
+
+        @Override
+        protected TypingLabel newLabel(String text, Font font, Color color) {
+            return new AdventureTypingLabel(text, font, color);
+        }
+
         public TypingButtonFix(@Null String text) {
             super(text == null ? "NULL" : text, Controls.getSkin(), Controls.getTextraFont());
             addListener(new ClickListener(){
@@ -120,15 +132,12 @@ public class Controls {
 
         @Override
         public String getText() {
-            return this.getTextraLabel().storedText;
+            return this.getTextraLabel().storedText.replace("\u200B", "");
         }
 
         @Override
         public void setText(@Null String text) {
-            getTextraLabel().storedText = text;
-            getTextraLabel().layout.setTargetWidth(getTextraLabel().getMaxWidth());
-            getTextraLabel().getFont().markup(text, getTextraLabel().layout.clear());
-            getTextraLabel().setWidth(getTextraLabel().layout.getWidth() + (getTextraLabel().style != null && getTextraLabel().style.background != null ? getTextraLabel().style.background.getLeftWidth() + getTextraLabel().style.background.getRightWidth() : 0.0F));
+            getTextraLabel().setText(text == null ? "" : text);
             layout();
         }
 
@@ -642,7 +651,7 @@ public class Controls {
     }
 
     public static TypingLabel newTypingLabel(String text) {
-        TypingLabel ret = new TypingLabel(text == null ? "" : text, getSkin(), getTextraFont());
+        TypingLabel ret = new AdventureTypingLabel(text, getSkin().get(Label.LabelStyle.class), getTextraFont());
         String pn = Current.player().getName();
         if (pn != null) // this variable is used for dialogs
             ret.setVariable("player_name", pn);
@@ -662,7 +671,7 @@ public class Controls {
     }
 
     static public Font getTextraFont() {
-        return Forge.getAssets().getTextraFont(getSkin().getFont("default"), Config.instance().getAtlas(Paths.ITEMS_ATLAS), Config.instance().getAtlas(Paths.PIXELMANA_ATLAS));
+        return AdventureText.prepareFont(Forge.getAssets().getTextraFont(getSkin().getFont("default"), Config.instance().getAtlas(Paths.ITEMS_ATLAS), Config.instance().getAtlas(Paths.PIXELMANA_ATLAS)));
     }
 
     static public Font getRewardHeaderFont() {

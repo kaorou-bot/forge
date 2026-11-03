@@ -720,9 +720,9 @@ public class RewardScene extends UIScene {
             if (Type.Shop != type)
                 return;
             if (collectionPool != null && Reward.Type.Card.equals(reward.getType()))
-                setText("Pick Reward" + "\n" + Forge.getLocalizer().getMessage("lblOwned") + ": " + collectionPool.count(reward.getCard()));
+                setText(Forge.getLocalizer().getMessage("lblPickReward") + "\n" + Forge.getLocalizer().getMessage("lblOwned") + ": " + collectionPool.count(reward.getCard()));
             else if (Reward.Type.Item.equals(reward.getType()))
-                setText("Pick Reward" + "\n" + Forge.getLocalizer().getMessage("lblOwned") + ": " + AdventurePlayer.current().countItem(reward.getItem().name));
+                setText(Forge.getLocalizer().getMessage("lblPickReward") + "\n" + Forge.getLocalizer().getMessage("lblOwned") + ": " + AdventurePlayer.current().countItem(reward.getItem().name));
         }
 
         public ChooseRewardButton(int i, RewardActor actor, Reward reward, TextraButton style) {
