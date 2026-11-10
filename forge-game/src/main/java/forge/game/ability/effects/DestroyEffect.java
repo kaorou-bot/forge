@@ -15,6 +15,7 @@ import forge.game.spellability.SpellAbility;
 import forge.game.zone.ZoneType;
 
 public class DestroyEffect extends SpellAbilityEffect {
+
     @Override
     protected String getStackDescription(SpellAbility sa) {
         final boolean noRegen = sa.hasParam("NoRegen");
@@ -86,7 +87,6 @@ public class DestroyEffect extends SpellAbilityEffect {
         final Game game = host.getGame();
         final boolean remDestroyed = sa.hasParam("RememberDestroyed");
         final boolean noRegen = sa.hasParam("NoRegen");
-        final boolean alwaysRem = sa.hasParam("AlwaysRemember");
 
         SpellAbility cause = sa;
         if (sa.isReplacementAbility()) {
@@ -97,7 +97,7 @@ public class DestroyEffect extends SpellAbilityEffect {
         if (destroyed && remDestroyed) {
             host.addRemembered(gameCard);
         }
-        if ((destroyed || alwaysRem) && sa.hasParam("RememberLKI")) {
+        if (destroyed && sa.hasParam("RememberLKI")) {
             host.addRemembered(zoneMovements.getLastStateBattlefield().get(gameCard));
         }
     }

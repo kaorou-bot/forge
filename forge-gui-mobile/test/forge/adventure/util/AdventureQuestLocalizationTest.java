@@ -344,8 +344,8 @@ public class AdventureQuestLocalizationTest {
     public void expansionWorldsHaveExactContextCoverageWithoutChangingRules() {
         final String[] worlds = {"Amonkhet", "Crystal_Kingdoms", "Innistrad",
                 "Realm of Legends", "Shandalar Old Border"};
-        final int[] counts = {23, 53, 52, 53, 55};
-        final int[] mappings = {730, 1409, 1428, 1409, 1515};
+        final int[] counts = {23, 53, 52, 53, 57};
+        final int[] mappings = {730, 1409, 1428, 1409, 1547};
         for (int w = 0; w < worlds.length; w++) {
             final Path directory = root().resolve("forge-gui/res/adventure").resolve(worlds[w]);
             final Array<AdventureQuestData> templates = new Json().fromJson(Array.class,
@@ -409,6 +409,34 @@ public class AdventureQuestLocalizationTest {
             final String template = new Json().toJson(quest(quests, id));
             final String quotedSource = new Json().toJson(source);
             assertTrue(template.contains(quotedSource), id + ": " + source);
+        }
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void generatedQuestCopyPreservesDefaultDeclineTranslationKeys() {
+        final Localizer localizer = Localizer.getInstance();
+        localizer.setEnglish(false);
+        final Array<AdventureQuestData> templates = new Json().fromJson(Array.class, AdventureQuestData.class,
+                new FileHandle(root().resolve("forge-gui/res/adventure/Shandalar Old Border/world/quests.json").toFile()));
+        final AdventureQuestData original = quest(templates, 57);
+        final AdventureQuestData copy = new AdventureQuestData(original);
+        assertEquals(copy.declinedDialog.loctext, "advDefaultDeclinedDialog");
+        assertEquals(copy.declinedDialog.options[0].locname, "advDefaultDeclinedDialogLeave");
+        assertEquals(copy.declinedDialog.options[0].name, "(Catching the not so subtle hint, you leave.)");
+        assertNotSame(copy.declinedDialog, original.declinedDialog);
+        assertNotSame(copy.declinedDialog.options[0], original.declinedDialog.options[0]);
+        try {
+            localizer.setLanguage("zh-CN", root().resolve("forge-gui/res/languages").toString());
+            assertEquals(localizer.getMessage(copy.declinedDialog.loctext),
+                    "明天再来吧。说不定到时会有份你愿意接的差事。");
+            assertEquals(localizer.getMessage(copy.declinedDialog.options[0].locname),
+                    "（听懂这番直白的暗示后，你转身离开。）");
+            localizer.setLanguage("en-US", root().resolve("forge-gui/res/languages").toString());
+            assertEquals(localizer.getMessage(copy.declinedDialog.options[0].locname),
+                    copy.declinedDialog.options[0].name);
+        } finally {
+            localizer.setLanguage("en-US", root().resolve("forge-gui/res/languages").toString());
         }
     }
 }

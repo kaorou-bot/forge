@@ -155,6 +155,7 @@ public class AdventureMapLocalizationTest {
             if (key.startsWith("adv.realm.main.") || key.startsWith("adv.oldborder.plot.")
                     || key.startsWith("adv.oldborder.explore.") || key.startsWith("adv.innistrad.opening.")
                     || key.startsWith("adv.realm.redcastle.")
+                    || key.startsWith("adv.oldBorder.dwarvenHold.")
                     || key.startsWith("adv.realm.greenmirror.")) {
                 addedKeys.add(key);
             }
@@ -239,7 +240,8 @@ public class AdventureMapLocalizationTest {
                 }
             }
         }
-        assertEquals(dialogMaps, 87);
+        assertEquals(dialogMaps, 90);
+        assertEquals(addedKeys.stream().filter(key -> key.startsWith("adv.oldBorder.dwarvenHold.")).count(), 53L);
         assertEquals(addedKeys.stream().filter(key -> key.startsWith("adv.oldborder.explore.")).count(), 181L);
         assertEquals(addedKeys.stream().filter(key -> key.startsWith("adv.innistrad.opening.")).count(), 20L);
     }

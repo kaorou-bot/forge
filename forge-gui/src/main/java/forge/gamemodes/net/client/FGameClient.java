@@ -155,7 +155,6 @@ public class FGameClient implements IToServer, IHasForgeLog, AutoCloseable {
                     newChannel.close();
                     return;
                 }
-                channel = newChannel;
             }
             final ChannelFuture ch = newChannel.closeFuture();
             attached = true;

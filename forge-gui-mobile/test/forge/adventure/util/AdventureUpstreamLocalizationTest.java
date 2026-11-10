@@ -19,7 +19,7 @@ import java.util.Set;
 
 import static org.testng.Assert.*;
 
-/** Incremental review of the 2026-11-03 upstream Adventure text changes. */
+/** Incremental review of upstream Adventure and tutorial text changes. */
 public class AdventureUpstreamLocalizationTest {
     private static Path root() {
         Path path = Path.of("").toAbsolutePath();
@@ -53,6 +53,14 @@ public class AdventureUpstreamLocalizationTest {
         assertTrue(code.contains("getMessage(\"adv.console.rename.usage\")"));
         assertTrue(code.contains("Current.player().setName(newName)"));
         assertTrue(code.contains("GamePlayerUtil.getGuiPlayer().setName(newName)"));
+    }
+
+    @Test
+    public void tutorialCombatDiagnosticPreservesTheLifeArgument() {
+        Localizer localizer = chinese();
+        assertEquals(localizer.getMessage("msgTutCombatOver", "20"),
+                "战斗已结束，但愤怒鬼怪没有造成伤害。请先检查战斗结果，再继续练习。对手仍有 20 点生命。");
+        assertTrue(localizer.getEnglishMessage("msgTutCombatOver", "20").contains("20 life"));
     }
 
     @Test

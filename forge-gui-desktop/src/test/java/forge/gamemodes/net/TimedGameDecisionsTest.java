@@ -433,6 +433,57 @@ public class TimedGameDecisionsTest {
         }
     }
 
+    @DataProvider(name = "delegatedDeclarations")
+    public Object[][] delegatedDeclarations() { return new Object[][] { { true }, { false } }; }
+
+    @Test(dataProvider = "delegatedDeclarations")
+    public void departedCombatDeclarerRestoresTheSurvivingPlayersChoice(final boolean attack) throws Exception {
+        try (Fixture f = new Fixture(4)) {
+            final int survivor = attack ? 0 : 2;
+            final Card attacker = f.addCard("Llanowar Elves", 0, ZoneType.Battlefield);
+            attacker.setSickness(false);
+            final Card blocker = attack ? null : f.addCard("Llanowar Elves", 2, ZoneType.Battlefield);
+            final Combat combat = new Combat(f.players.get(0));
+            f.game.getPhaseHandler().devModeSet(attack ? PhaseType.COMBAT_DECLARE_ATTACKERS
+                    : PhaseType.COMBAT_DECLARE_BLOCKERS, f.players.get(0), false);
+            f.game.getPhaseHandler().setCombat(combat);
+            if (attack) {
+                f.players.get(0).addDeclaresAttackers(12345L, f.players.get(1));
+            } else {
+                f.players.get(2).addDeclaresBlockers(12345L, f.players.get(1));
+                combat.addAttacker(attacker, f.players.get(2));
+            }
+            final List<Integer> asked = new ArrayList<>();
+            f.session = TimedGameDecisions.start(f.game, 500, (human, scope) -> {
+                try {
+                    final int index = f.humans.indexOf(human);
+                    asked.add(index);
+                    final Input input = human.getInputQueue().getInput();
+                    Assert.assertTrue(attack ? input instanceof InputAttack : input instanceof InputBlock);
+                    scope.ready();
+                    if (index == 1) return; // The delegated chooser really times out.
+                    Assert.assertEquals(index, survivor);
+                    if (attack) input.selectPlayer(f.players.get(2), null);
+                    input.selectCard(attack ? attacker : blocker, null, null);
+                    input.selectButtonOK();
+                } catch (final Throwable failure) {
+                    f.uiFailure.compareAndSet(null, failure);
+                    scope.cancel(GuiRequestScope.Reason.CANCELLED);
+                }
+            }, state -> { });
+            invokeCombatPhaseAction(f, attack ? "declareAttackersTurnBasedAction" : "declareBlockersTurnBasedAction");
+            Assert.assertNull(f.uiFailure.get());
+            Assert.assertEquals(asked, List.of(1, survivor));
+            Assert.assertTrue(f.players.get(1).hasLost());
+            Assert.assertTrue(f.players.get(survivor).isInGame());
+            Assert.assertFalse(f.game.isGameOver());
+            Assert.assertTrue(attack ? combat.isAttacking(attacker) : combat.getBlockers(attacker).contains(blocker));
+            Assert.assertNull(f.humans.get(1).getInputQueue().getInput());
+            Assert.assertNull(f.humans.get(survivor).getInputQueue().getInput());
+            Assert.assertNull(PlayerDecisionFrame.current());
+        }
+    }
+
     public void attackerTimeoutUnwindsTheActualPhaseActionAndRemovesItsCreature() throws Exception {
         try (Fixture f = new Fixture(3)) {
             final Card attacker = f.addCard("Llanowar Elves", 0, ZoneType.Battlefield);

@@ -181,6 +181,13 @@ public final class TimedGameDecisions implements AutoCloseable {
             return outsideScope(() -> delegate.apply(original.getPlayer().getController()));
         }
         if (!original.getPlayer().isInGame()) {
+            // A player may declare combat for somebody else (for example Odric).
+            // Losing that chooser does not forfeit the surviving player's declaration.
+            if (purpose == Purpose.DECLARATION && frame != null
+                    && frame.kind() == PlayerDecisionFrame.Kind.PLAYER_ACTION
+                    && frame.player() != departed && frame.player().isInGame()) {
+                return outsideScope(() -> delegate.apply(frame.player().getController()));
+            }
             if (purpose == Purpose.PRIORITY || purpose == Purpose.DECLARATION) return null;
             if (purpose == Purpose.TRIGGER) return (T) Boolean.FALSE;
             if (purpose == Purpose.STACK_ORDER) return (T) List.of();

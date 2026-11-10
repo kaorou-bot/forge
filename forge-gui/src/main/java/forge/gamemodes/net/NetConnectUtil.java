@@ -102,6 +102,7 @@ public class NetConnectUtil {
             final IOnlineChatInterface chatInterface, final FServerManager server,
             final int port, final boolean relayOnly, final int playerLimit, final long operationMillis) {
         final ServerGameLobby lobby = new ServerGameLobby(playerLimit, relayOnly);
+        lobby.restoreSetup();
         lobby.setOperationTimeLimitMillis(operationMillis);
         final ILobbyView view = onlineLobby.setLobby(lobby);
         server.setLobby(lobby);

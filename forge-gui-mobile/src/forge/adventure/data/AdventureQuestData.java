@@ -106,8 +106,10 @@ public class AdventureQuestData implements Serializable {
     public AdventureQuestData()
     {
         declinedDialog = new DialogData();
+        declinedDialog.loctext = "advDefaultDeclinedDialog";
         declinedDialog.text = Forge.getLocalizer().getMessage("advDefaultDeclinedDialog");
         DialogData dismiss = new DialogData();
+        dismiss.locname = "advDefaultDeclinedDialogLeave";
         dismiss.name = "(Catching the not so subtle hint, you leave.)";
         declinedDialog.options = new DialogData[1];
         declinedDialog.options[0] = dismiss;

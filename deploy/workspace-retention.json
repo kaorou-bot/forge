@@ -1,0 +1,9 @@
+{
+  "schema": 1,
+  "syncWorktreeSuffix": "-upstream-sync-20261008",
+  "developmentWorktreeSuffix": "-android-language-fix-20261008",
+  "releaseDirectory": "dist/releases",
+  "temporaryRetentionDays": 7,
+  "validationLogKeepRuns": 8,
+  "keepReleaseGenerationsPerPlatform": 2
+}

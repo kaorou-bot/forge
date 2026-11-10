@@ -7573,5 +7573,165 @@
     "questId": 50,
     "source": "continue",
     "translation": "继续"
+  },
+  {
+    "questId": 56,
+    "source": "\"I don't care. Go find someone else to knock down that gate.\" (Decline quest)",
+    "translation": "“没兴趣。找别人替你们砸门吧。”（拒绝任务）"
+  },
+  {
+    "questId": 56,
+    "source": "\"I'll go check it out. No promises, though!\"",
+    "translation": "“我去看看，不过可不保证帮忙！”"
+  },
+  {
+    "questId": 56,
+    "source": "\"What about this one?\" A squeeky voice comes from the alley beside the inn. A low-pitched grunt sounds in reply, followed by a deep voice asking: \"You like loot?\" A heavy-set Orc steps out from the shade of the building, with a little goblin skipping behind. The Orc continues: \"We have nice Dwarven loot. You just help us crack it.\" The Orc points in the direction of the mountains. \"Over there. We are many, they are few. But they have blocked their gate. Magical stone. You break it for us, we share loot with you. Deal?\"",
+    "translation": "“这个怎么样？”旅店旁的小巷传来一个尖细的声音。回应的是一声低沉的哼哼，随后有人粗声粗气地问：“你喜欢战利品吗？”一个壮硕的半兽人从屋影里走出，身后蹦跳着一个小鬼怪。“咱们有好东西，矮人的。你只要帮咱们撬开。”半兽人指向群山。“就在那边。咱们人多，他们人少，可他们把门堵住了。是魔法石头。你替咱们打破它，战利品分你一份。成交？”"
+  },
+  {
+    "questId": 56,
+    "source": "(Accept the reward)",
+    "translation": "（领取奖励）"
+  },
+  {
+    "questId": 56,
+    "source": "(Continue)",
+    "translation": "（继续）"
+  },
+  {
+    "questId": 56,
+    "source": "(Leave)",
+    "translation": "（离开）"
+  },
+  {
+    "questId": 56,
+    "source": "(Quest Failed)",
+    "translation": "（任务失败）"
+  },
+  {
+    "questId": 56,
+    "source": "1000 gold, 25 shards, 3 faction cards, and 6 Fallen Empires boosters",
+    "translation": "1,000 金币、25 碎片、3 张阵营卡牌，以及 6 包堕落王朝补充包"
+  },
+  {
+    "questId": 56,
+    "source": "Choose a side in the siege of the Dwarven Hold in the Crimson Peaks and defeat the opposing faction.",
+    "translation": "在绯红群峰的矮人要塞围城战中选择阵营，并击败另一方。"
+  },
+  {
+    "questId": 56,
+    "source": "Claim your share of the plunder.",
+    "translation": "领取你应得的战利品。"
+  },
+  {
+    "questId": 56,
+    "source": "Hold the Hold",
+    "translation": "要塞争夺战"
+  },
+  {
+    "questId": 56,
+    "source": "Receive the thanks of the dwarves.",
+    "translation": "接受矮人的谢意。"
+  },
+  {
+    "questId": 56,
+    "source": "Siege of the Dwarven Hold",
+    "translation": "矮人要塞围城战"
+  },
+  {
+    "questId": 56,
+    "source": "The dwarf shrugs and leads his pony away.",
+    "translation": "矮人耸耸肩，牵着小马离开了。"
+  },
+  {
+    "questId": 56,
+    "source": "The last raiders flee down the mountain pass. The dwarves gather in the great hall, raise their tankards in your honor, and open the hold's treasury to you.",
+    "translation": "最后一批劫掠者沿山道逃走了。矮人们聚在大厅里，举起酒杯向你致敬，并为你敞开了要塞的宝库。"
+  },
+  {
+    "questId": 56,
+    "source": "The siege of the Dwarven Hold is decided without you.",
+    "translation": "矮人要塞的围城战已有了结果，而你未能参与其中。"
+  },
+  {
+    "questId": 56,
+    "source": "The siege of the Dwarven Hold is over.",
+    "translation": "矮人要塞的围城战结束了。"
+  },
+  {
+    "questId": 56,
+    "source": "Travel to the Dwarven Hold in the red biome and defeat every member of the opposing faction, outside and inside the hold.",
+    "translation": "前往红色地貌中的矮人要塞，击败要塞内外所有敌对阵营成员。"
+  },
+  {
+    "questId": 56,
+    "source": "Warning: Hard quest.",
+    "translation": "警告：此任务难度较高。"
+  },
+  {
+    "questId": 56,
+    "source": "With the hold's defenders broken, the Orcish Captain flips a coin to decide your share of the plunder. It lands in your favor.",
+    "translation": "要塞守军溃败后，半兽人队长抛了枚硬币，决定你能分到多少战利品。结果对你有利。"
+  },
+  {
+    "questId": 57,
+    "source": "\"Actually, I'm with the other team. Now defend yourself.\" (Aid the orc and goblin horde)",
+    "translation": "“其实，我站在另一边。准备接招吧。”（帮助半兽人与鬼怪大军）"
+  },
+  {
+    "questId": 57,
+    "source": "\"Oops, took a wrong turn somewhere. Going back now.\" (Decline for now)",
+    "translation": "“哎呀，好像走错路了。我这就回去。”（暂时拒绝）"
+  },
+  {
+    "questId": 57,
+    "source": "\"Yep, that's right.\" (Aid the dwarves)",
+    "translation": "“没错，我就是来帮忙的。”（帮助矮人）"
+  },
+  {
+    "questId": 57,
+    "source": "(Continue)",
+    "translation": "（继续）"
+  },
+  {
+    "questId": 57,
+    "source": "(Take the Dwarven rune stone)",
+    "translation": "（接过矮人符文石）"
+  },
+  {
+    "questId": 57,
+    "source": "1000 gold, 25 shards, 3 faction cards, and 6 Fallen Empires boosters",
+    "translation": "1,000 金币、25 碎片、3 张阵营卡牌，以及 6 包堕落王朝补充包"
+  },
+  {
+    "questId": 57,
+    "source": "A stout dwarf leading a heavily laden pony looks you up and down. \"Who are ye? Have ye come here tae aid us in oor hour o' need?\"\n\nWarning: Hard quest.",
+    "translation": "一个敦实的矮人牵着驮满货物的小马，上下打量着你。“你是谁？是来帮咱们渡过难关的吗？”\n\n警告：此任务难度较高。"
+  },
+  {
+    "questId": 57,
+    "source": "Choose a side in the siege of the Dwarven Hold in the Crimson Peaks and defeat the opposing faction.",
+    "translation": "在绯红群峰的矮人要塞围城战中选择阵营，并击败另一方。"
+  },
+  {
+    "questId": 57,
+    "source": "Hold the Hold",
+    "translation": "要塞争夺战"
+  },
+  {
+    "questId": 57,
+    "source": "The Dwarven Pony Trader breathes a sigh of relief. \"Och, that's guid tae hear. Here, tak' this rune stane. It opens a secret latch tae oor hauld, just ahint thae rocks ower there.\"",
+    "translation": "矮人小马商人松了口气。“哦，这可太好了。来，拿着这块符文石。它能打开通往要塞的暗门，就在那边的岩石后面。”"
+  },
+  {
+    "questId": 57,
+    "source": "The dwarf shakes his head. \"Then turn back, stranger. Naebody gets past this pass till they've picked a side.\" If you change your mind, return tomorrow and he will ask again.",
+    "translation": "矮人摇摇头。“那就回去吧，陌生人。不选好阵营，谁也别想过这道山口。”如果你改变主意，明天回来，他还会再问一次。"
+  },
+  {
+    "questId": 57,
+    "source": "The siege of the Dwarven Hold has already been decided. (Leave)",
+    "translation": "矮人要塞的围城战已尘埃落定。（离开）"
   }
 ]

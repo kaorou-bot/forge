@@ -109,8 +109,8 @@ public class AdventureItemLocalizationTest {
                 bound++;
             }
         }
-        assertEquals(bound, 1231);
-        assertEquals(names.size(), 950);
+        assertEquals(bound, 1232);
+        assertEquals(names.size(), 951);
     }
 
     @Test
@@ -119,13 +119,28 @@ public class AdventureItemLocalizationTest {
         assertTrue(item("Realm of Legends", "Colorless rune").getDescription().contains("神秘图书馆"));
         assertFalse(item("common", "Colorless rune").getDescription().contains("神秘图书馆"));
         assertTrue(item("Realm of Legends", "Silver Challenge Coin").getDescription().contains("现开赛事"));
-        assertTrue(item("Shandalar Old Border", "Silver Challenge Coin").getDescription().contains("目前没有用途"));
-        assertFalse(item("Shandalar Old Border", "Silver Challenge Coin").getDescription().contains("现开赛事"));
+        assertTrue(item("Shandalar Old Border", "Silver Challenge Coin").getDescription().contains("免费现开赛事"));
+        assertFalse(item("Shandalar Old Border", "Silver Challenge Coin").getDescription().contains("目前没有用途"));
         assertEquals(language("zh-CN").getMessage(item("common", "Iron Armor").locdescription), "");
         assertFalse(language("zh-CN").getMessage(item("Shandalar Old Border", "Iron Armor").locdescription).isEmpty());
         language("en-US");
         assertTrue(item("Realm of Legends", "Colorless rune").getDescription().startsWith("Teleports you to the mysterious library\nSlot: Ability2\n"));
-        assertTrue(item("Shandalar Old Border", "Silver Challenge Coin").getDescription().startsWith("No current use. Can be safely disposed of."));
+        assertTrue(item("Shandalar Old Border", "Silver Challenge Coin").getDescription()
+                .startsWith("A weighty coin made of silver. Redeem for a free sealed."));
+    }
+
+    @Test
+    public void dwarvenRuneStoneHasExplicitTranslationWithoutChangingQuestIdentity() throws Exception {
+        language("zh-CN");
+        ItemData rune = item("Shandalar Old Border", "Dwarven Rune Stone");
+        assertEquals(rune.getName(), "Dwarven Rune Stone");
+        assertEquals(rune.locdescription, "adv.item.DwarvenRuneStone.description");
+        assertEquals(rune.getDisplayName(), "矮人符文石");
+        assertTrue(rune.getDescription().startsWith("矮人小马商人赠予的符文石，可以打开通往矮人要塞的暗门。"));
+        assertTrue(rune.questItem);
+        language("en-US");
+        assertEquals(rune.getDisplayName(), "Dwarven Rune Stone");
+        assertTrue(rune.getDescription().startsWith("A rune stone given to you by a Dwarven Pony Trader."));
     }
 
     @Test

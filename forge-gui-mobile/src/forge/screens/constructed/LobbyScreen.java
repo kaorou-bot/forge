@@ -3,11 +3,9 @@ package forge.screens.constructed;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import forge.gamemodes.net.server.HostingServer;
 import forge.player.GamePlayerUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -54,6 +52,7 @@ import forge.toolbox.FLabel;
 import forge.toolbox.FList;
 import forge.toolbox.FOptionPane;
 import forge.toolbox.FScrollPane;
+import forge.toolbox.GuiChoose;
 import forge.util.MyRandom;
 import forge.util.TextUtil;
 import forge.util.Utils;
@@ -160,16 +159,21 @@ public abstract class LobbyScreen extends LaunchScreen implements ILobbyView {
         add(cbVariants);
         cbVariants.setFont(VARIANTS_FONT);
         cbVariants.addItem("(" + Forge.getLocalizer().getMessage("lblNone") + ")");
-        cbVariants.addItem(GameType.Vanguard);
-        cbVariants.addItem(GameType.Planechase);
-        cbVariants.addItem(GameType.Archenemy);
-        cbVariants.addItem(GameType.ArchenemyRumble);
+        for (final GameType variant : FormatChoices.VARIANTS) {
+            cbVariants.addItem(variant);
+        }
         cbVariants.addItem(Forge.getLocalizer().getMessage("lblMore"));
         cbVariants.setChangedHandler(event -> {
+            final List<GameType> applied = Lists.newArrayList(Iterables.filter(lobby.getAppliedVariants(),
+                    variant -> !FormatChoices.FORMAT_GAME_TYPES.contains(variant)));
+            // updateVariantSelection moves this list to match the lobby, which needs no change
+            if (cbVariants.getSelectedIndex() <= 0 ? applied.isEmpty() : applied.equals(List.of(cbVariants.getSelectedItem()))) {
+                return;
+            }
             if (cbVariants.getSelectedIndex() <= 0) {
                 clearStackableVariants();
                 updateLayoutForVariants();
-                saveAppliedVariants();
+                lobby.saveSetup();
             }
             else if (cbVariants.getSelectedIndex() == cbVariants.getItemCount() - 1) {
                 Forge.openScreen(new MultiVariantSelect());
@@ -181,7 +185,7 @@ public abstract class LobbyScreen extends LaunchScreen implements ILobbyView {
                 clearStackableVariants();
                 lobby.applyVariant(variant);
                 updateLayoutForVariants();
-                saveAppliedVariants();
+                lobby.saveSetup();
             }
         });
 
@@ -192,10 +196,17 @@ public abstract class LobbyScreen extends LaunchScreen implements ILobbyView {
             cbFormat.addItem(choice);
         }
         cbFormat.setChangedHandler(event -> {
+            if (cbFormat.getSelectedItem() == FormatChoices.ARCHIVED) {
+                updateFormatSelection();
+                GuiChoose.oneOrNone(Forge.getLocalizer().getMessage("lblArchivedFormats"), FormatChoices.getArchivedChoices(), archived -> {
+                    if (archived != null) {
+                        applyFormatChoice(archived);
+                    }
+                });
+                return;
+            }
             if (lobby.hasControl() && cbFormat.getSelectedItem() != lobby.getFormatChoice()) {
-                lobby.setFormatChoice(cbFormat.getSelectedItem());
-                updateLayoutForVariants();
-                saveAppliedVariants();
+                applyFormatChoice(cbFormat.getSelectedItem());
             }
         });
 
@@ -207,7 +218,7 @@ public abstract class LobbyScreen extends LaunchScreen implements ILobbyView {
 
         final int initialPanelCount = playerPanels.size();
         initialSetupComplete = true;
-        FThreads.invokeInBackgroundThread(() -> {
+        LoadingOverlay.runBackgroundTask(Forge.getLocalizer().getMessage("lblLoadingEllipsis"), true, loader -> {
             for (int index = 0; index < initialPanelCount; index++) {
                 if (lobby.mayEdit(index)) {
                     initializePlayerPanel(index);
@@ -216,15 +227,8 @@ public abstract class LobbyScreen extends LaunchScreen implements ILobbyView {
 
             FThreads.invokeInEdtLater(() -> {
                 btnStart.setEnabled(lobby.hasControl());
-
-                Set<GameType> gameTypes = FModel.getPreferences().getGameType(FPref.UI_APPLIED_VARIANTS);
-                if (!gameTypes.isEmpty()) {
-                    for (GameType gameType : gameTypes) {
-                        lobby.applyVariant(gameType);
-                    }
-                    updateVariantSelection();
-                    updateLayoutForVariants();
-                }
+                lobby.restoreSetup();
+                updateLayoutForVariants();
             });
         });
 
@@ -297,8 +301,19 @@ public abstract class LobbyScreen extends LaunchScreen implements ILobbyView {
         }
     }
 
+    private void applyFormatChoice(final Object choice) {
+        lobby.setFormatChoice(choice);
+        updateLayoutForVariants();
+        lobby.saveSetup();
+    }
+
     private void updateFormatSelection() {
-        cbFormat.setSelectedItem(lobby.getFormatChoice());
+        if (lobby.getFormatChoice() instanceof GameFormat format && format.getFormatType() == GameFormat.FormatType.ARCHIVED) {
+            // The list holds no archived formats, so the combo shows the name alone
+            cbFormat.setText(format.getName());
+        } else {
+            cbFormat.setSelectedItem(lobby.getFormatChoice());
+        }
         lblFormat.setEnabled(lobby.hasControl());
         cbFormat.setEnabled(lobby.hasControl());
         // Limited mode lists event pools, which the Constructed format does not apply to
@@ -306,11 +321,6 @@ public abstract class LobbyScreen extends LaunchScreen implements ILobbyView {
         for (final PlayerPanel panel : playerPanels) {
             panel.getDeckChooser().getLstDecks().setRequiredFormat(format);
         }
-    }
-
-    private void saveAppliedVariants() {
-        FModel.getPreferences().setGameType(FPref.UI_APPLIED_VARIANTS, Sets.newHashSet(lobby.getAppliedVariants()));
-        FModel.getPreferences().save();
     }
 
     private void updateVariantSelection() {
@@ -352,12 +362,14 @@ public abstract class LobbyScreen extends LaunchScreen implements ILobbyView {
         float x = PADDING;
         float y = startY + PADDING;
         float fieldHeight = cbPlayerCount.getHeight();
-        if (Forge.isLandscapeMode()) {
+        final float comboWidth = (width - (x + lblFormat.getAutoSizeBounds().width + PADDING / 2
+                + lblVariants.getAutoSizeBounds().width + PADDING / 2
+                + lblGamesInMatch.getAutoSizeBounds().width + PADDING/2
+                + lblPlayers.getAutoSizeBounds().width + (Utils.AVG_FINGER_WIDTH + PADDING)*2)) / 2;
+        // a narrow landscape screen, such as an unfolded foldable, uses the stacked rows
+        if (Forge.isLandscapeMode() && comboWidth >= Utils.AVG_FINGER_WIDTH * 2) {
             lblFormat.setBounds(x, y, lblFormat.getAutoSizeBounds().width + PADDING / 2, fieldHeight);
             x += lblFormat.getWidth();
-            final float comboWidth = (width - (x + lblVariants.getAutoSizeBounds().width + PADDING / 2
-                    + lblGamesInMatch.getAutoSizeBounds().width + PADDING/2
-                    + lblPlayers.getAutoSizeBounds().width + (Utils.AVG_FINGER_WIDTH + PADDING)*2)) / 2;
             cbFormat.setBounds(x, y, comboWidth, fieldHeight);
             x += cbFormat.getWidth();
             lblVariants.setBounds(x, y, lblVariants.getAutoSizeBounds().width + PADDING / 2, fieldHeight);
@@ -537,10 +549,9 @@ public abstract class LobbyScreen extends LaunchScreen implements ILobbyView {
             super(Forge.getLocalizer().getInstance().getMessage("lblSelectVariants"));
 
             lstVariants.setListItemRenderer(new VariantRenderer());
-            lstVariants.addItem(new Variant(GameType.Vanguard));
-            lstVariants.addItem(new Variant(GameType.Planechase));
-            lstVariants.addItem(new Variant(GameType.Archenemy));
-            lstVariants.addItem(new Variant(GameType.ArchenemyRumble));
+            for (final GameType variant : FormatChoices.VARIANTS) {
+                lstVariants.addItem(new Variant(variant));
+            }
         }
 
         @Override
@@ -570,7 +581,7 @@ public abstract class LobbyScreen extends LaunchScreen implements ILobbyView {
                 }
                 updateVariantSelection();
                 updateLayoutForVariants();
-                saveAppliedVariants();
+                lobby.saveSetup();
             }
         }
 
@@ -791,7 +802,7 @@ public abstract class LobbyScreen extends LaunchScreen implements ILobbyView {
             if (deck != null) {
                 playerPanel.getCommanderDeckChooser().saveState();
                 deckName =  Forge.getLocalizer().getMessage("lblCommanderDeck") + ": "
-                        + playerPanel.getCommanderDeckChooser().getDeck().getName();
+                        + deck.getName();
             }
         }
         else if (hasVariant(GameType.Oathbreaker)) {
@@ -799,7 +810,7 @@ public abstract class LobbyScreen extends LaunchScreen implements ILobbyView {
             if (deck != null) {
                 playerPanel.getOathbreakerDeckChooser().saveState();
                 deckName =  Forge.getLocalizer().getMessage("lblOathbreakerDeck") + ": "
-                        + playerPanel.getOathbreakerDeckChooser().getDeck().getName();
+                        + deck.getName();
             }
         }
         else if (hasVariant(GameType.TinyLeaders)) {
@@ -807,7 +818,7 @@ public abstract class LobbyScreen extends LaunchScreen implements ILobbyView {
             if (deck != null) {
                 playerPanel.getTinyLeadersDeckChooser().saveState();
                 deckName =  Forge.getLocalizer().getMessage("lblTinyLeadersDeck") + ": "
-                        + playerPanel.getTinyLeadersDeckChooser().getDeck().getName();
+                        + deck.getName();
             }
         }
         else if (hasVariant(GameType.Brawl)) {
@@ -815,14 +826,14 @@ public abstract class LobbyScreen extends LaunchScreen implements ILobbyView {
             if (deck != null) {
                 playerPanel.getBrawlDeckChooser().saveState();
                 deckName =  Forge.getLocalizer().getMessage("lblBrawlDeck") + ": "
-                        + playerPanel.getBrawlDeckChooser().getDeck().getName();
+                        + deck.getName();
             }
         }else {
             deck = playerPanel.getDeck();
             if (deck != null) {
                 playerPanel.getDeckChooser().saveState();
                 deckName =  playerPanel.getDeckChooser().getSelectedDeckType().toString() + ": "
-                        + playerPanel.getDeckChooser().getDeck().getName();
+                        + deck.getName();
             }
         }
 

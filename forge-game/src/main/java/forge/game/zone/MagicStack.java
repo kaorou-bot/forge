@@ -82,7 +82,7 @@ public class MagicStack /* extends MyObservable */ implements Iterable<SpellAbil
     private List<Card> lastTurnCast = Lists.newArrayList();
     private final List<SpellAbility> thisTurnActivated = Lists.newArrayList();
 
-    private Card curResolvingCard = null;
+    private SpellAbility curResolving = null;
     private final Map<Integer, Integer> triggerRepeats = new HashMap<>();
     /** Card id -> how often it could not be added to the stack this turn because its targets were not legal. */
     private final Map<Integer, Integer> illegalAdditions = new HashMap<>();
@@ -111,7 +111,7 @@ public class MagicStack /* extends MyObservable */ implements Iterable<SpellAbil
         lastTurnCast.clear();
         thisTurnCast.clear();
         thisTurnActivated.clear();
-        curResolvingCard = null;
+        curResolving = null;
         triggerRepeats.clear();
         illegalAdditions.clear();
         frozenStack.clear();
@@ -191,10 +191,14 @@ public class MagicStack /* extends MyObservable */ implements Iterable<SpellAbil
     }
 
     public final boolean isResolving(Card c) {
-        if (!isResolving() || curResolvingCard == null) {
+        if (!isResolving() || curResolving == null) {
             return false;
         }
-        return c.equals(curResolvingCard);
+        return c.equals(curResolving.getHostCard());
+    }
+
+    public final SpellAbility getResolvingAbility() {
+        return curResolving;
     }
 
     public final void add(SpellAbility sp) {
@@ -666,7 +670,7 @@ public class MagicStack /* extends MyObservable */ implements Iterable<SpellAbil
             // Report unexpected failures, rather than continuing a partly executed spell.
             // In particular, do not execute waiting triggers while unwinding that failure.
             setResolving(false);
-            curResolvingCard = null;
+            curResolving = null;
             frozen = previouslyFrozen;
             primaryAbility = previousPrimary;
             throw failure;
@@ -699,7 +703,7 @@ public class MagicStack /* extends MyObservable */ implements Iterable<SpellAbil
         game.getPhaseHandler().resetPriority();
 
         final Card source = sa.getHostCard();
-        curResolvingCard = source;
+        curResolving = sa;
 
         boolean thisHasFizzled = hasFizzled(sa, null);
 
@@ -756,9 +760,11 @@ public class MagicStack /* extends MyObservable */ implements Iterable<SpellAbil
             // Leaving the game removed this particular object. Do not move its card back
             // into a zone or announce that its unexecuted effects successfully resolved.
             setResolving(false);
-            curResolvingCard = null;
+            curResolving = null;
             unfreezeStack();
-            game.getPhaseHandler().onStackResolved();
+            if (sa.getApi() != ApiType.EndTurn) {
+                game.getPhaseHandler().onStackResolved();
+            }
             game.copyLastState();
             return;
         }
@@ -793,9 +799,11 @@ public class MagicStack /* extends MyObservable */ implements Iterable<SpellAbil
         unfreezeStack();
         sa.resetOnceResolved();
 
-        game.getPhaseHandler().onStackResolved();
+        if (sa.getApi() != ApiType.EndTurn) {
+            game.getPhaseHandler().onStackResolved();
+        }
 
-        curResolvingCard = null;
+        curResolving = null;
     }
 
     private void removeCardFromStack(final SpellAbility sa, final SpellAbilityStackInstance si, final boolean fizzle) {
@@ -971,9 +979,6 @@ public class MagicStack /* extends MyObservable */ implements Iterable<SpellAbil
             // caused by DevTools before first turn
             return false;
         }
-        if (!playerTurn.isInGame()) {
-            playerTurn = game.getNextPlayerAfter(playerTurn);
-        }
         List<Player> players = game.getPlayersInTurnOrder(playerTurn);
 
         boolean result = false;
@@ -1006,7 +1011,8 @@ public class MagicStack /* extends MyObservable */ implements Iterable<SpellAbil
                 activator = sa.getHostCard().getController();
             }
 
-            if (activator.equals(activePlayer)) {
+            // CR 805.7: a team puts all its triggered abilities on the stack in one order, chosen by its first player
+            if (activePlayer.sharesTeamWith(activator)) {
                 adjustAuraHost(sa);
                 activePlayerSAs.add(sa);
             }
@@ -1072,11 +1078,12 @@ public class MagicStack /* extends MyObservable */ implements Iterable<SpellAbil
     }
 
     public final void onNextTurn() {
-        final Player active = game.getPhaseHandler().getPlayerTurn();
         game.getStackZone().resetCardsAddedThisTurn();
         this.thisTurnActivated.clear();
         illegalAdditions.clear();
-        active.resetSpellCastSinceBegOfYourLastTurn();
+        for (final Player active : game.getPhaseHandler().getActivePlayers()) {
+            active.resetSpellCastSinceBegOfYourLastTurn();
+        }
         if (thisTurnCast.isEmpty()) {
             lastTurnCast = Lists.newArrayList();
             return;

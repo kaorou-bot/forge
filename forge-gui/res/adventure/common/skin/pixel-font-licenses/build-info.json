@@ -4,7 +4,7 @@
   "fallback_sha256": "786714cef32ef795bdc3342b58ad887a46d7dfb89722fc18e00186dbf33668c0",
   "glyphs": 36471,
   "pages": 2,
-  "required_cjk": 3880,
+  "required_cjk": 3892,
   "missing_required_cjk": [],
   "fallback_codepoints": [
     173,

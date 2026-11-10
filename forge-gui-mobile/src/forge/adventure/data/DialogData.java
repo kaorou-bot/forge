@@ -33,7 +33,7 @@ public class DialogData implements Serializable {
         this.action = other.action.clone();
         this.condition = other.condition.clone();
         this.name = other.name;
-        this.locname = other.locname.isEmpty()?"":("Copy of " + other.locname);
+        this.locname = other.locname;
         this.text = other.text;
         this.loctext = other.loctext;
         List<DialogData> clonedOptions = new ArrayList<>();
