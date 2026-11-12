@@ -3926,13 +3926,13 @@
   },
   {
     "questId": 26,
-    "source": "After some reflection, you decide that the rewards promised to you are not worth the effort of clearing out the current occupants of the swamp. (-2 Local Reputation)",
-    "translation": "思量一番后，你觉得对方许诺的报酬，不值得你费力清除沼泽里的敌人。（当地声望 -2）"
+    "source": "After some reflection, you decide that the rewards promised to you are not worth the effort of clearing out the current occupants of the Thallid Grove. (-2 Local Reputation)",
+    "translation": "思量一番后，你觉得对方许诺的报酬，不值得你费力清除撒利德林地里的敌人。（当地声望 -2）"
   },
   {
     "questId": 26,
-    "source": "Ah, greetings, brave adventurer! I have a grave matter to discuss with you. We need a brave adventurer to deal with the rogue fungus Slimefoot.",
-    "translation": "啊，你好，勇敢的冒险者！有件严肃的事要和你谈谈。我们需要一位勇士，去对付失控的真菌黏足。"
+    "source": "Ah, greetings, brave adventurer! I have a grave matter to discuss with you. We need a brave adventurer to deal with the ominous fungus Thallid Lord.",
+    "translation": "啊，你好，勇敢的冒险者！有件要紧事想和你谈谈。我们需要一位勇士，去对付那可怕的真菌——撒利德领主。"
   },
   {
     "questId": 26,
@@ -3951,8 +3951,8 @@
   },
   {
     "questId": 26,
-    "source": "Defeat Slimefoot and his fungi in his bog and report back.",
-    "translation": "前往黏足的沼泽，击败它和它的真菌部众，然后回来复命。"
+    "source": "Defeat Thallid Lord and his fungi in his grove and report back.",
+    "translation": "前往撒利德领主的林地，击败它和它的真菌部众，然后回来复命。"
   },
   {
     "questId": 26,
@@ -3966,8 +3966,8 @@
   },
   {
     "questId": 26,
-    "source": "I see. So you want me to travel to Slimefoot's swamp and defeat him?",
-    "translation": "明白了。你想让我去黏足的沼泽打败它？"
+    "source": "I see. So you want me to travel to Thallid Lord's grove and defeat him?",
+    "translation": "明白了。你想让我前往撒利德领主的林地，打败它？"
   },
   {
     "questId": 26,
@@ -3981,13 +3981,13 @@
   },
   {
     "questId": 26,
-    "source": "Return to town and report your success in clearing Slimefoot's Lair.",
-    "translation": "返回镇上，报告已清除黏足巢穴的敌人。"
+    "source": "Return to town and report your success in clearing Thallid Grove.",
+    "translation": "返回镇上，报告你已成功清剿撒利德林地。"
   },
   {
     "questId": 26,
-    "source": "Slimefoot is a formidable foe, adept at both offense and defense. Its body secretes a corrosive slime, and its tentacles strike with lightning speed. Prepare yourself for a challenging battle, my friend. Draw upon your combat skills, use potions and magical abilities wisely, and exploit any weaknesses you can find. Only then can you hope to overcome this vile creature.",
-    "translation": "黏足是个攻守兼备的强敌。它的身体分泌腐蚀性黏液，触手快如闪电。准备好迎接恶战吧，朋友。发挥你的战斗技巧，妥善运用药水与魔法，抓住一切能发现的弱点。唯有如此，才有望战胜这邪恶的生物。"
+    "source": "Thallid Lord is a formidable foe, adept at both offense and defense. Its fungal minions are countless and its strikes are deadly. Prepare yourself for a challenging battle, my friend. Draw upon your combat skills, use potions and magical abilities wisely, and exploit any weaknesses you can find. Only then can you hope to overcome this vile creature.",
+    "translation": "撒利德领主是个攻守兼备的强敌。它麾下的真菌爪牙数不胜数，出手更是致命。准备好迎接恶战吧，朋友。发挥你的战斗技巧，妥善运用药水与魔法，抓住一切能发现的弱点。唯有如此，才有望战胜这邪恶的生物。"
   },
   {
     "questId": 26,
@@ -4001,8 +4001,8 @@
   },
   {
     "questId": 26,
-    "source": "Tell me more about Slimefoot and what I can do to stop it.",
-    "translation": "说说黏足吧，我要怎么阻止它？"
+    "source": "Tell me more about Thallid Lord and what I can do to stop it.",
+    "translation": "说说撒利德领主吧，我该怎么阻止它？"
   },
   {
     "questId": 26,
@@ -4011,8 +4011,8 @@
   },
   {
     "questId": 26,
-    "source": "Thank you, noble adventurer. Slimefoot is a creature of pure malevolence. A monstrous being that has taken root in the heart of the treacherous swamp. Its corrosive touch and toxic aura have brought devastation to our lands. To defeat it, you must journey through the perilous swamp, filled with treacherous terrain and deadly creatures lurking within.",
-    "translation": "谢谢你，高尚的冒险者。黏足是个满怀恶意的怪物，扎根在凶险沼泽的深处。它腐蚀性的触碰和有毒的气息毁坏了我们的土地。要击败它，你得穿越危机四伏的沼泽，小心险恶地形和潜伏的致命生物。"
+    "source": "Thank you, noble adventurer. Thallid Lord is a creature of pure malevolence. A monstrous being that has taken root in the grove located in the darkest depths of the forest. Its toxic spores have brought devastation to our lands. To defeat it, you must journey through the deepest forest, filled with treacherous terrain and deadly creatures lurking within.",
+    "translation": "谢谢你，高尚的冒险者。撒利德领主是个满怀恶意的怪物，扎根在森林最幽暗处的林地里。它散播的毒孢子毁坏了我们的土地。要击败它，你得深入密林，小心险恶的地形和潜伏其中的致命生物。"
   },
   {
     "questId": 26,
@@ -4021,8 +4021,8 @@
   },
   {
     "questId": 26,
-    "source": "Travel to Slimefoot's Lair and defeat him and his fungal minions'. The target location is in the Swamp biome.",
-    "translation": "前往黏足的巢穴，击败它和它的真菌爪牙。目标地点位于沼泽地区。"
+    "source": "Travel to Thallid Grove and defeat Thallid Lord and his fungal minions'. The target location is in the Forest biome.",
+    "translation": "前往撒利德林地，击败撒利德领主和它的真菌爪牙。目标地点位于森林地区。"
   },
   {
     "questId": 27,

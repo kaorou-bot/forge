@@ -19,6 +19,7 @@ public class EffectData implements Serializable {
     //Saves store items with their EffectData. Keep this value so saves made before a field was added still load.
     private static final long serialVersionUID = -1350202758899129612L;
     public String name = null;           //Effect name. Can be checked for.
+    public String description;           //Shown in place of the generic intro line in effect dialogs and on the Statistics screen.
 
     //Duel effects.
     public int lifeModifier = 0;         //Amount to add to starting Life.
@@ -41,6 +42,7 @@ public class EffectData implements Serializable {
     public EffectData() {}
     public EffectData(EffectData effect) {
         name=effect.name;
+        description=effect.description;
         lifeModifier=effect.lifeModifier;
         changeStartCards=effect.changeStartCards;
         startBattleWithCard=effect.startBattleWithCard;
@@ -104,7 +106,26 @@ public class EffectData implements Serializable {
                 "adv.itemCard." + name.replaceAll("[^A-Za-z0-9]", ""), name);
     }
 
+    public String getIntro(String fallback) {
+        return description != null ? description : fallback;
+    }
+
     public String getDescription() {
+        return getDescription(null, Forge.getLocalizer().getMessage("adv.effect.opponent"));
+    }
+
+    /** Describes an effect whose top level is the player's and whose opponent block goes to every enemy. */
+    public String getPlayerSideDescription() {
+        return getDescription(Forge.getLocalizer().getMessage("lblEffectDataHeaderPlayer"), Forge.getLocalizer().getMessage("lblEffectDataHeader"));
+    }
+
+    /** Describes an effect whose top level goes to every enemy and whose opponent block is the player's. */
+    public String getEnemySideDescription() {
+        return getDescription(Forge.getLocalizer().getMessage("lblEffectDataHeader"), Forge.getLocalizer().getMessage("lblEffectDataHeaderPlayer"));
+    }
+
+    /** @param ownHeader shown above the top level only when it has text; null for none */
+    private String getDescription(String ownHeader, String opponentHeader) {
         String description = "";
         if(colorView) description += Forge.getLocalizer().getMessage("adv.effect.manasight") + "\n";
         if(lifeModifier != 0)
@@ -131,9 +152,11 @@ public class EffectData implements Serializable {
             description+=Forge.getLocalizer().getMessage("adv.effect.shopPrice", goldModifier) + "\n";
         if(cardRewardBonus > 0)
             description += Forge.getLocalizer().getMessage("advBonusEnemyDeckRewards", cardRewardBonus);
+        if(ownHeader != null && !description.isEmpty())
+            description = ownHeader + "\n" + description;
         if(this.opponent != null) {
             String oppEffect = this.opponent.getDescription();
-            description += Forge.getLocalizer().getMessage("adv.effect.opponent") + "\n";
+            description += opponentHeader + "\n";
             if(!oppEffect.isEmpty()) {
                 description += oppEffect;
             }

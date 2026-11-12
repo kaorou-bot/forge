@@ -441,6 +441,7 @@ public class Forge implements ApplicationListener {
         if (!GuiBase.isAndroid() || !getDeviceAdapter().getGamepads().isEmpty())
             enableControllerListener();
         loadAdventureResources(true);
+        WorldSave.backupOnVersionChange();
     }
     private static void loadAdventureResources(boolean startScene) {
         try {

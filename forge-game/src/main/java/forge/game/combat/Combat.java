@@ -912,7 +912,7 @@ public class Combat {
                         Card chosen = attacker.getController().getController().chooseCardsForEffect(getDefendersCreatures(),
                                 emptySA, Localizer.getInstance().getMessage("lblChooseCreature"), 1, 1, false, null).get(0);
                         damageMap.get().put(attacker, chosen, damageDealt);
-                    } else if (trampler || !band.isBlocked()) { // this is called after declare blockers, no worries 'bout nulls in isBlocked
+                } else if (trampler || !Boolean.TRUE.equals(band.isBlocked())) { // null means the attacker was never marked as blocked
                         if (defender == null) {
                             defender = getDefenderPlayerByAttacker(attacker);
                             System.err.println("[COMBAT] defender is null, getDefenderPlayerByAttacker(attacker) result: " + defender);

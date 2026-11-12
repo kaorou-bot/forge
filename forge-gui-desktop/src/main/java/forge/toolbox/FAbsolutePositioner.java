@@ -86,9 +86,12 @@ public enum FAbsolutePositioner {
      * @param comp &emsp; Component to hide
      */
     public void hide(final Component comp) {
-        final Rectangle oldBounds = comp.getBounds();
+        // Container.remove invalidates but does not repaint, and this panel has a null
+        // layout, so without this the component's pixels stay on screen until something
+        // else happens to repaint that region.
+        final Rectangle bounds = comp.getBounds();
         panel.remove(comp);
-        panel.repaint(oldBounds);
+        panel.repaint(bounds);
     }
 
     /**

@@ -11,7 +11,6 @@ import org.testng.annotations.Test;
 import java.lang.reflect.Field;
 import java.util.Deque;
 import java.util.List;
-import java.util.Stack;
 
 import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
 import static org.mockito.Mockito.mock;
@@ -20,7 +19,7 @@ import static org.mockito.Mockito.when;
 /** Executes real MagicStack removal/unfreeze; reflective seeding avoids unrelated card casting. */
 public class DepartingPlayerStackTest {
     @Test
-    public void departureRemovesOnlyItsNormalFrozenAndSimultaneousEntries() throws Exception {
+    public void departureWhileFrozenRemovesOnlyItsStackAndSimultaneousEntries() throws Exception {
         final Fixture f = new Fixture();
         final SpellAbilityStackInstance departed = f.instance(f.departing, 1);
         final SpellAbilityStackInstance survivor = f.instance(f.surviving, 2);
@@ -28,19 +27,18 @@ public class DepartingPlayerStackTest {
         final SpellAbilityStackInstance frozenSurvivor = f.instance(f.surviving, 4);
         f.normal.add(departed);
         f.normal.add(survivor);
-        f.frozen.add(frozenDeparted);
-        f.frozen.add(frozenSurvivor);
+        // Frozen additions now share the ordinary stack; unfreezing only runs waiting triggers.
+        f.normal.add(frozenDeparted);
+        f.normal.add(frozenSurvivor);
         f.simultaneous.add(departed.getSpellAbility());
         f.simultaneous.add(survivor.getSpellAbility());
         f.stack.freezeStack(frozenDeparted.getSpellAbility());
         f.stack.removeInstancesControlledBy(f.departing);
-        Assert.assertEquals(List.copyOf(f.normal), List.of(survivor));
-        Assert.assertEquals(List.copyOf(f.frozen), List.of(frozenSurvivor));
+        Assert.assertEquals(List.copyOf(f.normal), List.of(survivor, frozenSurvivor));
         Assert.assertEquals(f.simultaneous, List.of(survivor.getSpellAbility()));
         Assert.assertNull(field(f.stack, "primaryAbility"));
         f.stack.unfreezeStack();
-        Assert.assertTrue(f.frozen.isEmpty());
-        Assert.assertEquals(List.copyOf(f.normal), List.of(frozenSurvivor, survivor));
+        Assert.assertEquals(List.copyOf(f.normal), List.of(survivor, frozenSurvivor));
         Assert.assertFalse(f.stack.isFrozen());
         f.stack.removeInstancesControlledBy(f.departing);
         Assert.assertEquals(f.stack.size(), 2, "Duplicate departure must preserve survivors");
@@ -74,13 +72,11 @@ public class DepartingPlayerStackTest {
         private final Player departing = mock(Player.class);
         private final Player surviving = mock(Player.class);
         private final Deque<SpellAbilityStackInstance> normal;
-        private final Stack<SpellAbilityStackInstance> frozen;
         private final List<SpellAbility> simultaneous;
         @SuppressWarnings("unchecked")
         private Fixture() throws Exception {
             when(game.getStack()).thenReturn(stack);
             normal = (Deque<SpellAbilityStackInstance>) field(stack, "stack");
-            frozen = (Stack<SpellAbilityStackInstance>) field(stack, "frozenStack");
             simultaneous = (List<SpellAbility>) field(stack, "simultaneousStackEntryList");
         }
         private SpellAbilityStackInstance instance(final Player controller, final int id) {
