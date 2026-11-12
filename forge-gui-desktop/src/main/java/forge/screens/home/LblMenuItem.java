@@ -36,9 +36,13 @@ public class LblMenuItem extends SkinnedLabel implements ILocalRepaint {
      * @param doc0 {@link forge.screens.home.IVSubmenu}
      */
     public LblMenuItem(final IVSubmenu<? extends ICDoc> doc0) {
-        super("      " + doc0.getMenuTitle());
+        this(doc0, false);
+    }
 
-        this.setFont(FSkin.getRelativeFont(14));
+    public LblMenuItem(final IVSubmenu<? extends ICDoc> doc0, final boolean topLevel) {
+        super((topLevel ? "  " : "      ") + doc0.getMenuTitle());
+
+        this.setFont(topLevel ? FSkin.getRelativeBoldFont(14) : FSkin.getRelativeFont(14));
         this.setForeground(FSkin.getColor(FSkin.Colors.CLR_TEXT));
 
         this.addMouseListener(new MouseAdapter() {

@@ -35,6 +35,10 @@ public enum CHomeUI implements ICDoc, IMenuProvider {
     public void itemClick(final EDocID id0) {
         final ForgePreferences prefs = FModel.getPreferences();
 
+        if (currentDocID == EDocID.HOME_TOURNAMENT && id0 != currentDocID) {
+            VSubmenuTournament.SINGLETON_INSTANCE.deactivate();
+        }
+
         if (lblSelected != null) {
             lblSelected.setSelected(false);
             lblSelected.repaintSelf();

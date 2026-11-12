@@ -9,6 +9,7 @@ import java.util.Map;
 import com.google.common.collect.ObjectArrays;
 
 import forge.game.zone.ZoneType;
+import forge.screens.home.VSubmenuTournament;
 import forge.screens.deckeditor.views.*;
 import forge.screens.home.gauntlet.*;
 import forge.screens.home.online.VSubmenuOnlineDecks;
@@ -86,6 +87,7 @@ public enum EDocID {
     HOME_WINSTON (VSubmenuWinston.SINGLETON_INSTANCE),
     HOME_NETWORK (VSubmenuOnlineLobby.SINGLETON_INSTANCE),
     HOME_NET_DECKS (VSubmenuOnlineDecks.SINGLETON_INSTANCE),
+    HOME_TOURNAMENT (VSubmenuTournament.SINGLETON_INSTANCE),
     HOME_RELEASE_NOTES (VSubmenuReleaseNotes.SINGLETON_INSTANCE),
 
     REPORT_MESSAGE (),

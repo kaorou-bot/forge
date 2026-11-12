@@ -31,6 +31,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 import forge.Singletons;
 import forge.gamemodes.tutorial.HowToPlay;
@@ -151,6 +152,8 @@ public enum VHomeUI implements IVTopLevelUI {
         allSubmenus.add(VSubmenuPuzzleSolve.SINGLETON_INSTANCE);
         allSubmenus.add(VSubmenuPuzzleCreate.SINGLETON_INSTANCE);
 
+        allSubmenus.add(VSubmenuTournament.SINGLETON_INSTANCE);
+
         allSubmenus.add(VSubmenuPreferences.SINGLETON_INSTANCE);
         allSubmenus.add(VSubmenuAchievements.SINGLETON_INSTANCE);
         allSubmenus.add(VSubmenuAvatars.SINGLETON_INSTANCE);
@@ -168,13 +171,19 @@ public enum VHomeUI implements IVTopLevelUI {
 
         // For each item: Add to its group, and add to the card layout in right panel.
         for (final IVSubmenu<? extends ICDoc> item : allSubmenus) {
-            allSubmenuLabels.put(item.getItemEnum(), new LblMenuItem(item));
+            boolean topLevel = item.getItemEnum() == EDocID.HOME_TOURNAMENT;
+            allSubmenuLabels.put(item.getItemEnum(), new LblMenuItem(item, topLevel));
+            if (topLevel) continue; // Direct destination, not a collapsible settings child.
             allGroupPanels.get(item.getGroupEnum()).add(
                     allSubmenuLabels.get(item.getItemEnum()), "w 100%!, h 30px!, gap 0 0 1px 1px");
         }
 
         // For each group: add its title, then its panel, then "click" if necessary.
         for (final EMenuGroup e : allGroupPanels.keySet()) {
+            if (e == EMenuGroup.SETTINGS) {
+                pnlSubmenus.add(allSubmenuLabels.get(EDocID.HOME_TOURNAMENT),
+                        "w 100%!, h 30px!, gap 0 0 3px 3px");
+            }
             allGroupLabels.put(e, new LblGroup(e));
             pnlSubmenus.add(allGroupLabels.get(e), "w 100%!, h 30px!, gap 0 0 3px 3px");
             pnlSubmenus.add(allGroupPanels.get(e), "w 100%!, gap 0 0 0 0");
@@ -280,7 +289,7 @@ public enum VHomeUI implements IVTopLevelUI {
             
             if (lblSelected.isShowing()) {
                 int scrollPanelTop = scrollPanel.getY();
-                int labelTop = lblSelected.getY() + lblSelected.getParent().getY() + scrollPanelTop - scrollPanel.getVerticalScrollBar().getValue();
+                int labelTop = SwingUtilities.convertPoint(lblSelected, 0, 0, this).y;
                 y2 = labelTop + lblSelected.getHeight();
 
                 //ensure clipped to scroll panel
@@ -315,6 +324,7 @@ public enum VHomeUI implements IVTopLevelUI {
      */
     @Override
     public boolean onSwitching(FScreen fromScreen, FScreen toScreen) {
+        if (fromScreen != toScreen) VSubmenuTournament.SINGLETON_INSTANCE.deactivate();
         return true;
     }
 
