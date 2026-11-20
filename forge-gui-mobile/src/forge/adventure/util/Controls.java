@@ -725,6 +725,12 @@ public class Controls {
             isInitializing = false; // Initialization complete
         }
 
+        @Override
+        public void setVisible(boolean visible) {
+            super.setVisible(visible);
+            label.setVisible(visible);
+        }
+
         public void setIntermediateDuration(float intermediateDuration) {
             this.intermediateDuration = intermediateDuration;
         }
@@ -812,6 +818,7 @@ public class Controls {
             newLabel.layout.setBaseColor(label.layout.getBaseColor());
             newLabel.layout();
 
+            newLabel.setVisible(isVisible());
             label.remove();
             label = newLabel;
             placeholder.getStage().addActor(label);

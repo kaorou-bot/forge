@@ -13,6 +13,7 @@ import forge.game.card.CardUtil;
 import forge.game.card.CardZoneTable;
 import forge.game.spellability.SpellAbility;
 import forge.game.zone.ZoneType;
+import forge.util.Lang;
 
 public class DestroyEffect extends SpellAbilityEffect {
 
@@ -30,7 +31,7 @@ public class DestroyEffect extends SpellAbilityEffect {
 
         if (sa.hasParam("Radiance")) {
             final String thing = sa.getParamOrDefault("ValidTgts", "thing");
-            sb.append(" ").append(stackText(justOne ? "Radiance" : "RadianceMany", stackTerm(thing)));
+            sb.append(" ").append(stackText(justOne ? "Radiance" : "RadianceMany", stackTerm(Lang.getInstance().describeValidList(thing))));
         }
 
         if (noRegen) {

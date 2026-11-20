@@ -338,10 +338,6 @@ public class UnifiedNetworkHarness implements IHasForgeLog {
                         result.gameFormat, "test-password", playerCount,
                         error -> netLog.error(error, "Relay host session failed"));
             }
-
-            // Brief pause for server initialization
-            Thread.sleep(1000);
-
             // 4. Start remote clients
             clientExecutor = Executors.newFixedThreadPool(remoteClientCount);
             CountDownLatch clientsAttemptedLatch = new CountDownLatch(remoteClientCount);
@@ -376,8 +372,7 @@ public class UnifiedNetworkHarness implements IHasForgeLog {
                 return result;
             }
 
-            // Brief pause for server to process ready states
-            Thread.sleep(1000);
+            waitForRemoteSlotsReady(connectedCount);
 
             // 6. Start game
             logLobbyState();
@@ -444,8 +439,7 @@ public class UnifiedNetworkHarness implements IHasForgeLog {
             // is fully processed (including updateLobbyState broadcast) before the next
             // client connects, to avoid a Netty event loop deadlock in RemoteClient.send()
             // when two broadcast() calls run concurrently on different event loop threads.
-            long staggerDelay = 500L + (clientIndex * 3000L);
-            Thread.sleep(staggerDelay);
+            Thread.sleep(clientIndex * 3000L);
 
             String clientHost = "localhost";
             int clientPort = port;
@@ -468,10 +462,8 @@ public class UnifiedNetworkHarness implements IHasForgeLog {
                 netLog.info("Client {} ({}) connected to slot {}",
                         clientIndex, clientName, assignedSlot);
 
-                Thread.sleep(500);
                 client.setReady();
                 netLog.info("Client {} ({}) marked ready", clientIndex, clientName);
-                Thread.sleep(200);
 
                 int connectedCount = successfulConnections.incrementAndGet();
                 netLog.info("Client {} ready ({}/{} connected)",
@@ -635,12 +627,31 @@ public class UnifiedNetworkHarness implements IHasForgeLog {
             }
 
             try {
-                Thread.sleep(500);
+                Thread.sleep(50);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 break;
             }
         }
+    }
+
+    /** Waits until the server lobby shows a ready remote seat for each connected client. startGame refuses unready seats. */
+    private void waitForRemoteSlotsReady(int expected) throws InterruptedException {
+        long endTime = System.currentTimeMillis() + connectionTimeoutMs;
+        while (System.currentTimeMillis() < endTime) {
+            int ready = 0;
+            for (int i = 0; i < lobby.getNumberOfSlots(); i++) {
+                LobbySlot slot = lobby.getSlot(i);
+                if (slot.getType() == LobbySlotType.REMOTE && slot.isReady()) {
+                    ready++;
+                }
+            }
+            if (ready >= expected) {
+                return;
+            }
+            Thread.sleep(20);
+        }
+        netLog.warn("Remote seats not all ready after {}ms", connectionTimeoutMs);
     }
 
     private void collectNetworkMetrics(GameResult result) {

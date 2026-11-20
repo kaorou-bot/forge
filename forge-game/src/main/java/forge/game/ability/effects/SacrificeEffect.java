@@ -187,42 +187,51 @@ public class SacrificeEffect extends SpellAbilityEffect {
     @Override
     protected String getStackDescription(SpellAbility sa) {
         final StringBuilder sb = new StringBuilder();
-
         final List<Player> tgts = getTargetPlayers(sa);
-
-        String valid = sa.getParamOrDefault("SacValid", "Self");
-        String num = sa.getParamOrDefault("Amount", "1");
-
-        if (sa.hasParam("Optional")) { // TODO make boolean and handle verb reconjugation throughout
-            sb.append(stackText("Optional"));
-        }
-
+        final String valid = sa.getParamOrDefault("SacValid", "Self");
+        final String num = sa.getParamOrDefault("Amount", "1");
+        final boolean optional = sa.hasParam("Optional");
+        final String subject = tgts.isEmpty() ? stackText("You") : stackList(tgts);
+        final boolean thirdPerson = tgts.size() == 1 && !"You".equals(subject);
+        final String action = sa.hasParam("Destroy") ? "DestroyLead" : "SacrificeLead";
+        final String leadKey = action + (optional ? "Optional" : thirdPerson ? "One" : "Many");
+        final String lead = stackText(leadKey, subject);
         final int amount = AbilityUtils.calculateAmount(sa.getHostCard(), num, sa);
 
         if (valid.equals("Self")) {
-            sb.append(stackText("SacrificeSelf", sa.getHostCard()));
+            sb.append(lead).append(sa.getHostCard()).append(".");
         } else if (valid.equals("Card.AttachedBy")) {
             final Card toSac = sa.getHostCard().getEnchantingCard();
-            sb.append(stackText("SacrificeAttached", toSac.getController(), toSac));
+            if (toSac == null) {
+                sb.append(lead).append(stackText("CreatureEnchantedBy", sa.getHostCard())).append(".");
+            } else {
+                sb.append(stackText(action + (optional ? "Optional" : "One"), toSac.getController()))
+                        .append(toSac).append(".");
+            }
         } else {
-            sb.append(stackList(tgts)).append(" ");
-            boolean oneTgtP = tgts.size() == 1;
-
             String msg;
             if (sa.hasParam("SacMessage")) {
                 msg = sa.getParam("SacMessage");
+                msg = java.util.regex.Pattern.compile("\\b(?:Creature|Permanent|Artifact|Enchantment|Land|Planeswalker|Battle|Card)\\b")
+                        .matcher(msg).replaceAll(m -> m.group().toLowerCase(java.util.Locale.ROOT));
             } else {
                 msg = Lang.getInstance().buildValidDesc(List.of(valid.split(",")), false);
             }
-
-            if (sa.hasParam("Destroy")) {
-                sb.append(stackText(oneTgtP ? "Destroys" : "DestroyMany"));
+            sb.append(lead);
+            if (amount == 0 && isAmountDeferred(sa, num)) {
+                sb.append(stackText("AnyNumberOf", Lang.getPlural(msg), stackTerm(msg)));
+            } else if (amount == 0 && !num.matches("\\d+")) {
+                sb.append(stackText("UnknownCount", Lang.getPlural(msg), stackTerm(msg)));
+            } else if (msg.matches("(?i)^(?:a|an|the|\\d+|one|two|three|four|five|six|seven|eight|nine|ten|x|that|those|each|all|any)\\b.*")
+                    && (amount == 1 || sa.hasParam("SacMessage"))) {
+                sb.append(stackTerm(msg));
+            } else if (sa.hasParam("SacMessage") && amount != 1 && msg.endsWith("s")) {
+                sb.append(Lang.getNumeral(amount)).append(" ").append(stackTerm(msg));
             } else {
-                sb.append(stackText(oneTgtP ? "Sacrifices" : "SacrificeMany"));
+                sb.append(stackCount(amount, msg));
             }
-            sb.append(stackCount(amount, msg)).append(".");
+            sb.append(".");
         }
-
         return sb.toString();
     }
 

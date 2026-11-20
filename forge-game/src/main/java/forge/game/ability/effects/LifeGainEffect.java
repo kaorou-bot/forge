@@ -23,13 +23,13 @@ public class LifeGainEffect extends SpellAbilityEffect {
         final String amountStr = sa.getParam("LifeAmount");
         final String spellDesc = sa.getParam("SpellDescription");
 
-        sb.append(stackList(getDefinedPlayersOrTargeted(sa)));
-        if (sb.length() == 0 && spellDesc != null) {
-            return spellDesc;
-        } else {
+        sb.append(playersOrDescribed(sa, getDefinedPlayersOrTargeted(sa), "Defined"));
+        {
             sb.append(stackText(getDefinedPlayersOrTargeted(sa).size() > 1 ? "GainLifeManyPrefix" : "GainLifePrefix"));
             if (!StringUtils.isNumeric(amountStr) && spellDesc != null && spellDesc.contains("life equal to")) {
                 sb.append(spellDesc.substring(spellDesc.indexOf("life equal to")));
+            } else if (isAmountDeferred(sa, amountStr) && amountTextFromCard(sa, "gains? (\\S+ life (?:for each|equal to)[^.]*\\.)") != null) {
+                sb.append(amountTextFromCard(sa, "gains? (\\S+ life (?:for each|equal to)[^.]*\\.)"));
             } else if (!amountStr.equals("AFLifeLost") || sa.hasSVar(amountStr)) {
                 final int amount = AbilityUtils.calculateAmount(sa.getHostCard(), amountStr, sa);
 

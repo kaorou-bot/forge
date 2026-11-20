@@ -24,7 +24,7 @@ public class LifeLoseEffect extends SpellAbilityEffect {
         final String spellDesc = sa.getParam("SpellDescription");
 
         int affected = getTargetPlayers(sa).size();
-        sb.append(stackList(getTargetPlayers(sa)));
+        sb.append(playersOrDescribed(sa, getTargetPlayers(sa), "Defined"));
 
         sb.append(stackText(affected > 1 ? "LoseLifeManyPrefix" : "LoseLifePrefix"));
         if (!StringUtils.isNumeric(amountStr) && spellDesc != null && spellDesc.contains("life equal to")) {

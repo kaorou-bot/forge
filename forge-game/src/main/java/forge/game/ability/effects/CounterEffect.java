@@ -36,14 +36,11 @@ public class CounterEffect extends SpellAbilityEffect {
         sb.append(stackText("CounterPrefix"));
 
         boolean isAbility = false;
-        for (final SpellAbility tgtSA : getTargetSpells(sa)) {
-            sb.append(" ");
-            sb.append(tgtSA.getHostCard());
+        final List<SpellAbility> countered = getTargetSpells(sa);
+        for (final SpellAbility tgtSA : countered) {
             isAbility = tgtSA.isAbility();
-            if (isAbility) {
-                sb.append(stackText("AbilitySuffix"));
-            }
         }
+        sb.append(" ").append(joinNamed(countered));
 
         if (isAbility && sa.hasParam("DestroyPermanent")) {
             sb.append(stackText("AndDestroyIt"));

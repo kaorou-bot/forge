@@ -101,7 +101,7 @@ public class DamageDealEffect extends DamageBaseEffect {
 
         if (spellAbility.hasParam("Radiance")) {
             stringBuilder.append(" ").append(stackText(targets.size() > 1 ? "RadianceMany" : "Radiance",
-                    stackTerm(spellAbility.getParam("ValidTgts"))));
+                    stackTerm(Lang.getInstance().describeValidList(spellAbility.getParam("ValidTgts")))));
         }
 
         stringBuilder.append(".");
