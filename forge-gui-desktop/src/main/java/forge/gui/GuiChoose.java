@@ -11,9 +11,8 @@ import java.util.concurrent.FutureTask;
 import javax.swing.JList;
 import javax.swing.WindowConstants;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.google.common.collect.Lists;
+import org.apache.commons.lang3.StringUtils;
 
 import forge.card.CardStateName;
 import forge.card.ICardFace;
@@ -22,6 +21,7 @@ import forge.game.card.Card;
 import forge.game.card.CardFaceView;
 import forge.game.card.CardView;
 import forge.game.card.CardView.CardStateView;
+import forge.game.zone.ZoneType;
 import forge.gamemodes.match.Selection;
 import forge.item.InventoryItem;
 import forge.item.PaperCard;
@@ -274,19 +274,14 @@ public class GuiChoose {
         return new OrderResult<>(null, false);
     }
 
-    public static List<CardView> manipulateCardList(final CMatchUI gui, final String title, final Iterable<CardView> cards, final Iterable<CardView> manipulable, 
-						    final boolean toTop, final boolean toBottom, final boolean toAnywhere) {
+    public static List<CardView> manipulateCardList(final CMatchUI gui, final String title, final Iterable<CardView> cards, final Iterable<CardView> manipulable, final ZoneType secondPile) {
         final Selection before = gui.getSelection();
         gui.setSelection(new Selection(Lists.newArrayList(manipulable), 0, 0, before.targets(), before.chosen(), before.actionable()));
         @SuppressWarnings("Convert2Lambda") // Avoid lambdas to maintain compatibility with Android 5 API
         final Callable<List<CardView>> callable = new Callable<List<CardView>>() {
             @Override
             public List<CardView> call()  {
-                ListCardArea tempArea = ListCardArea.show(gui,title,cards,manipulable,toTop,toBottom,toAnywhere);
-
-                //		tempArea.pack();
-                tempArea.setVisible(true);
-                return tempArea.getCards();
+                return ListCardArea.arrange(gui, title, cards, manipulable, secondPile);
             }
         };
         try {

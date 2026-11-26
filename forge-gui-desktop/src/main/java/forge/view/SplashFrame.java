@@ -104,7 +104,6 @@ public class SplashFrame extends JFrame {
         this.setContentPane(pnlContent);
         pnlContent.setLayout(null);
 
-        // Disclaimer
         final JLabel lblDisclaimer = new JLabel("<html><center>"
                 + "Forge is not affiliated in any way with Wizards of the Coast."
                 + "<br>Forge is open source software, released under "
@@ -116,7 +115,6 @@ public class SplashFrame extends JFrame {
         lblDisclaimer.setForeground(UIManager.getColor("ProgressBar.selectionForeground"));
         pnlContent.add(lblDisclaimer);
 
-        // Close button
         final JButton btnClose = new JButton("X");
         btnClose.setBounds(420, 15, 15, 15);
         btnClose.setForeground(new Color(215, 208, 188));
@@ -131,7 +129,7 @@ public class SplashFrame extends JFrame {
         pnlContent.getInputMap().put(KeyStroke.getKeyStroke("ESCAPE"), "escAction");
         pnlContent.getActionMap().put("escAction", actClose);
 
-        barProgress.setString("Welcome to Forge.");
+        barProgress.setString("Your Forge is warming up");
         barProgress.setBounds(20, 373, 410, 57);
         pnlContent.add(barProgress);
 

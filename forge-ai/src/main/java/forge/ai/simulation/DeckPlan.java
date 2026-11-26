@@ -169,7 +169,8 @@ public final class DeckPlan {
         // whatever its cheap spells look like to the archetype counters below
         final ComboPlan combos = ComboPlan.scan(player);
         final CommanderPlan cmd = CommanderPlan.scan(player);
-        Archetype arch = combos.isEmpty() ? classify(player) : Archetype.COMBO;
+        Archetype arch = combos.isEmpty() && !ElfLoop.isComboElfDeck(player) && !TidePlan.isTideDeck(player) && !AlurenPlan.isAlurenDeck(player)
+                ? classify(player) : Archetype.COMBO;
         if (combos.has(ComboPlan.Kind.DARK_DEPTHS) && classify(player) == Archetype.LANDS) {
             // Legacy Lands: Dark Depths with Thespian's Stage is its win condition, but the deck is still about its
             // lands (the long playouts of a combo plan stay: the plan keeps the combo)
@@ -322,6 +323,18 @@ public final class DeckPlan {
         if (fromTide != null) {
             return fromTide;
         }
+        final CardCollection fromElves = ElfLoop.picks(ai, pool, n); // Elves: Craterhoof once Glimpse is there, else Glimpse
+        if (fromElves != null) {
+            return fromElves;
+        }
+        final CardCollection fromAluren = AlurenPlan.picks(ai, pool, n); // Aluren: the piece of the kill that is missing
+        if (fromAluren != null) {
+            return fromAluren;
+        }
+        final CardCollection fromRamp = RampPlan.picks(ai, pool, n); // Valakut first, then the Mountains
+        if (fromRamp != null) {
+            return fromRamp;
+        }
         final CardCollection fromCombo = combos.tutorPicks(ai, pool, n);
         if (fromCombo != null) {
             return fromCombo;
@@ -330,6 +343,10 @@ public final class DeckPlan {
         final List<Card> pieces = ComboCatalog.missingPieces(ai, pool);
         if (pieces.size() >= n) {
             return new CardCollection(pieces.subList(0, n));
+        }
+        final CardCollection fromPod = PodPlan.picks(ai, pool, n); // Birthing Pod: the enters trigger, a rung to climb to
+        if (fromPod != null) {
+            return fromPod;
         }
         if (n != 1) {
             return null;

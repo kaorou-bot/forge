@@ -532,9 +532,7 @@ public class ChangeZoneEffect extends SpellAbilityEffect {
                 continue;
             }
 
-            if (sa.hasParam("RememberLKI")) {
-                hostCard.addRemembered(CardCopyService.getLKICopy(gameCard));
-            }
+            final Card lkiCopy = sa.hasParam("RememberLKI") ? CardCopyService.getLKICopy(gameCard) : null;
 
             final String prompt = TextUtil.concatWithSpace(Localizer.getInstance().getMessage("lblDoYouWantMoveTargetFromOriToDest", gameCard.getTranslatedName(), Lang.joinHomogenous(origin, ZoneType::getTranslatedName), destination.getTranslatedName()));
             if (optional && !chooser.getController().confirmAction(sa, null, prompt, gameCard, null)) {
@@ -759,6 +757,10 @@ public class ChangeZoneEffect extends SpellAbilityEffect {
                     movedCard.setDiscarded(true);
                 }
             }
+            if (lkiCopy != null && movedCard.getZone().is(destination)) {
+                hostCard.addRemembered(lkiCopy);
+            }
+
             if (!movedCard.getZone().equals(originZone)) {
                 Card meld = null;
                 if (gameCard.getMeldedWith() != null) {
@@ -1285,6 +1287,7 @@ public class ChangeZoneEffect extends SpellAbilityEffect {
             for (final Card c : chosenCards) {
                 Card movedCard;
                 final Zone originZone = game.getZoneOf(c);
+                final Card lkiCopy = sa.hasParam("RememberLKI") ? CardCopyService.getLKICopy(c) : null;
                 Map<AbilityKey, Object> moveParams = AbilityKey.newMap();
                 moveParams.put(AbilityKey.FoundSearchingLibrary, searchedLibrary);
                 AbilityKey.addCardZoneTableParams(moveParams, triggerList);
@@ -1470,8 +1473,8 @@ public class ChangeZoneEffect extends SpellAbilityEffect {
                         }
                     }
                 }
-                if (sa.hasParam("RememberLKI")) {
-                    source.addRemembered(CardCopyService.getLKICopy(c));
+                if (lkiCopy != null && movedCard.getZone().is(destination)) {
+                    source.addRemembered(lkiCopy);
                 }
                 if (forget) {
                     source.removeRemembered(movedCard);

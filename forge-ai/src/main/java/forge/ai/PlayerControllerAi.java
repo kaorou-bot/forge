@@ -65,6 +65,7 @@ public class PlayerControllerAi extends PlayerController {
     private final AiController brains;
 
     private boolean pilotsNonAggroDeck = false;
+    private ManaCostShard shardBeingPaid;
 
     /** Snapshot the whole game before a targeted AI cast so it can be taken back. Heavy on memory, so off. */
     public static final boolean AI_ROLLBACK = false;
@@ -77,6 +78,17 @@ public class PlayerControllerAi extends PlayerController {
 
     public boolean pilotsNonAggroDeck() {
         return pilotsNonAggroDeck;
+    }
+
+    // lets mana triggered while paying, like Fertile Ground's, take this shard's color
+    public void runPayingShard(ManaCostShard shard, Runnable proc) {
+        ManaCostShard previous = shardBeingPaid;
+        shardBeingPaid = shard;
+        try {
+            proc.run();
+        } finally {
+            shardBeingPaid = previous;
+        }
     }
 
     public void setupAutoProfile(Deck deck) {
@@ -756,9 +768,13 @@ public class PlayerControllerAi extends PlayerController {
     }
 
     @Override
-    public CardCollection chooseCardsToDiscardFrom(Player p, SpellAbility sa, CardCollection validCards, int min, int max, CardCollectionView visibleToChooser) {
+    public CardCollection chooseCardsToDiscardFrom(Player p, SpellAbility sa, CardCollection validCards, int min, int max, DelayedReveal delayedReveal) {
         if (p == player) {
             return brains.getCardsToDiscard(min, max, validCards, sa);
+        }
+
+        if (delayedReveal != null) {
+            reveal(delayedReveal);
         }
 
         boolean isTargetFriendly = !p.isOpponentOf(player);
@@ -1263,6 +1279,9 @@ public class PlayerControllerAi extends PlayerController {
         // You may switch on sa.getApi() here and use sa.getParam("AILogic")
         CardCollectionView hand = player.getCardsIn(ZoneType.Hand);
         if (sa.getApi() == ApiType.Mana) {
+            if (shardBeingPaid != null) {
+                return ComputerUtilMana.chooseColorForShard(shardBeingPaid, colors.getColor());
+            }
             hand = CardCollection.combine(hand, player.getCardsIn(ZoneType.Stack));
         }
         final String c = ComputerUtilCard.getMostProminentColor(hand);
@@ -1491,6 +1510,20 @@ public class PlayerControllerAi extends PlayerController {
 
     @Override
     public void orderAndPlaySimultaneousSa(List<SpellAbility> activePlayerSAs) {
+        final AiController brains = getAi();
+        final int previousValakutTriggers = brains.getSimultaneousValakutDamageTriggers();
+        int valakutTriggers = 0;
+        for (final SpellAbility pending : activePlayerSAs) {
+            final Card host = pending.getHostCard();
+            if (pending.isTrigger() && pending.getApi() == forge.game.ability.ApiType.DealDamage
+                    && host != null && "Valakut, the Molten Pinnacle".equals(host.getName())) {
+                valakutTriggers++;
+            }
+        }
+        if (valakutTriggers > 0) {
+            brains.setSimultaneousValakutDamageTriggers(valakutTriggers);
+        }
+        try {
         for (final SpellAbility sa : orderSimultaneousSa(activePlayerSAs)) {
             if (playedByTeammate(sa)) {
                 continue;
@@ -1518,6 +1551,9 @@ public class PlayerControllerAi extends PlayerController {
                 // need finally add the new spell to the stack
                 getGame().getStack().add(sa);
             }
+        }
+        } finally {
+            brains.setSimultaneousValakutDamageTriggers(previousValakutTriggers);
         }
     }
 
@@ -1572,6 +1608,7 @@ public class PlayerControllerAi extends PlayerController {
         if (sa.hasParam("TargetingPlayer")) {
             Player targetingPlayer = AbilityUtils.getDefinedPlayers(host, sa.getParam("TargetingPlayer"), sa).get(0);
             sa.setTargetingPlayer(targetingPlayer);
+            sa.clearTargets();
             return targetingPlayer.getController().chooseTargetsFor(sa);
         }
         return brains.doTrigger(sa, isMandatory);
@@ -1605,7 +1642,12 @@ public class PlayerControllerAi extends PlayerController {
                 return ComputerUtil.playStack(tgtSA, player, getGame());
             }
             // TODO if mandatory AI is only forced to use mana when it's already in the pool
-            if (brains.canPlayFromEffectAI(spell, !optional, noManaCost) == AiPlayDecision.WillPlay || !optional) {
+            // Suspend is optional in the rules, but declining after the last TIME counter leaves the card exiled.
+            final Card host = tgtSA.getHostCard();
+            final boolean lastSuspendCast = tgtSA.isCastFromPlayEffect() && host != null
+                    && host.isInZone(ZoneType.Exile) && host.hasKeyword(Keyword.SUSPEND)
+                    && host.getCounters(CounterEnumType.TIME) == 0;
+            if (brains.canPlayFromEffectAI(spell, !optional || lastSuspendCast, noManaCost) == AiPlayDecision.WillPlay || !optional) {
                 return ComputerUtil.playStack(tgtSA, player, getGame());
             }
             return false; // didn't play spell
@@ -1745,31 +1787,107 @@ public class PlayerControllerAi extends PlayerController {
             }
         }
         final Map<Card, ManaCostShard> chosen = ComputerUtilMana.getConvokeOrImproviseFromList(manaCost, untapped, artifacts, creatures);
-        // improvise and waterbend don't record the cards they tap, which the AI checks before casting
-        if (kept.isEmpty() || !creatures || artifacts) {
+        // Improvise and waterbend don't record the cards they tap. Their existing selection
+        // logic is intentionally left unchanged here.
+        if (!creatures || artifacts) {
             return chosen;
         }
+        final boolean hasTapTypeManaSource = !chosen.isEmpty() && hasTapTypeManaAbility(ai);
+        if (!hasTapTypeManaSource && (kept.isEmpty() || sa.costHasManaX())) {
+            return chosen;
+        }
+
+        ManaCostBeingPaid rest = new ManaCostBeingPaid(manaCost);
+        for (final ManaCostShard shard : chosen.values()) {
+            rest.decreaseShard(shard, 1);
+        }
+
+        // CostAdjustment records the selected convoke creatures only after this callback returns.
+        // Include them temporarily when estimating the remaining mana so a tap-type mana ability
+        // cannot count the same Elves again (for example, Heritage Druid's tap-three-Elves cost).
+        if (canPayWithConvokeSelection(sa, rest, ai, chosen.keySet())) {
+            return chosen;
+        }
+
+        // If the remaining cost cannot be paid with the chosen creatures tapped, try releasing
+        // them from convoke. A creature may be more valuable as part of a mana ability's tap cost
+        // than as a one-mana convoke payment.
+        final Map<Card, ManaCostShard> originalChoice = new HashMap<>(chosen);
+        final List<Card> releaseCandidates = new ArrayList<>(chosen.keySet());
+        releaseCandidates.sort(Comparator.comparing((Card c) -> CombatUtil.canAttack(c))
+                .thenComparing(ComputerUtilCard.getCachedCreatureComparator()));
+        for (final Card c : releaseCandidates) {
+            final ManaCostShard shard = chosen.remove(c);
+            if (shard == null) {
+                continue;
+            }
+            rest.increaseShard(shard, 1);
+            if (canPayWithConvokeSelection(sa, rest, ai, chosen.keySet())) {
+                return chosen;
+            }
+        }
+
+        // No convoke subset made the remaining cost payable. Keep the original choice and retain
+        // the existing combat-preservation behavior below.
+        chosen.clear();
+        chosen.putAll(originalChoice);
+        rest = new ManaCostBeingPaid(manaCost);
+        for (final ManaCostShard shard : chosen.values()) {
+            rest.decreaseShard(shard, 1);
+        }
+
         // an X spell would size X to include the creatures kept for combat
         if (sa.costHasManaX()) {
             return chosen;
         }
-        // creatures kept for combat pay only what mana can't, those that can't attack first, then the weakest
-        final ManaCostBeingPaid rest = new ManaCostBeingPaid(manaCost);
-        chosen.values().forEach(shard -> rest.decreaseShard(shard, 1));
-        if (rest.isPaid() || ComputerUtilMana.canPayManaCost(rest, sa, ai, false)) {
+        if (kept.isEmpty()) {
             return chosen;
         }
+        // creatures kept for combat pay only what mana can't, those that can't attack first, then the weakest
         kept.sort(Comparator.comparing((Card c) -> CombatUtil.canAttack(c)).thenComparing(ComputerUtilCard.getCachedCreatureComparator()));
         for (final Card c : kept) {
-            ComputerUtilMana.getConvokeOrImproviseFromList(rest.toManaCost(), Lists.newArrayList(c), artifacts, creatures).forEach((card, shard) -> {
-                chosen.put(card, shard);
-                rest.decreaseShard(shard, 1);
-            });
-            if (rest.isPaid() || ComputerUtilMana.canPayManaCost(rest, sa, ai, false)) {
+            final Map<Card, ManaCostShard> additional = ComputerUtilMana.getConvokeOrImproviseFromList(
+                    rest.toManaCost(), Lists.newArrayList(c), artifacts, creatures);
+            for (final Map.Entry<Card, ManaCostShard> entry : additional.entrySet()) {
+                chosen.put(entry.getKey(), entry.getValue());
+                rest.decreaseShard(entry.getValue(), 1);
+            }
+            if (canPayWithConvokeSelection(sa, rest, ai, chosen.keySet())) {
                 break;
             }
         }
         return chosen;
+    }
+
+    private static boolean hasTapTypeManaAbility(final Player ai) {
+        for (final ZoneType zone : Arrays.asList(ZoneType.Battlefield, ZoneType.Command)) {
+            for (final Card source : ai.getCardsIn(zone)) {
+                for (final SpellAbility mana : source.getManaAbilities()) {
+                    final Cost cost = mana.getPayCosts();
+                    if (cost != null && cost.hasSpecificCostType(CostTapType.class)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private static boolean canPayWithConvokeSelection(final SpellAbility sa, final ManaCostBeingPaid remainingCost,
+            final Player ai, final Collection<Card> convoked) {
+        if (remainingCost.isPaid()) {
+            return true;
+        }
+
+        final CardCollection previous = new CardCollection(sa.getTappedForConvoke());
+        sa.clearTappedForConvoke();
+        sa.getTappedForConvoke().addAll(convoked);
+        try {
+            return ComputerUtilMana.canPayManaCost(remainingCost, sa, ai, false);
+        } finally {
+            sa.clearTappedForConvoke();
+            sa.getTappedForConvoke().addAll(previous);
+        }
     }
 
     @Override
@@ -1941,10 +2059,18 @@ public class PlayerControllerAi extends PlayerController {
         SpellAbility oldSA = sa;
         // TODO maybe add some more Logic into it
         for (final Card c : cards) {
+            final SpellAbility first = c.getFirstSpellAbility();
+            if (first != null && "ManaRitual".equals(first.getParam("AILogic"))) {
+                continue; // a ritual spliced onto a ritual earns one mana for {1}{R} more, and the second red was not there
+            }
             SpellAbility newSA = oldSA.copy();
             AbilityUtils.addSpliceEffect(newSA, c);
             // check if AI still wants or can play the card with spliced effect
-            if (AiPlayDecision.WillPlay == getAi().canPlayFromEffectAI((Spell) newSA, false, false)) {
+            // the splice cost is paid with the spell's: without this check the AI spliced a second Desperate Ritual onto the
+            // first with one red source and was left unable to pay, and the spell was lost
+            newSA.setActivatingPlayer(player);
+            if (ComputerUtilCost.canPayCost(newSA, player, false)
+                    && AiPlayDecision.WillPlay == getAi().canPlayFromEffectAI((Spell) newSA, false, false)) {
                 oldSA = newSA;
                 result.add(c);
             }

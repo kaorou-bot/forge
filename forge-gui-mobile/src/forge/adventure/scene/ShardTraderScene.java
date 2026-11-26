@@ -89,7 +89,7 @@ public class ShardTraderScene extends UIScene {
 
         shardPrice = Math.round(100 * Current.player().getDifficulty().shardSellRatio);
 
-        sellShardsQuantity.setDisabled(currentShards < shardsToSell);
+        sellShardsQuantity.setDisabled(currentShards < shardsToSell || Current.player().getGoldRoom() < shardPrice);
         buyShardsCost.setDisabled(currentGold < shardCost);
         buyShardsCost.setText(Forge.getLocalizer().getMessage("lblBuyShardsForGold", shardsToBuy, shardCost));
         sellShardsQuantity.setText(Forge.getLocalizer().getMessage("lblSellShardsForGold", shardsToSell, shardPrice));

@@ -22,6 +22,7 @@ import com.google.common.collect.*;
 import forge.ai.AiCardMemory.MemorySet;
 import forge.ai.ability.ProtectAi;
 import forge.ai.ability.TokenAi;
+import forge.ai.simulation.RampPlan;
 import forge.card.CardStateName;
 import forge.card.CardType;
 import forge.card.ColorSet;
@@ -930,6 +931,21 @@ public class ComputerUtil {
             }
             // Otherwise, continue to choose permanents to sacrifice to avoid dying
         }
+
+        if ("Scapeshift".equals(host.getName()) && RampPlan.valakutAccessible(ai)) {
+            // Keep the payoff and the existing Mountains needed for the fetched Mountains to trigger it.
+            remaining.removeIf(c -> c.getName().startsWith("Valakut"));
+            final CardCollection mountains = CardLists.filter(remaining, c -> c.getType().hasSubtype("Mountain"));
+            for (int i = 0; i < RampPlan.scapeshiftMountainsToKeep(ai) && !mountains.isEmpty(); i++) {
+                final Card keep = ComputerUtilCard.getBestLandAI(mountains);
+                if (keep == null) {
+                    break;
+                }
+                remaining.remove(keep);
+                mountains.remove(keep);
+            }
+        }
+
         boolean exceptSelf = "ExceptSelf".equals(source.getParam("AILogic"));
         boolean removedSelf = false;
 
@@ -972,8 +988,9 @@ public class ComputerUtil {
                     sacThreshold = considerSacThreshold;
                 }
 
-                if (c.hasSVar("SacMe") || ComputerUtilCard.evaluateCreature(c) < sacThreshold) {
-                    return true;
+                if (c.hasSVar("SacMe") || ComputerUtilCard.evaluateCreature(c) < sacThreshold
+                        || source.isKeyword(Keyword.DEVOUR) && forge.ai.simulation.ElfLoop.devourAll(ai, source.getHostCard())) {
+                    return true; // a Predator Dragon that kills this turn eats the whole board
                 }
 
                 if (ComputerUtilCard.hasActiveUndyingOrPersist(c)) {
@@ -984,7 +1001,10 @@ public class ComputerUtil {
             });
         }
 
-        final int max = Math.min(remaining.size(), amount);
+        int max = Math.min(remaining.size(), amount);
+        if ("Scapeshift".equals(host.getName()) && RampPlan.valakutAccessible(ai)) {
+            max = Math.min(max, RampPlan.scapeshiftLandsToSacrifice(ai));
+        }
 
         if (exceptSelf && max < remaining.size()) {
             removedSelf = remaining.remove(host);
@@ -3493,6 +3513,29 @@ public class ComputerUtil {
             }
             if (sources < need.getValue()) {
                 return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Sacrificing this noncreature token would cost the AI: an opposing permanent punishes it (Bloodroot Apothecary: the
+     * player who sacrifices a noncreature token gets two poison counters, and a Treasure or a Clue is such a token).
+     */
+    public static boolean sacrificePunished(final Player ai, final Card card) {
+        if (card == null || !card.isToken() || card.isCreature()) {
+            return false;
+        }
+        for (final Card c : ai.getOpponents().getCardsIn(ZoneType.Battlefield)) {
+            for (final forge.game.trigger.Trigger t : c.getTriggers()) {
+                if (t.getMode() != forge.game.trigger.TriggerType.Sacrificed || !t.hasParam("ValidCard")
+                        || !t.getParam("ValidCard").contains("token") || !t.getParam("ValidCard").toLowerCase().contains("noncreature")) {
+                    continue;
+                }
+                final String valid = t.getParamOrDefault("ValidPlayer", "");
+                if (valid.contains("Opponent") || valid.contains("Player")) {
+                    return true;
+                }
             }
         }
         return false;

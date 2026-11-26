@@ -12,6 +12,11 @@ import forge.game.zone.ZoneType;
 import forge.screens.home.VSubmenuTournament;
 import forge.screens.deckeditor.views.*;
 import forge.screens.home.gauntlet.*;
+import forge.screens.home.rogue.VSubmenuRogueAether;
+import forge.screens.home.rogue.VSubmenuRogueCodex;
+import forge.screens.home.rogue.VSubmenuRogueHistory;
+import forge.screens.home.rogue.VSubmenuRogueMap;
+import forge.screens.home.rogue.VSubmenuRogueStart;
 import forge.screens.home.online.VSubmenuOnlineDecks;
 import forge.screens.home.online.VSubmenuOnlineLobby;
 import forge.screens.home.puzzle.VSubmenuPuzzleCreate;
@@ -75,6 +80,11 @@ public enum EDocID {
     HOME_GAUNTLETCOMMANDERQUICK (VSubmenuGauntletCommanderQuick.SINGLETON_INSTANCE),
     HOME_GAUNTLETCOMMANDERBUILD (VSubmenuGauntletCommanderBuild.SINGLETON_INSTANCE),
     HOME_GAUNTLETCONTESTS (VSubmenuGauntletContests.SINGLETON_INSTANCE),
+    HOME_ROGUEMAP (VSubmenuRogueMap.SINGLETON_INSTANCE),
+    HOME_ROGUESTART (VSubmenuRogueStart.SINGLETON_INSTANCE),
+    HOME_ROGUESTATS (VSubmenuRogueCodex.SINGLETON_INSTANCE),
+    HOME_ROGUEAETHER (VSubmenuRogueAether.SINGLETON_INSTANCE),
+    HOME_ROGUEHISTORY (VSubmenuRogueHistory.SINGLETON_INSTANCE),
     HOME_PREFERENCES (VSubmenuPreferences.SINGLETON_INSTANCE),
     HOME_ACHIEVEMENTS (VSubmenuAchievements.SINGLETON_INSTANCE),
     HOME_AVATARS (VSubmenuAvatars.SINGLETON_INSTANCE),

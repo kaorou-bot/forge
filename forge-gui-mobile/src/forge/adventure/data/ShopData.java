@@ -17,9 +17,11 @@ public class ShopData {
     public boolean unlimited;
     public Array<RewardData> rewards;
     public String overlaySprite = "";
+    public String locdescription;
 
     public String getDescription() {
         return forge.Forge.getLocalizer().getMessageorUseDefault(
-            "adv.shop." + name + ".description", description);
+            locdescription == null || locdescription.isEmpty() ? "adv.shop." + name + ".description" : locdescription,
+            description);
     }
 }

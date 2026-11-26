@@ -253,7 +253,7 @@ public class AdventurePlayer implements Serializable, SaveFileContent {
     }
 
     public void updateDifficulty(DifficultyData diff) {
-        maxLife = diff.startingLife;
+        maxLife = diff.startingLife + getModifiersMaxLifeBonus();
         this.difficultyData.startingShards = diff.startingShards;
         this.difficultyData.startingLife = diff.startingLife;
         this.difficultyData.startingMoney = diff.startingMoney;
@@ -355,12 +355,59 @@ public class AdventurePlayer implements Serializable, SaveFileContent {
     }
 
     public void setModifiers(Map<String, String> chosen) {
+        int oldMaxLifeBonus = getModifiersMaxLifeBonus();
         modifiers.clear();
         modifiers.putAll(chosen);
+        gold = Math.min(gold, getMaxGold());
+        onGoldChangeList.emit();
+        changeMaxLifeAndLife(getModifiersMaxLifeBonus() - oldMaxLifeBonus);
+    }
+
+    private int getModifiersMaxLifeBonus() {
+        return getActiveModifiers().stream().mapToInt(modifier -> modifier.maxLifeBonus).sum();
+    }
+
+    /** Takes the max life the chosen modifiers cost for losing a fight. */
+    public void loseModifierMaxLife() {
+        changeMaxLifeAndLife(-getActiveModifiers().stream().mapToInt(modifier -> modifier.maxLifeLostOnDefeat).sum());
+    }
+
+    /** Changes max life and life by the same amount, keeping both at 1 or more. */
+    private void changeMaxLifeAndLife(int amount) {
+        if (amount == 0)
+            return;
+        maxLife = Math.max(1, maxLife + amount);
+        life = Math.max(1, life + amount);
+        onLifeTotalChangeList.emit();
+    }
+
+    /** @return the most gold the chosen modifiers let the player hold, or Integer.MAX_VALUE when none sets a limit */
+    private int getMaxGold() {
+        return getActiveModifiers().stream().filter(modifier -> modifier.maxGold >= 0)
+                .mapToInt(modifier -> modifier.maxGold).min().orElse(Integer.MAX_VALUE);
+    }
+
+    /** @return how much more gold the player can gain, or Integer.MAX_VALUE when no modifier limits it */
+    public int getGoldRoom() {
+        int max = getMaxGold();
+        return max == Integer.MAX_VALUE ? max : Math.max(0, max - gold);
+    }
+
+    /** @return whether any chosen modifier has the rule */
+    public boolean hasModifierRule(Predicate<ModifierData> rule) {
+        return getActiveModifiers().stream().anyMatch(rule);
+    }
+
+    /** @return whether every chosen RarityLimit and ColorLimit modifier allows the card */
+    public boolean modifiersAllowCard(PaperCard card) {
+        return getActiveModifiers().stream().allMatch(modifier -> modifier.allowedCards(modifiers.get(modifier.name)).test(card));
     }
 
     /** @return the plane's modifiers that this run has turned on, in the plane's order */
     public List<ModifierData> getActiveModifiers() {
+        if (modifiers == null || modifiers.isEmpty()) {
+            return Collections.emptyList();
+        }
         List<ModifierData> active = new ArrayList<>();
         ModifierData[] all = Config.instance().getConfigData().modifiers;
         if (all == null)
@@ -1078,7 +1125,7 @@ public class AdventurePlayer implements Serializable, SaveFileContent {
     }
 
     private void addGold(int goldCount) {
-        gold += goldCount;
+        gold = Math.min(gold + goldCount, getMaxGold());
         onGoldChangeList.emit();
     }
 
@@ -1178,7 +1225,7 @@ public class AdventurePlayer implements Serializable, SaveFileContent {
     }
 
     public void takeGold(int price) {
-        gold -= price;
+        gold = Math.min(gold - price, getMaxGold());
         onGoldChangeList.emit();
         //play sfx
         SoundSystem.instance.play(SoundEffectType.CoinsDrop, false);
@@ -1349,7 +1396,7 @@ public class AdventurePlayer implements Serializable, SaveFileContent {
         }
 
         float townPriceModifier = currentLocationChanges == null ? 1f : currentLocationChanges.getTownPriceModifier();
-        return (int) (basePrice * (2.0f - townPriceModifier));
+        return Math.min((int) (basePrice * (2.0f - townPriceModifier)), getGoldRoom());
     }
 
     /**
@@ -1662,18 +1709,42 @@ public class AdventurePlayer implements Serializable, SaveFileContent {
      * @return int - index of new copy slot, or -1 if no slot was available
      */
     public int copyDeck() {
+        int i = findEmptyDeckSlot();
+        if (i < 0)
+            return -1;
+        decks.set(i, (Deck) deck.copyTo(deck.getName() + " (" + Forge.getLocalizer().getMessage("lblCopy") + ")"));
+        // Copy loadout from source deck to new slot
+        ensureDeckLoadoutsSize();
+        HashMap<String, Long> sourceLoadout = selectedDeckIndex < deckLoadouts.size() ? deckLoadouts.get(selectedDeckIndex) : null;
+        deckLoadouts.set(i, sourceLoadout != null ? new HashMap<>(sourceLoadout) : null);
+        return i;
+    }
+
+    /**
+     * Puts a deck into the first empty deck slot.
+     *
+     * @return int - index of the slot used, or -1 if no slot was available
+     */
+    public int addDeckToEmptySlot(Deck newDeck) {
+        int i = findEmptyDeckSlot();
+        if (i < 0)
+            return -1;
+        decks.set(i, newDeck);
+        // The player may have the empty slot selected, so refresh the selected deck from it
+        if (i == selectedDeckIndex)
+            setSelectedDeckSlot(i, false);
+        return i;
+    }
+
+    /** Adds deck slots up to the maximum while searching, so a returned index is always valid. */
+    private int findEmptyDeckSlot() {
+        if (hasModifierRule(modifier -> modifier.singleDeck))
+            return isEmptyDeck(selectedDeckIndex) ? selectedDeckIndex : -1;
         for (int i = 0; i < maxDeckCount; i++) {
             if (i >= getDeckCount()) addDeck();
-            if (isEmptyDeck(i)) {
-                decks.set(i, (Deck) deck.copyTo(deck.getName() + " (" + Forge.getLocalizer().getMessage("lblCopy") + ")"));
-                // Copy loadout from source deck to new slot
-                ensureDeckLoadoutsSize();
-                HashMap<String, Long> sourceLoadout = selectedDeckIndex < deckLoadouts.size() ? deckLoadouts.get(selectedDeckIndex) : null;
-                deckLoadouts.set(i, sourceLoadout != null ? new HashMap<>(sourceLoadout) : null);
+            if (isEmptyDeck(i))
                 return i;
-            }
         }
-
         return -1;
     }
 

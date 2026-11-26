@@ -268,7 +268,6 @@ public class MapDialog {
         } else {
             width = WIDTH;
         }
-        D.getContentTable().add(A).width(width); //Add() returns a Cell, which is what the width is being applied to.
         if (dialog.options != null) {
             int i = 0;
             for (DialogData option : dialog.options) {
@@ -306,6 +305,7 @@ public class MapDialog {
                 return false;
             }
             else{
+                stage.addScrollingText(A, width);
                 stage.showDialog();
                 return true;
             }

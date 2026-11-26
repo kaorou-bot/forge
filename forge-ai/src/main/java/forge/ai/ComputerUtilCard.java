@@ -59,6 +59,7 @@ import forge.game.player.Player;
 import forge.game.replacement.ReplacementEffect;
 import forge.game.replacement.ReplacementLayer;
 import forge.game.replacement.ReplacementType;
+import forge.game.spellability.AbilityManaPart;
 import forge.game.spellability.SpellAbility;
 import forge.game.staticability.StaticAbility;
 import forge.game.staticability.StaticAbilityMode;
@@ -883,6 +884,9 @@ public class ComputerUtilCard {
     public static int evaluateCreature(final Card c, final boolean considerPT, final boolean considerCMC) {
         return creatureEvaluator.evaluateCreature(c, considerPT, considerCMC);
     }
+    public static int evaluateCreatureForUntap(final Card c) {
+        return creatureEvaluator.evaluateCreatureForUntap(c);
+    }
     public static int evaluateCreature(final SpellAbility sa) {
         final Card host = sa.getHostCard();
 
@@ -1228,6 +1232,16 @@ public class ComputerUtilCard {
     };
 
     public static List<String> chooseColor(SpellAbility sa, int min, int max, List<String> colorChoices) {
+        // during a payment, a mana ability chooses the color that the payment picked for it
+        for (SpellAbility part = sa.getSubAbility(); part != null; part = part.getSubAbility()) {
+            final AbilityManaPart mp = part.getManaPart();
+            if (mp != null && mp.choosesColorOnResolution(part) && !mp.getExpressChoice().isEmpty()) {
+                final String color = MagicColor.toLongString(MagicColor.fromName(mp.getExpressChoice()));
+                if (colorChoices.contains(color)) {
+                    return Lists.newArrayList(color);
+                }
+            }
+        }
         List<String> chosen = new ArrayList<>();
         Player ai = sa.getActivatingPlayer();
         final Game game = ai.getGame();
@@ -1262,8 +1276,11 @@ public class ComputerUtilCard {
             } else if (logic.equals("MostProminentInActivePlayerHand")) {
                 chosen.add(getMostProminentColor(game.getPhaseHandler().getPlayerTurn().getCardsIn(ZoneType.Hand), colorChoices));
             } else if (logic.equals("MostProminentInComputerDeckButGreen")) {
-                List<String> prominence = getColorByProminence(CardLists.filterControlledBy(game.getCardsInGame(), ai));
-                if (prominence.get(0).equals(MagicColor.Constant.GREEN)) {
+                CardCollection aiCards = CardLists.filterControlledBy(game.getCardsInGame(), ai);
+                List<String> prominence = getColorByProminence(aiCards);
+                // a mono-green deck is better served by green than by a color it has no cards of
+                if (prominence.get(0).equals(MagicColor.Constant.GREEN)
+                        && aiCards.anyMatch(c -> c.getColor().hasAnyColor(MagicColor.ALL_COLORS & ~MagicColor.GREEN))) {
                     chosen.add(prominence.get(1));
                 } else {
                     chosen.add(prominence.get(0));
@@ -1746,6 +1763,17 @@ public class ComputerUtilCard {
                 }
                 // combat Haste: only grant it if the creature will attack
                 if (doesSpecifiedCreatureAttackAI(ai, pumped)) {
+                    final int damage = ComputerUtilCombat.damageIfUnblocked(pumped, opp, combat, true);
+                    final Card pumpSource = sa.getHostCard();
+                    final boolean tapsPermanentSource = sa.isActivatedAbility() && sa.getPayCosts() != null
+                            && sa.getPayCosts().hasTapCost() && pumpSource != null && pumpSource.isInPlay();
+                    final int sourceDamage = tapsPermanentSource && pumpSource.isCreature()
+                            && doesSpecifiedCreatureAttackAI(ai, pumpSource)
+                            ? ComputerUtilCombat.damageIfUnblocked(pumpSource, opp, combat, true) : 0;
+                    if ((opp.getLife() > 0 && damage >= opp.getLife())
+                            || (tapsPermanentSource && (!pumpSource.isCreature() || sourceDamage == 0 || damage > sourceDamage))) {
+                        return true;
+                    }
                     combatChance += 0.5f + (0.5f * ComputerUtilCombat.damageIfUnblocked(pumped, opp, combat, true) / opp.getLife());
                 }
                 chance += nonCombatChance + combatChance;
